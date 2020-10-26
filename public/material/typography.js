@@ -1,7 +1,7 @@
 import palette from "./palette";
 
 export default {
-  fontFamily: ["Inter", "Roboto", "Arial", "sans-serif"].join(","),
+  fontFamily: ["SFProDisplay", "Roboto", "Arial", "sans-serif"].join(","),
   h1: {
     color: palette.grey[700],
     fontWeight: 700,

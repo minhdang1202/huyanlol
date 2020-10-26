@@ -1,7 +1,8 @@
 import React from "react";
+import { AppLink } from "components";
 
 const Login = () => {
-  return <h1>This is Login</h1>;
+  return <AppLink>This is Login</AppLink>;
 };
 
 export default Login;
