@@ -5,8 +5,8 @@ const largeSize = 50;
 const smallStyle = { paddingLeft: smallSize, paddingRight: smallSize, minHeight: smallSize };
 const mediumStyle = { paddingLeft: mediumSize, paddingRight: mediumSize, minHeight: mediumSize };
 const largeStyle = { paddingLeft: largeSize, paddingRight: largeSize, minHeight: largeSize, borderRadius: "28px" };
-const textSizeSmall = { fontSize: "10px", letterSpacing: "0.77px" };
-const textSizeLarge = { fontSize: "16px" };
+const textSizeSmall = { fontSize: "14px", letterSpacing: "0.77px" };
+const textSizeLarge = { fontSize: "18px" };
 
 export default {
   contained: {
