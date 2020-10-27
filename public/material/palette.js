@@ -6,15 +6,33 @@ export default {
   white,
   primary: {
     contrastText: white,
-    dark: "#D93444",
-    main: "#EF5845",
-    light: "#FF8F80",
+    dark: "#4C90B5",
+    main: "#5AA4CC",
+    light: "#AADAF3",
   },
   secondary: {
     contrastText: white,
     dark: "#65B39D",
     main: "#65B39D",
     light: "#65B39D",
+  },
+  danger: {
+    contrastText: white,
+    dark: "#D34753",
+    main: "#F66262",
+    light: "#FAB1A3",
+  },
+  warning: {
+    contrastText: "#001A39",
+    dark: "#D99623",
+    main: "#FFB800",
+    light: "#FEDC6F",
+  },
+  success: {
+    contrastText: "#001A39",
+    dark: "#4BBD77",
+    main: "#64DB88",
+    light: "#A4F3AC",
   },
   reservation: {
     pending: "#ffaa6e",
@@ -37,13 +55,19 @@ export default {
     900: "#2A2C2F",
   },
   text: {
-    primary: "#3E4045",
-    secondary: "#6C7078",
-    link: "#447AFF",
+    primary: "#001A39",
+    secondary: "#7B93A5",
+    disabled: "#D2D9DE",
+    link: "#5AA4CC",
   },
+  overlay: "rgba(0, 0, 0, 0.5)",
   background: {
-    default: white,
+    default: "F4F5F9",
     paper: white,
   },
-  divider: "#CECFD2",
+  rating: {
+    active: "#FFB800",
+    unActive: "#F0F3F6",
+  },
+  divider: "#F0F3F6",
 };
