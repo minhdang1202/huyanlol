@@ -62,7 +62,7 @@ export default {
   },
   overlay: "rgba(0, 0, 0, 0.5)",
   background: {
-    default: "F4F5F9",
+    default: "#F4F5F9",
     paper: white,
   },
   rating: {
