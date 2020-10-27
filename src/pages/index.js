@@ -1,5 +1,5 @@
 import React from "react";
-import { withAuthSync } from "../utils/auth";
+// import { withAuthSync } from "../utils/auth";
 import MainLayout from "../layouts/MainLayout";
 
 const Home = () => (
@@ -8,4 +8,6 @@ const Home = () => (
   </MainLayout>
 );
 
-export default withAuthSync(Home);
+export default Home;
+
+// export default withAuthSync(Home);

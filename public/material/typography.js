@@ -17,7 +17,7 @@ export default {
     lineHeight: "normal",
   },
   h3: {
-    color: palette.text.primary,
+    
     fontWeight: 600,
     fontSize: 24,
     letterSpacing: "normal",
@@ -74,8 +74,8 @@ export default {
   },
   button: {
     color: palette.text.primary,
-    fontWeight: 700,
-    fontSize: "14px",
+    fontWeight: 600,
+    fontSize: 16,
     letterSpacing: "0.4px",
     lineHeight: "normal",
   },
