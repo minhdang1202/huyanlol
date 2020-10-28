@@ -2,8 +2,10 @@ import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { SvgIcon, withStyles } from "@material-ui/core";
 
-const ArrowDownIcon = ({ width, height }) => {
-  const SvgIconStyled = withStyles({ root: { width: width, height: height, fill: "#7B93A5" } })(SvgIcon);
+const ArrowDownIcon = ({ width, height, color, ...otherProps }) => {
+  const SvgIconStyled = withStyles({
+    root: { width: width, height: height, fill: color },
+  })(props => <SvgIcon {...props} {...otherProps} />);
 
   return (
     <SvgIconStyled width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
@@ -18,10 +20,12 @@ const ArrowDownIcon = ({ width, height }) => {
 ArrowDownIcon.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
+  color: PropTypes.string,
 };
 ArrowDownIcon.defaultProps = {
   width: 14,
-  height: 16,
+  height: 8,
+  color: "#7B93A5",
 };
 
 export default memo(ArrowDownIcon);

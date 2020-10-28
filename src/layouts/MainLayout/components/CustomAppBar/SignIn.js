@@ -1,23 +1,16 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Menu as MuiMenu,
-  MenuItem,
-  IconButton,
-  Avatar,
-  Divider,
-  makeStyles,
-  withStyles,
-} from "@material-ui/core";
-import { AvatarIcon, DownloadIcon } from "../../../../icons";
+import React, { useState, useRef } from "react";
+import { Box, Button, Menu, MenuItem, IconButton, Avatar, Divider, makeStyles } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
+import { AvatarIcon, DownloadIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
 
 const SignIn = () => {
   const classes = useStyles();
-  const [auth, setAuth] = useState(true);
+  const { t: getLabel } = useTranslation();
+  const [isAuth, setIsAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
+  const usernameBtn = useRef();
 
   const onOpenMenu = event => {
     setOpen(true);
@@ -30,41 +23,45 @@ const SignIn = () => {
   };
 
   const onTriggerNameBtn = () => {
-    const NameBtn = document.getElementById("name-button");
-    NameBtn.click();
+    usernameBtn.current.click();
   };
 
   return (
     <>
-      {auth ? (
+      {isAuth ? (
         <Box className={classes.root}>
-          <Button id="name-button" variant="text" className={classes.textPrimary} onClick={onOpenMenu}>
+          <Button ref={usernameBtn} variant="text" className={classes.textPrimary} onClick={onOpenMenu}>
             Trần Việt Phú
           </Button>
           <IconButton onClick={onTriggerNameBtn}>
             <Avatar src="images/img-demo-avatar.jpg" />
           </IconButton>
-          <Menu anchorEl={anchorEl} open={open} onClose={onCloseMenu}>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={onCloseMenu}
+            classes={{ paper: classes.menuPaper, list: classes.menuList }}
+          >
             <MenuItem>
-              <Button disableRipple>Thông tin cá nhân</Button>
+              <Button disableRipple>{getLabel("TXT_APPBAR_PROFILE")}</Button>
             </MenuItem>
             <Divider className={classes.divider} />
             <MenuItem>
               <Button disableRipple className={classes.textBlue} startIcon={<DownloadIcon />}>
-                Tải ứng dụng GAT
+                {getLabel("TXT_APPBAR_DOWNLOAD")}
               </Button>
             </MenuItem>
             <MenuItem>
-              <Button disableRipple>Câu hỏi thường gặp</Button>
+              <Button disableRipple>{getLabel("TXT_APPBAR_COMMON_QUESTIONS")}</Button>
             </MenuItem>
             <MenuItem>
-              <Button disableRipple>Đăng xuất</Button>
+              <Button disableRipple>{getLabel("TXT_APPBAR_SIGNOUT")}</Button>
             </MenuItem>
           </Menu>
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button variant="text">Đăng nhập</Button>
+          <Button variant="text">{getLabel("TXT_APPBAR_SIGNIN")}</Button>
           <IconButton>
             <AvatarIcon />
           </IconButton>
@@ -95,19 +92,16 @@ const useStyles = makeStyles(theme => ({
   divider: {
     background: "#D2D9DE",
   },
-}));
-
-const Menu = withStyles(() => ({
-  paper: {
+  menuPaper: {
     boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.1)",
     borderRadius: "10px",
     top: `calc(${HEIGHT_APP_BAR} + 5px) !important`,
   },
-  list: {
+  menuList: {
     "& button:hover": {
       background: "none",
     },
   },
-}))(MuiMenu);
+}));
 
 export default SignIn;

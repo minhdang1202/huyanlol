@@ -1,21 +1,31 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
-import { Box, makeStyles, NoSsr } from "@material-ui/core";
+import { Box, Hidden, makeStyles, NoSsr } from "@material-ui/core";
 import { AppHead } from "../../components";
-import CustomAppBar from "./components/CustomAppBar";
+import { CustomAppBar, MobileAppDownload } from "./components";
 import clsx from "clsx";
 
-const MainLayout = ({ headProps, className, children }) => {
+const MainLayout = ({ headProps, className, children, appBarTitle, isDetail }) => {
   const defaultClasses = useStyles();
   const primaryHead = headProps || {};
+  const [isClose, setIsClose] = useState(false);
+
+  const onClose = () => {
+    setIsClose(true);
+  };
 
   return (
     <>
       <AppHead {...primaryHead} />
       <NoSsr>
         <Box className={clsx(defaultClasses.root, className)}>
-          <CustomAppBar />
-          {children}
+          <CustomAppBar isDetail={isDetail} appBarTitle={appBarTitle} />
+          <main>{children}</main>
+          {!isClose && (
+            <Hidden smUp>
+              <MobileAppDownload onClose={onClose} />
+            </Hidden>
+          )}
         </Box>
       </NoSsr>
     </>
@@ -25,9 +35,12 @@ const MainLayout = ({ headProps, className, children }) => {
 MainLayout.propTypes = {
   headProps: PropTypes.object,
   className: PropTypes.string,
+  isDetail: PropTypes.bool,
+  appBarTitle: PropTypes.string,
 };
 
 MainLayout.defaultProps = {
+  isDetail: false,
   headProps: {},
 };
 

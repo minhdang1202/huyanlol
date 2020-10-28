@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Box, InputBase, Divider, makeStyles } from "@material-ui/core";
-import { SearchIcon } from "../../../../icons";
+import { useTranslation } from "react-i18next";
+import { SearchIcon } from "icons";
 import CustomSelect from "./CustomSelect";
 
 const SearchBar = () => {
   const classes = useStyles();
-
-  const [searchFilter, setSearchFilter] = useState("book");
+  const { t: getLabel } = useTranslation();
+  const [searchFilter, setSearchFilter] = useState();
   const onChangeSearchFilter = value => {
     setSearchFilter(value);
   };
@@ -14,7 +15,7 @@ const SearchBar = () => {
   return (
     <Box className={classes.root}>
       <SearchIcon />
-      <InputBase placeholder="Tìm kiếm…" />
+      <InputBase placeholder={getLabel("P_APPBAR_SEARCH")} />
       <Box>
         <Divider orientation="vertical" className={classes.divider} />
         <CustomSelect searchFilter={searchFilter} onChangeSearchFilter={onChangeSearchFilter} />
@@ -31,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     flexGrow: 1,
     alignItems: "center",
-    background: "#F0F3F6",
+    background: theme.palette.rating.unActive,
     padding: theme.spacing(1, 2),
     "&>*:nth-child(1)": {
       marginRight: theme.spacing(1.5),

@@ -80,9 +80,9 @@ export default {
     lineHeight: "normal",
   },
   caption: {
-    color: palette.grey[700],
+    color: palette.text.secondary,
     fontWeight: 400,
-    fontSize: "10px",
+    fontSize: 12,
     letterSpacing: "normal",
     lineHeight: "normal",
   },

@@ -15,6 +15,12 @@ export default {
   contained: {
     boxShadow: "none",
     borderRadius: "20px",
+    "&:hover": {
+      boxShadow: "none",
+    },
+    "&:focus": {
+      boxShadow: "none",
+    },
     ...mediumStyle,
   },
   outlined: {

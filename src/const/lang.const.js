@@ -5,7 +5,7 @@ export const ARR_LANGUAGE = [
 ];
 
 // List language code
-export const DEFAULT_LANG = "en";
+export const DEFAULT_LANG = "vi";
 
 // Namespace corresponding with screen
 export const NS_COMMON = "common";
