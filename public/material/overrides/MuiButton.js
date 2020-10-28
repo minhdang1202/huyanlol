@@ -9,9 +9,18 @@ const textSizeSmall = { fontSize: "14px", letterSpacing: "0.77px" };
 const textSizeLarge = { fontSize: "18px" };
 
 export default {
+  root: {
+    textTransform: "none",
+  },
   contained: {
     boxShadow: "none",
     borderRadius: "20px",
+    "&:hover": {
+      boxShadow: "none",
+    },
+    "&:focus": {
+      boxShadow: "none",
+    },
     ...mediumStyle,
   },
   outlined: {
