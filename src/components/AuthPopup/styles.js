@@ -100,6 +100,18 @@ const styles = {
       outline: "none",
     },
   },
+  fsclBtnText: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "88px",
+  },
+  gsclBtnText: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "76px",
+  },
   fbBtn: {
     backgroundColor: "#4b7ccf",
   },
