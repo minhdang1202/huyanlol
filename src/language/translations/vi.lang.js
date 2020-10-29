@@ -13,8 +13,8 @@ export default {
     TXT_APPDOWNLOAD_TITLE: "GAT - ứng dụng mượn sách giấy",
     TXT_APPDOWNLOAD_SUBTITLE: "MIỄN PHÍ -  Trên App Store",
     TXT_APPDOWNLOAD_BUTTON: "Tải ngay",
-  },
-  auth: {
+
+    //auth
     L_EMAIL: "Email",
     L_PASSWORD: "Mật khẩu",
     L_PASSWORD2: "Xác nhận mật khẩu",

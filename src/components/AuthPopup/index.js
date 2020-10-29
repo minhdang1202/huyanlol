@@ -4,9 +4,7 @@ import Login from "./Login";
 import SignUp from "./Signup";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
-import vi from "../../language/translations/vi.lang";
 
-const { TXT_LOGIN } = vi.auth;
 function AuthPopup() {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -24,7 +22,7 @@ function AuthPopup() {
   return (
     <div>
       <p onClick={doClickOpen} className={classes.text}>
-        {getText(TXT_LOGIN)}
+        {getText("TXT_LOGIN")}
       </p>
       <Dialog onClose={doClose} aria-labelledby="auth-dialog" open={open}>
         {isLogin ? (

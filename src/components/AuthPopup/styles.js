@@ -17,13 +17,14 @@ const styles = {
   },
   header: {
     width: "100%",
+    height: "74px",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     margin: 0,
     borderRadius: "10px",
-    padding: "0 24px 0 24px",
+    padding: "0 18px 0 24px",
   },
   title: {
     width: "109px",
@@ -56,6 +57,7 @@ const styles = {
     },
     "&::placeholder": {
       color: secondary,
+      fontWeight: "600",
     },
   },
   loginBtn: {
@@ -71,6 +73,9 @@ const styles = {
 
     "&:focus": {
       outline: "none",
+    },
+    "&:hover": {
+      backgroundColor: disabled,
     },
   },
   sclText: {
@@ -95,6 +100,9 @@ const styles = {
     fontWeight: 600,
     "&:focus": {
       outline: "none",
+    },
+    "&:hover": {
+      backgroundColor: disabled,
     },
   },
   fsclBtnText: {
