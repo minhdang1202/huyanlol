@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Login from "./Login";
 import SignUp from "./Signup";
+import { useTranslation } from "react-i18next";
+import { makeStyles } from "@material-ui/core/styles";
+import vi from "../../language/translations/vi.lang";
 
+const { TXT_LOGIN } = vi.auth;
 function AuthPopup() {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-
+  const { t: getText } = useTranslation();
+  const classes = useStyles();
   const doClickOpen = () => {
     setOpen(true);
   };
@@ -18,7 +23,9 @@ function AuthPopup() {
   };
   return (
     <div>
-      <p onClick={doClickOpen}>Login</p>
+      <p onClick={doClickOpen} className={classes.text}>
+        {getText(TXT_LOGIN)}
+      </p>
       <Dialog onClose={doClose} aria-labelledby="auth-dialog" open={open}>
         {isLogin ? (
           <Login close={doClose} changeForm={doChangeForm} />
@@ -29,5 +36,9 @@ function AuthPopup() {
     </div>
   );
 }
-
+const useStyles = makeStyles({
+  text: {
+    color: "black",
+  },
+});
 export default AuthPopup;

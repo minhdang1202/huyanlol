@@ -3,11 +3,11 @@ import { Box, Button, Menu, MenuItem, IconButton, Avatar, Divider, makeStyles } 
 import { useTranslation } from "react-i18next";
 import { AvatarIcon, DownloadIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
-
+import AuthPopup from "../../../../components/AuthPopup";
 const SignIn = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const usernameBtn = useRef();
@@ -61,7 +61,9 @@ const SignIn = () => {
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button variant="text">{getLabel("TXT_APPBAR_SIGNIN")}</Button>
+          <Button variant="text">
+            <AuthPopup />
+          </Button>
           <IconButton>
             <AvatarIcon />
           </IconButton>

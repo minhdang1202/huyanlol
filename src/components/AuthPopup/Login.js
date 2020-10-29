@@ -11,7 +11,7 @@ Login.propTypes = {
   close: PropTypes.func,
 };
 function Login(props) {
-  const classes = useStyles(props);
+  const classes = useStyles();
   const { t: getText } = useTranslation();
   const { changeForm, close } = props;
   return (
