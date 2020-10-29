@@ -1,29 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Login from "./Login";
 import SignUp from "./Signup";
 
 function AuthPopup() {
-  const [open, setOpen] = React.useState(false);
-  const [isLogin, setIsLogin] = React.useState(true);
+  const [open, setOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
-  const handleClickOpen = () => {
+  const doClickOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  const doClose = () => {
     setOpen(false);
   };
-  const changeForm = () => {
+  const doChangeForm = () => {
     setIsLogin(!isLogin);
   };
   return (
     <div>
-      <p onClick={handleClickOpen}>Login</p>
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+      <p onClick={doClickOpen}>Login</p>
+      <Dialog onClose={doClose} aria-labelledby="auth-dialog" open={open}>
         {isLogin ? (
-          <Login close={handleClose} changeForm={changeForm} />
+          <Login close={doClose} changeForm={doChangeForm} />
         ) : (
-          <SignUp close={handleClose} changeForm={changeForm} />
+          <SignUp close={doClose} changeForm={doChangeForm} />
         )}
       </Dialog>
     </div>

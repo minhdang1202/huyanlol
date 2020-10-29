@@ -1,3 +1,5 @@
+import palette from "../../../public/material/palette";
+const { primary, disabled, secondary } = palette.text;
 const styles = {
   center: {
     display: "flex",
@@ -6,15 +8,10 @@ const styles = {
     padding: 0,
     margin: 0,
   },
-  root: {
-    backgroundColor: "#b1b1b1",
-    height: "100vh",
-    width: "100vw",
-  },
   container: {
     width: "472px",
     borderRadius: "10px",
-    backgroundColor: "#ffffff",
+    backgroundColor: palette.white,
     flexDirection: "column",
     justifyContent: "flex-start",
   },
@@ -37,36 +34,36 @@ const styles = {
     fontStyle: "normal",
     lineHeight: "normal",
     letterSpacing: "normal",
-    color: "#001a39",
+    color: primary,
   },
   divider: {
     width: "100%",
     height: "1px",
-    backgroundColor: "#d2d9de",
+    backgroundColor: disabled,
     margin: 0,
   },
   textInput: {
     width: "424px",
     height: "60px",
-    boxShadow: "inset 0 -1px 0 0 #d2d9de;",
+    boxShadow: `inset 0 -1px 0 0 ${disabled}`,
     margin: "8px",
     border: "none",
     fontSize: "18px",
-    color: "#7b93a5",
+    color: secondary,
     paddingLeft: "12px",
     "&:focus": {
       outline: "none",
     },
     "&::placeholder": {
-      color: "#7b93a5",
+      color: secondary,
     },
   },
   loginBtn: {
     width: "424px",
     height: "45px",
     borderRadius: "27px",
-    backgroundColor: "#5aa4cc",
-    color: "#fff",
+    backgroundColor: palette.primary.main,
+    color: palette.white,
     border: "none",
     margin: "34px 24px 0px 24px",
     fontSize: "18px",
@@ -78,7 +75,7 @@ const styles = {
   },
   sclText: {
     fontSize: "16px",
-    color: "#7b93a5",
+    color: secondary,
     margin: "32px 138.5px 0px 138.5px",
   },
   sclBtnContainer: {
@@ -93,7 +90,7 @@ const styles = {
     height: "45px",
     borderRadius: "27px",
     border: "none",
-    color: "#fff",
+    color: palette.white,
     fontSize: "16px",
     fontWeight: 600,
     "&:focus": {
@@ -120,12 +117,12 @@ const styles = {
   },
   footText: {
     fontSize: "16px",
-    color: "#7b93a5",
+    color: secondary,
     margin: "32px 0px 24px 0px",
   },
   resLink: {
     fontWeight: "600",
-    color: "#5aa4cc",
+    color: palette.primary.main,
   },
 };
 export default styles;

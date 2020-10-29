@@ -2,17 +2,21 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "./styles";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+import vi from "../../language/translations/vi.lang";
+const { L_EMAIL, L_PASSWORD, L_PASSWORD2, TXT_LOGIN, TXT_SIGNUP, TXT_LOGIN_SOCIAL_MEDIA, TXT_HAVE_ACC } = vi.auth;
 Signup.propTypes = {
   changeForm: PropTypes.func,
   close: PropTypes.func,
 };
 function Signup(props) {
-  const classes = useStyles(props);
+  const classes = useStyles();
   const { changeForm, close } = props;
+  const { t: getText } = useTranslation();
   return (
     <div className={`${classes.container} ${classes.center}`}>
       <div className={classes.header}>
-        <p className={classes.title}>Đăng ký</p>
+        <p className={classes.title}>{getText(TXT_SIGNUP)}</p>
         <svg
           width="19"
           height="30"
@@ -29,11 +33,11 @@ function Signup(props) {
         </svg>
       </div>
       <div className={classes.divider}></div>
-      <input id="email" placeholder="Email" className={classes.textInput} />
-      <input id="password" placeholder="Mật khẩu" className={classes.textInput} />
-      <input id="password2" placeholder="Xác nhận mật khẩu" className={classes.textInput} />
-      <button className={classes.loginBtn}>Đăng ký</button>
-      <p className={classes.sclText}>Đăng nhập bằng mạng xã hội</p>
+      <input id="email" placeholder={getText(L_EMAIL)} className={classes.textInput} />
+      <input id="password" placeholder={getText(L_PASSWORD)} className={classes.textInput} />
+      <input id="password2" placeholder={getText(L_PASSWORD2)} className={classes.textInput} />
+      <button className={classes.loginBtn}>{getText(TXT_SIGNUP)}</button>
+      <p className={classes.sclText}>{getText(TXT_LOGIN_SOCIAL_MEDIA)}</p>
       <div className={classes.sclBtnContainer}>
         <button className={`${classes.sclBtn} ${classes.fbBtn} ${classes.center}`}>
           <div className={classes.fsclBtnText}>
@@ -59,10 +63,10 @@ function Signup(props) {
         </button>
       </div>
       <p className={classes.footText}>
-        {`Bạn đã có tài khoản? `}
+        {getText(TXT_HAVE_ACC)}
 
         <span className={classes.resLink} onClick={changeForm}>
-          Đăng nhập
+          {getText(TXT_LOGIN)}
         </span>
       </p>
     </div>
