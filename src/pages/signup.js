@@ -1,14 +1,14 @@
 import { AppLink } from "components";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
-function Login(props) {
+
+function Signup(props) {
   const classes = useStyles(props);
   return (
     <div className={`${classes.root} ${classes.center}`}>
       <div className={`${classes.container} ${classes.center}`}>
         <div className={classes.header}>
-          <p className={classes.title}>Đăng Nhập</p>
+          <p className={classes.title}>Đăng ký</p>
           <svg
             width="19"
             height="30"
@@ -25,21 +25,20 @@ function Login(props) {
         </div>
         <div className={classes.didiver}></div>
         <input id="email" placeholder="Email" className={classes.textInput} />
-        <input id="password" placeholder="Password" className={classes.textInput} />
-
-        <button className={classes.loginBtn}>Đăng nhập</button>
+        <input id="password" placeholder="Mật khẩu" className={classes.textInput} />
+        <input id="password2" placeholder="Xác nhận mật khẩu" className={classes.textInput} />
+        <button className={classes.loginBtn}>Đăng ký</button>
         <p className={classes.sclText}>Đăng nhập bằng mạng xã hội</p>
         <div className={classes.sclBtnConatainer}>
           <button className={`${classes.sclBtn} ${classes.fbBtn}`}>Facebook</button>
           <button className={`${classes.sclBtn} ${classes.ggBtn}`}>Google</button>
         </div>
         <p className={classes.footText}>
-          {`Bạn chưa có tài khoản? `}
-          <span>
-            <AppLink clAppLinkssName={classes.resLink} to="signup">
-              Đăng ký
-            </AppLink>
-          </span>
+          {`Bạn đã có tài khoản? `}
+
+          <AppLink clAppLinkssName={classes.resLink} to="login">
+            Đăng nhập
+          </AppLink>
         </p>
       </div>
     </div>
@@ -118,7 +117,6 @@ const useStyles = makeStyles({
     margin: "34px 24px 0px 24px",
     fontSize: "18px",
     fontWeight: "600",
-
     "&:focus": {
       outline: "none",
     },
@@ -164,4 +162,4 @@ const useStyles = makeStyles({
     color: "#5aa4cc",
   },
 });
-export default Login;
+export default Signup;
