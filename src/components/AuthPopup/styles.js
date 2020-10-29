@@ -39,7 +39,7 @@ const styles = {
     letterSpacing: "normal",
     color: "#001a39",
   },
-  didiver: {
+  divider: {
     width: "100%",
     height: "1px",
     backgroundColor: "#d2d9de",
@@ -81,7 +81,7 @@ const styles = {
     color: "#7b93a5",
     margin: "32px 138.5px 0px 138.5px",
   },
-  sclBtnConatainer: {
+  sclBtnContainer: {
     width: "424px",
     flexDirection: "row",
     margin: "24px 24px 0px 24px",

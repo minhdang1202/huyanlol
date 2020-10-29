@@ -1,7 +1,11 @@
 import React from "react";
-
-function Challange() {
-  return <div>Challange</div>;
+import MainLayout from "../layouts/MainLayout";
+function Challenge() {
+  return (
+    <MainLayout>
+      <h1>this is home page</h1>
+    </MainLayout>
+  );
 }
 
-export default Challange;
+export default Challenge;

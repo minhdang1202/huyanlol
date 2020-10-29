@@ -1,7 +1,11 @@
-import { AppLink } from "components";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "./styles";
+import PropTypes from "prop-types";
+Signup.propTypes = {
+  changeForm: PropTypes.func,
+  close: PropTypes.func,
+};
 function Signup(props) {
   const classes = useStyles(props);
   const { changeForm, close } = props;
@@ -24,13 +28,13 @@ function Signup(props) {
           />
         </svg>
       </div>
-      <div className={classes.didiver}></div>
+      <div className={classes.divider}></div>
       <input id="email" placeholder="Email" className={classes.textInput} />
       <input id="password" placeholder="Mật khẩu" className={classes.textInput} />
       <input id="password2" placeholder="Xác nhận mật khẩu" className={classes.textInput} />
       <button className={classes.loginBtn}>Đăng ký</button>
       <p className={classes.sclText}>Đăng nhập bằng mạng xã hội</p>
-      <div className={classes.sclBtnConatainer}>
+      <div className={classes.sclBtnContainer}>
         <button className={`${classes.sclBtn} ${classes.fbBtn} ${classes.center}`}>
           <div className={classes.fsclBtnText}>
             <svg xmlns="http://www.w3.org/2000/svg" width="9px" height="18px" fill="none" viewBox="0 0 9 16">
@@ -39,7 +43,7 @@ function Signup(props) {
                 d="M7.094 2.656h1.531V.125C8.344.094 7.469 0 6.406 0 4.25 0 2.75 1.344 2.75 3.781V6H.375v2.844H2.75V16h2.938V8.844H8L8.375 6H5.687V4.062c0-.843.25-1.406 1.407-1.406z"
               />
             </svg>
-            <span style={{ marginleft: "6px" }}>Facebook</span>
+            {` Facebook`}
           </div>
         </button>
         <button className={`${classes.sclBtn} ${classes.ggBtn} ${classes.center}`}>
@@ -57,7 +61,7 @@ function Signup(props) {
       <p className={classes.footText}>
         {`Bạn đã có tài khoản? `}
 
-        <span clspanssName={classes.resLink} onClick={changeForm} style={{ fontWeight: "600", color: "#5aa4cc" }}>
+        <span className={classes.resLink} onClick={changeForm}>
           Đăng nhập
         </span>
       </p>
