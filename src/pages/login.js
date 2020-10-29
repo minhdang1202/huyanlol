@@ -7,7 +7,7 @@ import { AppLink } from "components";
 // export default Login;
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-// import SFProDisplaySemibold from "../../public/fonts/SFProDisplay/SFProDisplay-Semibold.ttf";
+
 function Login(props) {
   const classes = useStyles(props);
   return (
@@ -35,8 +35,8 @@ function Login(props) {
         <button className={classes.loginBtn}>Đăng Nhập</button>
         <p className={classes.sclText}>Đăng nhập bằng mạng xã hội</p>
         <div className={classes.sclBtnConatainer}>
-          <button className={classes.fbBtn}>Facebook</button>
-          <button className={classes.ggBtn}>Google</button>
+          <button className={`${classes.sclBtn} ${classes.fbBtn}`}>Facebook</button>
+          <button className={`${classes.sclBtn} ${classes.ggBtn}`}>Google</button>
         </div>
         <p className={classes.footText}>
           {`Bạn chưa có tài khoản? `}
@@ -125,21 +125,20 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
   },
-  fbBtn: {
+  sclBtn: {
     width: "206px",
     height: "45px",
     borderRadius: "27px",
-    backgroundColor: "#4b7ccf",
     border: "none",
     color: "#fff",
+    fontSize: "16px",
+    fontWeight: 600,
+  },
+  fbBtn: {
+    backgroundColor: "#4b7ccf",
   },
   ggBtn: {
-    width: "206px",
-    height: "45px",
-    borderRadius: "27px",
     backgroundColor: "#ec3d34",
-    border: "none",
-    color: "#fff",
   },
   footText: {
     fontSize: "16px",
