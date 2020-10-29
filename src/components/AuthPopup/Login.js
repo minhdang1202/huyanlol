@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import styles from "./styles";
 import PropTypes from "prop-types";
 import { CloseIcon, FbIcon, GgIcon } from "../../../public/images/svg";
-import { IconButton, Button, Typography, Link } from "@material-ui/core/";
+import { IconButton, Button, Typography, Link, Divider, TextField } from "@material-ui/core/";
 import { useTranslation } from "react-i18next";
 Login.propTypes = {
   changeForm: PropTypes.func,
@@ -21,9 +21,22 @@ function Login(props) {
           <CloseIcon width="19" height="19" onClick={close} fill="#7B93A5" />
         </IconButton>
       </div>
-      <div className={classes.divider}></div>
-      <input id="email" placeholder={getText("L_EMAIL")} className={classes.textInput} />
-      <input id="password" placeholder={getText("L_PASSWORD")} className={classes.textInput} />
+      <Divider className={classes.divider} />
+      <TextField
+        id="email"
+        label={<Typography className={classes.inputLabel}>{getText("L_EMAIL")}</Typography>}
+        className={classes.textInput}
+        inputProps={{ style: styles.textOfInput }}
+        InputProps={{ disableUnderline: true }}
+      />
+      <TextField
+        id="password"
+        label={<Typography className={classes.inputLabel}>{getText("L_PASSWORD")}</Typography>}
+        className={classes.textInput}
+        inputProps={{ style: styles.textOfInput }}
+        InputProps={{ disableUnderline: true }}
+        type="password"
+      />
       <Button className={classes.loginBtn}>{getText("TXT_LOGIN")}</Button>
       <Typography className={classes.sclText}>{getText("TXT_LOGIN_SOCIAL_MEDIA")}</Typography>
       <div className={classes.sclBtnContainer}>

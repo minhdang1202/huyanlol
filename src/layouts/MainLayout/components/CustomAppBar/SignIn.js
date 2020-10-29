@@ -61,7 +61,7 @@ const SignIn = () => {
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button variant="text">
+          <Button variant="text" disableRipple>
             <AuthPopup />
           </Button>
           <IconButton>

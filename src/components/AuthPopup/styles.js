@@ -60,6 +60,16 @@ const styles = {
       fontWeight: "600",
     },
   },
+  textOfInput: {
+    fontSize: "18px",
+    color: secondary,
+  },
+  inputLabel: {
+    paddingLeft: "12px",
+    fontSize: "18px",
+    color: secondary,
+    fontWeight: "600",
+  },
   loginBtn: {
     width: "424px",
     height: "45px",
