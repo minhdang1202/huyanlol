@@ -39,6 +39,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-start",
     paddingLeft: "16px",
+    fontSize: "12px",
   },
   title: {
     fontSize: "22px",
@@ -102,9 +103,7 @@ const styles = {
   },
   inputLabel: {
     paddingLeft: "12px",
-    fontSize: "18px",
     color: secondary,
-    fontWeight: "600",
   },
   loginBtn: {
     height: "45px",

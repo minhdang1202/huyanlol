@@ -1,41 +1,40 @@
 import React, { useState } from "react";
-import { Dialog, useMediaQuery, useTheme } from "@material-ui/core";
+import { Dialog, useMediaQuery, useTheme, Typography, Box, makeStyles } from "@material-ui/core";
 import Login from "./Login";
 import SignUp from "./Signup";
 import { useTranslation } from "react-i18next";
-import { makeStyles } from "@material-ui/core/styles";
 
-function AuthPopup() {
+const AuthPopup = () => {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getText } = useTranslation();
   const classes = useStyles();
-  const doClickOpen = () => {
+  const onOpen = () => {
     setOpen(true);
   };
-  const doClose = () => {
+  const onClose = () => {
     setOpen(false);
   };
-  const doChangeForm = () => {
+  const onChangeForm = () => {
     setIsLogin(!isLogin);
   };
   return (
-    <div>
-      <p onClick={doClickOpen} className={classes.text}>
+    <Box>
+      <Typography onClick={onOpen} className={classes.text}>
         {getText("TXT_LOGIN")}
-      </p>
-      <Dialog onClose={doClose} aria-labelledby="auth-dialog" open={open} fullScreen={isMobile}>
+      </Typography>
+      <Dialog onClose={onClose} aria-labelledby="auth-dialog" open={open} fullScreen={isMobile}>
         {isLogin ? (
-          <Login close={doClose} changeForm={doChangeForm} />
+          <Login close={onClose} changeForm={onChangeForm} />
         ) : (
-          <SignUp close={doClose} changeForm={doChangeForm} />
+          <SignUp close={onClose} changeForm={onChangeForm} />
         )}
       </Dialog>
-    </div>
+    </Box>
   );
-}
+};
 const useStyles = makeStyles({
   text: {
     color: "black",
