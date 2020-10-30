@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Dialog from "@material-ui/core/Dialog";
+import { Dialog, useMediaQuery, useTheme } from "@material-ui/core";
 import Login from "./Login";
 import SignUp from "./Signup";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 function AuthPopup() {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getText } = useTranslation();
   const classes = useStyles();
   const doClickOpen = () => {
@@ -24,7 +26,7 @@ function AuthPopup() {
       <p onClick={doClickOpen} className={classes.text}>
         {getText("TXT_LOGIN")}
       </p>
-      <Dialog onClose={doClose} aria-labelledby="auth-dialog" open={open}>
+      <Dialog onClose={doClose} aria-labelledby="auth-dialog" open={open} fullScreen={isMobile}>
         {isLogin ? (
           <Login close={doClose} changeForm={doChangeForm} />
         ) : (
