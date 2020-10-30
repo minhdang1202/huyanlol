@@ -25,8 +25,8 @@ CloseIcon.propTypes = {
   style: PropTypes.object,
 };
 CloseIcon.defaultProps = {
-  width: "19",
-  height: "19",
+  width: 19,
+  height: 19,
   fill: "#7b93a5",
   style: {
     fontSize: "22px",

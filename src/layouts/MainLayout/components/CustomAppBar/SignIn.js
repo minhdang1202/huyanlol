@@ -3,13 +3,14 @@ import { Box, Button, Menu, MenuItem, IconButton, Avatar, Divider, makeStyles } 
 import { useTranslation } from "react-i18next";
 import { AvatarIcon, DownloadIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
-import AuthPopup from "../../../../components/AuthPopup";
+import AuthDialog from "../../../../components/AuthDialog";
 const SignIn = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const [isAuth, setIsAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
+  const [openAuth, setOpenAuth] = useState(false);
   const usernameBtn = useRef();
 
   const onOpenMenu = event => {
@@ -26,6 +27,12 @@ const SignIn = () => {
     usernameBtn.current.click();
   };
 
+  const onTriggerAuthDialog = () => {
+    setOpenAuth(true);
+  };
+  const onCloseAuthDialog = () => {
+    setOpenAuth(false);
+  };
   return (
     <>
       {isAuth ? (
@@ -61,14 +68,15 @@ const SignIn = () => {
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button variant="text" disableRipple>
-            <AuthPopup />
+          <Button variant="text" disableRipple onClick={onTriggerAuthDialog}>
+            {getLabel("TXT_LOGIN")}
           </Button>
           <IconButton>
             <AvatarIcon />
           </IconButton>
         </Box>
       )}
+      <AuthDialog onClose={onCloseAuthDialog} isOpen={openAuth} />
     </>
   );
 };
