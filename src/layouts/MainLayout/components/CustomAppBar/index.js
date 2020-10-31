@@ -21,9 +21,9 @@ import SignIn from "./SignIn";
 import { ShareIcon, ArrowDownIcon } from "icons";
 
 const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
-  const classes = useStyles({ isDetail: isDetail });
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const classes = useStyles({ isDetail: isDetail, isMobile: isMobile });
 
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0}>
@@ -69,7 +69,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     position: "sticky",
     background: theme.palette.white,
-    boxShadow: props => (props.isDetail ? `0px 1px 0px ${theme.palette.text.disabled}` : "none"),
+    boxShadow: ({ isDetail, isMobile }) =>
+      isDetail && isMobile ? `0px 1px 0px ${theme.palette.text.disabled}` : "none",
   },
   toolbar: {
     height: HEIGHT_APP_BAR,

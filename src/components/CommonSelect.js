@@ -1,33 +1,58 @@
 import React from "react";
-import { FormControl, Select, MenuItem, Button, InputBase, makeStyles, withStyles } from "@material-ui/core";
+import { FormControl, Select, MenuItem, Button, Typography, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
-import { HEIGHT_APP_BAR } from "./index";
+import clsx from "clsx";
 import { ArrowDownIcon } from "icons";
 
-const CustomSelect = ({ searchFilter, onChangeSearchFilter }) => {
+const CommonSelect = ({
+  initialValue,
+  onChangeSelectedValue,
+  selectList,
+  menuPaperStyles,
+  selectInputStyles,
+  selectIconStyles,
+  menuItemStyles,
+}) => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation();
   return (
     <FormControl>
       <Select
         defaultValue={selectList[0].value}
-        value={searchFilter}
+        value={initialValue ? initialValue : selectList[0].value}
         onChange={e => {
-          onChangeSearchFilter(e.target.value);
+          onChangeSelectedValue(e.target.value);
         }}
-        classes={{ root: classes.selectRoot, icon: classes.selectIcon, iconOpen: classes.selectIconOpen }}
-        input={<StyledInput />}
+        disableUnderline
+        classes={{
+          root: classes.selectRoot,
+          icon: clsx(classes.selectIcon, selectIconStyles),
+          iconOpen: classes.selectIconOpen,
+        }}
+        inputProps={{
+          classes: { root: clsx(classes.selectInput, selectInputStyles) },
+        }}
         IconComponent={props => <ArrowDownIcon {...props} />}
-        MenuProps={{ classes: { paper: classes.selectMenuPaper, list: classes.selectMenuList } }}
+        MenuProps={{
+          classes: {
+            paper: clsx(classes.selectMenuPaper, menuPaperStyles),
+            list: classes.selectMenuList,
+          },
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "left",
+          },
+          getContentAnchorEl: null,
+        }}
       >
         {selectList.map((select, index) => (
           <MenuItem
             key={index}
             value={select.value}
-            classes={{ root: classes.menuItemRoot, selected: classes.menuItemSelected }}
+            classes={{ root: clsx(classes.menuItemRoot, menuItemStyles), selected: classes.menuItemSelected }}
           >
-            <Button>{getLabel(select.title)}</Button>
+            <Button>
+              <Typography variant="subtitle1">{select.title}</Typography>
+            </Button>
           </MenuItem>
         ))}
       </Select>
@@ -35,16 +60,8 @@ const CustomSelect = ({ searchFilter, onChangeSearchFilter }) => {
   );
 };
 
-const selectList = [
-  { value: "book", title: "TXT_APPBAR_BOOK" },
-  { value: "author", title: "TXT_APPBAR_AUTHOR" },
-  { value: "user", title: "TXT_APPBAR_USER" },
-];
-
 const useStyles = makeStyles(theme => ({
   selectMenuPaper: {
-    position: "fixed",
-    top: `calc(${HEIGHT_APP_BAR} + 5px) !important`,
     boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.1) !important",
     borderRadius: "10px !important",
   },
@@ -57,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     "& > button": {
       color: "inherit",
-      padding: theme.spacing(1.5),
+      padding: "8px 16px !important",
       width: "100%",
       minWidth: "fit-content",
       justifyContent: "flex-start",
@@ -86,10 +103,7 @@ const useStyles = makeStyles(theme => ({
     transform: "scaleY(-1)",
     top: "40%",
   },
-}));
-
-const StyledInput = withStyles(theme => ({
-  root: {
+  selectInput: {
     "& .MuiDivider-root": {
       display: "none",
     },
@@ -104,11 +118,16 @@ const StyledInput = withStyles(theme => ({
       color: theme.palette.text.secondary,
     },
   },
-}))(InputBase);
+}));
 
-CustomSelect.propTypes = {
-  onChangeSearchFilter: PropTypes.func,
-  searchFilter: PropTypes.string,
+CommonSelect.propTypes = {
+  onChangeSelectedValue: PropTypes.func.isRequired,
+  initialValue: PropTypes.string,
+  selectList: PropTypes.array.isRequired,
+  menuPaperStyles: PropTypes.string,
+  menuItemStyles: PropTypes.string,
+  selectInputStyles: PropTypes.string,
+  selectIconStyles: PropTypes.string,
 };
 
-export default CustomSelect;
+export default CommonSelect;

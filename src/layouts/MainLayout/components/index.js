@@ -1,4 +1,4 @@
 import MobileAppDownload from "./MobileAppDownload";
-import CustomAppBar from "./CustomAppBar";
+import CustomAppBar from "./CustomAppbar";
 
 export { MobileAppDownload, CustomAppBar };

@@ -5,6 +5,7 @@ import MuiIconButton from "./MuiIconButton";
 import MuiContainer from "./MuiContainer";
 import MuiLink from "./MuiLink";
 import MuiPopover from "./MuiPopover";
+import MuiDialog from "./MuiDialog";
 
 export default {
   MuiButton,
@@ -14,4 +15,5 @@ export default {
   MuiLink,
   MuiContainer,
   MuiPopover,
+  MuiDialog,
 };

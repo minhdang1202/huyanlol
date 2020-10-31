@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, InputBase, Divider, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { SearchIcon } from "icons";
-import CustomSelect from "./CustomSelect";
+import AppbarSelect from "./AppbarSelect";
 
 const SearchBar = () => {
   const classes = useStyles();
@@ -18,7 +18,7 @@ const SearchBar = () => {
       <InputBase placeholder={getLabel("P_APPBAR_SEARCH")} />
       <Box>
         <Divider orientation="vertical" className={classes.divider} />
-        <CustomSelect searchFilter={searchFilter} onChangeSearchFilter={onChangeSearchFilter} />
+        <AppbarSelect searchFilter={searchFilter} onChangeSearchFilter={onChangeSearchFilter} />
       </Box>
     </Box>
   );

@@ -7,18 +7,18 @@ import { HEIGHT_APP_BAR } from "./index";
 const SignIn = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const usernameBtn = useRef();
 
   const onOpenMenu = event => {
-    setOpen(true);
+    setIsOpen(true);
     setAnchorEl(event.currentTarget);
   };
 
   const onCloseMenu = () => {
-    setOpen(false);
+    setIsOpen(false);
     setAnchorEl(null);
   };
 
@@ -30,15 +30,15 @@ const SignIn = () => {
     <>
       {isAuth ? (
         <Box className={classes.root}>
-          <Button ref={usernameBtn} variant="text" className={classes.textPrimary} onClick={onOpenMenu}>
+          <Button size="large" ref={usernameBtn} variant="text" className={classes.textPrimary} onClick={onOpenMenu}>
             Trần Việt Phú
           </Button>
           <IconButton onClick={onTriggerNameBtn}>
-            <Avatar src="images/img-demo-avatar.jpg" />
+            <Avatar src="/images/img-demo-avatar.jpg" />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
-            open={open}
+            open={isOpen}
             onClose={onCloseMenu}
             classes={{ paper: classes.menuPaper, list: classes.menuList }}
           >
@@ -61,7 +61,7 @@ const SignIn = () => {
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button variant="text">{getLabel("TXT_APPBAR_SIGNIN")}</Button>
+          <Button size="large">{getLabel("TXT_APPBAR_SIGNIN")}</Button>
           <IconButton>
             <AvatarIcon />
           </IconButton>
@@ -75,12 +75,14 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     position: "relative",
+    alignItems: "center",
     "&>*:nth-child(1)": {
       marginRight: theme.spacing(1),
       color: theme.palette.text.secondary,
     },
     "&>*:nth-child(2)": {
       padding: 0,
+      height: "fit-content",
     },
   },
   textPrimary: {
