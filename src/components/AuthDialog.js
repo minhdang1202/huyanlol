@@ -18,26 +18,26 @@ import { CloseIcon, GoogleIcon, FacebookIcon } from "../icons";
 import { useTranslation } from "react-i18next";
 
 const AuthDialog = ({ onClose, isOpen }) => {
-  const [isLogin, setIsLogin] = useState(true);
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getText } = useTranslation();
   const classes = useStyles();
 
-  const changeForm = () => {
+  const [isLogin, setIsLogin] = useState(true);
+
+  const onChangeForm = () => {
     setIsLogin(!isLogin);
   };
 
   return (
     <Dialog aria-labelledby="auth-dialog" open={isOpen} fullScreen={isMobile} onClose={onClose}>
-      <Box className={clsx(classes.container, classes.center, isMobile ? classes.mContainer : classes.dContainer)}>
+      <Box className={clsx(classes.container, classes.center)}>
         {isMobile ? (
           <Box className={classes.mHeader}>
             <IconButton onClick={onClose}>
               <CloseIcon style={{ fontSize: "12px" }} />
             </IconButton>
-            <Typography className={clsx(classes.title, classes.mTitle)}>
+            <Typography variant="h5" className={classes.title}>
               {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
             </Typography>
           </Box>
@@ -61,7 +61,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
                   {getText("L_EMAIL")}
                 </Typography>
               }
-              className={clsx(classes.textInput, isMobile && classes.mTextInput)}
+              className={classes.textInput}
               InputProps={{
                 disableUnderline: true,
                 classes: {
@@ -78,7 +78,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
                   {getText("L_PASSWORD")}
                 </Typography>
               }
-              className={clsx(classes.textInput, isMobile && classes.mTextInput)}
+              className={classes.textInput}
               InputProps={{
                 disableUnderline: true,
                 classes: {
@@ -96,7 +96,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
                     {getText("L_PASSWORD2")}
                   </Typography>
                 }
-                className={clsx(classes.textInput, isMobile && classes.mTextInput)}
+                className={classes.textInput}
                 InputProps={{
                   disableUnderline: true,
                   classes: {
@@ -131,7 +131,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
             </Box>
             <Typography className={classes.footText} variant={"body1"}>
               {isLogin ? getText("TXT_NO_ACC") : getText("TXT_HAVE_ACC")}
-              <Link className={classes.resLink} onClick={changeForm}>
+              <Link className={classes.resLink} onClick={onChangeForm}>
                 {isLogin ? getText("TXT_SIGNUP") : getText("TXT_LOGIN")}
               </Link>
             </Typography>
@@ -158,14 +158,12 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.white,
     flexDirection: "column",
     justifyContent: "flex-start",
-  },
-  dContainer: {
     width: "472px",
     borderRadius: "10px",
-  },
-  mContainer: {
-    width: "100vw",
-    height: "100vh",
+    [theme.breakpoints.down("sm")]: {
+      width: "100vw",
+      height: "100vh",
+    },
   },
   header: {
     width: "100%",
@@ -192,10 +190,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: "22px",
     fontWeight: 600,
     color: theme.palette.text.primary,
-  },
-  mTitle: {
-    fontSize: "18px",
-    margin: "6px",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "18px",
+      margin: "6px",
+    },
   },
   divider: {
     width: "100%",
@@ -236,8 +234,10 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.text.secondary,
       fontWeight: "600",
     },
+    [theme.breakpoints.down("sm")]: {
+      margin: "20px 0px 20px 0px",
+    },
   },
-  mTextInput: { margin: "20px 0px 20px 0px" },
   textOfInput: {
     fontSize: "18px",
     color: theme.palette.black,
