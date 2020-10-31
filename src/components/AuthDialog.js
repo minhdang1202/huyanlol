@@ -33,7 +33,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
     <Dialog aria-labelledby="auth-dialog" open={isOpen} fullScreen={isMobile} onClose={onClose}>
       <Box className={clsx(classes.container, classes.center)}>
         {isMobile ? (
-          <Box className={classes.mHeader}>
+          <Box className={classes.header}>
             <IconButton onClick={onClose}>
               <CloseIcon style={{ fontSize: "12px" }} />
             </IconButton>
@@ -175,16 +175,13 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     borderRadius: "10px",
     padding: "0 18px 0 24px",
-  },
-  mHeader: {
-    width: "100%",
-    height: "64px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-start",
-    paddingLeft: "16px",
-    fontSize: "12px",
-    color: theme.palette.text.primary,
+    [theme.breakpoints.down("sm")]: {
+      height: "64px",
+      justifyContent: "flex-start",
+      padding: "0px 0px 0px 16px",
+      fontSize: "12px",
+      color: theme.palette.text.primary,
+    },
   },
   title: {
     fontSize: "22px",
