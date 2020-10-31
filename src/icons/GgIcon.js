@@ -27,8 +27,7 @@ GgIcon.propTypes = {
 GgIcon.defaultProps = {
   width: 16,
   height: 18,
-  fill: "#fff",
-  style: { fontSize: "16px" },
+  style: { fontSize: "inherit", color: "inherit" },
 };
 
 export default memo(GgIcon);

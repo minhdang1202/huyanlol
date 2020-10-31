@@ -16,6 +16,7 @@ import {
 import clsx from "clsx";
 import { CloseIcon, GgIcon, FbIcon } from "../icons";
 import { useTranslation } from "react-i18next";
+
 const AuthDialog = ({ onClose, isOpen }) => {
   const [isLogin, setIsLogin] = useState(true);
 
@@ -29,13 +30,13 @@ const AuthDialog = ({ onClose, isOpen }) => {
   };
   return (
     <Dialog aria-labelledby="auth-dialog" open={isOpen} fullScreen={isMobile} onClose={onClose}>
-      <Box className={clsx(classes.container, classes.center, isMobile ? classes.mcontainer : classes.dcontainer)}>
+      <Box className={clsx(classes.container, classes.center, isMobile ? classes.mContainer : classes.dContainer)}>
         {isMobile ? (
-          <Box className={classes.mheader}>
+          <Box className={classes.mHeader}>
             <IconButton onClick={onClose}>
-              <CloseIcon fill="#001a39" style={{ fontSize: "12px" }} />
+              <CloseIcon style={{ fontSize: "12px" }} />
             </IconButton>
-            <Typography className={clsx(classes.title, classes.mtitle)}>
+            <Typography className={clsx(classes.title, classes.mTitle)}>
               {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
             </Typography>
           </Box>
@@ -45,12 +46,12 @@ const AuthDialog = ({ onClose, isOpen }) => {
               {getText("TXT_LOGIN")}
             </Typography>
             <IconButton onClick={onClose}>
-              <CloseIcon />
+              <CloseIcon fill="#7b93a5" />
             </IconButton>
           </Box>
         )}
         <Divider className={classes.divider} />
-        <Box className={isMobile ? classes.mcontent : classes.content}>
+        <Box className={isMobile ? classes.mContent : classes.content}>
           <Box className={classes.form}>
             <TextField
               id="email"
@@ -59,9 +60,13 @@ const AuthDialog = ({ onClose, isOpen }) => {
                   {getText("L_EMAIL")}
                 </Typography>
               }
-              className={clsx(classes.textInput, classes.textOfInput, isMobile && classes.mtextInput)}
-              // inputProps={{ style: styles.textOfInput }}
-              InputProps={{ disableUnderline: true }}
+              className={clsx(classes.textInput, isMobile && classes.mTextInput)}
+              InputProps={{
+                disableUnderline: true,
+                classes: {
+                  input: classes.textOfInput,
+                },
+              }}
               type="email"
               fullWidth
             />
@@ -72,9 +77,13 @@ const AuthDialog = ({ onClose, isOpen }) => {
                   {getText("L_PASSWORD")}
                 </Typography>
               }
-              className={clsx(classes.textInput, classes.textOfInput, isMobile && classes.mtextInput)}
-              // inputProps={{ style: styles.textOfInput }}
-              InputProps={{ disableUnderline: true }}
+              className={clsx(classes.textInput, isMobile && classes.mTextInput)}
+              InputProps={{
+                disableUnderline: true,
+                classes: {
+                  input: classes.textOfInput,
+                },
+              }}
               type="password"
               fullWidth
             />
@@ -86,9 +95,13 @@ const AuthDialog = ({ onClose, isOpen }) => {
                     {getText("L_PASSWORD2")}
                   </Typography>
                 }
-                className={clsx(classes.textInput, classes.textOfInput, isMobile && classes.mtextInput)}
-                // inputProps={{ style: styles.textOfInput }}
-                InputProps={{ disableUnderline: true }}
+                className={clsx(classes.textInput, isMobile && classes.mTextInput)}
+                InputProps={{
+                  disableUnderline: true,
+                  classes: {
+                    input: classes.textOfInput,
+                  },
+                }}
                 type="password"
                 fullWidth
               />
@@ -143,11 +156,11 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     justifyContent: "flex-start",
   },
-  dcontainer: {
+  dContainer: {
     width: "472px",
     borderRadius: "10px",
   },
-  mcontainer: {
+  mContainer: {
     width: "100vw",
     height: "100vh",
   },
@@ -162,7 +175,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "10px",
     padding: "0 18px 0 24px",
   },
-  mheader: {
+  mHeader: {
     width: "100%",
     height: "64px",
     display: "flex",
@@ -170,13 +183,14 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-start",
     paddingLeft: "16px",
     fontSize: "12px",
+    color: theme.palette.text.primary,
   },
   title: {
     fontSize: "22px",
     fontWeight: 600,
     color: theme.palette.text.primary,
   },
-  mtitle: {
+  mTitle: {
     fontSize: "18px",
     margin: "6px",
   },
@@ -194,7 +208,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     justifyContent: "space-between",
   },
-  mcontent: {
+  mContent: {
     width: "100%",
     height: "100%",
     padding: " 0px 16px 0px 16px",
@@ -226,7 +240,7 @@ const useStyles = makeStyles(theme => ({
       fontWeight: "600",
     },
   },
-  mtextInput: { margin: "20px 0px 20px 0px" },
+  mTextInput: { margin: "20px 0px 20px 0px" },
   textOfInput: {
     fontSize: "18px",
     color: theme.palette.black,

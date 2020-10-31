@@ -27,7 +27,6 @@ FbIcon.propTypes = {
 FbIcon.defaultProps = {
   width: 9,
   height: 18,
-  fill: "#fff",
-  style: { fontSize: "16px" },
+  style: { fontSize: "inherit", color: "inherit" },
 };
 export default memo(FbIcon);

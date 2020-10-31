@@ -9,7 +9,7 @@ const CloseIcon = props => {
       width={width}
       height={height}
       viewBox="0 0 19 20"
-      fill={fill}
+      htmlColor={fill}
       xmlns="http://www.w3.org/2000/svg"
       style={style}
     >
@@ -27,10 +27,9 @@ CloseIcon.propTypes = {
 CloseIcon.defaultProps = {
   width: 19,
   height: 19,
-  fill: "#7b93a5",
   style: {
-    fontSize: "22px",
-    color: "#7b93a5",
+    fontSize: "inherit",
+    color: "#inherit",
   },
 };
 
