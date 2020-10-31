@@ -4,7 +4,7 @@ import AvatarIcon from "./AvatarIcon";
 import DownloadIcon from "./DownloadIcon";
 import ShareIcon from "./ShareIcon";
 import CloseIcon from "./CloseIcon";
-import FbIcon from "./FbIcon";
-import GgIcon from "./GgIcon";
+import FacebookIcon from "./FacebookIcon";
+import GoogleIcon from "./GoogleIcon";
 
-export { SearchIcon, ArrowDownIcon, AvatarIcon, DownloadIcon, ShareIcon, CloseIcon, FbIcon, GgIcon };
+export { SearchIcon, ArrowDownIcon, AvatarIcon, DownloadIcon, ShareIcon, CloseIcon, FacebookIcon, GoogleIcon };

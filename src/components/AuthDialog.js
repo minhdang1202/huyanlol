@@ -14,7 +14,7 @@ import {
   makeStyles,
 } from "@material-ui/core/";
 import clsx from "clsx";
-import { CloseIcon, GgIcon, FbIcon } from "../icons";
+import { CloseIcon, GoogleIcon, FacebookIcon } from "../icons";
 import { useTranslation } from "react-i18next";
 
 const AuthDialog = ({ onClose, isOpen }) => {
@@ -28,6 +28,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
   const changeForm = () => {
     setIsLogin(!isLogin);
   };
+
   return (
     <Dialog aria-labelledby="auth-dialog" open={isOpen} fullScreen={isMobile} onClose={onClose}>
       <Box className={clsx(classes.container, classes.center, isMobile ? classes.mContainer : classes.dContainer)}>
@@ -43,7 +44,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
         ) : (
           <Box className={classes.header}>
             <Typography variant="h5" className={classes.title}>
-              {getText("TXT_LOGIN")}
+              {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
             </Typography>
             <IconButton onClick={onClose}>
               <CloseIcon fill="#7b93a5" />
@@ -51,7 +52,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
           </Box>
         )}
         <Divider className={classes.divider} />
-        <Box className={isMobile ? classes.mContent : classes.content}>
+        <Box className={classes.content}>
           <Box className={classes.form}>
             <TextField
               id="email"
@@ -111,22 +112,24 @@ const AuthDialog = ({ onClose, isOpen }) => {
             </Button>
           </Box>
           <Box className={classes.bottom}>
-            <Typography className={classes.sclText}>{getText("TXT_LOGIN_SOCIAL_MEDIA")}</Typography>
+            <Typography className={classes.sclText} variant={"body1"}>
+              {getText("TXT_LOGIN_SOCIAL_MEDIA")}
+            </Typography>
             <Box className={classes.sclBtnContainer}>
               <Button className={clsx(classes.sclBtn, classes.fbBtn, classes.center)}>
-                <Box className={classes.fsclBtnText}>
-                  <FbIcon />
-                  {` Facebook`}
+                <Box className={classes.fbBtnTetx}>
+                  <FacebookIcon />
+                  {`Facebook`}
                 </Box>
               </Button>
               <Button className={clsx(classes.sclBtn, classes.ggBtn, classes.center)}>
-                <Box className={classes.gsclBtnText}>
-                  <GgIcon />
-                  {` Google`}
+                <Box className={classes.ggBtnText}>
+                  <GoogleIcon />
+                  {`Google`}
                 </Box>
               </Button>
             </Box>
-            <Typography className={classes.footText}>
+            <Typography className={classes.footText} variant={"body1"}>
               {isLogin ? getText("TXT_NO_ACC") : getText("TXT_HAVE_ACC")}
               <Link className={classes.resLink} onClick={changeForm}>
                 {isLogin ? getText("TXT_SIGNUP") : getText("TXT_LOGIN")}
@@ -207,15 +210,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-  },
-  mContent: {
-    width: "100%",
-    height: "100%",
-    padding: " 0px 16px 0px 16px",
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
+    [theme.breakpoints.down("sm")]: {
+      padding: " 0px 16px 0px 16px",
+    },
   },
   form: {
     width: "100%",
@@ -300,18 +297,19 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.text.disabled,
     },
   },
-  fsclBtnText: {
+  fbBtnTetx: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     width: "88px",
   },
-  gsclBtnText: {
+  ggBtnText: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     width: "75px",
   },
+
   fbBtn: {
     backgroundColor: "#4b7ccf",
   },

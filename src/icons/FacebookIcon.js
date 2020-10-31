@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { SvgIcon } from "@material-ui/core";
 
-const FbIcon = props => {
+const FacebookIcon = props => {
   const { width, height, fill, style } = props;
   return (
     <SvgIcon
@@ -18,15 +18,15 @@ const FbIcon = props => {
   );
 };
 
-FbIcon.propTypes = {
+FacebookIcon.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   fill: PropTypes.string,
   style: PropTypes.object,
 };
-FbIcon.defaultProps = {
+FacebookIcon.defaultProps = {
   width: 9,
   height: 18,
   style: { fontSize: "inherit", color: "inherit" },
 };
-export default memo(FbIcon);
+export default memo(FacebookIcon);

@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { SvgIcon } from "@material-ui/core";
 
-const GgIcon = props => {
+const GoogleIcon = props => {
   const { width, height, fill, style } = props;
   return (
     <SvgIcon
@@ -18,16 +18,16 @@ const GgIcon = props => {
   );
 };
 
-GgIcon.propTypes = {
+GoogleIcon.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   fill: PropTypes.string,
   style: PropTypes.object,
 };
-GgIcon.defaultProps = {
+GoogleIcon.defaultProps = {
   width: 16,
   height: 18,
   style: { fontSize: "inherit", color: "inherit" },
 };
 
-export default memo(GgIcon);
+export default memo(GoogleIcon);
