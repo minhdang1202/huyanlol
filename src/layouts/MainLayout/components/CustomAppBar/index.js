@@ -19,7 +19,6 @@ import { PathConstant } from "const";
 import SearchBar from "./SearchBar";
 import SignIn from "./SignIn";
 import { ShareIcon, ArrowDownIcon } from "icons";
-
 const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
   const classes = useStyles({ isDetail: isDetail });
   const theme = useTheme();
