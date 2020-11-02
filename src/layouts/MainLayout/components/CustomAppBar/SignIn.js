@@ -7,7 +7,7 @@ import { HEIGHT_APP_BAR } from "./index";
 const SignIn = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const usernameBtn = useRef();
@@ -42,21 +42,15 @@ const SignIn = () => {
             onClose={onCloseMenu}
             classes={{ paper: classes.menuPaper, list: classes.menuList }}
           >
-            <MenuItem>
-              <Button disableRipple>{getLabel("TXT_APPBAR_PROFILE")}</Button>
-            </MenuItem>
+            <MenuItem>{getLabel("TXT_APPBAR_PROFILE")}</MenuItem>
             <Divider className={classes.divider} />
             <MenuItem>
               <Button disableRipple className={classes.textBlue} startIcon={<DownloadIcon />}>
                 {getLabel("TXT_APPBAR_DOWNLOAD")}
               </Button>
             </MenuItem>
-            <MenuItem>
-              <Button disableRipple>{getLabel("TXT_APPBAR_COMMON_QUESTIONS")}</Button>
-            </MenuItem>
-            <MenuItem>
-              <Button disableRipple>{getLabel("TXT_APPBAR_SIGNOUT")}</Button>
-            </MenuItem>
+            <MenuItem>{getLabel("TXT_APPBAR_COMMON_QUESTIONS")}</MenuItem>
+            <MenuItem>{getLabel("TXT_APPBAR_SIGNOUT")}</MenuItem>
           </Menu>
         </Box>
       ) : (
@@ -100,6 +94,12 @@ const useStyles = makeStyles(theme => ({
     top: `calc(${HEIGHT_APP_BAR} + 5px) !important`,
   },
   menuList: {
+    paddingTop: 0,
+    paddingBottom: theme.spacing(1),
+    "& li:nth-child(1)": {
+      paddingTop: theme.spacing(1.5),
+      paddingBottom: theme.spacing(1.5),
+    },
     "& button:hover": {
       background: "none",
     },
