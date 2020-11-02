@@ -31,26 +31,15 @@ const AuthDialog = ({ onClose, isOpen }) => {
 
   return (
     <Dialog aria-labelledby="auth-dialog" open={isOpen} fullScreen={isMobile} onClose={onClose}>
-      <Box className={clsx(classes.container, classes.center)}>
-        {isMobile ? (
-          <Box className={classes.header}>
-            <IconButton onClick={onClose}>
-              <CloseIcon style={{ fontSize: "12px" }} />
-            </IconButton>
-            <Typography variant="h5" className={classes.title}>
-              {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
-            </Typography>
-          </Box>
-        ) : (
-          <Box className={classes.header}>
-            <Typography variant="h5" className={classes.title}>
-              {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
-            </Typography>
-            <IconButton onClick={onClose}>
-              <CloseIcon fill="#7b93a5" />
-            </IconButton>
-          </Box>
-        )}
+      <Box className={classes.container}>
+        <Box className={classes.header}>
+          <Typography variant="h5" className={classes.title}>
+            {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
+          </Typography>
+          <IconButton onClick={onClose} className={classes.closeIcon}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
         <Divider className={classes.divider} />
         <Box className={classes.content}>
           <Box className={classes.form}>
@@ -107,31 +96,39 @@ const AuthDialog = ({ onClose, isOpen }) => {
                 fullWidth
               />
             )}
-            <Button className={classes.loginBtn} fullWidth>
+            <Button className={classes.loginBtn} fullWidth variant="contained" color="primary">
               <Typography variant={"h5"} className={classes.loginBtnText}>
                 {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
               </Typography>
             </Button>
           </Box>
           <Box className={classes.bottom}>
-            <Typography className={classes.sclText} variant={"body1"}>
+            <Typography className={classes.sclText} variant="body1">
               {getText("TXT_LOGIN_SOCIAL_MEDIA")}
             </Typography>
             <Box className={classes.sclBtnContainer}>
-              <Button className={clsx(classes.sclBtn, classes.fbBtn, classes.center)}>
-                <Typography className={classes.fbBtnText} variant={"subtitle1"}>
-                  <FacebookIcon />
-                  {`Facebook`}
+              <Button
+                className={clsx(classes.sclBtn, classes.fbBtn)}
+                variant="contained"
+                color="primary"
+                startIcon={<FacebookIcon />}
+              >
+                <Typography className={classes.sclBtnText} variant="subtitle1">
+                  Facebook
                 </Typography>
               </Button>
-              <Button className={clsx(classes.sclBtn, classes.ggBtn, classes.center)}>
-                <Typography className={classes.ggBtnText} variant={"subtitle1"}>
-                  <GoogleIcon />
-                  {`Google`}
+              <Button
+                className={clsx(classes.sclBtn, classes.ggBtn)}
+                variant="contained"
+                color="primary"
+                startIcon={<GoogleIcon />}
+              >
+                <Typography className={classes.sclBtnText} variant="subtitle1">
+                  Google
                 </Typography>
               </Button>
             </Box>
-            <Typography className={classes.footText} variant={"body1"}>
+            <Typography className={classes.footText} variant="body1">
               {isLogin ? getText("TXT_NO_ACC") : getText("TXT_HAVE_ACC")}
               <Link className={classes.resLink} onClick={onChangeForm}>
                 {isLogin ? getText("TXT_SIGNUP") : getText("TXT_LOGIN")}
@@ -149,20 +146,17 @@ AuthDialog.propTypes = {
   isOpen: PropTypes.bool,
 };
 const useStyles = makeStyles(theme => ({
-  center: {
+  container: {
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
     padding: 0,
     margin: 0,
-  },
-  container: {
     backgroundColor: theme.palette.white,
     flexDirection: "column",
     justifyContent: "flex-start",
     width: "472px",
     borderRadius: "10px",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       width: "100vw",
       height: "100vh",
     },
@@ -177,19 +171,26 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     borderRadius: "10px",
     padding: "0 18px 0 24px",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       height: "64px",
-      justifyContent: "flex-start",
+      flexDirection: "row-reverse",
+      justifyContent: "flex-end",
       padding: "0px 0px 0px 16px",
-      fontSize: "12px",
+    },
+  },
+  closeIcon: {
+    fontSize: "22px",
+    color: theme.palette.text.secondary,
+    [theme.breakpoints.down("xs")]: {
       color: theme.palette.text.primary,
+      fontSize: "12px",
     },
   },
   title: {
     fontSize: "22px",
     fontWeight: 600,
     color: theme.palette.text.primary,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: "18px",
       margin: "6px",
     },
@@ -207,7 +208,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       padding: " 0px 16px 0px 16px",
     },
   },
@@ -233,7 +234,7 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.text.secondary,
       fontWeight: "600",
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       margin: "20px 0px 20px 0px",
     },
   },
@@ -283,23 +284,11 @@ const useStyles = makeStyles(theme => ({
     height: "45px",
     borderRadius: "27px",
     border: "none",
-
     "&:focus": {
       outline: "none",
     },
   },
-  fbBtnText: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "83px",
-    color: theme.palette.white,
-  },
-  ggBtnText: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "70px",
+  sclBtnText: {
     color: theme.palette.white,
   },
 

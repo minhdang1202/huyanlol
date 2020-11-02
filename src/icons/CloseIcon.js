@@ -29,7 +29,7 @@ CloseIcon.defaultProps = {
   height: 19,
   style: {
     fontSize: "inherit",
-    color: "#inherit",
+    color: "inherit",
   },
 };
 

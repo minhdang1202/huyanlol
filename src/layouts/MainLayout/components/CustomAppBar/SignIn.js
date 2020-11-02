@@ -68,7 +68,7 @@ const SignIn = () => {
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button variant="text" disableRipple onClick={onTriggerAuthDialog}>
+          <Button variant="text" onClick={onTriggerAuthDialog}>
             {getLabel("TXT_LOGIN")}
           </Button>
           <IconButton>
