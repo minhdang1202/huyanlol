@@ -48,17 +48,15 @@ const CommonSelect = ({
           key={index}
           value={select.value}
           classes={{
-            ...menuItemPropsClasses,
             root: clsx(
               classes.menuItemRoot,
               menuItemPropsClasses && menuItemPropsClasses.root && menuItemPropsClasses.root,
             ),
+            ...menuItemPropsClasses,
             selected: classes.menuItemSelected,
           }}
         >
-          <Typography variant="subtitle1" style={{ lineHeight: "normal" }}>
-            {select.title}
-          </Typography>
+          <Typography variant="subtitle1">{select.title}</Typography>
         </MenuItem>
       ))}
     </Select>
