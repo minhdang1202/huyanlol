@@ -16,10 +16,20 @@ export default {
     TXT_APPDOWNLOAD_SUGGEST: "Cài đặt ứng dụng GAT để sử dụng chức năng này",
     TXT_APPDOWNLOAD_SUGGEST_BUTTON: "Tải ứng dụng",
     TXT_HOMEPAGE: "Trang chủ",
+    TXT_LOGIN: "Đăng nhập",
+    TXT_LOGOUT: "Đăng xuất",
+    TXT_SIGNUP: "Đăng ký",
+    TXT_LOGIN_SOCIAL_MEDIA: "Đăng nhập bằng mạng xã hội",
+    TXT_HAVE_ACC: "Bạn đã có tài khoản? ",
+    TXT_NO_ACC: "Bạn chưa có tài khoản? ",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
-    
+
+    //L: Label
+    L_EMAIL: "Email",
+    L_PASSWORD: "Mật khẩu",
+    L_PASSWORD2: "Xác nhận mật khẩu",
     //ERR: Error
     //MSG: Message
   },
@@ -50,10 +60,5 @@ export default {
     TXT_LENDERLIST_ACTIVITY_DURATION: "Thời gian hoạt động",
     TXT_LENDERLIST_DISTANCE: "Khoảng cách",
     TXT_LENDERLIST_ARRANGE: "Sắp xếp theo:",
-
-    //L: Label
-    //P: Placeholder
-    //ERR: Error
-    //MSG: Message
   },
 };

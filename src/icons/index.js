@@ -8,6 +8,8 @@ import MessageIcon from "./MessageIcon";
 import BookmarkIcon from "./BookmarkIcon";
 import InfoIcon from "./InfoIcon";
 import CartIcon from "./CartIcon";
+import FacebookIcon from "./FacebookIcon";
+import GoogleIcon from "./GoogleIcon";
 
 export {
   SearchIcon,
@@ -20,4 +22,6 @@ export {
   BookmarkIcon,
   InfoIcon,
   CartIcon,
+  FacebookIcon,
+  GoogleIcon,
 };

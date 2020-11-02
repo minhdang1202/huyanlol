@@ -3,27 +3,38 @@ import { Box, Button, Menu, MenuItem, IconButton, Avatar, Divider, makeStyles } 
 import { useTranslation } from "react-i18next";
 import { AvatarIcon, DownloadIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
+import AuthDialog from "components/AuthDialog";
 
 const SignIn = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isOpenAuth, setIsOpenAuth] = useState(false);
+
   const usernameBtn = useRef();
 
   const onOpenMenu = event => {
-    setIsOpen(true);
+    setIsOpenMenu(true);
     setAnchorEl(event.currentTarget);
   };
 
   const onCloseMenu = () => {
-    setIsOpen(false);
+    setIsOpenMenu(false);
     setAnchorEl(null);
   };
 
   const onTriggerNameBtn = () => {
     usernameBtn.current.click();
+  };
+
+  const onTriggerAuthDialog = () => {
+    setIsOpenAuth(true);
+  };
+  const onCloseAuthDialog = () => {
+    setIsOpenAuth(false);
   };
 
   return (
@@ -38,7 +49,7 @@ const SignIn = () => {
           </IconButton>
           <Menu
             anchorEl={anchorEl}
-            open={isOpen}
+            open={isOpenMenu}
             onClose={onCloseMenu}
             classes={{ paper: classes.menuPaper, list: classes.menuList }}
           >
@@ -55,12 +66,13 @@ const SignIn = () => {
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button size="large">{getLabel("TXT_APPBAR_SIGNIN")}</Button>
-          <IconButton>
+          <Button size="large" onClick={onTriggerAuthDialog}>{getLabel("TXT_APPBAR_SIGNIN")}</Button>
+          <IconButton onClick={onTriggerAuthDialog}>
             <AvatarIcon />
           </IconButton>
         </Box>
       )}
+      <AuthDialog onClose={onCloseAuthDialog} isOpen={isOpenAuth} />
     </>
   );
 };
