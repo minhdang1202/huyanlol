@@ -108,7 +108,9 @@ const AuthDialog = ({ onClose, isOpen }) => {
               />
             )}
             <Button className={classes.loginBtn} fullWidth>
-              {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
+              <Typography variant={"h5"} className={classes.loginBtnText}>
+                {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
+              </Typography>
             </Button>
           </Box>
           <Box className={classes.bottom}>
@@ -117,16 +119,16 @@ const AuthDialog = ({ onClose, isOpen }) => {
             </Typography>
             <Box className={classes.sclBtnContainer}>
               <Button className={clsx(classes.sclBtn, classes.fbBtn, classes.center)}>
-                <Box className={classes.fbBtnTetx}>
+                <Typography className={classes.fbBtnText} variant={"subtitle1"}>
                   <FacebookIcon />
                   {`Facebook`}
-                </Box>
+                </Typography>
               </Button>
               <Button className={clsx(classes.sclBtn, classes.ggBtn, classes.center)}>
-                <Box className={classes.ggBtnText}>
+                <Typography className={classes.ggBtnText} variant={"subtitle1"}>
                   <GoogleIcon />
                   {`Google`}
-                </Box>
+                </Typography>
               </Button>
             </Box>
             <Typography className={classes.footText} variant={"body1"}>
@@ -247,18 +249,15 @@ const useStyles = makeStyles(theme => ({
     height: "45px",
     borderRadius: "27px",
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.white,
+
     border: "none",
     margin: "34px 24px 0px 24px",
-    fontSize: "18px",
-    fontWeight: "600",
-
     "&:focus": {
       outline: "none",
     },
-    "&:hover": {
-      backgroundColor: theme.palette.text.disabled,
-    },
+  },
+  loginBtnText: {
+    color: theme.palette.white,
   },
   bottom: {
     margin: "24px",
@@ -284,27 +283,24 @@ const useStyles = makeStyles(theme => ({
     height: "45px",
     borderRadius: "27px",
     border: "none",
-    color: theme.palette.white,
-    fontSize: "16px",
-    fontWeight: 600,
+
     "&:focus": {
       outline: "none",
     },
-    "&:hover": {
-      backgroundColor: theme.palette.text.disabled,
-    },
   },
-  fbBtnTetx: {
+  fbBtnText: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "88px",
+    width: "83px",
+    color: theme.palette.white,
   },
   ggBtnText: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "75px",
+    width: "70px",
+    color: theme.palette.white,
   },
 
   fbBtn: {
