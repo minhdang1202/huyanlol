@@ -13,8 +13,9 @@ import {
   Dialog,
   makeStyles,
 } from "@material-ui/core/";
+import CloseIcon from "@material-ui/icons/Close";
 import clsx from "clsx";
-import { CloseIcon, GoogleIcon, FacebookIcon } from "../icons";
+import { GoogleIcon, FacebookIcon } from "icons";
 import { useTranslation } from "react-i18next";
 
 const AuthDialog = ({ onClose, isOpen }) => {
@@ -179,11 +180,9 @@ const useStyles = makeStyles(theme => ({
     },
   },
   closeIcon: {
-    fontSize: "22px",
     color: theme.palette.text.secondary,
     [theme.breakpoints.down("xs")]: {
       color: theme.palette.text.primary,
-      fontSize: "12px",
     },
   },
   title: {

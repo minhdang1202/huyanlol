@@ -20,9 +20,9 @@ import SearchBar from "./SearchBar";
 import SignIn from "./SignIn";
 import { ShareIcon, ArrowDownIcon } from "icons";
 const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
-  const classes = useStyles({ isDetail: isDetail });
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const classes = useStyles({ isDetail: isDetail, isMobile: isMobile });
 
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0}>
@@ -32,9 +32,13 @@ const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
             <>
               <Box display="flex" alignItems="center">
                 <IconButton classes={{ root: classes.iconButton, label: classes.icon }}>
-                  <ArrowDownIcon color="#001A39" className={classes.arrowIcon} />
+                  <ArrowDownIcon className={classes.arrowIcon} />
                 </IconButton>
-                {appBarTitle && <Typography variant="h5">{appBarTitle}</Typography>}
+                {appBarTitle && (
+                  <Typography variant="h5" className="eclipse">
+                    {appBarTitle}
+                  </Typography>
+                )}
               </Box>
               <IconButton>
                 <ShareIcon />
@@ -68,7 +72,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     position: "sticky",
     background: theme.palette.white,
-    boxShadow: props => (props.isDetail ? `0px 1px 0px ${theme.palette.text.disabled}` : "none"),
+    boxShadow: ({ isDetail, isMobile }) =>
+      isDetail && isMobile ? `0px 1px 0px ${theme.palette.text.disabled}` : "none",
   },
   toolbar: {
     height: HEIGHT_APP_BAR,
@@ -93,6 +98,7 @@ const useStyles = makeStyles(theme => ({
   },
   arrowIcon: {
     transform: "rotate(90deg)",
+    color: theme.palette.text.secondary,
   },
 }));
 

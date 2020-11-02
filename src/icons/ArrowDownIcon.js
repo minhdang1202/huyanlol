@@ -2,9 +2,9 @@ import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { SvgIcon, withStyles } from "@material-ui/core";
 
-const ArrowDownIcon = ({ width, height, color, ...otherProps }) => {
+const ArrowDownIcon = ({ width, height, ...otherProps }) => {
   const SvgIconStyled = withStyles({
-    root: { width: width, height: height, fill: color },
+    root: { width: width, height: height },
   })(props => <SvgIcon {...props} {...otherProps} />);
 
   return (
@@ -20,12 +20,10 @@ const ArrowDownIcon = ({ width, height, color, ...otherProps }) => {
 ArrowDownIcon.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
-  color: PropTypes.string,
 };
 ArrowDownIcon.defaultProps = {
   width: 14,
   height: 8,
-  color: "#7B93A5",
 };
 
 export default memo(ArrowDownIcon);

@@ -3,23 +3,26 @@ import { Box, Button, Menu, MenuItem, IconButton, Avatar, Divider, makeStyles } 
 import { useTranslation } from "react-i18next";
 import { AvatarIcon, DownloadIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
-import AuthDialog from "../../../../components/AuthDialog";
+import AuthDialog from "components/AuthDialog";
+
 const SignIn = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const [isAuth, setIsAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [openAuth, setOpenAuth] = useState(false);
+
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isOpenAuth, setIsOpenAuth] = useState(false);
+
   const usernameBtn = useRef();
 
   const onOpenMenu = event => {
-    setOpen(true);
+    setIsOpenMenu(true);
     setAnchorEl(event.currentTarget);
   };
 
   const onCloseMenu = () => {
-    setOpen(false);
+    setIsOpenMenu(false);
     setAnchorEl(null);
   };
 
@@ -28,55 +31,48 @@ const SignIn = () => {
   };
 
   const onTriggerAuthDialog = () => {
-    setOpenAuth(true);
+    setIsOpenAuth(true);
   };
   const onCloseAuthDialog = () => {
-    setOpenAuth(false);
+    setIsOpenAuth(false);
   };
+
   return (
     <>
       {isAuth ? (
         <Box className={classes.root}>
-          <Button ref={usernameBtn} variant="text" className={classes.textPrimary} onClick={onOpenMenu}>
+          <Button size="large" ref={usernameBtn} variant="text" className={classes.textPrimary} onClick={onOpenMenu}>
             Trần Việt Phú
           </Button>
           <IconButton onClick={onTriggerNameBtn}>
-            <Avatar src="images/img-demo-avatar.jpg" />
+            <Avatar src="/images/img-demo-avatar.jpg" />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
-            open={open}
+            open={isOpenMenu}
             onClose={onCloseMenu}
             classes={{ paper: classes.menuPaper, list: classes.menuList }}
           >
-            <MenuItem>
-              <Button disableRipple>{getLabel("TXT_APPBAR_PROFILE")}</Button>
-            </MenuItem>
+            <MenuItem>{getLabel("TXT_APPBAR_PROFILE")}</MenuItem>
             <Divider className={classes.divider} />
             <MenuItem>
               <Button disableRipple className={classes.textBlue} startIcon={<DownloadIcon />}>
                 {getLabel("TXT_APPBAR_DOWNLOAD")}
               </Button>
             </MenuItem>
-            <MenuItem>
-              <Button disableRipple>{getLabel("TXT_APPBAR_COMMON_QUESTIONS")}</Button>
-            </MenuItem>
-            <MenuItem>
-              <Button disableRipple>{getLabel("TXT_APPBAR_SIGNOUT")}</Button>
-            </MenuItem>
+            <MenuItem>{getLabel("TXT_APPBAR_COMMON_QUESTIONS")}</MenuItem>
+            <MenuItem>{getLabel("TXT_APPBAR_SIGNOUT")}</MenuItem>
           </Menu>
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button variant="text" onClick={onTriggerAuthDialog}>
-            {getLabel("TXT_LOGIN")}
-          </Button>
-          <IconButton>
+          <Button size="large" onClick={onTriggerAuthDialog}>{getLabel("TXT_APPBAR_SIGNIN")}</Button>
+          <IconButton onClick={onTriggerAuthDialog}>
             <AvatarIcon />
           </IconButton>
         </Box>
       )}
-      <AuthDialog onClose={onCloseAuthDialog} isOpen={openAuth} />
+      <AuthDialog onClose={onCloseAuthDialog} isOpen={isOpenAuth} />
     </>
   );
 };
@@ -85,12 +81,14 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     position: "relative",
+    alignItems: "center",
     "&>*:nth-child(1)": {
       marginRight: theme.spacing(1),
       color: theme.palette.text.secondary,
     },
     "&>*:nth-child(2)": {
       padding: 0,
+      height: "fit-content",
     },
   },
   textPrimary: {
@@ -108,6 +106,12 @@ const useStyles = makeStyles(theme => ({
     top: `calc(${HEIGHT_APP_BAR} + 5px) !important`,
   },
   menuList: {
+    paddingTop: 0,
+    paddingBottom: theme.spacing(1),
+    "& li:nth-child(1)": {
+      paddingTop: theme.spacing(1.5),
+      paddingBottom: theme.spacing(1.5),
+    },
     "& button:hover": {
       background: "none",
     },
