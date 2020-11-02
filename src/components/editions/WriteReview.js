@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Paper, Typography, Box, Avatar, Button, Hidden, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
+import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import CustomRating from "../CustomRating";
 import { LangConstant } from "const";
-import { formatDate } from "utils/date";
 import { AvatarIcon } from "icons";
 
 const WriteReview = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
+  const currentDate = format(new Date(), "MM/dd/yyyy");
 
   const [isAuth, setIsAuth] = useState(true);
 
@@ -36,7 +37,7 @@ const WriteReview = () => {
         <Typography className="mr-12">{getLabel("TXT_BOOKDETAIL_YOUR_REVIEW")}</Typography>
         <CustomRating />
         <Typography variant="body2" className={classes.date}>
-          {formatDate(new Date())}
+          {currentDate}
         </Typography>
       </Box>
       <Button size="large" className={clsx(classes.button, "blue-text")}>

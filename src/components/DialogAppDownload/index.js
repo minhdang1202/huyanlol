@@ -1,8 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, DialogContent } from "@material-ui/core";
 import Dialog from "components/DialogLayout";
+import DialogTitle from "components/DialogLayout/DialogTitle";
 import AppDownloadContent from "./AppDownloadContent";
 import AppDownloadImage from "./AppDownloadImage";
 
@@ -11,15 +12,13 @@ const DialogAppDownload = ({ isOpen, onClose }) => {
   const { t: getLabel } = useTranslation();
 
   return (
-    <Dialog
-      isOpen={isOpen}
-      onClose={() => onClose()}
-      className={classes.root}
-      title={getLabel("TXT_APPDOWNLOAD_TITLE")}
-      contentChildren={<AppDownloadContent />}
-      titleStyles={classes.title}
-      image={<AppDownloadImage />}
-    />
+    <Dialog open={isOpen} className={classes.root}>
+      <AppDownloadImage />
+      <DialogTitle title={getLabel("TXT_APPDOWNLOAD_TITLE")} onClose={() => onClose()} className={classes.title} />
+      <DialogContent>
+        <AppDownloadContent />
+      </DialogContent>
+    </Dialog>
   );
 };
 

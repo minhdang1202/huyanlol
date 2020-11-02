@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Container, Typography } from "@material-ui/core";
+import { makeStyles, Container, Typography, Box } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import LogoBox from "../LogoBox";
 import { LangConstant } from "const";
@@ -9,14 +9,14 @@ const AppDownload = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <LogoBox width={parseInt(HEIGHT_LOGO_BOX)} />
       <Container>
         <Typography variant="h6">{getLabel("TXT_BOOKDETAIL_GAT_APP")}</Typography>
         <Typography variant="body2">{getLabel("TXT_BOOKDETAIL_APP_DOWNLOAD")}</Typography>
         <DownloadButtons className={classes.downloadButtons} />
       </Container>
-    </div>
+    </Box>
   );
 };
 

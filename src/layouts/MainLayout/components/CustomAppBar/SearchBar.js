@@ -1,15 +1,30 @@
 import React, { useState } from "react";
-import { Box, InputBase, Divider, makeStyles } from "@material-ui/core";
+import { Box, InputBase, Divider, FormControl, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { SearchIcon } from "icons";
-import AppbarSelect from "./AppbarSelect";
+import CommonSelect from "components/CommonSelect";
+import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 
 const SearchBar = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
-  const [searchFilter, setSearchFilter] = useState();
-  const onChangeSearchFilter = value => {
-    setSearchFilter(value);
+  const SELECT_LIST = [
+    { value: "book", title: getLabel("TXT_APPBAR_BOOK") },
+    { value: "author", title: getLabel("TXT_APPBAR_AUTHOR") },
+    { value: "user", title: getLabel("TXT_APPBAR_USER") },
+  ];
+  const menuPropsClasses = {
+    paper: classes.paper,
+  };
+  const inputPropsClasses = {
+    root: classes.selectInput,
+  };
+  const selectPropsClasses = {
+    icon: classes.selectIcon,
+  };
+  const [searchFilter, setSearchFilter] = useState(SELECT_LIST[0].value);
+  const onChangeSearchFilter = e => {
+    setSearchFilter(e.target.value);
   };
 
   return (
@@ -18,7 +33,16 @@ const SearchBar = () => {
       <InputBase placeholder={getLabel("P_APPBAR_SEARCH")} />
       <Box>
         <Divider orientation="vertical" className={classes.divider} />
-        <AppbarSelect searchFilter={searchFilter} onChangeSearchFilter={onChangeSearchFilter} />
+        <FormControl>
+          <CommonSelect
+            selectList={SELECT_LIST}
+            value={searchFilter}
+            onChange={onChangeSearchFilter}
+            menuPropsClasses={menuPropsClasses}
+            inputPropsClasses={inputPropsClasses}
+            selectPropsClasses={selectPropsClasses}
+          />
+        </FormControl>
       </Box>
     </Box>
   );
@@ -51,6 +75,16 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.text.secondary,
     width: 1,
     marginRight: theme.spacing(1.5),
+  },
+  paper: {
+    position: "fixed !important",
+    top: `calc(${HEIGHT_APP_BAR} + 5px) !important`,
+  },
+  selectIcon: {
+    color: theme.palette.text.secondary,
+  },
+  selectInput: {
+    color: theme.palette.text.secondary,
   },
 }));
 

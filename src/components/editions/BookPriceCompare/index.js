@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
-import { makeStyles, Paper, Typography, Hidden } from "@material-ui/core";
+import { makeStyles, Paper, Typography, Hidden, Box } from "@material-ui/core";
 import BookstorePrice from "./BookstorePrice";
 
 const BookPriceCompare = () => {
@@ -12,11 +12,11 @@ const BookPriceCompare = () => {
       <Hidden xsDown>
         <Typography variant="h6">{getLabel("TXT_BOOKDETAIL_BOOK_PRICE_COMPARE")}</Typography>
       </Hidden>
-      <div>
+      <Box>
         {BOOKSTORE_LOGOS.map((logo, index) => {
           return <BookstorePrice key={index} {...PRICE_DEMO[index]} logo={BOOKSTORE_LOGOS[index]} />;
         })}
-      </div>
+      </Box>
     </Paper>
   );
 };

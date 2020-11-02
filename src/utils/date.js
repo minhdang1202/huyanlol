@@ -29,12 +29,3 @@ export const getTimestamp = date => {
   let tmpDate = new Date(date);
   return Math.round(tmpDate.getTime() / 1000);
 };
-
-export const formatDate = date => {
-  const dd = String(date.getDate()).padStart(2, "0");
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  const yyyy = date.getFullYear();
-
-  const formattedDate = dd + "/" + mm + "/" + yyyy;
-  return formattedDate;
-};

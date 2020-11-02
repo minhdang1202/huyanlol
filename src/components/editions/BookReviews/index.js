@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, makeStyles } from "@material-ui/core";
+import { Typography, Box, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import Review from "./Review";
@@ -8,16 +8,16 @@ const BookReviews = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <Typography className={classes.title} variant="h6">
         {getLabel("TXT_BOOKDETAIL_USER_REVIEWS")}
       </Typography>
       {Array(3)
         .fill(REVIEW_DEMO)
         .map((review, index) => {
-          return <Review key={index} className={classes.review} {...review} />;
+          return <Review key={index} review={review} />;
         })}
-    </div>
+    </Box>
   );
 };
 
@@ -46,12 +46,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
       marginLeft: theme.spacing(2),
-    },
-  },
-  review: {
-    marginBottom: theme.spacing(2),
-    [theme.breakpoints.down("xs")]: {
-      marginBottom: theme.spacing(1),
     },
   },
 }));

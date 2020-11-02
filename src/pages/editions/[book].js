@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { LangConstant } from "const";
 import MainLayout from "layouts/MainLayout";
 import { makeStyles, useMediaQuery, useTheme, Grid, Container, Divider, Box } from "@material-ui/core";
 import {
@@ -11,14 +13,29 @@ import {
   BookLenders,
   CustomTabs,
 } from "components/editions";
+import { InfoIcon, CartIcon } from "icons";
 import { CustomBreadcrumb } from "components";
 
 const BookDetail = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const appBarProps = { isDetail: true, className: classes.appBarMobile };
-  const [selectedTab, setSelectedTab] = useState("info");
+  const SELECT_TABS = [
+    {
+      icon: <InfoIcon />,
+      label: getLabel("TXT_BOOKDETAIL_BOOK_INFO"),
+      value: "info",
+    },
+    {
+      icon: <CartIcon />,
+      label: getLabel("TXT_BOOKDETAIL_BUY_BOOK"),
+      value: "cart",
+    },
+  ];
+
+  const [selectedTab, setSelectedTab] = useState(SELECT_TABS[0].value);
   const onChangeTab = tab => {
     setSelectedTab(tab);
   };
@@ -27,8 +44,8 @@ const BookDetail = () => {
       {isMobile ? (
         <Box>
           <BookInfo />
-          <CustomTabs onChangeTab={onChangeTab} />
-          {selectedTab === "info" ? (
+          <CustomTabs onChangeTab={onChangeTab} tabs={SELECT_TABS} />
+          {selectedTab === SELECT_TABS[0].value ? (
             <>
               <BookDescription />
               <Divider />
@@ -41,7 +58,7 @@ const BookDetail = () => {
         </Box>
       ) : (
         <Container className={classes.rootDesktop}>
-          <CustomBreadcrumb book="Nếu chỉ còn một ngày để sống" />
+          <CustomBreadcrumb bookName="Nếu chỉ còn một ngày để sống" />
           <Grid container>
             <Grid item sm={4}>
               <BookInfo />

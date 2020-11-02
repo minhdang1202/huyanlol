@@ -2,7 +2,7 @@ import React from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import { makeStyles, IconButton, Typography } from "@material-ui/core";
+import { makeStyles, IconButton, Typography, Box } from "@material-ui/core";
 import { LogoBox, MobileDownloadButton } from "components";
 
 const MobileAppDownload = ({ onClose }) => {
@@ -10,17 +10,17 @@ const MobileAppDownload = ({ onClose }) => {
   const { t: getLabel } = useTranslation();
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <IconButton classes={{ label: classes.icon }} onClick={() => onClose()}>
         <CloseIcon />
       </IconButton>
       <LogoBox />
-      <div className={classes.typography}>
+      <Box className={classes.typography}>
         <Typography variant="subtitle2">{getLabel("TXT_APPDOWNLOAD_TITLE")}</Typography>
         <Typography variant="caption">{getLabel("TXT_APPDOWNLOAD_SUBTITLE")}</Typography>
-      </div>
+      </Box>
       <MobileDownloadButton size="small" />
-    </div>
+    </Box>
   );
 };
 

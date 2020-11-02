@@ -1,28 +1,42 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { DialogContent } from "@material-ui/core";
 import { LangConstant } from "const";
 import Dialog from "components/DialogLayout";
+import DialogTitle from "components/DialogLayout/DialogTitle";
+import DialogActions from "components/DialogLayout/DialogActions";
 import LenderListTitle from "./LenderListTitle";
 import LenderListSelect from "./LenderListSelect";
 import LenderListContent from "./LenderListContent";
 
 const LenderList = ({ isOpen, onClose }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
-  const [lenderFilter, setLenderFilter] = useState();
+  const SELECT_LIST = [
+    { value: "activityDuration", title: getLabel("TXT_LENDERLIST_ACTIVITY_DURATION") },
+    { value: "distance", title: getLabel("TXT_LENDERLIST_DISTANCE") },
+  ];
+  const [lenderFilter, setLenderFilter] = useState(SELECT_LIST[0].value);
   const onChangeLenderFilter = value => {
     setLenderFilter(value);
   };
 
   return (
-    <Dialog
-      isOpen={isOpen}
-      onClose={() => onClose()}
-      title={getLabel("TXT_BOOKDETAIL_LENDERS_TITLE")}
-      titleChildren={<LenderListTitle totalLenders={TOTAL_LENDERS_DEMO} />}
-      actionChildren={<LenderListSelect lenderFilter={lenderFilter} onChangeLenderFilter={onChangeLenderFilter} />}
-      contentChildren={<LenderListContent lenderList={LENDER_LIST_DEMO} />}
-    />
+    <Dialog open={isOpen}>
+      <DialogTitle title={getLabel("TXT_BOOKDETAIL_LENDERS_TITLE")} onClose={() => onClose()}>
+        <LenderListTitle totalLenders={TOTAL_LENDERS_DEMO} />
+      </DialogTitle>
+      <DialogActions>
+        <LenderListSelect
+          selectList={SELECT_LIST}
+          lenderFilter={lenderFilter}
+          onChangeLenderFilter={onChangeLenderFilter}
+        />
+      </DialogActions>
+      <DialogContent>
+        <LenderListContent lenderList={LENDER_LIST_DEMO} />
+      </DialogContent>
+    </Dialog>
   );
 };
 

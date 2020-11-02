@@ -1,21 +1,19 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Tabs as MuiTabs, Tab as MuiTab, withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { LangConstant } from "const";
-import { InfoIcon, CartIcon } from "icons";
 
-const CustomTabs = ({ onChangeTab }) => {
-  const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
-  const [selectedTab, setSelectedTab] = useState("info");
+const CustomTabs = ({ onChangeTab, tabs }) => {
+  const [selectedTab, setSelectedTab] = useState(tabs[0].value);
   const onChange = (e, newSelectedTab) => {
     setSelectedTab(newSelectedTab);
     onChangeTab(newSelectedTab);
   };
   return (
     <Tabs variant="fullWidth" value={selectedTab} onChange={onChange}>
-      <Tab icon={<InfoIcon />} label={getLabel("TXT_BOOKDETAIL_BOOK_INFO")} value="info"></Tab>
-      <Tab icon={<CartIcon />} label={getLabel("TXT_BOOKDETAIL_BUY_BOOK")} value="cart"></Tab>
+      {tabs.map((tab, index) => {
+        const { icon, label, value } = tab;
+        return <Tab key={index} icon={icon} label={label} value={value}></Tab>;
+      })}
     </Tabs>
   );
 };
@@ -67,6 +65,7 @@ const Tab = withStyles(theme => ({
 
 CustomTabs.propTypes = {
   onChangeTab: PropTypes.func.isRequired,
+  tabs: PropTypes.array.isRequired,
 };
 
 export default CustomTabs;

@@ -7,7 +7,8 @@ import CustomRating from "components/CustomRating";
 import { HeartIcon, MessageIcon, ShareIcon } from "icons";
 import { makeStyles, useTheme, Paper, Typography, Box, Avatar, Divider, Button } from "@material-ui/core";
 
-const Review = ({ className, author, date, title, rating, content, love, comment, avatar, thumbnail, hasLoved }) => {
+const Review = ({ review }) => {
+  const { className, author, date, title, rating, content, love, comment, avatar, thumbnail, hasLoved } = review;
   const theme = useTheme();
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
@@ -32,7 +33,7 @@ const Review = ({ className, author, date, title, rating, content, love, comment
           <Typography className={clsx("eclipse", classes.title)} variant="subtitle1">
             {title}
           </Typography>
-          <CustomRating isReadOnly={true} initialRating={rating} size="medium" />
+          <CustomRating readOnly={true} defaultValue={rating} size="medium" />
           <Typography variant="body2" className={clsx("eclipse", classes.content)}>
             {content}
           </Typography>
@@ -74,6 +75,10 @@ const PAPER_DEFAULT_PADDING_X = "24px";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    marginBottom: theme.spacing(2),
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: theme.spacing(1),
+    },
     "& button": {
       color: theme.palette.text.secondary,
     },
@@ -123,21 +128,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 Review.propTypes = {
-  className: PropTypes.string,
-  author: PropTypes.string,
-  date: PropTypes.string,
-  title: PropTypes.string,
-  rating: PropTypes.number,
-  content: PropTypes.string,
-  love: PropTypes.number,
-  comment: PropTypes.number,
-  avatar: PropTypes.string,
-  thumbnail: PropTypes.string,
-  hasLoved: PropTypes.bool,
-};
-
-Review.defaultProps = {
-  hasLoved: false,
+  review: PropTypes.object,
 };
 
 export default Review;

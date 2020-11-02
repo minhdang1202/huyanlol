@@ -1,4 +1,4 @@
-import { PathConstant } from "const";
+import { AppConstant } from "const";
 
 export const uuid = () => {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
@@ -48,12 +48,12 @@ export const onGoBack = () => window.history.back();
 export const cutString = (limitContent, content) => {
   const trimmedContent = content.substring(0, limitContent);
 
-  const cuttedContent =
+  const cutContent =
     content.length < limitContent
       ? content
       : `${trimmedContent.substring(0, Math.min(trimmedContent.length, trimmedContent.lastIndexOf(" ")))}...`;
 
-  return cuttedContent;
+  return cutContent;
 };
 
 export const getAppDownloadLink = () => {
@@ -61,8 +61,8 @@ export const getAppDownloadLink = () => {
 
   // iOS detection
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-    return PathConstant.GAT_APPSTORE;
+    return AppConstant.GAT_APP_STORE;
   }
 
-  return PathConstant.GAT_GGPLAY;
+  return AppConstant.GAT_GG_PLAY;
 };

@@ -5,22 +5,24 @@ import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 
-const CustomBreadcrumb = ({ book }) => {
+const CustomBreadcrumb = ({ bookName, articleName }) => {
   const BREADCRUMB_NAME_MAP = {
     editions: null,
-    book: book,
+    book: bookName,
+    articles: null,
+    article: articleName,
   };
   const { t: getLabel } = useTranslation();
   const classes = useStyles();
   const router = useRouter();
   const { pathname } = router;
-  const pathnames = pathname
+  const pathNames = pathname
     .split("/")
     .map(pathname => pathname.replace(/\[/, "").replace(/\]/, ""))
     .filter(pathname => BREADCRUMB_NAME_MAP[pathname]);
   return (
     <Breadcrumbs separator={">"}>
-      {pathnames.length > 0 ? (
+      {pathNames.length > 0 ? (
         <AppLink className={classes.link} to="/">
           <Typography variant="body2">{getLabel("TXT_HOMEPAGE")}</Typography>
         </AppLink>
@@ -29,9 +31,9 @@ const CustomBreadcrumb = ({ book }) => {
           {getLabel("TXT_HOMEPAGE")}
         </Typography>
       )}
-      {pathnames.map((pathname, index) => {
-        const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-        const isLast = index === pathnames.length - 1;
+      {pathNames.map((pathname, index) => {
+        const routeTo = `/${pathNames.slice(0, index + 1).join("/")}`;
+        const isLast = index === pathNames.length - 1;
         return isLast ? (
           <Typography variant="body2" key={index} className={classes.disabledLink}>
             {BREADCRUMB_NAME_MAP[pathname]}
@@ -61,11 +63,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 CustomBreadcrumb.propTypes = {
-  book: PropTypes.string,
-};
-
-CustomBreadcrumb.defaultProps = {
-  book: "",
+  bookName: PropTypes.string,
+  articleName: PropTypes.string,
 };
 
 export default CustomBreadcrumb;

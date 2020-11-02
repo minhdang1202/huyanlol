@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles, DialogTitle as MuiDialogTitle, Typography, IconButton } from "@material-ui/core";
+import { makeStyles, DialogTitle as MuiDialogTitle, Typography, IconButton, Box } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import clsx from "clsx";
 
@@ -8,14 +8,14 @@ const DialogTitle = ({ title, children, onClose, className }) => {
   const classes = useStyles();
   return (
     <MuiDialogTitle disableTypography className={clsx(classes.root, className)}>
-      <div>
+      <Box>
         <Typography variant="h5">{title}</Typography>
         {onClose ? (
           <IconButton className={classes.closeButton} onClick={() => onClose()}>
             <CloseIcon />
           </IconButton>
         ) : null}
-      </div>
+      </Box>
       {children}
     </MuiDialogTitle>
   );

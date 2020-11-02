@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+import { LangConstant } from "const";
 import clsx from "clsx";
 import { makeStyles, Avatar, Button, Typography, Box, Hidden } from "@material-ui/core";
 
 const Lender = ({ name, avatar, distance, address }) => {
   const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   return (
     <Box display="flex" width="100%" justifyContent="space-between" alignItems="center" py={2}>
       <Box display="flex" mr={{ xs: 1.5, sm: 3, md: 5 }} width="100%">
@@ -25,7 +28,7 @@ const Lender = ({ name, avatar, distance, address }) => {
                 <Distance distance={distance} />
               </Hidden>
             </Box>
-            <Typography variant="body2" className={clsx("eclipse", "eclipse-2", "grey-text")} align="left">
+            <Typography variant="body2" className={clsx("eclipse-2", "grey-text")} align="left">
               {address}
             </Typography>
             <Hidden smUp>
@@ -35,7 +38,7 @@ const Lender = ({ name, avatar, distance, address }) => {
         </Button>
       </Box>
       <Button variant="contained" className={clsx("dark-blue-button", classes.button)}>
-        Mượn sách
+        {getLabel("TXT_BOOKDETAIL_BORROW_BOOK")}
       </Button>
     </Box>
   );

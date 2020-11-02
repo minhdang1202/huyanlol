@@ -1,28 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles, Divider } from "@material-ui/core";
+import { Divider, Box } from "@material-ui/core";
 import Lender from "./Lender";
 
 const LenderListContent = ({ lenderList }) => {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <Box>
       {lenderList.map((lender, index) => {
         return (
-          <div key={index}>
+          <Box key={index}>
             <Lender {...lender} />
             {index !== lenderList.length - 1 ? <Divider /> : null}
-          </div>
+          </Box>
         );
       })}
-    </div>
+    </Box>
   );
 };
-
-const useStyles = makeStyles(() => ({
-  root: {
-  },
-}));
 
 LenderListContent.propTypes = {
   lenderList: PropTypes.array,

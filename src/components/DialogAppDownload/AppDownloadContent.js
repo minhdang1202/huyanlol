@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { makeStyles, useTheme, useMediaQuery, Hidden, Avatar, Typography } from "@material-ui/core";
+import { makeStyles, useTheme, useMediaQuery, Hidden, Avatar, Typography, Box } from "@material-ui/core";
 import { DownloadButtons, MobileDownloadButton } from "components";
 import { HEIGHT_IMAGE_MEDIUM, HEIGHT_IMAGE_SMALL } from "./AppDownloadImage";
 
@@ -12,27 +12,27 @@ const AppDownloadContent = () => {
   const title = isMobile ? getLabel("TXT_APPDOWNLOAD_TITLE_MOBILE") : getLabel("TXT_APPDOWNLOAD_TITLE");
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <Hidden smUp>
         <Avatar className={classes.logo} variant="square" src="/images/logo-app-download.png">
           Logo
         </Avatar>
       </Hidden>
-      <div className={classes.typography}>
+      <Box className={classes.typography}>
         <Typography variant="h5" color="inherit" align="center">
           {title}
         </Typography>
         <Typography color="inherit" align="center">
           {getLabel("TXT_APPDOWNLOAD_SUGGEST")}
         </Typography>
-      </div>
+      </Box>
       <Hidden xsDown>
         <DownloadButtons className={classes.downloadButtons} />
       </Hidden>
       <Hidden smUp>
         <MobileDownloadButton size="large" title={getLabel("TXT_APPDOWNLOAD_SUGGEST_BUTTON")} />
       </Hidden>
-    </div>
+    </Box>
   );
 };
 
@@ -75,6 +75,7 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2, 0, 3, 0),
       },
       [theme.breakpoints.down("xs")]: {
+        width: "60%",
         padding: theme.spacing(2, 0, 7, 0),
       },
       lineHeight: "normal",

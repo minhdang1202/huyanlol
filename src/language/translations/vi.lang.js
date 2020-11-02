@@ -9,19 +9,17 @@ export default {
     TXT_APPBAR_DOWNLOAD: "Tải ứng dụng GAT",
     TXT_APPBAR_COMMON_QUESTIONS: "Câu hỏi thường gặp",
     TXT_APPBAR_SIGNOUT: "Đăng xuất",
-
     TXT_APPDOWNLOAD_TITLE: "GAT - Ứng dụng mượn sách giấy",
     TXT_APPDOWNLOAD_TITLE_MOBILE: "Ứng dụng mượn sách giấy",
     TXT_APPDOWNLOAD_SUBTITLE: "MIỄN PHÍ - Trên App Store",
     TXT_APPDOWNLOAD_BUTTON: "Tải ngay",
     TXT_APPDOWNLOAD_SUGGEST: "Cài đặt ứng dụng GAT để sử dụng chức năng này",
     TXT_APPDOWNLOAD_SUGGEST_BUTTON: "Tải ứng dụng",
-
     TXT_HOMEPAGE: "Trang chủ",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
-
+    
     //ERR: Error
     //MSG: Message
   },
@@ -49,7 +47,6 @@ export default {
     TXT_BOOKDETAIL_IN_OF_STOCK: "Còn hàng",
     TXT_BOOKDETAIL_OUT_OF_STOCK: "Hết hàng",
     TXT_BOOKDETAIL_USER: "người dùng",
-
     TXT_LENDERLIST_ACTIVITY_DURATION: "Thời gian hoạt động",
     TXT_LENDERLIST_DISTANCE: "Khoảng cách",
     TXT_LENDERLIST_ARRANGE: "Sắp xếp theo:",

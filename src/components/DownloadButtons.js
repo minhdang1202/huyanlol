@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles, Avatar, Button, Grid } from "@material-ui/core";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { PathConstant } from "const";
+import { AppConstant } from "const";
 import AppLink from "./AppLink";
 
 const DownloadButtons = ({ className }) => {
@@ -10,22 +10,22 @@ const DownloadButtons = ({ className }) => {
   return (
     <Grid container className={clsx(classes.root, className)}>
       <Grid item>
-        <Button>
-          <AppLink as={PathConstant.GAT_APPSTORE}>
+        <AppLink as={AppConstant.GAT_APP_STORE}>
+          <Button>
             <Avatar className={classes.downloadBtn} variant="square" src="/images/img-app-store.png">
               App Store
             </Avatar>
-          </AppLink>
-        </Button>
+          </Button>
+        </AppLink>
       </Grid>
       <Grid item>
-        <Button>
-          <AppLink as={PathConstant.GAT_GGPLAY}>
+        <AppLink as={AppConstant.GAT_GG_PLAY}>
+          <Button>
             <Avatar className={classes.downloadBtn} variant="square" src="/images/img-gg-play.png">
               Google Play
             </Avatar>
-          </AppLink>
-        </Button>
+          </Button>
+        </AppLink>
       </Grid>
     </Grid>
   );

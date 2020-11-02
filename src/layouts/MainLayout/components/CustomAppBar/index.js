@@ -33,9 +33,13 @@ const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
             <>
               <Box display="flex" alignItems="center">
                 <IconButton classes={{ root: classes.iconButton, label: classes.icon }}>
-                  <ArrowDownIcon color="#001A39" className={classes.arrowIcon} />
+                  <ArrowDownIcon className={classes.arrowIcon} />
                 </IconButton>
-                {appBarTitle && <Typography variant="h5">{appBarTitle}</Typography>}
+                {appBarTitle && (
+                  <Typography variant="h5" className="eclipse">
+                    {appBarTitle}
+                  </Typography>
+                )}
               </Box>
               <IconButton>
                 <ShareIcon />
@@ -95,6 +99,7 @@ const useStyles = makeStyles(theme => ({
   },
   arrowIcon: {
     transform: "rotate(90deg)",
+    color: theme.palette.text.secondary,
   },
 }));
 

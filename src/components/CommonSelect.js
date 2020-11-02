@@ -1,62 +1,67 @@
 import React from "react";
-import { FormControl, Select, MenuItem, Button, Typography, makeStyles } from "@material-ui/core";
+import { Select, MenuItem, Typography, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { ArrowDownIcon } from "icons";
 
 const CommonSelect = ({
-  initialValue,
-  onChangeSelectedValue,
   selectList,
-  menuPaperStyles,
-  selectInputStyles,
-  selectIconStyles,
-  menuItemStyles,
+  selectPropsClasses,
+  inputPropsClasses,
+  menuPropsClasses,
+  menuItemPropsClasses,
+  ...otherProps
 }) => {
   const classes = useStyles();
   return (
-    <FormControl>
-      <Select
-        defaultValue={selectList[0].value}
-        value={initialValue ? initialValue : selectList[0].value}
-        onChange={e => {
-          onChangeSelectedValue(e.target.value);
-        }}
-        disableUnderline
-        classes={{
-          root: classes.selectRoot,
-          icon: clsx(classes.selectIcon, selectIconStyles),
-          iconOpen: classes.selectIconOpen,
-        }}
-        inputProps={{
-          classes: { root: clsx(classes.selectInput, selectInputStyles) },
-        }}
-        IconComponent={props => <ArrowDownIcon {...props} />}
-        MenuProps={{
-          classes: {
-            paper: clsx(classes.selectMenuPaper, menuPaperStyles),
-            list: classes.selectMenuList,
-          },
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "left",
-          },
-          getContentAnchorEl: null,
-        }}
-      >
-        {selectList.map((select, index) => (
-          <MenuItem
-            key={index}
-            value={select.value}
-            classes={{ root: clsx(classes.menuItemRoot, menuItemStyles), selected: classes.menuItemSelected }}
-          >
-            <Button>
-              <Typography variant="subtitle1">{select.title}</Typography>
-            </Button>
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Select
+      disableUnderline
+      classes={{
+        ...selectPropsClasses,
+        root: classes.selectRoot,
+        icon: clsx(classes.selectIcon, selectPropsClasses && selectPropsClasses.icon && selectPropsClasses.icon),
+        iconOpen: classes.selectIconOpen,
+      }}
+      inputProps={{
+        classes: {
+          ...inputPropsClasses,
+          root: clsx(classes.selectInput, inputPropsClasses && inputPropsClasses.root && inputPropsClasses.root),
+        },
+      }}
+      IconComponent={props => <ArrowDownIcon {...props} />}
+      MenuProps={{
+        classes: {
+          ...menuPropsClasses,
+          paper: clsx(classes.selectMenuPaper, menuPropsClasses && menuPropsClasses.paper && menuPropsClasses.paper),
+          list: classes.selectMenuList,
+        },
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "left",
+        },
+        getContentAnchorEl: null,
+      }}
+      {...otherProps}
+    >
+      {selectList.map((select, index) => (
+        <MenuItem
+          key={index}
+          value={select.value}
+          classes={{
+            ...menuItemPropsClasses,
+            root: clsx(
+              classes.menuItemRoot,
+              menuItemPropsClasses && menuItemPropsClasses.root && menuItemPropsClasses.root,
+            ),
+            selected: classes.menuItemSelected,
+          }}
+        >
+          <Typography variant="subtitle1" style={{ lineHeight: "normal" }}>
+            {select.title}
+          </Typography>
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
 
@@ -71,20 +76,11 @@ const useStyles = makeStyles(theme => ({
   menuItemRoot: {
     flexFlow: "column",
     position: "relative",
-    padding: 0,
-    "& > button": {
-      color: "inherit",
-      padding: "8px 16px !important",
-      width: "100%",
-      minWidth: "fit-content",
-      justifyContent: "flex-start",
-      "& .MuiTouchRipple-root": {
-        display: "none",
-      },
-      "&:hover": {
-        background: "none",
-      },
-    },
+    color: "inherit",
+    padding: theme.spacing(1, 2),
+    width: "100%",
+    minWidth: "fit-content",
+    alignItems: "flex-start",
   },
   menuItemSelected: {
     background: "none !important",
@@ -121,13 +117,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 CommonSelect.propTypes = {
-  onChangeSelectedValue: PropTypes.func.isRequired,
-  initialValue: PropTypes.string,
   selectList: PropTypes.array.isRequired,
-  menuPaperStyles: PropTypes.string,
-  menuItemStyles: PropTypes.string,
-  selectInputStyles: PropTypes.string,
-  selectIconStyles: PropTypes.string,
+  selectPropsClasses: PropTypes.object,
+  inputPropsClasses: PropTypes.object,
+  menuPropsClasses: PropTypes.object,
+  menuItemPropsClasses: PropTypes.object,
 };
 
 export default CommonSelect;

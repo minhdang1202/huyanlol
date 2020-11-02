@@ -15,7 +15,7 @@ import clsx from "clsx";
 import CustomRating from "components/CustomRating";
 import { LangConstant } from "const";
 import { BookmarkIcon } from "icons";
-import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppbar";
+import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import LenderList from "./LenderList";
 import DialogAppDownload from "../DialogAppDownload";
 
@@ -56,19 +56,19 @@ const BookInfo = () => {
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
       <LenderList isOpen={isLenderOpen} onClose={onCloseLenderList} />
       {isMobile ? (
-        <div className={classes.rootMobile}>
+        <Box className={classes.rootMobile}>
           <Avatar variant="square" src="/images/img-demo-avatar.jpg">
             {BOOK_INFO_DEMO.title}
           </Avatar>
           <Box my="auto" ml={1.5}>
-            <Typography variant="h5" className={clsx("eclipse-2", "mb-8")}>
+            <Typography variant="h5" className={clsx("eclipse-2", "mb-8")} component="h1">
               {BOOK_INFO_DEMO.title}
             </Typography>
             <Typography variant="h6" color="inherit" className={clsx("eclipse", "mb-12")}>
               {BOOK_INFO_DEMO.author}
             </Typography>
             <Box display="flex" alignItems="center" mb={2}>
-              <CustomRating initialRating={BOOK_INFO_DEMO.rating} isReadOnly={true} />
+              <CustomRating defaultValue={BOOK_INFO_DEMO.rating} readOnly={true} />
               <Typography variant="h6" color="inherit">
                 {BOOK_INFO_DEMO.rating}
               </Typography>
@@ -104,17 +104,19 @@ const BookInfo = () => {
               </Button>
             </Box>
           </Box>
-        </div>
+        </Box>
       ) : (
-        <div className={classes.rootDesktop}>
+        <Box className={classes.rootDesktop}>
           <Avatar variant="square" src="/images/img-demo-avatar.jpg">
             {BOOK_INFO_DEMO.title}
           </Avatar>
           <Paper>
-            <Typography variant="h5">{BOOK_INFO_DEMO.title}</Typography>
+            <Typography variant="h5" component="h1">
+              {BOOK_INFO_DEMO.title}
+            </Typography>
             <Typography variant="h6">{BOOK_INFO_DEMO.author}</Typography>
             <Box display="flex" alignItems="center" mb={4}>
-              <CustomRating initialRating={BOOK_INFO_DEMO.rating} isReadOnly={true} />
+              <CustomRating defaultValue={BOOK_INFO_DEMO.rating} readOnly={true} />
               <Typography variant="h6">{BOOK_INFO_DEMO.rating}</Typography>
             </Box>
             <Button
@@ -142,7 +144,7 @@ const BookInfo = () => {
               {getLabel("TXT_BOOKDETAIL_SAVE_BOOK")}
             </Button>
           </Paper>
-        </div>
+        </Box>
       )}
     </>
   );
