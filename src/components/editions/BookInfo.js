@@ -12,6 +12,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import CustomRating from "components/CustomRating";
 import { LangConstant } from "const";
 import { BookmarkIcon } from "icons";
@@ -19,7 +20,7 @@ import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import LenderList from "./LenderList";
 import DialogAppDownload from "../DialogAppDownload";
 
-const BookInfo = () => {
+const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLenders }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
@@ -54,23 +55,23 @@ const BookInfo = () => {
   return (
     <>
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
-      <LenderList isOpen={isLenderOpen} onClose={onCloseLenderList} />
+      <LenderList isOpen={isLenderOpen} onClose={onCloseLenderList} lendersList={lendersList} totalLenders={totalLenders} />
       {isMobile ? (
         <Box className={classes.rootMobile}>
-          <Avatar variant="square" src="/images/img-demo-avatar.jpg">
-            {BOOK_INFO_DEMO.title}
+          <Avatar variant="square" src={`data:image/png;base64,${bookCover}`}>
+            {authorName}
           </Avatar>
           <Box my="auto" ml={1.5}>
             <Typography variant="h5" className={clsx("eclipse-2", "mb-8")} component="h1">
-              {BOOK_INFO_DEMO.title}
+              {title}
             </Typography>
             <Typography variant="h6" color="inherit" className={clsx("eclipse", "mb-12")}>
-              {BOOK_INFO_DEMO.author}
+              {authorName}
             </Typography>
             <Box display="flex" alignItems="center" mb={2}>
-              <CustomRating defaultValue={BOOK_INFO_DEMO.rating} readOnly={true} />
+              <CustomRating defaultValue={rateAvg} readOnly={true} />
               <Typography variant="h6" color="inherit">
-                {BOOK_INFO_DEMO.rating}
+                {rateAvg}
               </Typography>
             </Box>
             <Box display="flex" mb={1}>
@@ -100,24 +101,24 @@ const BookInfo = () => {
                 disabled
                 startIcon={<Avatar variant="square" className={classes.userIcon} src="/images/ic-user.png" />}
               >
-                135
+                {totalLenders}
               </Button>
             </Box>
           </Box>
         </Box>
       ) : (
         <Box className={classes.rootDesktop}>
-          <Avatar variant="square" src="/images/img-demo-avatar.jpg">
-            {BOOK_INFO_DEMO.title}
+          <Avatar variant="square" src={`data:image/png;base64,${bookCover}`}>
+            {authorName}
           </Avatar>
           <Paper>
             <Typography variant="h5" component="h1">
-              {BOOK_INFO_DEMO.title}
+              {title}
             </Typography>
-            <Typography variant="h6">{BOOK_INFO_DEMO.author}</Typography>
+            <Typography variant="h6">{authorName}</Typography>
             <Box display="flex" alignItems="center" mb={4}>
-              <CustomRating defaultValue={BOOK_INFO_DEMO.rating} readOnly={true} />
-              <Typography variant="h6">{BOOK_INFO_DEMO.rating}</Typography>
+              <CustomRating defaultValue={rateAvg} readOnly={true} />
+              <Typography variant="h6">{rateAvg}</Typography>
             </Box>
             <Button
               size={isDesktop ? "large" : "medium"}
@@ -148,12 +149,6 @@ const BookInfo = () => {
       )}
     </>
   );
-};
-
-const BOOK_INFO_DEMO = {
-  title: "Nếu chỉ còn một ngày để sống",
-  author: "Hạ Vũ",
-  rating: 4.2,
 };
 
 const HEIGHT_BOOK_COVER = "280px";
@@ -234,5 +229,14 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
+
+BookInfo.propTypes = {
+  authorName: PropTypes.string,
+  title: PropTypes.string,
+  rateAvg: PropTypes.number,
+  bookCover: PropTypes.string,
+  lendersList: PropTypes.array,
+  totalLenders: PropTypes.number,
+};
 
 export default BookInfo;

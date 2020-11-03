@@ -9,5 +9,5 @@ export const EXPIRES_TOKEN = 1;
 export const WEBSITE_URL = "https://solution.relipasoft.com";
 
 // App download url
-export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat&hl=vi";
-export const GAT_APP_STORE = "https://apps.apple.com/id/app/gat-ứng-dụng-mượn-sách-giấy/id1230316898?l=id";
+export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat";
+export const GAT_APP_STORE = "https://apps.apple.com/vn/app/gat/id1230316898";

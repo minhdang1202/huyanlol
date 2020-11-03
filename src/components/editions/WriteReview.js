@@ -12,7 +12,12 @@ const WriteReview = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const currentDate = format(new Date(), "MM/dd/yyyy");
 
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
+  const [rate, setRate] = useState();
+
+  const onRate = (e, newValue) => {
+    if (isAuth) setRate(newValue);
+  };
 
   return (
     <Paper className={clsx("paper", classes.root)}>
@@ -30,12 +35,12 @@ const WriteReview = () => {
             )
           }
         >
-          Trần Việt Phú
+          {isAuth ? "Trần Việt Phú" : null}
         </Button>
       </Hidden>
       <Box display="flex" alignItems="center">
         <Typography className="mr-12">{getLabel("TXT_BOOKDETAIL_YOUR_REVIEW")}</Typography>
-        <CustomRating />
+        <CustomRating onChange={onRate} />
         <Typography variant="body2" className={classes.date}>
           {currentDate}
         </Typography>

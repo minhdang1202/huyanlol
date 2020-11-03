@@ -21,7 +21,7 @@ const Lender = ({ name, avatar, distance, address }) => {
             </Avatar>
           }
         >
-          <Box display="flex" flexDirection="column">
+          <Box display="flex" flexDirection="column" width="100%">
             <Box display="flex" justifyContent="space-between" mb={1}>
               <span className={clsx("eclipse", classes.alignLeft)}>{name}</span>
               <Hidden xsDown>
@@ -84,6 +84,8 @@ const useStyles = makeStyles(theme => ({
   },
   disabledButton: {
     color: `${theme.palette.text.primary} !important`,
+    width: "100%",
+    justifyContent: "flex-start",
   },
 }));
 

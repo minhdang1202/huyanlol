@@ -10,7 +10,7 @@ import LenderListTitle from "./LenderListTitle";
 import LenderListSelect from "./LenderListSelect";
 import LenderListContent from "./LenderListContent";
 
-const LenderList = ({ isOpen, onClose }) => {
+const LenderList = ({ isOpen, onClose, lendersList, totalLenders }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const SELECT_LIST = [
     { value: "activityDuration", title: getLabel("TXT_LENDERLIST_ACTIVITY_DURATION") },
@@ -24,7 +24,7 @@ const LenderList = ({ isOpen, onClose }) => {
   return (
     <Dialog open={isOpen}>
       <DialogTitle title={getLabel("TXT_BOOKDETAIL_LENDERS_TITLE")} onClose={() => onClose()}>
-        <LenderListTitle totalLenders={TOTAL_LENDERS_DEMO} />
+        <LenderListTitle totalLenders={totalLenders} />
       </DialogTitle>
       <DialogActions>
         <LenderListSelect
@@ -34,23 +34,17 @@ const LenderList = ({ isOpen, onClose }) => {
         />
       </DialogActions>
       <DialogContent>
-        <LenderListContent lenderList={LENDER_LIST_DEMO} />
+        <LenderListContent lenderList={lendersList} />
       </DialogContent>
     </Dialog>
   );
 };
 
-const TOTAL_LENDERS_DEMO = 23;
-const LENDER_LIST_DEMO = Array(10).fill({
-  name: "Richard Brown",
-  avatar: "/images/img-demo-avatar.jpg",
-  address: "Số 41, Ngõ 20, 14 đường Hồ Tùng Mậu, Mai Dịch, Cầu Giấy, Hà Nội, Việt Nam",
-  distance: "1km",
-});
-
 LenderList.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
+  lendersList: PropTypes.array,
+  totalLenders: PropTypes.number,
 };
 
 export default LenderList;
