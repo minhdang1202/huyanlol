@@ -1,12 +1,49 @@
 import React from "react";
-// import { withAuthSync } from "../utils/auth";
-import MainLayout from "../layouts/MainLayout";
-const Home = () => (
-  <MainLayout>
-    <h1>this is home page</h1>
-  </MainLayout>
-);
+import MainLayout from "layouts/MainLayout";
+import { Box, Grid, Hidden, makeStyles, Container } from "@material-ui/core";
+import { HomeAppDownload } from "components/home";
+
+const Home = () => {
+  const classes = useStyles();
+
+  return (
+    <MainLayout classes={{ main: classes.mainLayout }}>
+      <Container>
+        <Grid container className={classes.root}>
+          <Hidden smDown>
+            <Grid item xs="auto" sm={8} md={2} className={classes.leftContainer}>
+              <HomeAppDownload />
+            </Grid>
+          </Hidden>
+          <Grid item xs={12} sm={7} md={6} className={classes.mainContainer}>
+            <Box height="1000px">
+              <h1>Ahihi</h1>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={5} md={4} className={classes.rightContainer}>
+            <Box bgcolor="red" height="100px"></Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </MainLayout>
+  );
+};
 
 export default Home;
 
-// export default withAuthSync(Home);
+const useStyles = makeStyles(theme => ({
+  mainLayout: {
+    paddingTop: theme.spacing(3),
+  },
+  root: {
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column-reverse",
+    },
+  },
+  leftContainer: {
+    position: "relative",
+    paddingRight: 12,
+  },
+  mainContainer: { paddingRight: 12, paddingLeft: 12 },
+  rightContainer: { paddingLeft: 12 },
+}));

@@ -22,6 +22,8 @@ export default {
     TXT_LOGIN_SOCIAL_MEDIA: "Đăng nhập bằng mạng xã hội",
     TXT_HAVE_ACC: "Bạn đã có tài khoản? ",
     TXT_NO_ACC: "Bạn chưa có tài khoản? ",
+    TXT_GAT_UP: "GATUP",
+    TXT_GAT_COMMUNITY: "Cộng đồng GAT ",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -60,5 +62,10 @@ export default {
     TXT_LENDERLIST_ACTIVITY_DURATION: "Thời gian hoạt động",
     TXT_LENDERLIST_DISTANCE: "Khoảng cách",
     TXT_LENDERLIST_ARRANGE: "Sắp xếp theo:",
+  },
+  home: {
+    TXT_BOOK_SHELVES: "Book shelves",
+    TXT_SHORTCUT: "LỐI TẮT",
+    TXT_DOWNLOAD_APP: "TẢI APP GAT TRÊN DI ĐỘNG",
   },
 };

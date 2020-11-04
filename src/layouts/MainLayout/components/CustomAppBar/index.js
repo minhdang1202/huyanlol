@@ -70,7 +70,7 @@ export const HEIGHT_APP_BAR = "72px";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    position: "sticky",
+    position: "fixed",
     background: theme.palette.white,
     boxShadow: ({ isDetail, isMobile }) =>
       isDetail && isMobile ? `0px 1px 0px ${theme.palette.text.disabled}` : "none",
