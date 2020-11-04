@@ -24,6 +24,7 @@ export default {
     TXT_NO_ACC: "Bạn chưa có tài khoản? ",
     TXT_GAT_UP: "GATUP",
     TXT_GAT_COMMUNITY: "Cộng đồng GAT ",
+    TXT_SEE_MORE: "Xem Thêm",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",

@@ -2,6 +2,7 @@ import React from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, Hidden, makeStyles, Container } from "@material-ui/core";
 import { HomeAppDownload } from "components/home";
+import { Section } from "components";
 
 const Home = () => {
   const classes = useStyles();
@@ -17,7 +18,9 @@ const Home = () => {
           </Hidden>
           <Grid item xs={12} sm={7} md={6} className={classes.mainContainer}>
             <Box height="1000px">
-              <h1>Ahihi</h1>
+              <Section title="This is title">
+                <h1>Ahihi</h1>
+              </Section>
             </Box>
           </Grid>
           <Grid item xs={12} sm={5} md={4} className={classes.rightContainer}>

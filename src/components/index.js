@@ -7,6 +7,7 @@ import CommonSelect from "./CommonSelect";
 import DialogAppDownload from "./DialogAppDownload";
 import DownloadButtons from "./DownloadButtons";
 import MobileDownloadButton from "./MobileDownloadButton";
+import Section from "./Section";
 
 export {
   AppHead,
@@ -18,4 +19,5 @@ export {
   DialogAppDownload,
   DownloadButtons,
   MobileDownloadButton,
+  Section,
 };
