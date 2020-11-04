@@ -3,6 +3,7 @@ import { createReducer, createActions } from "reduxsauce";
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
   requestLogin: ["data"],
+  requestRegister: ["data"],
 
   authSuccess: ["data"],
   authFailure: ["data"],
@@ -15,7 +16,7 @@ export default Creators;
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = {
   isFetching: false,
-  isLogin: false,
+  isAuth: false,
 
   error: null,
   status: null,
@@ -48,7 +49,7 @@ export const reset = () => INITIAL_STATE;
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
   [Types.REQUEST_LOGIN]: request,
-
+  [Types.REQUEST_REGISTER]: request,
   [Types.AUTH_SUCCESS]: success,
   [Types.AUTH_FAILURE]: failure,
   [Types.AUTH_RESET]: reset,

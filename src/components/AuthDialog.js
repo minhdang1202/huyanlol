@@ -12,23 +12,44 @@ import {
   Box,
   Dialog,
   makeStyles,
+  InputAdornment,
 } from "@material-ui/core/";
 import CloseIcon from "@material-ui/icons/Close";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 import clsx from "clsx";
 import { GoogleIcon, FacebookIcon } from "icons";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
 
 const AuthDialog = ({ onClose, isOpen }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getText } = useTranslation();
   const classes = useStyles();
+  // const dispatch = useDispatch();
+  // const isFetching = useSelector(state => state.authRedux.isFetching);
 
   const [isLogin, setIsLogin] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  const onLogin = () => {
+    console.log(email, password);
+  };
+  const onRegister = () => {
+    console.log(email, password, password2);
+  };
 
   const onChangeForm = () => {
     setIsLogin(!isLogin);
   };
+  const onShowPassword = () => setShowPassword(!showPassword);
+  const onChangeEmail = e => setEmail(e.target.value);
+  const onChangePass = e => setPassword(e.target.value);
+  const onChangePass2 = e => setPassword2(e.target.value);
 
   return (
     <Dialog aria-labelledby="auth-dialog" open={isOpen} fullScreen={isMobile} onClose={onClose}>
@@ -58,6 +79,8 @@ const AuthDialog = ({ onClose, isOpen }) => {
                   input: classes.textOfInput,
                 },
               }}
+              value={email}
+              onChange={onChangeEmail}
               type="email"
               fullWidth
             />
@@ -71,11 +94,18 @@ const AuthDialog = ({ onClose, isOpen }) => {
               className={classes.textInput}
               InputProps={{
                 disableUnderline: true,
+                endAdornment: (
+                  <InputAdornment position="end" className={classes.inputIcon} onClick={onShowPassword}>
+                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </InputAdornment>
+                ),
                 classes: {
                   input: classes.textOfInput,
                 },
               }}
-              type="password"
+              value={password}
+              onChange={onChangePass}
+              type={showPassword ? "text" : "password"}
               fullWidth
             />
             {!isLogin && (
@@ -89,15 +119,28 @@ const AuthDialog = ({ onClose, isOpen }) => {
                 className={classes.textInput}
                 InputProps={{
                   disableUnderline: true,
+                  endAdornment: (
+                    <InputAdornment position="end" className={classes.inputIcon} onClick={onShowPassword}>
+                      {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </InputAdornment>
+                  ),
                   classes: {
                     input: classes.textOfInput,
                   },
                 }}
-                type="password"
+                value={password2}
+                onChange={onChangePass2}
+                type={showPassword ? "text" : "password"}
                 fullWidth
               />
             )}
-            <Button className={classes.loginBtn} fullWidth variant="contained" color="primary">
+            <Button
+              className={classes.loginBtn}
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={isLogin ? onLogin : onRegister}
+            >
               <Typography variant={"h5"} className={classes.loginBtnText}>
                 {isLogin ? getText("TXT_LOGIN") : getText("TXT_SIGNUP")}
               </Typography>
@@ -157,11 +200,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-start",
     width: "472px",
     borderRadius: "10px",
+    overflow: "hidden",
     [theme.breakpoints.down("xs")]: {
       width: "100vw",
       height: "100vh",
     },
-    overFlow: "hidden",
   },
   header: {
     width: "100%",
@@ -246,6 +289,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: "18px",
     paddingLeft: "12px",
     color: theme.palette.text.secondary,
+  },
+  inputIcon: {
+    color: theme.palette.text.secondary,
+    cursor: "pointer",
   },
   loginBtn: {
     height: "45px",
