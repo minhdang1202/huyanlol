@@ -1,7 +1,7 @@
 import React from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, Hidden, makeStyles, Container } from "@material-ui/core";
-import { HomeAppDownload } from "components/home";
+import { HomeAppDownload, QuickAction } from "components/home";
 import { Section } from "components";
 
 const Home = () => {
@@ -13,7 +13,9 @@ const Home = () => {
         <Grid container className={classes.root}>
           <Hidden smDown>
             <Grid item xs="auto" sm={8} md={2} className={classes.leftContainer}>
-              <HomeAppDownload />
+              <Box className={classes.fixedPosition}>
+                <HomeAppDownload />
+              </Box>
             </Grid>
           </Hidden>
           <Grid item xs={12} sm={7} md={6} className={classes.mainContainer}>
@@ -24,7 +26,9 @@ const Home = () => {
             </Box>
           </Grid>
           <Grid item xs={12} sm={5} md={4} className={classes.rightContainer}>
-            <Box bgcolor="red" height="100px"></Box>
+            <Box className={classes.fixedPosition}>
+              <QuickAction />
+            </Box>
           </Grid>
         </Grid>
       </Container>
@@ -49,4 +53,12 @@ const useStyles = makeStyles(theme => ({
   },
   mainContainer: { paddingRight: 12, paddingLeft: 12 },
   rightContainer: { paddingLeft: 12 },
+  fixedPosition: {
+    width: "100%",
+    position: "sticky",
+    top: theme.spacing(3),
+    [theme.breakpoints.down("xs")]: {
+      position: "relative",
+    },
+  },
 }));

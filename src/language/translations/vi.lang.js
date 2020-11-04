@@ -68,5 +68,7 @@ export default {
     TXT_BOOK_SHELVES: "Book shelves",
     TXT_SHORTCUT: "LỐI TẮT",
     TXT_DOWNLOAD_APP: "TẢI APP GAT TRÊN DI ĐỘNG",
+    TXT_BOOKSTOP_GAT: "Tham gia Trạm GAT",
+    TXT_PROFILE: "Hoàn thiện Profile",
   },
 };

@@ -55,8 +55,7 @@ export default HomeAppDownload;
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    position: "sticky",
-    top: theme.spacing(3),
+    height: "max-content",
   },
   main: {
     width: "100%",
@@ -93,8 +92,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   downloadTitle: {
-    marginTop: theme.spacing(1),
-    marginBottom: 12,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     color: "#9b9b9b",
     textTransform: "uppercase",
   },
