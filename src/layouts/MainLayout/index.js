@@ -4,11 +4,12 @@ import { Box, Hidden, makeStyles, NoSsr } from "@material-ui/core";
 import { AppHead } from "../../components";
 import { CustomAppBar, MobileAppDownload } from "./components";
 import clsx from "clsx";
+import { HEIGHT_MOBILE_APP_DOWNLOAD } from "./components/MobileAppDownload";
 
-const MainLayout = ({ headProps, className, children, appBarTitle, isDetail }) => {
-  const defaultClasses = useStyles();
+const MainLayout = ({ headProps, className, children, appBarProps }) => {
   const primaryHead = headProps || {};
   const [isClose, setIsClose] = useState(false);
+  const defaultClasses = useStyles({ isClose: isClose });
 
   const onClose = () => {
     setIsClose(true);
@@ -19,8 +20,8 @@ const MainLayout = ({ headProps, className, children, appBarTitle, isDetail }) =
       <AppHead {...primaryHead} />
       <NoSsr>
         <Box className={clsx(defaultClasses.root, className)}>
-          <CustomAppBar isDetail={isDetail} appBarTitle={appBarTitle} />
-          <main>{children}</main>
+          <CustomAppBar {...appBarProps} />
+          <main className={defaultClasses.main}>{children}</main>
           {!isClose && (
             <Hidden smUp>
               <MobileAppDownload onClose={onClose} />
@@ -35,13 +36,17 @@ const MainLayout = ({ headProps, className, children, appBarTitle, isDetail }) =
 MainLayout.propTypes = {
   headProps: PropTypes.object,
   className: PropTypes.string,
-  isDetail: PropTypes.bool,
-  appBarTitle: PropTypes.string,
+  appBarProps: PropTypes.object,
 };
 
 MainLayout.defaultProps = {
   isDetail: false,
   headProps: {},
+  appBarProps: {
+    isDetail: false,
+    appBarTitle: null,
+    className: "",
+  },
 };
 
 export default memo(MainLayout);
@@ -52,5 +57,10 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     overflow: "auto",
     background: theme.palette.background.default,
+  },
+  main: {
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: props => (props.isClose ? 0 : `calc(${HEIGHT_MOBILE_APP_DOWNLOAD} + 8px)`),
+    },
   },
 }));

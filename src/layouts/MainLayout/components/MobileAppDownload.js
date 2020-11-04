@@ -2,28 +2,29 @@ import React from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import { makeStyles, IconButton, Button, Typography } from "@material-ui/core";
-import { LogoBox } from "components";
+import { makeStyles, IconButton, Typography, Box } from "@material-ui/core";
+import { LogoBox, MobileDownloadButton } from "components";
 
 const MobileAppDownload = ({ onClose }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
+
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <IconButton classes={{ label: classes.icon }} onClick={() => onClose()}>
         <CloseIcon />
       </IconButton>
       <LogoBox />
-      <div className={classes.typography}>
+      <Box className={classes.typography}>
         <Typography variant="subtitle2">{getLabel("TXT_APPDOWNLOAD_TITLE")}</Typography>
         <Typography variant="caption">{getLabel("TXT_APPDOWNLOAD_SUBTITLE")}</Typography>
-      </div>
-      <Button variant="contained">{getLabel("TXT_APPDOWNLOAD_BUTTON")}</Button>
-    </div>
+      </Box>
+      <MobileDownloadButton size="small" />
+    </Box>
   );
 };
 
-const HEIGHT_MOBILE_APP_DOWNLOAD = "80px";
+export const HEIGHT_MOBILE_APP_DOWNLOAD = "80px";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,11 +47,12 @@ const useStyles = makeStyles(theme => ({
     },
     "&>*:last-child": {
       textTransform: "uppercase",
-      color: theme.palette.primary.main,
-      background: theme.palette.rating.unActive,
+      height: 29,
       marginLeft: "auto",
       minWidth: 96,
       padding: theme.spacing(1, 1.5),
+      fontSize: 12,
+      fontWeight: 700,
     },
   },
   icon: {
@@ -60,6 +62,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1.5),
     "& > *:nth-child(1)": {
       marginBottom: theme.spacing(0.5),
+      lineHeight: "normal",
     },
   },
 }));

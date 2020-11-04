@@ -1,3 +1,5 @@
+import { AppConstant } from "const";
+
 export const uuid = () => {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
     .replace(/[xy]/g, function (c) {
@@ -42,3 +44,25 @@ export const isBlank = str => !str || /^\s*$/.test(str);
 export const isString = string => string && typeof string === "string";
 
 export const onGoBack = () => window.history.back();
+
+export const cutString = (limitContent, content) => {
+  const trimmedContent = content.substring(0, limitContent);
+
+  const cutContent =
+    content.length < limitContent
+      ? content
+      : `${trimmedContent.substring(0, Math.min(trimmedContent.length, trimmedContent.lastIndexOf(" ")))}...`;
+
+  return cutContent;
+};
+
+export const getAppDownloadLink = () => {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+  // iOS detection
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return AppConstant.GAT_APP_STORE;
+  }
+
+  return AppConstant.GAT_GG_PLAY;
+};
