@@ -161,6 +161,7 @@ const useStyles = makeStyles(theme => ({
       width: "100vw",
       height: "100vh",
     },
+    overFlow: "hidden",
   },
   header: {
     width: "100%",
@@ -242,6 +243,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.black,
   },
   inputLabel: {
+    fontSize: "18px",
     paddingLeft: "12px",
     color: theme.palette.text.secondary,
   },
@@ -257,6 +259,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   loginBtnText: {
+    fontSize: "18px",
     color: theme.palette.white,
   },
   bottom: {
