@@ -17,18 +17,24 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import { Processing } from "./index";
 import clsx from "clsx";
 import { GoogleIcon, FacebookIcon } from "icons";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
+import AuthAction from "../redux/auth.redux";
+
+const FIXED_UUID = "f4e25588-e48f-4dd5-b7c5-812f68204be4";
 
 const AuthDialog = ({ onClose, isOpen }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getText } = useTranslation();
   const classes = useStyles();
-  // const dispatch = useDispatch();
-  // const isFetching = useSelector(state => state.authRedux.isFetching);
+  const dispatch = useDispatch();
+
+  const isFetching = useSelector(state => state.authRedux.isFetching);
+  const error = useSelector(state => state.authRedux.error);
 
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -37,10 +43,15 @@ const AuthDialog = ({ onClose, isOpen }) => {
   const [password2, setPassword2] = useState("");
 
   const onLogin = () => {
-    console.log(email, password);
+    dispatch(AuthAction.requestLogin({ email, password, uuid: FIXED_UUID }));
   };
   const onRegister = () => {
-    console.log(email, password, password2);
+    if (password !== "" && password === password2) {
+      dispatch(AuthAction.requestRegister({ email, password }));
+    } else {
+      alert("Re-enter passwords");
+    }
+    setIsLogin(true);
   };
 
   const onChangeForm = () => {
@@ -181,6 +192,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
           </Box>
         </Box>
       </Box>
+      <Processing isShow={isFetching} />
     </Dialog>
   );
 };

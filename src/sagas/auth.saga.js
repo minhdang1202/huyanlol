@@ -3,7 +3,6 @@ import { ApiConstant, AppConstant } from "../const";
 import AuthAction from "../redux/auth.redux";
 import { AuthService } from "../services";
 import Cookie from "js-cookie";
-import { login } from "../utils/auth";
 
 export function* requestLogin(action) {
   let isResult = false;
@@ -13,16 +12,13 @@ export function* requestLogin(action) {
   try {
     let responseData = response.data.data;
     if (response.status === ApiConstant.STT_OK) {
-      const { access_token, user_id } = responseData;
-      if (access_token && user_id) {
-        Cookie.set(AppConstant.KEY_TOKEN, access_token, {
+      const { loginToken } = responseData;
+      if (loginToken) {
+        Cookie.set(AppConstant.KEY_TOKEN, loginToken, {
           expires: AppConstant.EXPIRES_TOKEN,
         });
-        let storeData = {};
-        storeData[AppConstant.KEY_USER_ID] = user_id;
-        login(storeData);
-
         isResult = true;
+        yield put(AuthAction.authSuccess(responseData));
       }
     }
   } catch (error) {
@@ -34,5 +30,19 @@ export function* requestLogin(action) {
     yield put(
       AuthAction.authFailure(response.status === ApiConstant.STT_OK ? ApiConstant.STT_NO_TOKEN : response.data),
     );
+  }
+}
+export function* requestRegister(action) {
+  const { data } = action;
+  try {
+    let response = yield call(AuthService.register, data);
+    if (response.status === ApiConstant.STT_OK) {
+      alert("Request sent, check your email to validate the account.");
+    } else {
+      alert("something is wrong");
+    }
+    yield put(AuthAction.authReset());
+  } catch (error) {
+    yield put(AuthAction.authFailure(error));
   }
 }

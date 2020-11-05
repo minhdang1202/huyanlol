@@ -21,7 +21,10 @@ export const STT_FORBIDDEN = 403;
 export const STT_INTERNAL_SERVER = 500;
 
 // Api
-//Auth
 export const POST_LOGIN = "/api/v1/user/login_by_email";
 export const POST_LOGIN_BY_SOCIAL = "/api/v1/user/login_by_social";
 export const POST_REGISTER = "/api/v1/user/register_by_email";
+
+//Auth
+export const KEY_TOKEN = "auth-token";
+export const EXPIRES_TOKEN = 1;
