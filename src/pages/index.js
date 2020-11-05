@@ -1,8 +1,7 @@
 import React from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, Hidden, makeStyles, Container } from "@material-ui/core";
-import { HomeAppDownload, QuickAction } from "components/home";
-import { Section } from "components";
+import { HomeAppDownload, QuickAction, MostBorrowing } from "components/home";
 
 const Home = () => {
   const classes = useStyles();
@@ -19,11 +18,7 @@ const Home = () => {
             </Grid>
           </Hidden>
           <Grid item xs={12} sm={7} md={6} className={classes.mainContainer}>
-            <Box height="1000px">
-              <Section title="This is title">
-                <h1>Ahihi</h1>
-              </Section>
-            </Box>
+            <MostBorrowing />
           </Grid>
           <Grid item xs={12} sm={5} md={4} className={classes.rightContainer}>
             <Box className={classes.fixedPosition}>

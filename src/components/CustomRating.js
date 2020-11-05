@@ -26,7 +26,9 @@ const CustomRating = ({ size, ...otherProps }) => {
 };
 
 CustomRating.propTypes = {
-  size: PropTypes.string
+  size: PropTypes.string,
+  value: PropTypes.number,
+  defaultValue: PropTypes.number,
 };
 
 export default CustomRating;

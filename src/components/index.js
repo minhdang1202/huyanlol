@@ -8,6 +8,8 @@ import DialogAppDownload from "./DialogAppDownload";
 import DownloadButtons from "./DownloadButtons";
 import MobileDownloadButton from "./MobileDownloadButton";
 import Section from "./Section";
+import BookSummary from "./BookSummary";
+import CustomRating from "./CustomRating";
 
 export {
   AppHead,
@@ -20,4 +22,6 @@ export {
   DownloadButtons,
   MobileDownloadButton,
   Section,
+  BookSummary,
+  CustomRating,
 };
