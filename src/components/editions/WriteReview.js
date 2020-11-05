@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Paper, Typography, Box, Avatar, Button, Hidden, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
-import { format } from "date-fns";
+import { convertFormat } from "utils/date";
 import { useTranslation } from "react-i18next";
 import CustomRating from "../CustomRating";
 import { LangConstant } from "const";
@@ -14,7 +14,7 @@ import { EditionTypes } from "redux/edition.redux";
 const WriteReview = ({ name, avatar, rate, review }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
-  const currentDate = format(new Date(), "dd/MM/yyyy");
+  const currentDate = convertFormat(new Date(), "dd/MM/yyyy");
 
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
 

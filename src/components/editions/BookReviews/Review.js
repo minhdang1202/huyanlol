@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { format } from "date-fns";
+import { convertDistanceDate } from "utils/date";
 import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant, PathConstant } from "const";
 import CustomRating from "components/CustomRating";
@@ -15,8 +15,8 @@ const Review = ({ review, className }) => {
   const theme = useTheme();
   const classes = useStyles();
   const shareUrl = AppConstant.WEBSITE_URL + PathConstant.ARTICLE_DETAIL_ID(articleId);
-  const displayDate = format(new Date(lastUpdate), "dd/MM/yyyy");
-  const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
+  const { t: getLabel, i18n } = useTranslation(LangConstant.NS_BOOK_DETAIL);
+  const displayDate = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
   const [isAuth, setIsAuth] = useState(true);
   const [isLoved, setIsLoved] = useState(false);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
