@@ -8,7 +8,7 @@ const LenderListTitle = ({ totalLenders }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   return (
     <Hidden xsDown>
-      <Typography className="mb-8">{totalLenders + " " + getLabel("TXT_BOOKDETAIL_USER")}</Typography>
+      <Typography className="mb-8">{totalLenders + " " + getLabel("TXT_EDITION_USER")}</Typography>
     </Hidden>
   );
 };

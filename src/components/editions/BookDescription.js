@@ -19,11 +19,11 @@ const BookDescription = ({ description }) => {
 
   return (
     <Paper className={clsx("paper", classes.root)}>
-      <Typography variant="h6">{getLabel("TXT_BOOKDETAIL_BOOK_INTRO")}</Typography>
+      <Typography variant="h6">{getLabel("TXT_EDITION_BOOK_INTRO")}</Typography>
       <Typography>{content}</Typography>
       {!isFullContent && (
         <Button size="large" className={clsx(classes.button, "blue-text")} onClick={onShowDescription}>
-          {getLabel("TXT_BOOKDETAIL_READ_MORE")}
+          {getLabel("TXT_EDITION_READ_MORE")}
         </Button>
       )}
     </Paper>

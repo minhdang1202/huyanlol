@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import {
   makeStyles,
@@ -13,14 +14,16 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import PropTypes from "prop-types";
+import Skeleton from "@material-ui/lab/Skeleton";
 import CustomRating from "components/CustomRating";
 import { LangConstant } from "const";
 import { BookmarkIcon } from "icons";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import LenderList from "./LenderList";
 import DialogAppDownload from "../DialogAppDownload";
+import { EditionTypes } from "redux/edition.redux";
 
-const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLenders }) => {
+const BookInfo = ({ authorName, title, rateAvg, bookCover, editionId, ...reduxProps }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
@@ -28,13 +31,9 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLen
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
 
   const [isAuth, setIsAuth] = useState(true);
-  const [isSaved, setIsSaved] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
   const [isLenderOpen, setIsLenderOpen] = useState(false);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
-
-  const onSave = () => {
-    if (isAuth) setIsSaved(!isSaved);
-  };
 
   const onOpenLenderList = () => {
     setIsLenderOpen(true);
@@ -52,13 +51,17 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLen
     setIsDownloadOpen(false);
   };
 
+  useEffect(() => {
+    reduxProps.onGetLendersList(editionId);
+  }, []);
+
   return (
     <>
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
-      <LenderList isOpen={isLenderOpen} onClose={onCloseLenderList} lendersList={lendersList} totalLenders={totalLenders} />
+      <LenderList isOpen={isLenderOpen} onClose={onCloseLenderList} editionId={editionId} />
       {isMobile ? (
         <Box className={classes.rootMobile}>
-          <Avatar variant="square" src={`data:image/png;base64,${bookCover}`}>
+          <Avatar variant="square" src={bookCover}>
             {authorName}
           </Avatar>
           <Box my="auto" ml={1.5}>
@@ -76,12 +79,12 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLen
             </Box>
             <Box display="flex" mb={1}>
               <Button size="small" variant="contained" className="light-blue-button" onClick={onOpenDownload}>
-                {getLabel("TXT_BOOKDETAIL_ADD_TO_LIBRARY")}
+                {getLabel("TXT_EDITION_ADD_TO_LIBRARY")}
               </Button>
               <IconButton
                 classes={{ root: clsx(classes.asideButton, classes.bookmark) }}
                 disableRipple
-                onClick={onSave}
+                onClick={onOpenDownload}
               >
                 <BookmarkIcon
                   width={16}
@@ -93,7 +96,7 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLen
             </Box>
             <Box display="flex">
               <Button size="small" variant="contained" className="dark-blue-button" onClick={onOpenLenderList}>
-                {getLabel("TXT_BOOKDETAIL_BORROW_BOOK")}
+                {getLabel("TXT_EDITION_BORROW_BOOK")}
               </Button>
               <Button
                 size="small"
@@ -101,14 +104,14 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLen
                 disabled
                 startIcon={<Avatar variant="square" className={classes.userIcon} src="/images/ic-user.png" />}
               >
-                {totalLenders}
+                {reduxProps.totalLenders ? reduxProps.totalLenders : <Skeleton width={84}/>}
               </Button>
             </Box>
           </Box>
         </Box>
       ) : (
         <Box className={classes.rootDesktop}>
-          <Avatar variant="square" src={`data:image/png;base64,${bookCover}`}>
+          <Avatar variant="square" src={bookCover}>
             {authorName}
           </Avatar>
           <Paper>
@@ -126,7 +129,7 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLen
               className="light-blue-button"
               onClick={onOpenDownload}
             >
-              {getLabel("TXT_BOOKDETAIL_ADD_TO_LIBRARY")}
+              {getLabel("TXT_EDITION_ADD_TO_LIBRARY")}
             </Button>
             <Button
               size={isDesktop ? "large" : "medium"}
@@ -134,15 +137,16 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, lendersList, totalLen
               className="dark-blue-button"
               onClick={onOpenLenderList}
             >
-              {getLabel("TXT_BOOKDETAIL_BORROW_BOOK")}
+              {getLabel("TXT_EDITION_BORROW_BOOK")}
             </Button>
             <Button
               size={isDesktop ? "large" : "medium"}
               variant="contained"
               startIcon={<BookmarkIcon />}
               className="white-button"
+              onClick={onOpenDownload}
             >
-              {getLabel("TXT_BOOKDETAIL_SAVE_BOOK")}
+              {getLabel("TXT_EDITION_SAVE_BOOK")}
             </Button>
           </Paper>
         </Box>
@@ -235,8 +239,19 @@ BookInfo.propTypes = {
   title: PropTypes.string,
   rateAvg: PropTypes.number,
   bookCover: PropTypes.string,
-  lendersList: PropTypes.array,
-  totalLenders: PropTypes.number,
+  editionId: PropTypes.number,
 };
 
-export default BookInfo;
+const mapStateToProps = state => {
+  return {
+    totalLenders: state.editionRedux.totalLenders,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetLendersList: editionId => dispatch({ type: EditionTypes.REQUEST_GET_LENDERS_LIST, editionId: editionId }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookInfo);

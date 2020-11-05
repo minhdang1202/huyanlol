@@ -1,38 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Typography, Box, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import Review from "./Review";
+import Processing from "components/Processing";
+import EditionCreators from "redux/edition.redux";
 
-const BookReviews = () => {
+const BookReviews = ({ reviewsList, editionId, onGetBookReviews }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
-  return (
+  const [pageNum, setPageNum] = useState(1);
+
+  useEffect(() => {
+    onGetBookReviews(editionId, pageNum);
+  }, []);
+
+  return reviewsList ? (
     <Box className={classes.root}>
       <Typography className={classes.title} variant="h6">
-        {getLabel("TXT_BOOKDETAIL_USER_REVIEWS")}
+        {getLabel("TXT_EDITION_USER_REVIEWS")}
       </Typography>
-      {Array(3)
-        .fill(REVIEW_DEMO)
-        .map((review, index) => {
-          return <Review key={index} review={review} />;
-        })}
+      {reviewsList.map((review, index) => {
+        return <Review key={index} review={review} />;
+      })}
     </Box>
+  ) : (
+    <Processing isShow={true} />
   );
-};
-
-const REVIEW_DEMO = {
-  author: "Lê Thu Hân",
-  avatar: "/images/img-demo-avatar.jpg",
-  date: "12 giờ trước",
-  title: "Ai cũng cần có trong đời những tháng ngày lặng lẽ.",
-  rating: 4,
-  thumbnail: "/images/img-demo-avatar.jpg",
-  content:
-    'Mình từng nghe một câu như thế này : "Em phụ trách việc xinh đẹp, anh sẽ lo. Mình từng nghe một câu như thế này : "Em phụ trách việc xinh đẹp, anh sẽ lo',
-  love: 23,
-  comment: 145,
-  hasLoved: true,
 };
 
 const useStyles = makeStyles(theme => ({
@@ -50,4 +46,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default BookReviews;
+const mapStateToProps = state => {
+  return {
+    reviewsList: state.editionRedux.reviewsList,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetBookReviews: (editionId, pageNum) => dispatch(EditionCreators.requestGetReviews({ editionId, pageNum })),
+  };
+};
+
+BookReviews.propTypes = {
+  reviewsList: PropTypes.array,
+  editionId: PropTypes.number,
+  onGetBookReviews: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookReviews);

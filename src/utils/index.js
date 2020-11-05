@@ -1,5 +1,4 @@
 import { AppConstant } from "const";
-import axios from "axios";
 
 export const uuid = () => {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
@@ -87,10 +86,20 @@ export const getTitleNoMark = title => {
   return titleNoMark;
 };
 
-export const getImageBase64 = async imageId => {
-  let image = await axios.get(`https://fordev.gatbook.org/rest/api/common/get_image/${imageId}`, {
-    responseType: "arraybuffer",
-  });
-  image = Buffer.from(image.data, "binary").toString("base64");
-  return image;
+export const getCurrentPosition = () => {
+  let latitude = 21.03;
+  let longitude = 105.84;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+    });
+  }
+
+  return { latitude, longitude };
+};
+
+export const convertUnitToKm = distance => {
+  distance = `${(distance / 1000).toFixed(1)} km`;
+  return distance;
 };

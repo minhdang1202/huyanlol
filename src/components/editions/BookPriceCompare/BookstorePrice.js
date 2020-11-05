@@ -33,7 +33,7 @@ const BookstorePrice = ({ logo, link, freeship, retailPrice, salePrice, isInOfSt
             <Box ml={2} display="flex" flexDirection="column" alignItems="center">
               <CartIcon color={isInOfStock ? theme.palette.primary.main : theme.palette.text.secondary} />
               <Typography className={clsx("mt-4", isInOfStock ? "blue-text" : "")} variant="caption">
-                {isInOfStock ? getLabel("TXT_BOOKDETAIL_IN_OF_STOCK") : getLabel("TXT_BOOKDETAIL_OUT_OF_STOCK")}
+                {isInOfStock ? getLabel("TXT_EDITION_IN_OF_STOCK") : getLabel("TXT_EDITION_OUT_OF_STOCK")}
               </Typography>
             </Box>
           </Hidden>

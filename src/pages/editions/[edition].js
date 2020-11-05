@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
@@ -17,24 +16,26 @@ import {
 } from "components/editions";
 import { InfoIcon, CartIcon } from "icons";
 import { PathConstant } from "const";
-import { getNumberIdFromQuery, getTitleNoMark, getImageBase64 } from "utils";
+import { EditionService, CommonService } from "services";
+import { getNumberIdFromQuery, getTitleNoMark } from "utils";
 import { CustomBreadcrumb } from "components";
 
-const BookDetail = ({ book, bookCover, lendersList, totalLenders }) => {
+const BookDetail = ({ book, bookCover }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const appBarProps = { isDetail: true, className: classes.appBarMobile };
+  const headProps = { title: book.title, description: book.description, ogImage: bookCover };
   const SELECT_TABS = [
     {
       icon: <InfoIcon />,
-      label: getLabel("TXT_BOOKDETAIL_BOOK_INFO"),
+      label: getLabel("TXT_EDITION_BOOK_INFO"),
       value: "info",
     },
     {
       icon: <CartIcon />,
-      label: getLabel("TXT_BOOKDETAIL_BUY_BOOK"),
+      label: getLabel("TXT_EDITION_BUY_BOOK"),
       value: "cart",
     },
   ];
@@ -44,7 +45,7 @@ const BookDetail = ({ book, bookCover, lendersList, totalLenders }) => {
     setSelectedTab(tab);
   };
   return (
-    <MainLayout appBarProps={appBarProps}>
+    <MainLayout appBarProps={appBarProps} headProps={headProps}>
       {isMobile ? (
         <Box>
           <BookInfo
@@ -52,16 +53,15 @@ const BookDetail = ({ book, bookCover, lendersList, totalLenders }) => {
             title={book.title}
             rateAvg={book.rateAvg}
             bookCover={bookCover}
-            lendersList={lendersList}
-            totalLenders={totalLenders}
+            editionId={book.editionId}
           />
           <CustomTabs onChangeTab={onChangeTab} tabs={SELECT_TABS} />
           {selectedTab === SELECT_TABS[0].value ? (
             <>
               <BookDescription description={book.description} />
               <Divider />
-              <WriteReview />
-              <BookReviews />
+              <WriteReview editionId={book.editionId} />
+              <BookReviews editionId={book.editionId} />
             </>
           ) : (
             <Hidden xsUp>
@@ -79,8 +79,7 @@ const BookDetail = ({ book, bookCover, lendersList, totalLenders }) => {
                 title={book.title}
                 rateAvg={book.rateAvg}
                 bookCover={bookCover}
-                lendersList={lendersList}
-                totalLenders={totalLenders}
+                editionId={book.editionId}
               />
               <AppDownload />
               <Hidden xsUp>
@@ -89,9 +88,9 @@ const BookDetail = ({ book, bookCover, lendersList, totalLenders }) => {
             </Grid>
             <Grid item sm={8}>
               <BookDescription description={book.description} />
-              <BookLenders lendersList={lendersList.slice(0, 4)} totalLenders={totalLenders} />
-              <WriteReview />
-              <BookReviews />
+              <BookLenders editionId={book.editionId} />
+              <WriteReview editionId={book.editionId} />
+              <BookReviews editionId={book.editionId} />
             </Grid>
           </Grid>
         </Container>
@@ -136,8 +135,6 @@ const useStyles = makeStyles(theme => ({
 BookDetail.propTypes = {
   book: PropTypes.object,
   bookCover: PropTypes.string,
-  lendersList: PropTypes.array,
-  totalLenders: PropTypes.number,
 };
 
 BookDetail.defaultProps = {
@@ -145,15 +142,15 @@ BookDetail.defaultProps = {
 };
 
 export const getServerSideProps = async ({ res, query }) => {
-  let bookId = query && query.book ? query.book : null;
-  const isOnlyNumber = /^\d+$/.test(bookId);
-  bookId = isOnlyNumber ? bookId : getNumberIdFromQuery(bookId);
-  let book = await axios.get(`https://fordevv2.gatbook.org/api/v1/book_edition/${bookId}`);
-  book = book.data;
+  let editionId = query && query.edition ? query.edition : null;
+  const isOnlyNumber = /^\d+$/.test(editionId);
+  editionId = isOnlyNumber ? editionId : getNumberIdFromQuery(editionId);
+  const bookDetailResponse = await EditionService.getBookDetail(editionId);
+  let book = bookDetailResponse.data;
 
   if (book.data) {
     book = book.data;
-    const { title, editionId, imageId } = book;
+    const { title, imageId } = book;
     if (isOnlyNumber) {
       const bookTitleNoMark = getTitleNoMark(title);
       res.writeHead(301, {
@@ -161,34 +158,12 @@ export const getServerSideProps = async ({ res, query }) => {
       });
       res.end();
     }
-
-    const bookCover = await getImageBase64(imageId);
-
-    let lenders = await axios.put(`https://fordevv2.gatbook.org/api/v1/book_edition/_find_sharing_users`, {
-      criteria: {
-        editionId: editionId,
-      },
-    });
-    lenders = lenders.data.data;
-    const totalLenders = lenders.total;
-    let lendersList = lenders.pageData;
-    // lenders = lenders.map(async lender => {
-    //   const { name, address, distanceToUser, imageId } = lender;
-    //   const lenderAvatar = imageId ? await getImageBase64(imageId) : null;
-    //   return {
-    //     name,
-    //     address,
-    //     distanceToUser,
-    //     lenderAvatar,
-    //   };
-    // });
+    const bookCover = await CommonService.getImageById(imageId);
 
     return {
       props: {
         book: book,
         bookCover: bookCover,
-        lendersList: lendersList,
-        totalLenders: totalLenders,
       },
     };
   }
