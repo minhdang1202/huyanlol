@@ -12,7 +12,7 @@ const ChallengeInfo = () => {
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    height: "385px",
+    height: "336px",
     padding: "24px",
     borderRadius: "10px",
   },

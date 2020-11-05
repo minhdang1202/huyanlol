@@ -61,4 +61,17 @@ export default {
     TXT_LENDERLIST_DISTANCE: "Khoảng cách",
     TXT_LENDERLIST_ARRANGE: "Sắp xếp theo:",
   },
+  challengeDetail: {
+    L_HOME: "Home",
+    L_CHALLENGE: "Thử Thách",
+    L_PERSONAL_GOAL: "Mục tiêu cá nhân",
+    L_POSITIVE_MEMBER: "Thành viên tích cực",
+    L_JOIN: "Tham gia thử thách",
+    L_INVITE: "Mời bạn bè",
+    L_COMPANY: "Công ty Sách và Công nghệ GAT",
+
+    TXT_AND: "và",
+    TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
+    TXT_BOOK_COUNT: "cuốn",
+  },
 };

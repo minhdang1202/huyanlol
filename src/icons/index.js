@@ -10,6 +10,7 @@ import InfoIcon from "./InfoIcon";
 import CartIcon from "./CartIcon";
 import FacebookIcon from "./FacebookIcon";
 import GoogleIcon from "./GoogleIcon";
+import LogoIcon from "./LogoIcon";
 
 export {
   SearchIcon,
@@ -24,4 +25,5 @@ export {
   CartIcon,
   FacebookIcon,
   GoogleIcon,
+  LogoIcon,
 };

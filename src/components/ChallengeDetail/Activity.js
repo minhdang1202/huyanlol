@@ -4,7 +4,9 @@ const Activity = () => {
   const classes = useStyles();
   return (
     <Box className={classes.root}>
-      <Typography variant={"h5"}>Activity</Typography>
+      <Typography variant={"h5"} className={classes.title}>
+        Activity
+      </Typography>
       <Paper className={classes.item}>...</Paper>
       <Paper className={classes.item}>...</Paper>
       <Paper className={classes.item}>...</Paper>
@@ -14,6 +16,13 @@ const Activity = () => {
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
+  },
+  title: {
+    fontSize: "18px",
+    fontWeight: 600,
+    [theme.breakpoints.down("xs")]: {
+      paddingLeft: "20px",
+    },
   },
   item: {
     width: "100%",
