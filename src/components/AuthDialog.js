@@ -100,7 +100,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
               onChange={onChangeEmail}
               helperText={
                 errors ? (
-                  <Typography variant="body1" className={classes.errMessage}>
+                  <Typography variant="body1" className={classes.errMessage} component="span">
                     {errors[0].details}
                   </Typography>
                 ) : null
@@ -131,7 +131,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
               onChange={onChangePass}
               helperText={
                 errors ? (
-                  <Typography variant="body1" className={classes.errMessage}>
+                  <Typography variant="body1" className={classes.errMessage} component="span">
                     {errors[0].details}
                   </Typography>
                 ) : null
@@ -163,7 +163,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
                 onChange={onChangePass2}
                 helperText={
                   errors ? (
-                    <Typography variant="body1" className={classes.errMessage}>
+                    <Typography variant="body1" className={classes.errMessage} component="span">
                       {errors[0].details}
                     </Typography>
                   ) : null
