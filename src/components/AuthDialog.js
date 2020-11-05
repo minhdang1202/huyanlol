@@ -23,7 +23,9 @@ import { GoogleIcon, FacebookIcon } from "icons";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import AuthAction from "../redux/auth.redux";
-
+import GoogleLogin from "react-google-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { AppConstant } from "../const/index";
 const FIXED_UUID = "f4e25588-e48f-4dd5-b7c5-812f68204be4";
 
 const AuthDialog = ({ onClose, isOpen }) => {
@@ -34,7 +36,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
   const dispatch = useDispatch();
 
   const isFetching = useSelector(state => state.authRedux.isFetching);
-  const error = useSelector(state => state.authRedux.error);
+  const errors = useSelector(state => state.authRedux.errors);
 
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -43,13 +45,17 @@ const AuthDialog = ({ onClose, isOpen }) => {
   const [password2, setPassword2] = useState("");
 
   const onLogin = () => {
-    dispatch(AuthAction.requestLogin({ email, password, uuid: FIXED_UUID }));
+    if (email !== "" && password !== "") {
+      dispatch(AuthAction.requestLogin({ email, password, uuid: FIXED_UUID }));
+    } else {
+      dispatch(AuthAction.authFailure({ errors: [{ details: getText("ERR_INVALID_INPUT") }] }));
+    }
   };
   const onRegister = () => {
     if (password !== "" && password === password2) {
       dispatch(AuthAction.requestRegister({ email, password }));
     } else {
-      alert("Re-enter passwords");
+      dispatch(AuthAction.authFailure({ errors: [{ details: getText("ERR_MISSING_INPUT") }] }));
     }
     setIsLogin(true);
   };
@@ -92,6 +98,13 @@ const AuthDialog = ({ onClose, isOpen }) => {
               }}
               value={email}
               onChange={onChangeEmail}
+              helperText={
+                errors ? (
+                  <Typography variant="body1" className={classes.errMessage}>
+                    {errors[0].details}
+                  </Typography>
+                ) : null
+              }
               type="email"
               fullWidth
             />
@@ -116,6 +129,13 @@ const AuthDialog = ({ onClose, isOpen }) => {
               }}
               value={password}
               onChange={onChangePass}
+              helperText={
+                errors ? (
+                  <Typography variant="body1" className={classes.errMessage}>
+                    {errors[0].details}
+                  </Typography>
+                ) : null
+              }
               type={showPassword ? "text" : "password"}
               fullWidth
             />
@@ -141,10 +161,18 @@ const AuthDialog = ({ onClose, isOpen }) => {
                 }}
                 value={password2}
                 onChange={onChangePass2}
+                helperText={
+                  errors ? (
+                    <Typography variant="body1" className={classes.errMessage}>
+                      {errors[0].details}
+                    </Typography>
+                  ) : null
+                }
                 type={showPassword ? "text" : "password"}
                 fullWidth
               />
             )}
+
             <Button
               className={classes.loginBtn}
               fullWidth
@@ -162,26 +190,44 @@ const AuthDialog = ({ onClose, isOpen }) => {
               {getText("TXT_LOGIN_SOCIAL_MEDIA")}
             </Typography>
             <Box className={classes.sclBtnContainer}>
-              <Button
-                className={clsx(classes.sclBtn, classes.fbBtn)}
-                variant="contained"
-                color="primary"
-                startIcon={<FacebookIcon />}
-              >
-                <Typography className={classes.sclBtnText} variant="subtitle1">
-                  Facebook
-                </Typography>
-              </Button>
-              <Button
-                className={clsx(classes.sclBtn, classes.ggBtn)}
-                variant="contained"
-                color="primary"
-                startIcon={<GoogleIcon />}
-              >
-                <Typography className={classes.sclBtnText} variant="subtitle1">
-                  Google
-                </Typography>
-              </Button>
+              <FacebookLogin
+                appId={AppConstant.APP_FACEBOOK}
+                autoLoad={false}
+                fields="name,email,picture"
+                callback={data => console.log(data)}
+                render={renderProps => (
+                  <Button
+                    className={clsx(classes.sclBtn, classes.fbBtn)}
+                    variant="contained"
+                    color="primary"
+                    startIcon={<FacebookIcon />}
+                    onClick={renderProps.onClick}
+                  >
+                    <Typography className={classes.sclBtnText} variant="subtitle1">
+                      Facebook
+                    </Typography>
+                  </Button>
+                )}
+              />
+              <GoogleLogin
+                clientId={AppConstant.APP_GOOGLE}
+                onSuccess={() => console.log("ok")}
+                onFailure={() => console.log("fk")}
+                cookiePolicy={"single_host_origin"}
+                render={renderProps => (
+                  <Button
+                    className={clsx(classes.sclBtn, classes.ggBtn)}
+                    onClick={renderProps.onClick}
+                    variant="contained"
+                    color="primary"
+                    startIcon={<GoogleIcon />}
+                  >
+                    <Typography className={classes.sclBtnText} variant="subtitle1">
+                      Google
+                    </Typography>
+                  </Button>
+                )}
+              />
             </Box>
             <Typography className={classes.footText} variant="body1">
               {isLogin ? getText("TXT_NO_ACC") : getText("TXT_HAVE_ACC")}
@@ -305,6 +351,11 @@ const useStyles = makeStyles(theme => ({
   inputIcon: {
     color: theme.palette.text.secondary,
     cursor: "pointer",
+  },
+  errMessage: {
+    marginTop: "8px",
+    fontSize: "11px",
+    color: theme.palette.danger.main,
   },
   loginBtn: {
     height: "45px",

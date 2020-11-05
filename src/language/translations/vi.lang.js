@@ -31,6 +31,8 @@ export default {
     L_PASSWORD: "Mật khẩu",
     L_PASSWORD2: "Xác nhận mật khẩu",
     //ERR: Error
+    ERR_INVALID_INPUT: "Vui lòng nhập đúng định dạng",
+    ERR_MISSING_INPUT: "Vui lòng điền chính xác và đầy đủ thông tin",
     //MSG: Message
   },
   bookDetail: {

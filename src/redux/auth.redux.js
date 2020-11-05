@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
   isFetching: false,
   isAuth: false,
 
-  error: null,
+  errors: null,
   status: null,
 };
 
@@ -33,7 +33,8 @@ export const success = (state = INITIAL_STATE, action) => {
   return {
     ...state,
     isFetching: false,
-    error: null,
+    isAuth: true,
+    errors: null,
     status: null,
     ...data,
   };
