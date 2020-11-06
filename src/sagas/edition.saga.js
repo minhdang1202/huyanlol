@@ -155,7 +155,7 @@ export function* requestGetReviews(action) {
         pageData.map(review => (review.thumbnailId ? call(CommonService.getImageById, review.thumbnailId) : null)),
       );
       const reviewsList = pageData.map((review, index) => {
-        const { articleId, title, intro, lastUpdate, reactCount, commentCount } = review;
+        const { articleId, title, intro, lastUpdate, reactCount, commentCount, categories } = review;
         const { name } = review.creator;
         return {
           avatar: avatarsList[index],
@@ -167,6 +167,7 @@ export function* requestGetReviews(action) {
           lastUpdate,
           reactCount,
           commentCount,
+          categories
         };
       });
 

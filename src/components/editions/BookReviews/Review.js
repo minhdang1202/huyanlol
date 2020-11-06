@@ -11,7 +11,8 @@ import DialogAppDownload from "components/DialogAppDownload";
 import { FacebookShareButton } from "react-share";
 
 const Review = ({ review, className }) => {
-  const { articleId, title, intro, name, lastUpdate, avatar, thumbnail, reactCount, commentCount } = review || null;
+  const { articleId, title, intro, name, lastUpdate, avatar, thumbnail, reactCount, commentCount, categories } = review;
+  const isReview = categories[0].categoryId === 0;
   const theme = useTheme();
   const classes = useStyles();
   const shareUrl = AppConstant.WEBSITE_URL + PathConstant.ARTICLE_DETAIL_ID(articleId);
@@ -49,7 +50,7 @@ const Review = ({ review, className }) => {
             <Typography className={clsx("eclipse", classes.title)} variant="subtitle1">
               {title}
             </Typography>
-            <CustomRating readOnly={true} defaultValue={0} size="medium" />
+            {isReview && <CustomRating readOnly={true} defaultValue={0} size="medium" />}
             <Typography variant="body2" className={clsx("eclipse", classes.content)}>
               {intro}
             </Typography>
