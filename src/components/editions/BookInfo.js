@@ -104,7 +104,7 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, editionId, ...reduxPr
                 disabled
                 startIcon={<Avatar variant="square" className={classes.userIcon} src="/images/ic-user.png" />}
               >
-                {totalLenders ? totalLenders : <Skeleton width={84} />}
+                {totalLenders || totalLenders === 0 ? totalLenders : <Skeleton width={84} />}
               </Button>
             </Box>
           </Box>
@@ -206,8 +206,6 @@ const useStyles = makeStyles(theme => ({
     },
     "& button": {
       flexGrow: 1,
-      paddingLeft: "0 !important",
-      paddingRight: "0 !important",
     },
   },
   userIcon: {

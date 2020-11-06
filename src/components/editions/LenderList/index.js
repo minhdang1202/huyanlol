@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
-import { DialogContent, Divider, Box, CircularProgress, Hidden, makeStyles } from "@material-ui/core";
+import { DialogContent, Divider, Box, CircularProgress, Hidden, makeStyles, Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { LangConstant } from "const";
 import Dialog from "components/DialogLayout";
@@ -94,7 +94,7 @@ const LenderList = ({ isOpen, onClose, editionId, ...reduxProps }) => {
   return (
     <Dialog open={isOpen}>
       <DialogTitle title={getLabel("TXT_EDITION_LENDERS_TITLE")} onClose={() => onClose()}>
-        {totalLenders ? (
+        {totalLenders || totalLenders === 0 ? (
           <LenderListTitle totalLenders={totalLenders} />
         ) : (
           <Hidden xsDown>
@@ -109,19 +109,25 @@ const LenderList = ({ isOpen, onClose, editionId, ...reduxProps }) => {
           onChangeLenderFilter={onChangeLenderFilter}
         />
       </DialogActions>
-      <DialogContent onScroll={onScroll}>
-        {!hasChangeFilter &&
-          lendersList &&
-          lendersList.map((lender, index) => {
-            return (
-              <Box key={index}>
-                <Lender {...lender} />
-                {index !== lendersList.length - 1 ? <Divider /> : null}
-              </Box>
-            );
-          })}
-        {(isLoading || hasChangeFilter) && <CircularProgress className={classes.loading} />}
-      </DialogContent>
+      {totalLenders != 0 ? (
+        <DialogContent onScroll={onScroll}>
+          {!hasChangeFilter &&
+            lendersList &&
+            lendersList.map((lender, index) => {
+              return (
+                <Box key={index}>
+                  <Lender {...lender} />
+                  {index !== lendersList.length - 1 ? <Divider /> : null}
+                </Box>
+              );
+            })}
+          {(isLoading || hasChangeFilter) && <CircularProgress className={classes.loading} />}
+        </DialogContent>
+      ) : (
+        <DialogContent>
+          <Typography className={classes.text}>{getLabel("TXT_EDITION_NO_LENDER")}</Typography>
+        </DialogContent>
+      )}
     </Dialog>
   );
 };
@@ -132,8 +138,12 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     display: "inherit",
     [theme.breakpoints.down("xs")]: {
-      marginTop: `calc((100% - 40px) / 2)` 
+      marginTop: `calc((100% - 40px) / 2)`,
     },
+  },
+  text: {
+    color: theme.palette.text.secondary,
+    margin: theme.spacing(3, 0),
   },
 }));
 

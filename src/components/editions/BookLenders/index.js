@@ -42,7 +42,7 @@ const BookLenders = ({ editionId, ...reduxProps }) => {
     }
   }, [reduxProps.nearestLenders]);
 
-  return (
+  return totalLenders === 0 ? null : (
     <>
       <LenderList isOpen={isOpen} onClose={onCloseLenderList} editionId={editionId} />
       <Paper className={clsx("paper", classes.root)}>
