@@ -11,6 +11,9 @@ import Section from "./Section";
 import BookSummary from "./BookSummary";
 import CustomRating from "./CustomRating";
 import ListCategory from "./ListCategory";
+import ArticleSummary from "./ArticleSummary";
+import Hashtag from "./Hashtag";
+import CategoryTag from "./CategoryTag";
 
 export {
   AppHead,
@@ -26,4 +29,7 @@ export {
   BookSummary,
   CustomRating,
   ListCategory,
+  ArticleSummary,
+  Hashtag,
+  CategoryTag,
 };

@@ -26,6 +26,9 @@ export default {
     TXT_GAT_COMMUNITY: "Cộng đồng GAT ",
     TXT_SEE_MORE: "Xem Thêm",
     TXT_LIST_CATEGORY: "Khám phá thêm chủ đề",
+    TXT_LOVE: "Ghi nhận",
+    TXT_COMMENT: "Bình luận",
+    TXT_SHARE: "Chia sẻ",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -37,6 +40,7 @@ export default {
 
     //FM: format
     FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
+    FM_NUMBER_COMMENTS: "{0} bình luận",
 
     //ERR: Error
     //MSG: Message
@@ -76,5 +80,6 @@ export default {
     TXT_BOOKSTOP_GAT: "Tham gia Trạm GAT",
     TXT_PROFILE: "Hoàn thiện Profile",
     TXT_MOST_BORROWING_BOOK: "Sách được mượn nhiều",
+    TXT_LIST_ARTICLES: "Article featured today",
   },
 };

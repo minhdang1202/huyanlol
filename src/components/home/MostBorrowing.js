@@ -24,9 +24,7 @@ const MostBorrowing = props => {
 };
 
 MostBorrowing.propTypes = {
-  title: PropTypes.string,
-  icon: PropTypes.node,
-  cover: PropTypes.string,
+  data: PropTypes.array,
 };
 MostBorrowing.defaultProps = {};
 
@@ -59,26 +57,31 @@ const MOCK_DATA = [
     title: "Sự im lặng của bầy cừu",
     author: "Thomas Harris",
     rating: 3,
-    cover: "https://www.pngkit.com/png/detail/319-3198068_natsu-happy-cute-natsu-and-happy.png",
+    cover: "/images/img-demo-avatar.jpg",
   },
   {
     title: "Sự im lặng của bầy cừu",
     author: "Thomas Harris",
     rating: 2,
+    cover: "/images/img-demo-avatar.jpg",
   },
+
   {
     title: "Sự im lặng của bầy cừu",
     author: "Thomas Harris",
     rating: 1,
+    cover: "/images/img-demo-avatar.jpg",
   },
   {
     title: "Sự im lặng của bầy cừu",
     author: "Thomas Harris",
     rating: 4,
+    cover: "/images/img-demo-avatar.jpg",
   },
   {
     title: "Sự im lặng của bầy cừu",
     author: "Thomas Harris",
     rating: 5,
+    cover: "/images/img-demo-avatar.jpg",
   },
 ];

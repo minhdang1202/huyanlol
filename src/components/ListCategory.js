@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2.5),
   },
   item: {
-    padding: 12,
+    padding: 11,
     borderRadius: 4,
     marginRight: theme.spacing(2),
     marginBottom: theme.spacing(1.5),
