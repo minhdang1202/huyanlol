@@ -95,16 +95,10 @@ const AuthDialog = ({ onClose, isOpen }) => {
                 classes: {
                   input: classes.textOfInput,
                 },
+                autoComplete: "off",
               }}
               value={email}
               onChange={onChangeEmail}
-              helperText={
-                errors ? (
-                  <Typography variant="body1" className={classes.errMessage} component="span">
-                    {errors[0].details}
-                  </Typography>
-                ) : null
-              }
               type="email"
               fullWidth
             />
@@ -342,6 +336,7 @@ const useStyles = makeStyles(theme => ({
   textOfInput: {
     fontSize: "18px",
     color: theme.palette.black,
+    height: "30px",
   },
   inputLabel: {
     fontSize: "18px",
@@ -353,8 +348,7 @@ const useStyles = makeStyles(theme => ({
     cursor: "pointer",
   },
   errMessage: {
-    marginTop: "8px",
-    fontSize: "11px",
+    fontSize: "14px",
     color: theme.palette.danger.main,
   },
   loginBtn: {
