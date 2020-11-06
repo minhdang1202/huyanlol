@@ -69,9 +69,11 @@ export default {
     L_JOIN: "Tham gia thử thách",
     L_INVITE: "Mời bạn bè",
     L_COMPANY: "Công ty Sách và Công nghệ GAT",
+    L_MORE: "Xem thêm",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
     TXT_BOOK_COUNT: "cuốn",
+    TXT_JUST_READ: "Vừa đọc xong quyển",
   },
 };

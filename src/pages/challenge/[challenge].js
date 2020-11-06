@@ -69,7 +69,8 @@ const Challenge = () => {
           <Grid container item xs={12} sm={8} direction="column" className={classes.rightContainer}>
             {!isMobile && (
               <Box className={classes.item}>
-                <ChallengeInfo />
+                <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
+                <Goal goal="personal goal" />
               </Box>
             )}
             <Box className={classes.item}>

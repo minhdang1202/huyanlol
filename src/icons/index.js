@@ -11,7 +11,9 @@ import CartIcon from "./CartIcon";
 import FacebookIcon from "./FacebookIcon";
 import GoogleIcon from "./GoogleIcon";
 import LogoIcon from "./LogoIcon";
-
+import GoalIcon from "./GoalIcon";
+import PersonIcon from "./PersonIcon";
+import DateIcon from "./DateIcon";
 export {
   SearchIcon,
   ArrowDownIcon,
@@ -26,4 +28,7 @@ export {
   FacebookIcon,
   GoogleIcon,
   LogoIcon,
+  GoalIcon,
+  PersonIcon,
+  DateIcon,
 };
