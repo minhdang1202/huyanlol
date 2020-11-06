@@ -25,6 +25,7 @@ export default {
     TXT_GAT_UP: "GATUP",
     TXT_GAT_COMMUNITY: "Cộng đồng GAT ",
     TXT_SEE_MORE: "Xem Thêm",
+    TXT_LIST_CATEGORY: "Khám phá thêm chủ đề",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -33,6 +34,10 @@ export default {
     L_EMAIL: "Email",
     L_PASSWORD: "Mật khẩu",
     L_PASSWORD2: "Xác nhận mật khẩu",
+
+    //FM: format
+    FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
+
     //ERR: Error
     //MSG: Message
   },

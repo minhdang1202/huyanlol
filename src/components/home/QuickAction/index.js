@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Box, Grid, makeStyles } from "@material-ui/core";
+import { Box, Grid, makeStyles, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { uuid } from "utils";
@@ -8,6 +8,7 @@ import { BookIcon, PersonIcon } from "icons";
 
 const QuickAction = () => {
   const classes = useStyles();
+  const theme = useTheme();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
 
   const data = [
@@ -24,7 +25,7 @@ const QuickAction = () => {
       title: getLabel("TXT_PROFILE"),
       cover: "/images/img-complete-profile.jpg",
       icon: (
-        <Box color="#5AA4CC">
+        <Box color={theme.palette.primary.main}>
           <PersonIcon />
         </Box>
       ),

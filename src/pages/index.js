@@ -2,6 +2,7 @@ import React from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, Hidden, makeStyles, Container } from "@material-ui/core";
 import { HomeAppDownload, QuickAction, MostBorrowing } from "components/home";
+import { ListCategory } from "components";
 
 const Home = () => {
   const classes = useStyles();
@@ -23,6 +24,7 @@ const Home = () => {
           <Grid item xs={12} sm={5} md={4} className={classes.rightContainer}>
             <Box className={classes.fixedPosition}>
               <QuickAction />
+              <ListCategory />
             </Box>
           </Grid>
         </Grid>

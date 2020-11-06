@@ -10,6 +10,7 @@ import MobileDownloadButton from "./MobileDownloadButton";
 import Section from "./Section";
 import BookSummary from "./BookSummary";
 import CustomRating from "./CustomRating";
+import ListCategory from "./ListCategory";
 
 export {
   AppHead,
@@ -24,4 +25,5 @@ export {
   Section,
   BookSummary,
   CustomRating,
+  ListCategory,
 };
