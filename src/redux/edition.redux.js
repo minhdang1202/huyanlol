@@ -3,10 +3,27 @@ import { createReducer, createActions } from "reduxsauce";
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
   requestGetLendersList: ["data"],
+  getLendersListSuccess: ["data"],
+  getLendersListFailure: ["data"],
+
+  requestGetNearestLenders: ["data"],
+  getNearestLendersSuccess: ["data"],
+  getNearestLendersFailure: ["data"],
+
+  requestGetTotalLenders: ["data"],
+  getTotalLendersSuccess: ["data"],
+  getTotalLendersFailure: ["data"],
+
   requestGetReviews: ["data"],
+  getReviewsSuccess: ["data"],
+  getReviewsFailure: ["data"],
+
   requestGetSelfReview: ["data"],
-  editionSuccess: ["data"],
-  editionFailure: ["data"],
+  getSelfReviewSuccess: ["data"],
+  getSelfReviewFailure: ["data"],
+
+  requestFailure: ["data"],
+  requestSuccess: ["data"],
 });
 
 export const EditionTypes = Types;
@@ -18,24 +35,32 @@ export const INITIAL_STATE = {
 };
 
 /* ------------- Reducers ------------- */
-export const success = (state = INITIAL_STATE, action) => {
+export const requestSuccess = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
-  return {
-    ...state,
-    error: null,
-    ...data,
-  };
+  return { ...state, error: null, ...data };
 };
 
-export const failure = (state = INITIAL_STATE, action) => {
-  const data = action.data ? action.data : {};
+export const requestFailure = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
   return { ...state, ...data };
 };
 
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
-  [Types.EDITION_SUCCESS]: success,
-  [Types.EDITION_FAILURE]: failure,
+  [Types.GET_LENDERS_LIST_SUCCESS]: requestSuccess,
+  [Types.GET_LENDERS_LIST_FAILURE]: requestFailure,
+
+  [Types.GET_REVIEWS_SUCCESS]: requestSuccess,
+  [Types.GET_REVIEWS_FAILURE]: requestFailure,
+
+  [Types.GET_SELF_REVIEW_SUCCESS]: requestSuccess,
+  [Types.GET_SELF_REVIEW_FAILURE]: requestFailure,
+
+  [Types.GET_TOTAL_LENDERS_SUCCESS]: requestSuccess,
+  [Types.GET_TOTAL_LENDERS_FAILURE]: requestFailure,
+
+  [Types.GET_NEAREST_LENDERS_SUCCESS]: requestSuccess,
+  [Types.GET_NEAREST_LENDERS_FAILURE]: requestFailure,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

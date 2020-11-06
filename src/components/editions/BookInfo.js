@@ -24,13 +24,13 @@ import DialogAppDownload from "../DialogAppDownload";
 import { EditionTypes } from "redux/edition.redux";
 
 const BookInfo = ({ authorName, title, rateAvg, bookCover, editionId, ...reduxProps }) => {
+  const { totalLenders, onGetTotalLenders } = reduxProps;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
 
-  const [isAuth, setIsAuth] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [isLenderOpen, setIsLenderOpen] = useState(false);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
@@ -52,7 +52,7 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, editionId, ...reduxPr
   };
 
   useEffect(() => {
-    reduxProps.onGetLendersList(editionId);
+    onGetTotalLenders(editionId);
   }, []);
 
   return (
@@ -104,7 +104,7 @@ const BookInfo = ({ authorName, title, rateAvg, bookCover, editionId, ...reduxPr
                 disabled
                 startIcon={<Avatar variant="square" className={classes.userIcon} src="/images/ic-user.png" />}
               >
-                {reduxProps.totalLenders ? reduxProps.totalLenders : <Skeleton width={84}/>}
+                {totalLenders ? totalLenders : <Skeleton width={84} />}
               </Button>
             </Box>
           </Box>
@@ -250,7 +250,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetLendersList: editionId => dispatch({ type: EditionTypes.REQUEST_GET_LENDERS_LIST, editionId: editionId }),
+    onGetTotalLenders: editionId => dispatch({ type: EditionTypes.REQUEST_GET_TOTAL_LENDERS, editionId: editionId }),
   };
 };
 

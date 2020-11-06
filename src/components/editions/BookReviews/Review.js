@@ -11,7 +11,7 @@ import DialogAppDownload from "components/DialogAppDownload";
 import { FacebookShareButton } from "react-share";
 
 const Review = ({ review, className }) => {
-  const { articleId, title, intro, name, lastUpdate, avatar, thumbnail, reactCount, commentCount } = review;
+  const { articleId, title, intro, name, lastUpdate, avatar, thumbnail, reactCount, commentCount } = review || null;
   const theme = useTheme();
   const classes = useStyles();
   const shareUrl = AppConstant.WEBSITE_URL + PathConstant.ARTICLE_DETAIL_ID(articleId);

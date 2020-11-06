@@ -17,7 +17,7 @@ const LenderListSelect = ({ selectList, lenderFilter, onChangeLenderFilter }) =>
 
   return (
     <>
-      <Box display="flex" alignItems="center">
+      <Box display="flex" alignItems="center" mr="auto">
         <Typography className="mr-4">{getLabel("TXT_EDITION_ARRANGE")}</Typography>
         <FormControl>
           <CommonSelect

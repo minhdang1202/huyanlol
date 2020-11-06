@@ -48,7 +48,7 @@ export default {
     200: "#D4D5D8",
     300: "#B3B5BA",
     400: "#979AA1",
-    500: "#7F838C",
+    500: "#7B93A5",
     600: "#6C7078",
     700: "#4B4D53",
     800: "#3E4045",
@@ -56,7 +56,7 @@ export default {
   },
   text: {
     primary: "#001A39",
-    secondary: "#7B93A5",
+    secondary: "#7B93A5", //Gray 500
     disabled: "#D2D9DE",
     link: "#5AA4CC",
   },

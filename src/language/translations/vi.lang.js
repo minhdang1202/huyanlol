@@ -61,5 +61,8 @@ export default {
     TXT_EDITION_ACTIVITY_DURATION: "Thời gian hoạt động",
     TXT_EDITION_DISTANCE: "Khoảng cách",
     TXT_EDITION_ARRANGE: "Sắp xếp theo:",
+
+    //FM: Format
+    FM_EDITION_BOOK_LENDERS: "{0} bạn cho mượn gần bạn",
   },
 };

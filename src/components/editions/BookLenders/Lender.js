@@ -24,9 +24,7 @@ const Lender = ({ name, avatar, address, distanceToUser }) => {
     <>
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
       <Box>
-        <Avatar className={classes.avatar} src={avatar}>
-          {name}
-        </Avatar>
+        <Avatar className={classes.avatar} src={avatar} />
         <Typography className={clsx("eclipse", "mt-12")} variant="subtitle1">
           {name}
         </Typography>
