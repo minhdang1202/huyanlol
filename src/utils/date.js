@@ -33,7 +33,6 @@ export const getTimestamp = date => {
 export const convertDistanceDate = (date, baseDate, lang) => {
   const isSameDay = differenceInCalendarDays(date, baseDate) == 0;
   const displayDateInSameDay = formatDistance(date, baseDate, {
-    addSuffix: true,
     includeSeconds: true,
     locale: getDateLang(lang),
   });
