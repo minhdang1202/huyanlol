@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Button } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Button, Avatar } from "@material-ui/core";
 
 const IMG_HEIGHT = 378;
 
@@ -8,7 +8,7 @@ const ChallengeCover = () => {
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.img}>img</Box>
+      <Avatar alt="cover" src="/images/img-goal.jpg" variant="square" className={classes.img} />
       <Paper elevation={1} className={classes.coverBack}></Paper>
       <Paper elevation={1} className={classes.content}>
         <Box className={classes.detail}>

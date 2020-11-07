@@ -2,17 +2,7 @@ import React from "react";
 import MainLayout from "../../layouts/MainLayout";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
-import {
-  makeStyles,
-  Container,
-  Breadcrumbs,
-  Link,
-  Typography,
-  useTheme,
-  useMediaQuery,
-  Box,
-  Grid,
-} from "@material-ui/core";
+import { makeStyles, Container, Breadcrumbs, Typography, useTheme, useMediaQuery, Box, Grid } from "@material-ui/core";
 import {
   ChallengeCover,
   InviteFriend,
@@ -35,9 +25,11 @@ const Challenge = () => {
       <Container maxWidth="lg" className={classes.root}>
         {!isMobile && (
           <Breadcrumbs separator={">"} aria-label="breadcrumb" className={classes.breadcrumb}>
-            <Link>{getLabel("L_HOME")}</Link>
-            <Link>{getLabel("L_CHALLENGE")}</Link>
-            <Typography>Challenge.name</Typography>
+            <Typography variant="body2">{getLabel("L_HOME")}</Typography>
+            <Typography variant="body2">{getLabel("L_CHALLENGE")}</Typography>
+            <Typography variant="body2" className={classes.current}>
+              Challenge name
+            </Typography>
           </Breadcrumbs>
         )}
         <Grid container justify="center" spacing={0}>
@@ -93,6 +85,11 @@ const useStyles = makeStyles(theme => ({
   breadcrumb: {
     margin: "18px 0px 24px 0px",
     width: "100%",
+    color: theme.palette.text.secondary,
+    cursor: "pointer",
+  },
+  current: {
+    color: theme.palette.text.primary,
   },
   item: {
     width: "100%",
