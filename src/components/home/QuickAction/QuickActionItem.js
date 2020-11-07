@@ -1,21 +1,24 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
-import { Box, CardActionArea, CardContent, CardMedia, makeStyles, Typography } from "@material-ui/core";
+import { Box, Card, CardContent, CardMedia, makeStyles, Typography } from "@material-ui/core";
+import AppLink from "components/AppLink";
 
 const QuickActionItem = props => {
   const { title, cover, icon } = props;
   const classes = useStyles();
 
   return (
-    <CardActionArea className={classes.root}>
-      <CardMedia className={classes.cover} image={cover} title={title} />
-      <CardContent className={classes.content}>
-        <Box className={classes.icon}>{icon}</Box>
-        <Typography variant="subtitle1" component="p">
-          {title}
-        </Typography>
-      </CardContent>
-    </CardActionArea>
+    <AppLink>
+      <Card className={classes.root}>
+        <CardMedia className={classes.cover} image={cover} title={title} />
+        <CardContent className={classes.content}>
+          <Box className={classes.icon}>{icon}</Box>
+          <Typography variant="subtitle1" component="p">
+            {title}
+          </Typography>
+        </CardContent>
+      </Card>
+    </AppLink>
   );
 };
 
@@ -34,6 +37,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     height: "100%",
+    padding: 0,
     borderRadius: 10,
     boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.08)",
     overflow: "hidden",

@@ -1,7 +1,7 @@
 import React from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, Hidden, makeStyles, Container } from "@material-ui/core";
-import { HomeAppDownload, QuickAction, MostBorrowing, ListArticles } from "components/home";
+import { HomeAppDownload, QuickAction, MostBorrowing, ListArticles, ListReviews } from "components/home";
 import { ListCategory } from "components";
 
 const Home = () => {
@@ -20,12 +20,15 @@ const Home = () => {
           </Hidden>
           <Grid item xs={12} sm={7} md={6} className={classes.mainContainer}>
             <MostBorrowing />
+            <ListReviews />
             <ListArticles />
           </Grid>
           <Grid item xs={12} sm={5} md={4} className={classes.rightContainer}>
             <Box className={classes.fixedPosition}>
               <QuickAction />
-              <ListCategory />
+              <Hidden xsDown>
+                <ListCategory />
+              </Hidden>
             </Box>
           </Grid>
         </Grid>

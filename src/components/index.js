@@ -14,6 +14,7 @@ import ListCategory from "./ListCategory";
 import ArticleSummary from "./ArticleSummary";
 import Hashtag from "./Hashtag";
 import CategoryTag from "./CategoryTag";
+import ReviewSummary from "./ReviewSummary";
 
 export {
   AppHead,
@@ -32,4 +33,5 @@ export {
   ArticleSummary,
   Hashtag,
   CategoryTag,
+  ReviewSummary,
 };
