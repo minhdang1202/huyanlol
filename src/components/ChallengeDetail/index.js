@@ -4,5 +4,7 @@ import InviteFriend from "./InviteFriend";
 import PositiveMember from "./PositiveMember";
 import ChallengeInfo from "./ChallengeInfo";
 import Goal from "./Goal";
-
-export { ChallengeCover, Activity, InviteFriend, PositiveMember, ChallengeInfo, Goal };
+import Company from "./Company";
+import GoalList from "./GoalList";
+import Description from "./Description";
+export { ChallengeCover, Activity, InviteFriend, PositiveMember, ChallengeInfo, Goal, Company, GoalList, Description };

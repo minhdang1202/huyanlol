@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles, Typography, Box, Paper } from "@material-ui/core";
+import { makeStyles, Typography, Paper } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { GoalIcon } from "../../icons/index";
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: "2px",
     padding: "24px",
     justifyContent: "space-around",
-    borderRadius: "0px 0px 10px 10px",
+    borderRadius: "0px",
   },
   titleContainer: {
     display: "flex",

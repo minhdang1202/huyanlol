@@ -1,18 +1,54 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Button } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Avatar } from "@material-ui/core";
+
+const ACT_DATA = {
+  name: "Duongdz",
+  time: "12 giờ trước",
+  activity: " vừa đọc xong quyển ",
+  book: "Nghệ Thuật Bài Trí Của Người Nhật",
+};
+const Item = ({ data }) => {
+  const classes = useStyles();
+  return (
+    <Paper className={classes.item}>
+      <Box className={classes.itemTop}>
+        <Avatar alt="Trump" src="/images/img-avatar.jpg" />
+        <Box className={classes.topText}>
+          <Typography variant="subtitle2">{data.name}</Typography>
+          <Typography variant="caption">{data.time}</Typography>
+        </Box>
+      </Box>
+      <Box className={classes.content}>
+        <Typography className={classes.text}>
+          <Typography component="span" variant="subtitle1">
+            {data.name}
+          </Typography>
+          <Typography component="span" variant="body1">
+            {data.activity}
+          </Typography>
+          <Typography component="span" variant="subtitle1">
+            {data.book}
+          </Typography>
+        </Typography>
+        <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.img} />
+      </Box>
+    </Paper>
+  );
+};
 const Activity = () => {
   const classes = useStyles();
   return (
     <Box className={classes.root}>
-      <Typography variant={"h5"} className={classes.title}>
-        Activity
+      <Typography variant={"h6"} className={classes.title}>
+        Hoạt động
       </Typography>
-      <Paper className={classes.item}>...</Paper>
-      <Paper className={classes.item}>...</Paper>
-      <Paper className={classes.item}>...</Paper>
+      <Item data={ACT_DATA} className={classes.item} />
+      <Item data={ACT_DATA} className={classes.item} />
+      <Item data={ACT_DATA} className={classes.item} />
     </Box>
   );
 };
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -26,12 +62,38 @@ const useStyles = makeStyles(theme => ({
   },
   item: {
     width: "100%",
-    height: "213px",
     borderRadius: "10px",
     margin: "16px 0px 16px 0px",
+    [theme.breakpoints.down("xs")]: {
+      margin: "2px 0px 2px 0px",
+    },
+  },
+
+  itemTop: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  avatar: {
+    width: "32px",
+    height: "32px",
+  },
+  topText: {
+    marginLeft: theme.spacing(1),
+    display: "flex",
+    flexDirection: "column",
+  },
+  content: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  img: {
+    width: "94px",
+    height: "142px",
+    borderRadius: "6px",
+  },
+  text: {
+    "&>:nth-child(3)": {
+      color: theme.palette.primary.main,
+    },
   },
 }));
 export default Activity;

@@ -12,7 +12,6 @@ import {
   useMediaQuery,
   Box,
   Grid,
-  Paper,
 } from "@material-ui/core";
 import {
   ChallengeCover,
@@ -21,16 +20,19 @@ import {
   Activity,
   ChallengeInfo,
   Goal,
+  Company,
+  GoalList,
+  Description,
 } from "../../../src/components/ChallengeDetail";
-import { LogoIcon } from "../../icons/index";
 const Challenge = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: "asdasdasd" };
   return (
-    <MainLayout>
-      <Container maxWidth="md" className={classes.root}>
+    <MainLayout appBarProps={appBarProps}>
+      <Container maxWidth="lg" className={classes.root}>
         {!isMobile && (
           <Breadcrumbs separator={">"} aria-label="breadcrumb" className={classes.breadcrumb}>
             <Link>{getLabel("L_HOME")}</Link>
@@ -38,8 +40,8 @@ const Challenge = () => {
             <Typography>Challenge.name</Typography>
           </Breadcrumbs>
         )}
-        <Grid container justify="space-between" spacing={0}>
-          <Grid container alignItems="center" item xs={12} sm={4} direction="column">
+        <Grid container justify="center" spacing={0}>
+          <Grid container alignItems="center" item xs={12} sm={3} direction="column">
             <Box className={classes.item}>
               <ChallengeCover />
             </Box>
@@ -54,25 +56,22 @@ const Challenge = () => {
             </Box>
             {!isMobile && (
               <Box className={classes.item}>
-                <Paper elevation={1} className={classes.logoContainer}>
-                  <Box className={classes.logoOutline}>
-                    <LogoIcon />
-                  </Box>
-                  <Typography variant="h5" className={classes.coName}>
-                    {getLabel("L_COMPANY")}
-                  </Typography>
-                </Paper>
+                <Company />
               </Box>
             )}
           </Grid>
 
-          <Grid container item xs={12} sm={8} direction="column" className={classes.rightContainer}>
+          <Grid container item xs={12} sm={7} direction="column" className={classes.rightContainer}>
             {!isMobile && (
               <Box className={classes.item}>
                 <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
                 <Goal goal="personal goal" />
+                <GoalList />
               </Box>
             )}
+            <Box className={classes.item}>
+              <Description />
+            </Box>
             <Box className={classes.item}>
               <PositiveMember />
             </Box>
@@ -108,25 +107,17 @@ const useStyles = makeStyles(theme => ({
       padding: "0px",
     },
   },
-  logoContainer: {
-    height: "157px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "column",
-  },
-  logoOutline: {
-    height: "72px",
-    width: "72px",
-    borderRadius: "40px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    border: `solid 1px ${theme.palette.text.link}`,
-  },
-  coName: {
-    fontSize: "18px",
-    color: "#2d6291",
+  appBarMobile: {
+    color: theme.palette.text.primary,
+    background: theme.palette.white,
+    [theme.breakpoints.down("xs")]: {
+      position: "static !important",
+      boxShadow: "none !important",
+      background: "none !important",
+      "& svg": {
+        fill: `${theme.palette.white} !important`,
+      },
+    },
   },
 }));
 export default Challenge;

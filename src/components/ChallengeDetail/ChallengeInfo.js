@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box } from "@material-ui/core";
+import { makeStyles, Typography, Paper } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { PersonIcon, DateIcon } from "../../icons/index";
 const ChallengeInfo = ({ name, count, from, to }) => {
@@ -12,17 +12,17 @@ const ChallengeInfo = ({ name, count, from, to }) => {
       <Typography className={classes.content}>
         <Typography variant="body1" component="span" className={classes.centerText}>
           <PersonIcon />
-          <Typography component="span">{`${count} nguoi`}</Typography>
+          <Typography component="span" className={classes.text}>{`${count} people`}</Typography>
         </Typography>
         <Typography variant="body1" component="span" className={classes.centerText}>
           <DateIcon />
-          <Typography component="span">{`${from} to ${to}`}</Typography>
+          <Typography component="span" className={classes.text}>{`${from} to ${to}`}</Typography>
         </Typography>
       </Typography>
     </Paper>
   );
 };
-ChallengeInfo.PropTypes = {
+ChallengeInfo.propTypes = {
   name: PropTypes.string,
   count: PropTypes.number,
   from: PropTypes.string,
@@ -36,18 +36,22 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "10px 10px 0px 0px",
   },
   title: {
-    fontSize: "24px",
     marginBottom: "24px",
   },
   content: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    "&>*:nth-child(2)": {
+      marginLeft: "40px",
+    },
   },
   centerText: {
     display: "flex",
     alignItems: "center",
     margin: "5px 0px 5px 0px",
-    width: "250px",
+  },
+  text: {
+    marginLeft: "8px",
   },
 }));
 export default ChallengeInfo;
