@@ -26,8 +26,8 @@ import {
   CustomTabs,
 } from "components/editions";
 import { PathConstant, AppConstant } from "const";
-import { EditionService, CommonService } from "services";
-import { getNumberIdFromQuery, getTitleNoMark } from "utils";
+import { EditionService } from "services";
+import { getNumberIdFromQuery, getTitleNoMark, getImageById } from "utils";
 import { CustomBreadcrumb } from "components";
 
 const BookDetail = ({ book, bookCover }) => {
@@ -130,7 +130,7 @@ export const getServerSideProps = async ({ res, query }) => {
       });
       res.end();
     }
-    const bookCover = await CommonService.getImageById(imageId);
+    const bookCover = imageId ? getImageById(imageId) : null;
 
     return {
       props: {

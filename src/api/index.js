@@ -18,6 +18,3 @@ export const createApiWithToken = (initConfig = API_CONFIG_REG, token) => {
 };
 
 export const createApi = () => createApiWithToken(API_CONFIG_REG);
-
-export const createGetImgApi = () =>
-  createApiWithToken({ ...API_CONFIG_REG, baseURL: ApiConstant.GET_IMG_API, responseType: "arraybuffer" });

@@ -20,10 +20,6 @@ body {
   line-height: normal;
 }
 
-span {
-  line-height: normal;
-}
-
 .center-root {
   display: flex;
   align-items: center;
@@ -81,38 +77,6 @@ p,
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-}
-
-.blue-text {
-  color: $color-primary-main !important;
-}
-
-.grey-text {
-  color: $color-text-secondary !important;
-}
-
-.light-blue-button {
-  color: $color-primary-main !important;
-  background: $color-blue-light !important;
-  &:hover {
-    background: $color-primary-200 !important;
-  }
-}
-
-.dark-blue-button {
-  color: $color-white !important;
-  background: $color-primary-main !important;
-  &:hover {
-    background: $color-primary-dark !important;
-  }
-}
-
-.white-button {
-  color: $color-text-secondary !important;
-  background: $color-white !important;
-  &:hover {
-    color: $color-grey-600 !important;
-  }
 }
 
 .paper {

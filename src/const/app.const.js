@@ -13,6 +13,7 @@ export const SORT_ORDER = {
 
 // Base url
 export const WEBSITE_URL = "https://solution.relipasoft.com";
+export const BASE_IMAGE_URL = "https://fordev.gatbook.org/rest/api/common/get_image/{0}";
 
 // App download url
 export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat";

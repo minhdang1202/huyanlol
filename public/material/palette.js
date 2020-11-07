@@ -34,15 +34,6 @@ export default {
     main: "#64DB88",
     light: "#A4F3AC",
   },
-  reservation: {
-    pending: "#ffaa6e",
-    confirm: "#ffb3b0",
-    seated: "#b8afff",
-    active: "#65b39d",
-    finished: "#ef5845",
-    cancel: "#9d9fa5",
-    reject: "#9d9fa5",
-  },
   grey: {
     100: "#FAFAFB",
     200: "#D4D5D8",
@@ -56,7 +47,7 @@ export default {
   },
   text: {
     primary: "#001A39",
-    secondary: "#7B93A5", //Gray 500
+    secondary: "#7B93A5",
     disabled: "#D2D9DE",
     link: "#5AA4CC",
   },

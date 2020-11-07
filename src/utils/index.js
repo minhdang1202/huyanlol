@@ -1,4 +1,5 @@
 import { AppConstant } from "const";
+import StringFormat from "string-format";
 
 export const uuid = () => {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
@@ -102,4 +103,8 @@ export const getCurrentPosition = () => {
 export const convertUnitToKm = distance => {
   distance = `${(distance / 1000).toFixed(1)} km`;
   return distance;
+};
+
+export const getImageById = imageId => {
+  return StringFormat(AppConstant.BASE_IMAGE_URL, imageId);
 };

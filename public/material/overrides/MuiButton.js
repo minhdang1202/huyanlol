@@ -30,6 +30,7 @@ const textSizeLarge = { fontSize: "18px" };
 export default {
   root: {
     textTransform: "none",
+    lineHeight: "normal",
   },
   contained: {
     boxShadow: "none",

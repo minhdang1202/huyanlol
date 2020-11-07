@@ -1,8 +1,8 @@
-import { call, put, all } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 import { ApiConstant, AppConstant } from "const";
 import EditionAction from "redux/edition.redux";
-import { EditionService, CommonService } from "services";
-import { getCurrentPosition } from "utils";
+import { EditionService } from "services";
+import { getCurrentPosition, getImageById } from "utils";
 import { PAGE_SIZE_REVIEWS } from "components/editions/BookReviews";
 
 export function* requestGetLendersList(action) {
@@ -27,13 +27,11 @@ export function* requestGetLendersList(action) {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
       let { pageData, total } = responseData;
-      const avatarsList = yield all(
-        pageData.map(lender => (lender.imageId ? call(CommonService.getImageById, lender.imageId) : null)),
-      );
-      const lendersList = pageData.map((lender, index) => {
-        const { distanceToUser, name, address } = lender;
+      const lendersList = pageData.map(lender => {
+        const { distanceToUser, name, address, imageId } = lender;
+        const avatar = imageId ? getImageById(imageId) : null;
         return {
-          avatar: avatarsList[index],
+          avatar,
           distanceToUser,
           name,
           address,
@@ -71,13 +69,11 @@ export function* requestGetNearestLenders(action) {
       let responseData = response.data.data;
       let { pageData, total } = responseData;
       pageData = pageData.slice(0, 4);
-      const avatarsList = yield all(
-        pageData.map(lender => (lender.imageId ? call(CommonService.getImageById, lender.imageId) : null)),
-      );
-      const nearestLenders = pageData.map((lender, index) => {
-        const { distanceToUser, name, address } = lender;
+      const nearestLenders = pageData.map(lender => {
+        const { distanceToUser, name, address, imageId } = lender;
+        const avatar = imageId ? getImageById(imageId) : null;
         return {
-          avatar: avatarsList[index],
+          avatar,
           distanceToUser,
           name,
           address,
@@ -122,8 +118,8 @@ export function* requestGetSelfReview(action) {
       let responseData = response.data.data;
       const { rate, review } = responseData.userRelation.evaluation;
       const { name, imageId } = responseData.users;
-      const avatar = imageId ? yield call(CommonService.getImageById, imageId) : null;
-      yield put(EditionAction.requesEditiontSuccess({ rate, review, name, avatar }));
+      const avatar = imageId ? getImageById(imageId) : null;
+      yield put(EditionAction.requestEditiontSuccess({ rate, review, name, avatar }));
     }
   } catch (error) {
     console.log(error);
@@ -147,21 +143,25 @@ export function* requestGetReviews(action) {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
       const { pageData, total } = responseData;
-      const avatarsList = yield all(
-        pageData.map(review =>
-          review.creator.imageId ? call(CommonService.getImageById, review.creator.imageId) : null,
-        ),
-      );
-      const thumbnailsList = yield all(
-        pageData.map(review => (review.thumbnailId ? call(CommonService.getImageById, review.thumbnailId) : null)),
-      );
-      const reviewsList = pageData.map((review, index) => {
-        const { articleId, title, intro, lastUpdate, reactCount, commentCount, editions } = review;
+      const reviewsList = pageData.map(review => {
+        const {
+          articleId,
+          title,
+          intro,
+          lastUpdate,
+          reactCount,
+          commentCount,
+          editions,
+          imageId,
+          thumbnailId,
+        } = review;
         const rate = editions[0].userRelation.evaluation.rate;
+        const avatar = imageId ? getImageById(imageId) : null;
+        const thumbnail = thumbnailId ? getImageById(thumbnailId) : null;
         const { name } = review.creator;
         return {
-          avatar: avatarsList[index],
-          thumbnail: thumbnailsList[index],
+          avatar,
+          thumbnail,
           articleId,
           title,
           intro,
