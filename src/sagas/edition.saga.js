@@ -3,7 +3,6 @@ import { ApiConstant, AppConstant } from "const";
 import EditionAction from "redux/edition.redux";
 import { EditionService } from "services";
 import { getCurrentPosition, getImageById } from "utils";
-import { PAGE_SIZE_REVIEWS } from "components/editions/BookReviews";
 
 export function* requestGetLendersList(action) {
   const { editionId, pageNum, sort } = action;
@@ -16,7 +15,7 @@ export function* requestGetLendersList(action) {
       availableStatus: true,
     },
     pageNum: pageNum,
-    pageSize: 10,
+    pageSize: AppConstant.DATA_SIZES.articles,
     sorts: {
       ...sort,
     },
@@ -135,7 +134,7 @@ export function* requestGetReviews(action) {
       categoryIds: [categoryId],
     },
     pageNum: pageNum,
-    pageSize: PAGE_SIZE_REVIEWS,
+    pageSize: AppConstant.DATA_SIZES.articles,
   };
   let response = yield call(EditionService.getBookReviews, bodyReq);
 

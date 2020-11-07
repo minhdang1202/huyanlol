@@ -50,7 +50,7 @@ const Review = ({ review, className }) => {
             <Typography className={clsx("eclipse", classes.title)} variant="subtitle1">
               {title}
             </Typography>
-            <CustomRating readOnly={true} defaultValue={rate} size="medium" />
+            <CustomRating readOnly={true} defaultValue={rate} />
             <Typography variant="body2" className={clsx("eclipse", classes.content)}>
               {intro}
             </Typography>

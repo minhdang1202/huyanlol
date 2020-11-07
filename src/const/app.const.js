@@ -11,6 +11,12 @@ export const SORT_ORDER = {
   desc: "DESC",
 };
 
+//Size to infinite scroll
+export const DATA_SIZES = {
+  books: 9,
+  articles: 10,
+};
+
 // Base url
 export const WEBSITE_URL = "https://solution.relipasoft.com";
 export const BASE_IMAGE_URL = "https://fordev.gatbook.org/rest/api/common/get_image/{0}";

@@ -83,8 +83,6 @@ const BookReviews = ({ editionId }) => {
   );
 };
 
-export const PAGE_SIZE_REVIEWS = 2;
-
 const useStyles = makeStyles(theme => ({
   root: {
     overflowX: "hidden",

@@ -10,7 +10,7 @@ const DownloadButtons = ({ className }) => {
   return (
     <Grid container className={clsx(classes.root, className)}>
       <Grid item>
-        <AppLink as={AppConstant.GAT_APP_STORE}>
+        <AppLink target="_blank" as={AppConstant.GAT_APP_STORE}>
           <Button>
             <Avatar className={classes.downloadBtn} variant="square" src="/images/img-app-store.png">
               App Store
@@ -19,7 +19,7 @@ const DownloadButtons = ({ className }) => {
         </AppLink>
       </Grid>
       <Grid item>
-        <AppLink as={AppConstant.GAT_GG_PLAY}>
+        <AppLink target="_blank" as={AppConstant.GAT_GG_PLAY}>
           <Button>
             <Avatar className={classes.downloadBtn} variant="square" src="/images/img-gg-play.png">
               Google Play

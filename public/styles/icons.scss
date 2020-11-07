@@ -66,6 +66,11 @@
   font-size: 16px;
 }
 
+.ic-star:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f005";
+}
+
 .ic-bookmark:before {
   font-family: "FontAwesome5Pro-Solid";
   content: "\f02e";
