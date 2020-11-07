@@ -5,6 +5,7 @@ import { LangConstant } from "const";
 import clsx from "clsx";
 import { makeStyles, Avatar, Button, Typography, Box, Hidden } from "@material-ui/core";
 import { convertUnitToKm } from "utils";
+import { AddressIcon } from "icons";
 import DialogAppDownload from "components/DialogAppDownload";
 
 const Lender = ({ name, avatar, distanceToUser, address }) => {
@@ -56,12 +57,9 @@ const Lender = ({ name, avatar, distanceToUser, address }) => {
 };
 
 const Distance = ({ distance, ...otherProps }) => {
-  const classes = useStyles();
   return (
-    <Box display="flex" alignItems="center" {...otherProps}>
-      <Avatar className={clsx(classes.addressIcon, "mr-4")} src="/images/ic-address.png">
-        Address icon
-      </Avatar>
+    <Box display="flex" alignItems="center" minWidth="fit-content" {...otherProps}>
+      <Box className={clsx("mr-4", "ic-address")} />
       <Typography variant="body2">{convertUnitToKm(distance)}</Typography>
     </Box>
   );
@@ -85,12 +83,12 @@ const useStyles = makeStyles(theme => ({
     height: 14,
   },
   button: {
-    padding: theme.spacing(1.5, 2),
     minWidth: "fit-content",
+    padding: theme.spacing(0, 1.5),
     height: 43,
     [theme.breakpoints.down("xs")]: {
+      padding: theme.spacing(0, 1),
       height: 33,
-      padding: theme.spacing(1, 1.5),
     },
   },
   disabledButton: {

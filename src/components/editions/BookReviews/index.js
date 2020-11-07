@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, CircularProgress, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import Review from "./Review";
-import EditionAction from "redux/edition.redux";
+import { EditionTypes } from "redux/edition.redux";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 
-const BookReviews = ({ editionId, ...reduxProps }) => {
-  const { onGetBookReviews, totalReviews } = reduxProps;
+const BookReviews = ({ editionId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
+  const categoryId = 0; // Default filter
+
+  const dispatch = useDispatch();
+  const dispatchGetBookReviews = data => dispatch({ type: EditionTypes.REQUEST_GET_REVIEWS, ...data });
+
+  const [reviews, totalReviews] = useSelector(state => [
+    state.editionRedux.reviewsList,
+    state.editionRedux.totalReviews,
+  ]);
+
   const [reviewsList, setReviewsList] = useState();
   const [pageNum, setPageNum] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +39,7 @@ const BookReviews = ({ editionId, ...reduxProps }) => {
   };
 
   const onFetchMoreData = () => {
-    onGetBookReviews(editionId, pageNum + 1);
+    dispatchGetBookReviews({ editionId, pageNum: pageNum + 1, categoryId });
     setPageNum(pageNum + 1);
   };
 
@@ -43,25 +52,25 @@ const BookReviews = ({ editionId, ...reduxProps }) => {
   });
 
   useEffect(() => {
-    onGetBookReviews(editionId, pageNum);
+    dispatchGetBookReviews({ editionId, pageNum, categoryId });
   }, []);
 
   useEffect(() => {
     if (reviewsList) {
-      setReviewsList(reviewsList.concat(reduxProps.reviewsList));
+      setReviewsList(reviewsList.concat(reviews));
       setIsLoading(false);
       return;
     }
-    if (reduxProps.reviewsList) {
-      setReviewsList(reduxProps.reviewsList);
+    if (reviews) {
+      setReviewsList(reviews);
       setIsLoading(false);
     }
-  }, [reduxProps.reviewsList]);
+  }, [reviews]);
 
   return (
     <Box className={classes.root}>
       <Typography className={classes.title} variant="h6">
-        {getLabel("TXT_EDITION_USER_REVIEWS")}
+        {getLabel("TXT_EDITION_USER_COMMENTS")}
       </Typography>
       <Box>
         {reviewsList &&
@@ -96,22 +105,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = state => {
-  const { reviewsList, totalReviews } = state.editionRedux;
-  return {
-    reviewsList,
-    totalReviews,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onGetBookReviews: (editionId, pageNum) => dispatch(EditionAction.requestGetReviews({ editionId, pageNum })),
-  };
-};
-
 BookReviews.propTypes = {
   editionId: PropTypes.number,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookReviews);
+export default BookReviews;

@@ -42,23 +42,20 @@ const Tab = withStyles(theme => ({
   },
   labelIcon: {
     textTransform: "none",
-    color: theme.palette.text.secondary,
     minHeight: "inherit",
+    color: theme.palette.text.secondary,
   },
   selected: {
     borderBottom: `1px solid ${theme.palette.primary.main}`,
     color: theme.palette.primary.main,
-    "& path": {
-      fill: `${theme.palette.primary.main} !important`,
-    },
   },
   wrapper: {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
-    "& > svg": {
-      marginRight: theme.spacing(0.7),
-      marginBottom: "1px !important",
+    "& > *:first-child": {
+      marginBottom: "0 !important",
+      paddingRight: theme.spacing(1),
     },
   },
 }))(MuiTab);

@@ -11,7 +11,7 @@ const DialogLayout = ({ children, className, ...otherProps }) => {
     <Dialog
       open={false}
       fullScreen={isMobile}
-      classes={{ root: classes.root, paper: className }}
+      classes={{ root: classes.root, container: classes.container, paperScrollPaper: classes.paper, paper: className }}
       fullWidth
       maxWidth="sm"
       {...otherProps}
@@ -26,10 +26,19 @@ export const PADDING_X_DIALOG = "24px";
 const useStyles = makeStyles(theme => ({
   root: {
     height: `calc((100vh - ${HEIGHT_APP_BAR}) * 0.95)`,
-    margin: "auto 0",
+    "&>*": {
+      margin: "auto 0",
+    },
     [theme.breakpoints.down("xs")]: {
       height: "100vh",
     },
+  },
+  paper: {
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  container: {
+    height: "100vh",
   },
 }));
 

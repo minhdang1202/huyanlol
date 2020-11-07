@@ -7,6 +7,7 @@ import MuiLink from "./MuiLink";
 import MuiPopover from "./MuiPopover";
 import MuiDialog from "./MuiDialog";
 import MuiCircularProgress from "./MuiCircularProgress";
+import MuiRating from "./MuiRating";
 
 export default {
   MuiButton,
@@ -18,4 +19,5 @@ export default {
   MuiPopover,
   MuiDialog,
   MuiCircularProgress,
+  MuiRating,
 };

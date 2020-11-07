@@ -2,28 +2,28 @@ import { createReducer, createActions } from "reduxsauce";
 
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
-  requestGetLendersList: ["data"],
+  requestGetLendersList: null,
   getLendersListSuccess: ["data"],
   getLendersListFailure: ["data"],
-
-  requestGetNearestLenders: ["data"],
+  
+  requestGetNearestLenders: null,
   getNearestLendersSuccess: ["data"],
   getNearestLendersFailure: ["data"],
 
-  requestGetTotalLenders: ["data"],
+  requestGetTotalLenders: null,
   getTotalLendersSuccess: ["data"],
   getTotalLendersFailure: ["data"],
 
-  requestGetReviews: ["data"],
+  requestGetReviews: null,
   getReviewsSuccess: ["data"],
   getReviewsFailure: ["data"],
 
-  requestGetSelfReview: ["data"],
+  requestGetSelfReview: null,
   getSelfReviewSuccess: ["data"],
   getSelfReviewFailure: ["data"],
 
-  requestFailure: ["data"],
-  requestSuccess: ["data"],
+  requestEditionFailure: ["data"],
+  requestEditionSuccess: ["data"],
 });
 
 export const EditionTypes = Types;
@@ -35,32 +35,32 @@ export const INITIAL_STATE = {
 };
 
 /* ------------- Reducers ------------- */
-export const requestSuccess = (state = INITIAL_STATE, action) => {
+export const requestEditionSuccess = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
   return { ...state, error: null, ...data };
 };
 
-export const requestFailure = (state = INITIAL_STATE, action) => {
+export const requestEditionFailure = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
   return { ...state, ...data };
 };
 
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
-  [Types.GET_LENDERS_LIST_SUCCESS]: requestSuccess,
-  [Types.GET_LENDERS_LIST_FAILURE]: requestFailure,
+  [Types.GET_LENDERS_LIST_SUCCESS]: requestEditionSuccess,
+  [Types.GET_LENDERS_LIST_FAILURE]: requestEditionFailure,
 
-  [Types.GET_REVIEWS_SUCCESS]: requestSuccess,
-  [Types.GET_REVIEWS_FAILURE]: requestFailure,
+  [Types.GET_REVIEWS_SUCCESS]: requestEditionSuccess,
+  [Types.GET_REVIEWS_FAILURE]: requestEditionFailure,
 
-  [Types.GET_SELF_REVIEW_SUCCESS]: requestSuccess,
-  [Types.GET_SELF_REVIEW_FAILURE]: requestFailure,
+  [Types.GET_SELF_REVIEW_SUCCESS]: requestEditionSuccess,
+  [Types.GET_SELF_REVIEW_FAILURE]: requestEditionFailure,
 
-  [Types.GET_TOTAL_LENDERS_SUCCESS]: requestSuccess,
-  [Types.GET_TOTAL_LENDERS_FAILURE]: requestFailure,
+  [Types.GET_TOTAL_LENDERS_SUCCESS]: requestEditionSuccess,
+  [Types.GET_TOTAL_LENDERS_FAILURE]: requestEditionFailure,
 
-  [Types.GET_NEAREST_LENDERS_SUCCESS]: requestSuccess,
-  [Types.GET_NEAREST_LENDERS_FAILURE]: requestFailure,
+  [Types.GET_NEAREST_LENDERS_SUCCESS]: requestEditionSuccess,
+  [Types.GET_NEAREST_LENDERS_FAILURE]: requestEditionFailure,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

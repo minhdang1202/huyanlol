@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Paper, Typography, Box, Avatar, Button, Hidden, makeStyles } from "@material-ui/core";
+import { Paper, Typography, Box, Avatar, Button, Hidden, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import { convertFormat } from "utils/date";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,8 @@ import { EditionTypes } from "redux/edition.redux";
 
 const WriteReview = ({ name, avatar, rate, review }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const currentDate = convertFormat(new Date(), "dd/MM/yyyy");
 
@@ -34,7 +36,7 @@ const WriteReview = ({ name, avatar, rate, review }) => {
     <>
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
       <Paper className={clsx("paper", classes.root)}>
-        <Typography variant="h6">{getLabel("TXT_EDITION_REVIEW")}</Typography>
+        <Typography variant="h6">{getLabel("TXT_EDITION_COMMENT_TITLE")}</Typography>
         <Hidden xsDown>
           <Button
             size="large"
@@ -42,18 +44,22 @@ const WriteReview = ({ name, avatar, rate, review }) => {
             classes={{ startIcon: classes.startIcon, disabled: classes.disabled }}
             startIcon={name ? <Avatar src={avatar}></Avatar> : <AvatarIcon width={46} height={46} className="mr-12" />}
           >
-            {name ? name : null}
+            {name}
           </Button>
         </Hidden>
         <Box display="flex" alignItems="center">
-          <Typography className="mr-12">{getLabel("TXT_EDITION_YOUR_REVIEW")}</Typography>
+          <Typography className="mr-12">{getLabel("TXT_EDITION_YOUR_COMMENT")}</Typography>
           <CustomRating onChange={onRate} value={rate ? rate : 0} />
           <Typography variant="body2" className={classes.date}>
             {currentDate}
           </Typography>
         </Box>
-        <Button size="large" className={clsx(classes.button, "blue-text")} onClick={onOpenDownload}>
-          {review ? getLabel("TXT_EDITION_EDIT_REVIEW") : getLabel("TXT_EDITION_WRITE_REVIEW")}
+        <Button
+          size={isMobile ? "small" : "large"}
+          className={clsx(classes.button, "blue-text")}
+          onClick={onOpenDownload}
+        >
+          {review ? getLabel("TXT_EDITION_EDIT_COMMENT") : getLabel("TXT_EDITION_WRITE_COMMENT")}
         </Button>
       </Paper>
     </>

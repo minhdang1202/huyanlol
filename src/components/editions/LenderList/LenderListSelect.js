@@ -15,6 +15,10 @@ const LenderListSelect = ({ selectList, lenderFilter, onChangeLenderFilter }) =>
     root: classes.menuItemStyles,
   };
 
+  const selectPropsClasses = {
+    icon: classes.selectIconStyles,
+  };
+
   return (
     <>
       <Box display="flex" alignItems="center" mr="auto">
@@ -26,6 +30,7 @@ const LenderListSelect = ({ selectList, lenderFilter, onChangeLenderFilter }) =>
             value={lenderFilter}
             inputPropsClasses={inputPropsClasses}
             menuItemPropsClasses={menuItemPropsClasses}
+            selectPropsClasses={selectPropsClasses}
           />
         </FormControl>
       </Box>
@@ -39,6 +44,9 @@ const useStyles = makeStyles(theme => ({
   },
   selectInputStyles: {
     textTransform: "uppercase !important",
+    color: theme.palette.text.primary,
+  },
+  selectIconStyles: {
     color: theme.palette.text.primary,
   },
 }));

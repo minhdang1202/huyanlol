@@ -1,8 +1,7 @@
 import React from "react";
-import { Select, MenuItem, Typography, makeStyles } from "@material-ui/core";
+import { Select, MenuItem, Box, Typography, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { ArrowDownIcon } from "icons";
 
 const CommonSelect = ({
   selectList,
@@ -28,7 +27,9 @@ const CommonSelect = ({
           root: clsx(classes.selectInput, inputPropsClasses && inputPropsClasses.root && inputPropsClasses.root),
         },
       }}
-      IconComponent={props => <ArrowDownIcon {...props} />}
+      IconComponent={({ className, ...otherProps }) => (
+        <Box className={clsx("ic-chevron-down", classes.chevronDown, className)} {...otherProps} />
+      )}
       MenuProps={{
         classes: {
           ...menuPropsClasses,
@@ -56,7 +57,9 @@ const CommonSelect = ({
             selected: classes.menuItemSelected,
           }}
         >
-          <Typography variant="subtitle1">{select.title}</Typography>
+          <Typography variant="subtitle1" className={classes.subtitle}>
+            {select.title}
+          </Typography>
         </MenuItem>
       ))}
     </Select>
@@ -92,10 +95,11 @@ const useStyles = makeStyles(theme => ({
   selectIcon: {
     top: "50%",
     transform: "translate(0, -50%)",
+    color: theme.palette.grey[500],
   },
   selectIconOpen: {
     transform: "scaleY(-1)",
-    top: "40%",
+    top: "20%",
   },
   selectInput: {
     "& .MuiDivider-root": {
@@ -111,6 +115,12 @@ const useStyles = makeStyles(theme => ({
       padding: "0 !important",
       color: theme.palette.text.secondary,
     },
+  },
+  chevronDown: {
+    fontSize: 16,
+  },
+  subtitle: {
+    lineHeight: "normal",
   },
 }));
 

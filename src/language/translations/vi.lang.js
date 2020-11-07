@@ -36,14 +36,15 @@ export default {
   bookDetail: {
     //TXT: Text
     TXT_EDITION_READ_MORE: "Đọc thêm",
+    TXT_EDITION_READ_LESS: "Rút gọn",
     TXT_EDITION_BOOK_INTRO: "Giới thiệu sách",
     TXT_EDITION_SEE_MORE: "Xem thêm",
     TXT_EDITION_BORROW_BOOK: "Mượn sách",
-    TXT_EDITION_REVIEW: "Đánh giá và bài viết về cuốn sách",
-    TXT_EDITION_WRITE_REVIEW: "Viết bình luận",
-    TXT_EDITION_EDIT_REVIEW: "Sửa bình luận",
-    TXT_EDITION_YOUR_REVIEW: "Đánh giá của bạn",
-    TXT_EDITION_USER_REVIEWS: "Đánh giá của người dùng",
+    TXT_EDITION_COMMENT_TITLE: "Đánh giá và bài viết về cuốn sách",
+    TXT_EDITION_WRITE_COMMENT: "Viết bình luận",
+    TXT_EDITION_EDIT_COMMENT: "Sửa bình luận",
+    TXT_EDITION_YOUR_COMMENT: "Đánh giá của bạn",
+    TXT_EDITION_USER_COMMENTS: "Đánh giá của người dùng",
     TXT_EDITION_LOVE: "Ghi nhận",
     TXT_EDITION_COMMENT: "Bình luận",
     TXT_EDITION_SHARE: "Chia sẻ",
@@ -62,8 +63,10 @@ export default {
     TXT_EDITION_DISTANCE: "Khoảng cách",
     TXT_EDITION_ARRANGE: "Sắp xếp theo:",
     TXT_EDITION_NO_LENDER: "Hiện chưa có người cho mượn",
+    TXT_EDITION_NO_SUPPORT_PRICE: "Tải ứng dụng để sử dụng tính năng này",
 
     //FM: Format
     FM_EDITION_BOOK_LENDERS: "{0} bạn cho mượn gần bạn",
+    FM_EDITION_BOOK_COMMENTS: "{0} bình luận",
   },
 };

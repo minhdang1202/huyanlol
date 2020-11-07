@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { DialogContent, Divider, Box, CircularProgress, Hidden, makeStyles, Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import Dialog from "components/DialogLayout";
 import DialogTitle from "components/DialogLayout/DialogTitle";
 import DialogActions from "components/DialogLayout/DialogActions";
@@ -13,20 +13,26 @@ import LenderListSelect from "./LenderListSelect";
 import { EditionTypes } from "redux/edition.redux";
 import Lender from "./Lender";
 
-const LenderList = ({ isOpen, onClose, editionId, ...reduxProps }) => {
-  const { onGetLendersList } = reduxProps;
-  const classes = useStyles();
+const LenderList = ({ isOpen, onClose, editionId }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const SELECT_LIST = [
     { value: "activityDuration", title: getLabel("TXT_EDITION_ACTIVITY_DURATION") },
     { value: "distance", title: getLabel("TXT_EDITION_DISTANCE") },
   ];
+
+  const dispatch = useDispatch();
+  const dispatchGetLendersList = data => dispatch({ type: EditionTypes.REQUEST_GET_LENDERS_LIST, ...data });
+
+  const [lenders, total] = useSelector(state => [state.editionRedux.lendersList, state.editionRedux.totalLenders]);
+
   const [totalLenders, setTotalLenders] = useState();
   const [lenderFilter, setLenderFilter] = useState(SELECT_LIST[0].value);
   const [lendersList, setLendersList] = useState();
   const [pageNum, setPageNum] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [hasChangeFilter, setHasChangeFilter] = useState(false);
+
+  const classes = useStyles({ totalLenders, hasChangeFilter });
 
   const onScroll = e => {
     if (isLoading || !totalLenders || !lendersList) return;
@@ -48,10 +54,10 @@ const LenderList = ({ isOpen, onClose, editionId, ...reduxProps }) => {
   const onFetchWithFilter = pageNum => {
     switch (lenderFilter) {
       case "distance":
-        onGetLendersList({ editionId, pageNum: pageNum, sort: { distanceToUser: "ASC" } });
+        dispatchGetLendersList({ editionId, pageNum: pageNum, sort: { distanceToUser: AppConstant.SORT_ORDER.asc } });
         break;
       default:
-        onGetLendersList({ editionId, pageNum: pageNum });
+        dispatchGetLendersList({ editionId, pageNum: pageNum });
     }
   };
 
@@ -76,23 +82,23 @@ const LenderList = ({ isOpen, onClose, editionId, ...reduxProps }) => {
 
   useEffect(() => {
     if (lendersList && pageNum != 1) {
-      setLendersList(lendersList.concat(reduxProps.lendersList));
+      setLendersList(lendersList.concat(lenders));
       setIsLoading(false);
       setHasChangeFilter(false);
       return;
     }
-    if (reduxProps.lendersList) {
-      setLendersList(reduxProps.lendersList);
+    if (lenders) {
+      setLendersList(lenders);
       setIsLoading(false);
       setHasChangeFilter(false);
     }
     if (!totalLenders) {
-      setTotalLenders(reduxProps.totalLenders);
+      setTotalLenders(total);
     }
-  }, [reduxProps.lendersList]);
+  }, [lenders]);
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onBackdropClick={() => onClose()}>
       <DialogTitle title={getLabel("TXT_EDITION_LENDERS_TITLE")} onClose={() => onClose()}>
         {totalLenders || totalLenders === 0 ? (
           <LenderListTitle totalLenders={totalLenders} />
@@ -132,13 +138,20 @@ const LenderList = ({ isOpen, onClose, editionId, ...reduxProps }) => {
   );
 };
 
+LenderList.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  editionId: PropTypes.number,
+};
+
 const useStyles = makeStyles(theme => ({
   loading: {
     margin: theme.spacing(5, "auto"),
     textAlign: "center",
     display: "inherit",
     [theme.breakpoints.down("xs")]: {
-      marginTop: `calc((100% - 40px) / 2)`,
+      margin: ({ totalLenders, hasChangeFilter }) =>
+        typeof totalLenders === "undefined" || hasChangeFilter ? `calc((100% - 40px) / 2)` : theme.spacing(5, "auto"),
     },
   },
   text: {
@@ -147,19 +160,4 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = state => ({
-  lendersList: state.editionRedux.lendersList,
-  totalLenders: state.editionRedux.totalLenders,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onGetLendersList: data => dispatch({ type: EditionTypes.REQUEST_GET_LENDERS_LIST, ...data }),
-});
-
-LenderList.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  editionId: PropTypes.number,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LenderList);
+export default LenderList;

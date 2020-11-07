@@ -1,9 +1,20 @@
 import React, { useState } from "react";
+import StringFormat from "string-format";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import MainLayout from "layouts/MainLayout";
-import { makeStyles, useMediaQuery, useTheme, Grid, Container, Divider, Box, Hidden } from "@material-ui/core";
+import {
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+  Grid,
+  Container,
+  Divider,
+  Box,
+  Hidden,
+  Typography,
+} from "@material-ui/core";
 import {
   BookInfo,
   BookDescription,
@@ -14,8 +25,7 @@ import {
   BookLenders,
   CustomTabs,
 } from "components/editions";
-import { InfoIcon, CartIcon } from "icons";
-import { PathConstant } from "const";
+import { PathConstant, AppConstant } from "const";
 import { EditionService, CommonService } from "services";
 import { getNumberIdFromQuery, getTitleNoMark } from "utils";
 import { CustomBreadcrumb } from "components";
@@ -24,17 +34,18 @@ const BookDetail = ({ book, bookCover }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_BOOK_DETAIL_ID, book.editionId);
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
-  const appBarProps = { isDetail: true, className: classes.appBarMobile };
+  const appBarProps = { isDetail: true, shareUrl, className: classes.appBarMobile };
   const headProps = { title: book.title, description: book.description, ogImage: bookCover };
   const SELECT_TABS = [
     {
-      icon: <InfoIcon />,
+      icon: <Box className="ic-info-circle" />,
       label: getLabel("TXT_EDITION_BOOK_INFO"),
       value: "info",
     },
     {
-      icon: <CartIcon />,
+      icon: <Box className="ic-shopping-cart" />,
       label: getLabel("TXT_EDITION_BUY_BOOK"),
       value: "cart",
     },
@@ -64,9 +75,12 @@ const BookDetail = ({ book, bookCover }) => {
               <BookReviews editionId={book.editionId} />
             </>
           ) : (
-            <Hidden xsUp>
-              <BookPriceCompare />
-            </Hidden>
+            <>
+              <Hidden xsUp>
+                <BookPriceCompare />
+              </Hidden>
+              <Typography className={classes.text}>{getLabel("TXT_EDITION_NO_SUPPORT_PRICE")}</Typography>
+            </>
           )}
         </Box>
       ) : (
@@ -99,6 +113,44 @@ const BookDetail = ({ book, bookCover }) => {
   );
 };
 
+export const getServerSideProps = async ({ res, query }) => {
+  let editionId = query && query.edition ? query.edition : null;
+  const isOnlyNumber = /^\d+$/.test(editionId);
+  editionId = isOnlyNumber ? editionId : getNumberIdFromQuery(editionId);
+  const bookDetailResponse = await EditionService.getBookDetail(editionId);
+  let book = bookDetailResponse.data;
+
+  if (book.data) {
+    book = book.data;
+    const { title, imageId } = book;
+    if (isOnlyNumber) {
+      const bookTitleNoMark = getTitleNoMark(title);
+      res.writeHead(301, {
+        Location: StringFormat(PathConstant.FM_BOOK_DETAIL, bookTitleNoMark, editionId),
+      });
+      res.end();
+    }
+    const bookCover = await CommonService.getImageById(imageId);
+
+    return {
+      props: {
+        book: book,
+        bookCover: bookCover,
+      },
+    };
+  }
+  res.status(404).end();
+};
+
+BookDetail.propTypes = {
+  book: PropTypes.object,
+  bookCover: PropTypes.string,
+};
+
+BookDetail.defaultProps = {
+  book: {},
+};
+
 const useStyles = makeStyles(theme => ({
   rootDesktop: {
     maxWidth: 1020,
@@ -125,49 +177,18 @@ const useStyles = makeStyles(theme => ({
       position: "static !important",
       boxShadow: "none !important",
       background: "none !important",
-      "& svg": {
-        fill: `${theme.palette.white} !important`,
+      "& button": {
+        color: `${theme.palette.white} !important`,
       },
     },
   },
+  text: {
+    color: theme.palette.grey[500],
+    display: "inline-block",
+    width: "100%",
+    marginTop: theme.spacing(6),
+    textAlign: "center",
+  },
 }));
-
-BookDetail.propTypes = {
-  book: PropTypes.object,
-  bookCover: PropTypes.string,
-};
-
-BookDetail.defaultProps = {
-  book: {},
-};
-
-export const getServerSideProps = async ({ res, query }) => {
-  let editionId = query && query.edition ? query.edition : null;
-  const isOnlyNumber = /^\d+$/.test(editionId);
-  editionId = isOnlyNumber ? editionId : getNumberIdFromQuery(editionId);
-  const bookDetailResponse = await EditionService.getBookDetail(editionId);
-  let book = bookDetailResponse.data;
-
-  if (book.data) {
-    book = book.data;
-    const { title, imageId } = book;
-    if (isOnlyNumber) {
-      const bookTitleNoMark = getTitleNoMark(title);
-      res.writeHead(301, {
-        Location: PathConstant.BOOK_DETAIL(bookTitleNoMark, editionId),
-      });
-      res.end();
-    }
-    const bookCover = await CommonService.getImageById(imageId);
-
-    return {
-      props: {
-        book: book,
-        bookCover: bookCover,
-      },
-    };
-  }
-  res.status(404).end();
-};
 
 export default BookDetail;

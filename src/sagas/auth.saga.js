@@ -19,7 +19,7 @@ export function* requestLogin(action) {
           expires: AppConstant.EXPIRES_TOKEN,
         });
         let storeData = {};
-        storeData[AppConstant.KEY_USE1R_ID] = user_id;
+        storeData[AppConstant.KEY_USER_ID] = user_id;
         login(storeData);
 
         isResult = true;

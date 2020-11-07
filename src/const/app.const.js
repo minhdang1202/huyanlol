@@ -5,6 +5,12 @@ export const APP_NAME = "GAT";
 
 export const EXPIRES_TOKEN = 1;
 
+//Sort
+export const SORT_ORDER = {
+  asc: "ASC",
+  desc: "DESC",
+};
+
 // Base url
 export const WEBSITE_URL = "https://solution.relipasoft.com";
 

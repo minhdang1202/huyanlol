@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StringFormat from "string-format";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Button, Paper, CircularProgress, makeStyles } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useTranslation } from "react-i18next";
@@ -11,13 +11,20 @@ import Lender from "./Lender";
 import LenderList from "../LenderList";
 import { EditionTypes } from "redux/edition.redux";
 
-const BookLenders = ({ editionId, ...reduxProps }) => {
-  const { onGetTotalLenders, onGetNearestLenders } = reduxProps;
+const BookLenders = ({ editionId }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+  const dispatchGetNearestLenders = editionId =>
+    dispatch({ type: EditionTypes.REQUEST_GET_NEAREST_LENDERS, editionId: editionId });
+
+  const [total, nearestLenders] = useSelector(state => [
+    state.editionRedux.totalLenders,
+    state.editionRedux.nearestLenders,
+  ]);
+
   const [isOpen, setIsOpen] = useState(false);
-  const [nearestLenders, setNearestLenders] = useState();
   const [totalLenders, setTotalLenders] = useState();
 
   const onOpenLenderList = () => {
@@ -29,18 +36,14 @@ const BookLenders = ({ editionId, ...reduxProps }) => {
   };
 
   useEffect(() => {
-    onGetNearestLenders(editionId);
-    onGetTotalLenders(editionId);
+    dispatchGetNearestLenders(editionId);
   }, []);
 
   useEffect(() => {
-    if (!nearestLenders) {
-      setNearestLenders(reduxProps.nearestLenders);
-    }
     if (!totalLenders) {
-      setTotalLenders(reduxProps.totalLenders);
+      setTotalLenders(total);
     }
-  }, [reduxProps.nearestLenders]);
+  }, [total]);
 
   return totalLenders === 0 ? null : (
     <>
@@ -55,25 +58,25 @@ const BookLenders = ({ editionId, ...reduxProps }) => {
               </Button>
             </>
           ) : (
-            <Skeleton animatiion="wave" width="100%" height={40} />
+            <Skeleton animation="wave" width="100%" height={40} />
           )}
         </Box>
         <Box>
           {nearestLenders
-            ? nearestLenders.map((lender, index) => {
-                return <Lender key={index} {...lender} />;
-              })
-            : Array(4)
-                .fill("")
-                .map((blank, index) => (
-                  <Box key={index} height={100} width="100%" display="flex" alignItems="center" justifyContent="center">
-                    <CircularProgress />
-                  </Box>
-                ))}
+            ? nearestLenders.map((lender, index) => <Lender key={index} {...lender} />)
+            : Array.from({ length: 4 }, (_, index) => (
+                <Box key={index} height={100} width="100%" display="flex" alignItems="center" justifyContent="center">
+                  <CircularProgress />
+                </Box>
+              ))}
         </Box>
       </Paper>
     </>
   );
+};
+
+BookLenders.propTypes = {
+  editionId: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({
@@ -95,24 +98,4 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-BookLenders.propTypes = {
-  editionId: PropTypes.number,
-};
-
-const mapStateToProps = state => {
-  const { totalLenders, nearestLenders } = state.editionRedux;
-  return {
-    totalLenders,
-    nearestLenders,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onGetTotalLenders: editionId => dispatch({ type: EditionTypes.REQUEST_GET_TOTAL_LENDERS, editionId: editionId }),
-    onGetNearestLenders: editionId =>
-      dispatch({ type: EditionTypes.REQUEST_GET_NEAREST_LENDERS, editionId: editionId }),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BookLenders);
+export default BookLenders;

@@ -5,7 +5,6 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme, Typography, Box, Button, Hidden } from "@material-ui/core";
 import { LogoBox, AppLink } from "components";
-import { CartIcon } from "icons";
 
 const BookstorePrice = ({ logo, link, freeship, retailPrice, salePrice, isInOfStock }) => {
   const classes = useStyles();
@@ -31,7 +30,7 @@ const BookstorePrice = ({ logo, link, freeship, retailPrice, salePrice, isInOfSt
           </Box>
           <Hidden smUp>
             <Box ml={2} display="flex" flexDirection="column" alignItems="center">
-              <CartIcon color={isInOfStock ? theme.palette.primary.main : theme.palette.text.secondary} />
+              <Box className="ic-cart" />
               <Typography className={clsx("mt-4", isInOfStock ? "blue-text" : "")} variant="caption">
                 {isInOfStock ? getLabel("TXT_EDITION_IN_OF_STOCK") : getLabel("TXT_EDITION_OUT_OF_STOCK")}
               </Typography>

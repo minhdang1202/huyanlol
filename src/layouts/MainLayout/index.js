@@ -46,6 +46,7 @@ MainLayout.defaultProps = {
     isDetail: false,
     appBarTitle: null,
     className: "",
+    shareUrl: "",
   },
 };
 

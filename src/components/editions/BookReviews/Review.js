@@ -1,30 +1,22 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import StringFormat from "string-format";
 import clsx from "clsx";
 import { convertDistanceDate } from "utils/date";
 import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant, PathConstant } from "const";
 import CustomRating from "components/CustomRating";
-import { HeartIcon, MessageIcon, ShareIcon } from "icons";
-import { makeStyles, useTheme, Paper, Typography, Box, Avatar, Divider, Button } from "@material-ui/core";
+import { makeStyles, Paper, Typography, Box, Avatar, Divider, Button, IconButton } from "@material-ui/core";
 import DialogAppDownload from "components/DialogAppDownload";
 import { FacebookShareButton } from "react-share";
 
 const Review = ({ review, className }) => {
-  const { articleId, title, intro, name, lastUpdate, avatar, thumbnail, reactCount, commentCount, categories } = review;
-  const isReview = categories[0].categoryId === 0;
-  const theme = useTheme();
+  const { articleId, title, intro, name, lastUpdate, avatar, thumbnail, reactCount, commentCount, rate } = review;
   const classes = useStyles();
-  const shareUrl = AppConstant.WEBSITE_URL + PathConstant.ARTICLE_DETAIL_ID(articleId);
+  const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
   const { t: getLabel, i18n } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const displayDate = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
-  const [isAuth, setIsAuth] = useState(true);
-  const [isLoved, setIsLoved] = useState(false);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
-
-  // const onLove = () => {
-  //   if (isAuth && !isLoved) setIsLoved(true);
-  // };
 
   const onOpenDownload = () => {
     setIsDownloadOpen(true);
@@ -44,13 +36,21 @@ const Review = ({ review, className }) => {
             <Typography variant="subtitle2">{name}</Typography>
             <Typography variant="caption">{displayDate}</Typography>
           </Box>
+          <Box ml="auto">
+            <IconButton className={classes.iconButton} onClick={onOpenDownload}>
+              <Box className="ic-bookmark-empty" />
+            </IconButton>
+            <IconButton className={classes.iconButton}>
+              <Box className="ic-ellipsis-h" />
+            </IconButton>
+          </Box>
         </Box>
         <Box display="flex" justifyContent="space-between">
           <Box mr={{ xs: 2, md: 5, lg: 7 }}>
             <Typography className={clsx("eclipse", classes.title)} variant="subtitle1">
               {title}
             </Typography>
-            {isReview && <CustomRating readOnly={true} defaultValue={0} size="medium" />}
+            <CustomRating readOnly={true} defaultValue={rate} size="medium" />
             <Typography variant="body2" className={clsx("eclipse", classes.content)}>
               {intro}
             </Typography>
@@ -59,29 +59,28 @@ const Review = ({ review, className }) => {
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box className={classes.heartWrapper}>
-            <HeartIcon width={12} height={12} color={theme.palette.danger.main} />
+            <Box className={clsx("ic-heart", classes.heartIcon)} />
             <Typography variant="body2" className={classes.greyText}>
               {reactCount}
             </Typography>
           </Box>
           <Typography variant="body2" className={classes.greyText} onClick={onOpenDownload}>
-            {commentCount + " " + getLabel("TXT_EDITION_COMMENT")}
+            {StringFormat(getLabel("FM_EDITION_BOOK_COMMENTS"), commentCount)}
           </Typography>
         </Box>
         <Divider className={classes.divider} />
         <Box display="flex" justifyContent="space-between">
           <Button
-            classes={{ label: isLoved ? classes.activeButton : "" }}
-            startIcon={<HeartIcon isActive={isLoved} />}
+            startIcon={<Box className={clsx("ic-heart-empty", classes.textSecondary)} />}
             onClick={onOpenDownload}
           >
             {getLabel("TXT_EDITION_LOVE")}
           </Button>
-          <Button startIcon={<MessageIcon />} onClick={onOpenDownload}>
+          <Button startIcon={<Box className={clsx("ic-comment", classes.textSecondary)} />} onClick={onOpenDownload}>
             {getLabel("TXT_EDITION_COMMENT")}
           </Button>
           <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
-            <Button startIcon={<ShareIcon color={theme.palette.text.secondary} />} component="div">
+            <Button component="div" startIcon={<Box className={clsx("ic-share", classes.textSecondary)} />}>
               {getLabel("TXT_EDITION_SHARE")}
             </Button>
           </FacebookShareButton>
@@ -135,9 +134,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1.5),
     color: theme.palette.text.secondary,
   },
-  activeButton: {
-    color: theme.palette.danger.main,
-  },
   heartWrapper: {
     display: "flex",
     alignItems: "center",
@@ -153,6 +149,20 @@ const useStyles = makeStyles(theme => ({
     "& span": {
       color: theme.palette.text.secondary,
     },
+  },
+  heartIcon: {
+    color: theme.palette.danger.main,
+    fontSize: 12,
+  },
+  textSecondary: {
+    color: theme.palette.text.secondary,
+    fontSize: 16,
+  },
+  iconButton: {
+    fontSize: 16,
+    color: theme.palette.text.secondary,
+    width: 35,
+    height: 35,
   },
 }));
 

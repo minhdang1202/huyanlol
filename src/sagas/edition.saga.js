@@ -1,5 +1,5 @@
 import { call, put, all } from "redux-saga/effects";
-import { ApiConstant } from "const";
+import { ApiConstant, AppConstant } from "const";
 import EditionAction from "redux/edition.redux";
 import { EditionService, CommonService } from "services";
 import { getCurrentPosition } from "utils";
@@ -61,7 +61,7 @@ export function* requestGetNearestLenders(action) {
     pageNum: 1,
     pageSize: 4,
     sorts: {
-      distanceToUser: "ASC",
+      distanceToUser: AppConstant.SORT_ORDER.asc,
     },
   };
   let response = yield call(EditionService.getBookLenders, bodyReq);
@@ -123,19 +123,20 @@ export function* requestGetSelfReview(action) {
       const { rate, review } = responseData.userRelation.evaluation;
       const { name, imageId } = responseData.users;
       const avatar = imageId ? yield call(CommonService.getImageById, imageId) : null;
-      yield put(EditionAction.requestSuccess({ rate, review, name, avatar }));
+      yield put(EditionAction.requesEditiontSuccess({ rate, review, name, avatar }));
     }
   } catch (error) {
     console.log(error);
-    yield put(EditionAction.requestFailure(error));
+    yield put(EditionAction.requestEditionFailure(error));
   }
 }
 
 export function* requestGetReviews(action) {
-  const { editionId, pageNum } = action.data;
+  const { editionId, pageNum, categoryId } = action;
   const bodyReq = {
     criteria: {
       editionIds: [editionId],
+      categoryIds: [categoryId],
     },
     pageNum: pageNum,
     pageSize: PAGE_SIZE_REVIEWS,
@@ -155,7 +156,8 @@ export function* requestGetReviews(action) {
         pageData.map(review => (review.thumbnailId ? call(CommonService.getImageById, review.thumbnailId) : null)),
       );
       const reviewsList = pageData.map((review, index) => {
-        const { articleId, title, intro, lastUpdate, reactCount, commentCount, categories } = review;
+        const { articleId, title, intro, lastUpdate, reactCount, commentCount, editions } = review;
+        const rate = editions[0].userRelation.evaluation.rate;
         const { name } = review.creator;
         return {
           avatar: avatarsList[index],
@@ -167,7 +169,7 @@ export function* requestGetReviews(action) {
           lastUpdate,
           reactCount,
           commentCount,
-          categories
+          rate,
         };
       });
 
