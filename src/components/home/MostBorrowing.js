@@ -41,10 +41,6 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.down("md")]: {
       overflow: "scroll",
-      "&::-webkit-scrollbar": {
-        width: 4,
-        height: 6,
-      },
     },
   },
   item: {

@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-Hashtag.propTypes = { content: PropTypes.bool };
+Hashtag.propTypes = { content: PropTypes.string };
 Hashtag.defaultProps = { content: "" };
 
 export default memo(Hashtag);

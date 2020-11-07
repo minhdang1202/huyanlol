@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-CategoryTag.propTypes = { content: PropTypes.bool };
+CategoryTag.propTypes = { content: PropTypes.string };
 CategoryTag.defaultProps = { content: "" };
 
 export default memo(CategoryTag);

@@ -44,7 +44,7 @@ const Review = ({ review }) => {
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box className={classes.heartWrapper}>
-          <HeartIcon width={12} height={12} color={theme.palette.danger.main} />
+          <HeartIcon width={12} height={12} color={theme.palette.error.main} />
           <Typography variant="body2" className={classes.greyText}>
             {love}
           </Typography>
@@ -116,7 +116,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
   },
   activeButton: {
-    color: theme.palette.danger.main,
+    color: theme.palette.error.main,
   },
   heartWrapper: {
     display: "flex",

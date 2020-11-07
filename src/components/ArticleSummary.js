@@ -21,6 +21,8 @@ import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon, ShareIcon } from "icons"
 import { useTranslation } from "react-i18next";
 import { AppConstant } from "const";
 import StringFormat from "string-format";
+import { uuid } from "utils";
+import clsx from "clsx";
 
 const ArticleSummary = ({ data }) => {
   const classes = useStyles();
@@ -36,11 +38,17 @@ const ArticleSummary = ({ data }) => {
       const { user, book, ...article } = data;
       if (user) setUser(user);
       if (book) setBook(book);
-      if (article) setArticle(article);
+      if (article) {
+        let newArticle = { ...article };
+        if (newArticle.hashtags) {
+          newArticle.hashtags = newArticle.hashtags.splice(0, 3);
+        }
+        setArticle(newArticle);
+      }
     }
   }, [data]);
 
-  let isHeart = article.heart && article.heart > 0;
+  let isHeart = Boolean(article.heart && article.heart > 0);
 
   return (
     <Card className={classes.root}>
@@ -85,17 +93,11 @@ const ArticleSummary = ({ data }) => {
             {article.hashtags && (
               <Box>
                 {article.hashtags.map(hashtag => (
-                  <Hashtag content={hashtag} key={hashtag} />
+                  <Hashtag content={hashtag} key={uuid()} />
                 ))}
               </Box>
             )}
-            {article.categories && (
-              <Box>
-                {article.categories.map(categoryTag => (
-                  <CategoryTag content={categoryTag} key={categoryTag} />
-                ))}
-              </Box>
-            )}
+            {article.categories && <Box ml="-6px">{<CategoryTag content={article.categories[0]} key={uuid()} />}</Box>}
           </Grid>
           <Grid item xs={4} md={3} className={classes.mainCover}>
             <CardMedia src={book.cover} title={book.title} component="img" />
@@ -117,7 +119,9 @@ const ArticleSummary = ({ data }) => {
 
       <Divider />
       <CardActions disableSpacing className={classes.action}>
-        <Button startIcon={<HeartIcon isActive={isHeart} />}>{getLabel("TXT_LOVE")}</Button>
+        <Button startIcon={<HeartIcon isActive={isHeart} />} className={clsx(isHeart && classes.heartColor)}>
+          {getLabel("TXT_LOVE")}
+        </Button>
         <Button startIcon={<MessageIcon />}>{getLabel("TXT_COMMENT")}</Button>
         <Button startIcon={<ShareIcon color={theme.palette.text.secondary} />}>{getLabel("TXT_SHARE")}</Button>
       </CardActions>
@@ -182,10 +186,21 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
+  heartColor: {
+    "&, & *": {
+      color: theme.palette.error.main,
+    },
+  },
   action: {
+    paddingTop: 6,
+    paddingBottom: 6,
     justifyContent: "space-between",
+
     "& button:first-child": {
       marginLeft: -6,
+    },
+    "& button": {
+      color: theme.palette.text.secondary,
     },
   },
 }));
