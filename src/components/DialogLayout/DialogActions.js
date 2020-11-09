@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: `${PADDING_X_DIALOG}`,
     paddingRight: `${PADDING_X_DIALOG}`,
     marginRight: "auto",
+    width: "100%",
   },
 }));
 
