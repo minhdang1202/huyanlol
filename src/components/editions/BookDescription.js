@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Paper, Typography, Button, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
@@ -13,24 +13,15 @@ const BookDescription = ({ description }) => {
   const shortDescription = cutString(LIMIT_DESCRIPTION, description);
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const [isFullContent, setIsFullContent] = useState(false);
-  const [content, setContent] = useState(shortDescription);
 
   const onShowDescription = () => {
     setIsFullContent(!isFullContent);
   };
 
-  useEffect(() => {
-    if (isFullContent) {
-      setContent(description);
-    } else {
-      setContent(shortDescription);
-    }
-  }, [isFullContent]);
-
   return (
     <Paper className={clsx("paper", classes.root)}>
       <Typography variant="h6">{getLabel("TXT_EDITION_BOOK_INTRO")}</Typography>
-      <Typography>{content}</Typography>
+      <Typography>{isFullContent ? description : shortDescription}</Typography>
       <Button
         size={isMobile ? "small" : "large"}
         className={clsx(classes.button, "blue-text")}
