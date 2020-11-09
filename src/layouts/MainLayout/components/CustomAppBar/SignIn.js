@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Box, Button, Menu, MenuItem, IconButton, Avatar, Divider, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { AvatarIcon, DownloadIcon } from "icons";
+import { AvatarIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
 import AuthDialog from "components/AuthDialog";
 
@@ -56,7 +56,7 @@ const SignIn = () => {
             <MenuItem>{getLabel("TXT_APPBAR_PROFILE")}</MenuItem>
             <Divider className={classes.divider} />
             <MenuItem>
-              <Button disableRipple className={classes.textBlue} startIcon={<DownloadIcon />}>
+              <Button disableRipple className={classes.textBlue} startIcon={<Box className="ic-cloud-download" />}>
                 {getLabel("TXT_APPBAR_DOWNLOAD")}
               </Button>
             </MenuItem>
@@ -66,7 +66,9 @@ const SignIn = () => {
         </Box>
       ) : (
         <Box className={classes.root}>
-          <Button size="large" onClick={onTriggerAuthDialog}>{getLabel("TXT_APPBAR_SIGNIN")}</Button>
+          <Button size="large" onClick={onTriggerAuthDialog}>
+            {getLabel("TXT_APPBAR_SIGNIN")}
+          </Button>
           <IconButton onClick={onTriggerAuthDialog}>
             <AvatarIcon />
           </IconButton>

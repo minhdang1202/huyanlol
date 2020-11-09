@@ -1,4 +1,5 @@
 import { AppConstant } from "const";
+import StringFormat from "string-format";
 
 export const uuid = () => {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
@@ -65,4 +66,45 @@ export const getAppDownloadLink = () => {
   }
 
   return AppConstant.GAT_GG_PLAY;
+};
+
+export const getNumberIdFromQuery = query => {
+  const id = query.slice(query.lastIndexOf("-b") + 2);
+  return id;
+};
+
+export const getTitleNoMark = title => {
+  title = title.toLowerCase();
+  title = title.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+  title = title.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+  title = title.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+  title = title.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+  title = title.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+  title = title.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+  title = title.replace(/đ/g, "d");
+  const regex = /\s/gi;
+  const titleNoMark = title.replace(regex, "-");
+  return titleNoMark;
+};
+
+export const getCurrentPosition = () => {
+  let latitude = 21.03;
+  let longitude = 105.84;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+    });
+  }
+
+  return { latitude, longitude };
+};
+
+export const convertUnitToKm = distance => {
+  distance = `${(distance / 1000).toFixed(1)} km`;
+  return distance;
+};
+
+export const getImageById = imageId => {
+  return StringFormat(AppConstant.BASE_IMAGE_URL, imageId);
 };

@@ -19,7 +19,7 @@ const MainLayout = ({ headProps, className, classes, children, appBarProps }) =>
     <>
       <AppHead {...primaryHead} />
       <NoSsr>
-        <Box className={clsx(defaultClasses.root, className, classes.root)}>
+        <Box id={MAIN_LAYOUT_ID} className={clsx(defaultClasses.root, className)}>
           <CustomAppBar {...appBarProps} />
           <main className={clsx(defaultClasses.main, classes.main)}>{children}</main>
           {!isClose && (
@@ -47,9 +47,12 @@ MainLayout.defaultProps = {
     isDetail: false,
     appBarTitle: null,
     className: "",
+    shareUrl: "",
   },
   classes: {},
 };
+
+export const MAIN_LAYOUT_ID = "main-layout";
 
 export default memo(MainLayout);
 

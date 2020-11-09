@@ -23,7 +23,7 @@ const MobileDownloadButton = ({ size, className, title, ...otherProps }) => {
       className={clsx("light-blue-button", className, classes.root)}
       {...otherProps}
     >
-      <AppLink as={appDownloadLink}>{title ? title : getLabel("TXT_APPDOWNLOAD_BUTTON")}</AppLink>
+      <AppLink target="_blank" as={appDownloadLink}>{title ? title : getLabel("TXT_APPDOWNLOAD_BUTTON")}</AppLink>
     </Button>
   );
 };

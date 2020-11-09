@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, InputBase, Divider, FormControl, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { SearchIcon } from "icons";
 import CommonSelect from "components/CommonSelect";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 
@@ -29,7 +28,7 @@ const SearchBar = () => {
 
   return (
     <Box className={classes.root}>
-      <SearchIcon />
+      <Box className="ic-search" />
       <InputBase placeholder={getLabel("P_APPBAR_SEARCH")} />
       <Box>
         <Divider orientation="vertical" className={classes.divider} />

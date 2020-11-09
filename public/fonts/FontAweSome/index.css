@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "FontAwesome5Pro";
+  font-weight: normal;
+  font-style: normal;
+  src: url("Font Awesome5Pro-Regular.otf") format("woff2"), url("Font Awesome5Pro-Regular.otf") format("woff"),
+    url("Font Awesome5Pro-Regular.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "FontAwesome5Pro-Solid";
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  src: url("Font Awesome 5 Pro-Solid-900.otf") format("woff2"), url("Font Awesome 5 Pro-Solid-900.otf") format("woff"),
+    url("Font Awesome 5 Pro-Solid-900.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "FontAwesome5Pro-Light";
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  src: url("Font Awesome 5 Pro-Light-300.otf") format("woff2"), url("Font Awesome 5 Pro-Light-300.otf") format("woff"),
+    url("Font Awesome 5 Pro-Light-300.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "FontAwesome5Pro-Brand";
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  src: url("Font Awesome 5 Brands-Regular-400.otf") format("woff2"),
+    url("Font Awesome 5 Brands-Regular-400.otf") format("woff"),
+    url("Font Awesome 5 Brands-Regular-400.otf") format("truetype");
+}
