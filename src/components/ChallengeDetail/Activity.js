@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, Avatar } from "@material-ui/core";
-
+import { LangConstant } from "const";
+import { useTranslation } from "react-i18next";
 const ACT_DATA = {
   name: "Duongdz",
   time: "12 giờ trước",
@@ -37,10 +38,11 @@ const Item = ({ data }) => {
 };
 const Activity = () => {
   const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Box className={classes.root}>
       <Typography variant={"h6"} className={classes.title}>
-        Hoạt động
+        {getLabel("L_Activity")}
       </Typography>
       <Item data={ACT_DATA} className={classes.item} />
       <Item data={ACT_DATA} className={classes.item} />

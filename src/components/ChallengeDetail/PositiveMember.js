@@ -1,19 +1,22 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, Button, Avatar } from "@material-ui/core";
 import clsx from "clsx";
+import { LangConstant } from "const";
+import { useTranslation } from "react-i18next";
 const PositiveMember = () => {
   const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Paper elevation={1} className={classes.root}>
       <Box className={classes.top}>
         <Box className={clsx("ic-trophy", classes.icLine)}>
           <Typography variant="h6" component="span">
-            Thành viên tích cực
+            {getLabel("L_POSITIVE_MEMBER")}
           </Typography>
         </Box>
 
         <Button size="small" variant="text">
-          More
+          {getLabel("L_MORE")}
         </Button>
       </Box>
       <Box className={classes.bottom}>

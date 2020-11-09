@@ -1,9 +1,11 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, Button, Avatar } from "@material-ui/core";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
-
+import { LangConstant } from "const";
+import { useTranslation } from "react-i18next";
 const InviteFriend = () => {
   const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Box className={classes.root}>
       <AvatarGroup spacing={20} className={classes.avatarGroup}>
@@ -18,7 +20,7 @@ const InviteFriend = () => {
           Nan, Hoa, Xe, Đạp và 122 người khác tham gia thử thách này
         </Typography>
         <Button fullWidth color="primary" variant="contained" className={classes.btn} size="large">
-          Mời bạn bè
+          {getLabel("L_INVITE")}
         </Button>
       </Paper>
     </Box>

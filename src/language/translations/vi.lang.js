@@ -78,10 +78,17 @@ export default {
     L_INVITE: "Mời bạn bè",
     L_COMPANY: "Công ty Sách và Công nghệ GAT",
     L_MORE: "Xem thêm",
+    L_GOAL_LIST: "Danh sách mục tiêu cần hoàn thành",
+    L_DESCRIPTION: "Mô tả",
+    L_Activity: "Hoạt động",
+    L_UPDATE_PROGRESS: "Cập nhật tiến độ",
+    L_PROCESS: "Quá trình",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
     TXT_BOOK_COUNT: "cuốn",
     TXT_JUST_READ: "Vừa đọc xong quyển",
+    TXT_PEOPLE: "người",
+    TXT_To: "đến",
   },
 };

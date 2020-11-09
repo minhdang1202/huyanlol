@@ -1,11 +1,14 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, Avatar } from "@material-ui/core";
+import { LangConstant } from "const";
+import { useTranslation } from "react-i18next";
 const GoalList = () => {
   const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Paper className={classes.root}>
       <Typography variant="subtitle1" className={classes.text}>
-        Danh sách mục tiêu cần hoàn thành
+        {getLabel("L_GOAL_LIST")}
       </Typography>
       <Box className={classes.goals}>
         <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.goal} />

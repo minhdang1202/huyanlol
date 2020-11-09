@@ -1,10 +1,13 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, Button, Avatar } from "@material-ui/core";
 import clsx from "clsx";
+import { LangConstant } from "const";
+import { useTranslation } from "react-i18next";
 const IMG_HEIGHT = 378;
 
 const ChallengeCover = () => {
   const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
 
   return (
     <Box className={classes.root}>
@@ -12,7 +15,7 @@ const ChallengeCover = () => {
       <Paper elevation={1} className={classes.coverBack}></Paper>
       <Paper elevation={1} className={classes.content}>
         <Box className={classes.detail}>
-          <Typography variant="subtitle1">Quá trình</Typography>
+          <Typography variant="subtitle1">{getLabel("L_PROCESS")}</Typography>
 
           <Box className={clsx(classes.icLine, "ic-bullseye")}>
             <Typography variant="body1" component="span">
@@ -27,7 +30,7 @@ const ChallengeCover = () => {
         </Box>
 
         <Button fullWidth size="large" color="primary" variant="contained" className={classes.btn}>
-          Cập nhật tiến độ
+          {getLabel("L_UPDATE_PROGRESS")}
         </Button>
       </Paper>
     </Box>
