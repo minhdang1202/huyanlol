@@ -41,6 +41,8 @@ export default {
     //FM: format
     FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
     FM_NUMBER_COMMENTS: "{0} bình luận",
+    FM_REVIEW_BOOK_TITLE:
+      "<a href={href} class='semiBold-md-txt'>{title}</a> của <a href={href} class='semiBold-md-txt'>{author}</a>",
 
     //ERR: Error
     //MSG: Message

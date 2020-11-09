@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Avatar,
+  Box,
   Button,
   Card,
   CardActions,
@@ -11,6 +12,9 @@ import {
   Divider,
   Grid,
   IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   makeStyles,
   Typography,
   useTheme,
@@ -83,6 +87,28 @@ const ReviewSummary = ({ data }) => {
             <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
               {review.description}
             </Typography>
+            <ListItem className={classes.bookTitle}>
+              <ListItemIcon className={classes.bookTitleIcon}>
+                <Box className="ic-book" />
+              </ListItemIcon>
+              <ListItemText
+                className={classes.bookTitleText}
+                primary={
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                    dangerouslySetInnerHTML={{
+                      __html: StringFormat(getLabel("FM_REVIEW_BOOK_TITLE"), {
+                        href: "#das",
+                        title: book.title,
+                        author: book.author,
+                      }),
+                    }}
+                  />
+                }
+              />
+            </ListItem>
           </Grid>
           <Grid item xs={4} md={3} className={classes.mainCover}>
             <CardMedia src={book.cover} title={book.title} component="img" />
@@ -171,6 +197,15 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
+  bookTitle: {
+    padding: "4px 0",
+    "& .ic-book, a": { color: theme.palette.text.link },
+  },
+  bookTitleIcon: {
+    minWidth: "max-content",
+    marginRight: 4,
+  },
+  bookTitleText: {},
   heartColor: {
     "&, & *": {
       color: theme.palette.error.main,
