@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, Button, Avatar } from "@material-ui/core";
-
+import clsx from "clsx";
 const IMG_HEIGHT = 378;
 
 const ChallengeCover = () => {
@@ -13,8 +13,17 @@ const ChallengeCover = () => {
       <Paper elevation={1} className={classes.content}>
         <Box className={classes.detail}>
           <Typography variant="subtitle1">Quá trình</Typography>
-          <Typography variant="body1">Đã đọc 0/13 cuốn sách</Typography>
-          <Typography variant="body1">Còn 30 ngày nữa</Typography>
+
+          <Box className={clsx(classes.icLine, "ic-bullseye")}>
+            <Typography variant="body1" component="span">
+              Đã đọc 0/13 cuốn sách
+            </Typography>
+          </Box>
+          <Box className={clsx(classes.icLine, "ic-calendar-alt")}>
+            <Typography variant="body1" component="span">
+              Còn 30 ngày nữa
+            </Typography>
+          </Box>
         </Box>
 
         <Button fullWidth size="large" color="primary" variant="contained" className={classes.btn}>
@@ -61,9 +70,14 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.text.link,
   },
   detail: {
-    marginBottom: "16px",
+    marginBottom: theme.spacing(2),
     "&>:nth-child(3)": {
       color: theme.palette.text.secondary,
+    },
+  },
+  icLine: {
+    "&>:first-child": {
+      margin: theme.spacing(1),
     },
   },
 }));

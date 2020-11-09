@@ -81,6 +81,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     padding: 0,
+    overflow: "hidden",
   },
   breadcrumb: {
     margin: "18px 0px 24px 0px",

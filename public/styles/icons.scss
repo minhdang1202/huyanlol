@@ -82,3 +82,21 @@
   color: $color-primary-main;
   font-size: 16px;
 }
+
+.ic-bullseye:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f140";
+  font-size: 20px;
+}
+
+.ic-calendar-alt:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f073";
+  font-size: 20px;
+}
+
+.ic-trophy:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f091";
+  font-size: 24px;
+}

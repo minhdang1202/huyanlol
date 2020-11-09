@@ -1,11 +1,17 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, Button, Avatar } from "@material-ui/core";
+import clsx from "clsx";
 const PositiveMember = () => {
   const classes = useStyles();
   return (
     <Paper elevation={1} className={classes.root}>
       <Box className={classes.top}>
-        <Typography variant="h6">sdfsdf</Typography>
+        <Box className={clsx("ic-trophy", classes.icLine)}>
+          <Typography variant="h6" component="span">
+            Thành viên tích cực
+          </Typography>
+        </Box>
+
         <Button size="small" variant="text">
           More
         </Button>
@@ -44,6 +50,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "space-between",
     marginBottom: theme.spacing(3),
+    color: theme.palette.warning.main,
     "&>:nth-child(2)": {
       color: theme.palette.text.link,
     },
@@ -67,6 +74,12 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     height: "77px",
     width: "77px",
+  },
+  icLine: {
+    "&>:first-child": {
+      margin: theme.spacing(2),
+      color: theme.palette.text.primary,
+    },
   },
 }));
 export default PositiveMember;
