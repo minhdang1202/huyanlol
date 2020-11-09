@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import PropsType from "prop-types";
+import PropTypes from "prop-types";
 const LogoIcon = ({ width, height }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="none" viewBox="0 0 50 26">
@@ -13,11 +13,7 @@ const LogoIcon = ({ width, height }) => {
   );
 };
 LogoIcon.propTypes = {
-  width: PropsType.Number,
-  height: PropsType.Number,
-};
-LogoIcon.defaultProps = {
-  width: 50,
-  height: 26,
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
 export default memo(LogoIcon);

@@ -83,6 +83,7 @@ export default {
     L_Activity: "Hoạt động",
     L_UPDATE_PROGRESS: "Cập nhật tiến độ",
     L_PROCESS: "Quá trình",
+    L_END: "Đã hết hạn",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
@@ -90,5 +91,7 @@ export default {
     TXT_JUST_READ: "Vừa đọc xong quyển",
     TXT_PEOPLE: "người",
     TXT_To: "đến",
+    TXT_HAVE_READ: "Đã đọc",
+    TXT_BOOK: "cuốn sách",
   },
 };

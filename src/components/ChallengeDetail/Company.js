@@ -12,7 +12,7 @@ function Company() {
     <Box>
       <Paper elevation={1} className={classes.logoContainer}>
         <Box className={classes.logoOutline}>
-          <LogoIcon width={isMobile ? 30 : 50} height={isMobile ? 15 : 25} />
+          {isMobile ? <LogoIcon width={30} height={15} /> : <LogoIcon width={50} height={25} />}
         </Box>
         {isMobile ? (
           <Typography>

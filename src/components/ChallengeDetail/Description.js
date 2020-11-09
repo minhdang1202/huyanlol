@@ -12,7 +12,7 @@ const Description = () => {
       <Box className={classes.content}>
         {!isMobile && <Typography variant="h6">{getLabel("L_DESCRIPTION")}</Typography>}
         {isMobile && <Box className="ic-chat" />}
-        <Typography variant={isMobile ? "body2" : "body1"} className={isMobile && "eclipse-3"}>
+        <Typography variant={isMobile ? "body2" : "body1"} className={`${isMobile && "eclipse-3"}`}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
           consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
@@ -20,9 +20,11 @@ const Description = () => {
           est laborum.
         </Typography>
       </Box>
-      <Typography variant="subtitle2" className={classes.btn}>
-        {getLabel("L_MORE")}
-      </Typography>
+      {isMobile && (
+        <Typography variant="subtitle2" className={classes.btn}>
+          {getLabel("L_MORE")}
+        </Typography>
+      )}
     </Paper>
   );
 };

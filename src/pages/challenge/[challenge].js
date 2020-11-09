@@ -14,12 +14,17 @@ import {
   GoalList,
   Description,
 } from "../../../src/components/ChallengeDetail";
+
 const Challenge = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: "Challenge name", shareUrl: "/" };
+
+  const isDone = true; //progress
+  const isEnd = true; // due date
+
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container maxWidth="lg" className={classes.root}>
@@ -34,9 +39,9 @@ const Challenge = () => {
         )}
         <Grid container justify="center" spacing={0}>
           {!isMobile && (
-            <Grid container alignItems="center" item xs={12} sm={3} direction="column">
+            <Grid container alignItems="center" item xs={12} sm={4} md={5} direction="column">
               <Box className={classes.item}>
-                <ChallengeCover />
+                <ChallengeCover isDone={isDone} isEnd={isEnd} />
               </Box>
               <Box className={classes.item}>
                 <InviteFriend />
@@ -48,11 +53,11 @@ const Challenge = () => {
           )}
 
           {!isMobile && (
-            <Grid container item xs={12} sm={7} direction="column" className={classes.rightContainer}>
+            <Grid container item xs={12} sm={7} md={7} direction="column" className={classes.rightContainer}>
               <Box className={classes.item}>
                 <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
                 <Goal goal="personal goal" />
-                <GoalList />
+                {!isDone && <GoalList />}
               </Box>
               <Box className={classes.item}>
                 <Description />
@@ -68,7 +73,7 @@ const Challenge = () => {
           {isMobile && (
             <Grid container alignItems="center" item xs={12} direction="column">
               <Box className={classes.item}>
-                <ChallengeCover />
+                <ChallengeCover isDone={isDone} isEnd={isEnd} />
               </Box>
               <Box className={classes.item}>
                 <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />

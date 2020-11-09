@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { makeStyles, Typography, Paper, Box, Button, Avatar, useTheme, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 const IMG_HEIGHT = 378;
 
-const ChallengeCover = () => {
+const ChallengeCover = ({ isDone, isEnd }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
@@ -16,16 +17,32 @@ const ChallengeCover = () => {
       {!isMobile && <Paper elevation={1} className={classes.coverBack} />}
       <Paper elevation={1} className={classes.content}>
         <Box className={classes.detail}>
-          {!isMobile && <Typography variant="subtitle1">{getLabel("L_PROCESS")}</Typography>}
-          <Box className={!isMobile && clsx(classes.icLine, "ic-bullseye")}>
-            <Typography variant="body1" component="span">
-              Đã đọc 0/13 cuốn sách
-            </Typography>
-          </Box>
+          {isMobile && <Typography variant="subtitle1">{getLabel("L_PROCESS")}</Typography>}
+          {console.log(isDone, isEnd)}
+          {isDone ? (
+            <Box className={!isMobile && clsx(classes.icLine, classes.isDone, "ic-check")}>
+              <Typography variant="body1" component="span">
+                {`${getLabel("TXT_HAVE_READ")} 69/69 ${getLabel("TXT_BOOK")}`}
+              </Typography>
+            </Box>
+          ) : (
+            <Box className={!isMobile && clsx(classes.icLine, "ic-bullseye")}>
+              <Typography variant="body1" component="span">
+                {`${getLabel("TXT_HAVE_READ")} 0/69 ${getLabel("TXT_BOOK")}`}
+              </Typography>
+            </Box>
+          )}
+
           <Box className={clsx(classes.icLine, classes.gray, "ic-calendar-alt")}>
-            <Typography variant={isMobile ? "body2" : "body1"} component="span">
-              Còn 30 ngày nữa
-            </Typography>
+            {isEnd ? (
+              <Typography variant={isMobile ? "body2" : "body1"} component="span">
+                {getLabel("L_END")}
+              </Typography>
+            ) : (
+              <Typography variant={isMobile ? "body2" : "body1"} component="span">
+                {"Còn 30 ngày nữa"}
+              </Typography>
+            )}
           </Box>
         </Box>
         <Box className={classes.btnContainer}>
@@ -43,6 +60,17 @@ const ChallengeCover = () => {
     </Box>
   );
 };
+
+ChallengeCover.propTypes = {
+  isDone: PropTypes.bool,
+  isEnd: PropTypes.bool,
+};
+
+ChallengeCover.defaultProps = {
+  isDone: false,
+  isEnd: false,
+};
+
 const useStyles = makeStyles(theme => ({
   root: {
     alignItems: "center",
@@ -116,6 +144,9 @@ const useStyles = makeStyles(theme => ({
   },
   gray: {
     color: theme.palette.text.secondary,
+  },
+  isDone: {
+    color: theme.palette.text.link,
   },
 }));
 export default ChallengeCover;
