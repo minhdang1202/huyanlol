@@ -24,8 +24,8 @@ import StringFormat from "string-format";
 import { uuid } from "utils";
 import clsx from "clsx";
 
-const ArticleSummary = ({ data }) => {
-  const classes = useStyles();
+const ArticleSummary = ({ data, isHiddenAction }) => {
+  const classes = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const theme = useTheme();
 
@@ -144,6 +144,7 @@ const useStyles = makeStyles(theme => ({
   },
   headerAvatar: { width: 32, height: 32 },
   headerAction: {
+    display: props => (props.isHidden ? "none" : "block"),
     margin: 0,
     "& *": { color: theme.palette.text.secondary },
     "& button:last-child": {
@@ -192,6 +193,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   action: {
+    display: props => (props.isHidden ? "none" : "flex"),
     paddingTop: 6,
     paddingBottom: 6,
     justifyContent: "space-between",
@@ -205,7 +207,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-ArticleSummary.propTypes = { data: PropTypes.object };
-ArticleSummary.defaultProps = {};
+ArticleSummary.propTypes = {
+  data: PropTypes.object,
+  isHiddenAction: PropTypes.bool,
+};
+ArticleSummary.defaultProps = { isHiddenAction: false };
 
 export default memo(ArticleSummary);

@@ -13,9 +13,9 @@ const ListReviews = props => {
   return (
     <Section title={getLabel("TXT_LIST_REVIEWS")}>
       <Box className={classes.root}>
-        {MOCK_DATA.map(review => (
+        {MOCK_DATA.map((review, index) => (
           <Box key={uuid()} className={classes.item}>
-            <ReviewSummary data={review} />
+            <ReviewSummary data={review} isHiddenAction={0 === index % 2} />
           </Box>
         ))}
       </Box>
