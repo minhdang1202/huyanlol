@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 const CustomBreadcrumb = ({ bookName, articleName }) => {
   const BREADCRUMB_NAME_MAP = {
     editions: null,
-    book: bookName,
+    edition: bookName,
     articles: null,
     article: articleName,
   };

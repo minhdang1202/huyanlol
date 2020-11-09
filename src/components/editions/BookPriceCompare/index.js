@@ -10,7 +10,7 @@ const BookPriceCompare = () => {
   return (
     <Paper className={classes.root}>
       <Hidden xsDown>
-        <Typography variant="h6">{getLabel("TXT_BOOKDETAIL_BOOK_PRICE_COMPARE")}</Typography>
+        <Typography variant="h6">{getLabel("TXT_EDITION_BOOK_PRICE_COMPARE")}</Typography>
       </Hidden>
       <Box>
         {BOOKSTORE_LOGOS.map((logo, index) => {

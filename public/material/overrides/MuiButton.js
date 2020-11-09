@@ -24,12 +24,13 @@ const largeStyle = {
   borderRadius: largeBorderRadius,
 };
 const textSizeSmall = { fontSize: "14px", letterSpacing: "0.77px" };
-const textSizeMedium = { fontSize: 16 };
+const textSizeMedium = { fontSize: 16, fontWeight: 600 };
 const textSizeLarge = { fontSize: "18px" };
 
 export default {
   root: {
     textTransform: "none",
+    lineHeight: "normal",
   },
   contained: {
     boxShadow: "none",

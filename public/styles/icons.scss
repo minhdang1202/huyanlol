@@ -1,0 +1,84 @@
+.ic-heart-empty:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f004";
+}
+
+.ic-bookmark-empty:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f02e";
+}
+
+.ic-comment:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f27a";
+}
+
+.ic-share:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f1e0";
+}
+
+.ic-search:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f002";
+  font-size: 22px;
+  color: $color-text-secondary;
+}
+
+.ic-chevron-left:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f053";
+}
+
+.ic-chevron-down:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f078";
+}
+
+.ic-ellipsis-h:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f141";
+}
+
+.ic-user:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f007";
+}
+
+.ic-shopping-cart:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f07a";
+}
+
+.ic-info-circle:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f05a";
+}
+
+.ic-heart:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f004";
+}
+
+.ic-address:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f3c5";
+  font-size: 16px;
+}
+
+.ic-star:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f005";
+}
+
+.ic-bookmark:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f02e";
+}
+
+.ic-cloud-download:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f381";
+  color: $color-primary-main;
+  font-size: 16px;
+}
