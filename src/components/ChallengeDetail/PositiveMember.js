@@ -1,11 +1,13 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Button, Avatar } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Button, Avatar, useTheme, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Paper elevation={1} className={classes.root}>
       <Box className={classes.top}>
@@ -24,7 +26,7 @@ const PositiveMember = () => {
         <Member />
         <Member />
         <Member />
-        <Member />
+        {!isMobile && <Member />}
       </Box>
     </Paper>
   );
@@ -77,11 +79,19 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     height: "77px",
     width: "77px",
+    [theme.breakpoints.down("xs")]: {
+      height: "55px",
+      width: "55px",
+    },
   },
   icLine: {
+    fontSize: "24px",
     "&>:first-child": {
       margin: theme.spacing(2),
       color: theme.palette.text.primary,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "14px",
     },
   },
 }));

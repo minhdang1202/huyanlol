@@ -1,8 +1,8 @@
 import React, { memo } from "react";
-
-const LogoIcon = () => {
+import PropsType from "prop-types";
+const LogoIcon = ({ width, height }) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="26" fill="none" viewBox="0 0 50 26">
+    <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="none" viewBox="0 0 50 26">
       <path
         fill="#5AA4CC"
         fillRule="evenodd"
@@ -12,5 +12,12 @@ const LogoIcon = () => {
     </svg>
   );
 };
-
+LogoIcon.propTypes = {
+  width: PropsType.Number,
+  height: PropsType.Number,
+};
+LogoIcon.defaultProps = {
+  width: 50,
+  height: 26,
+};
 export default memo(LogoIcon);

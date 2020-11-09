@@ -7,7 +7,7 @@ const InviteFriend = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
-    <Box className={classes.root}>
+    <Paper className={classes.root}>
       <AvatarGroup spacing={20} className={classes.avatarGroup}>
         <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
         <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
@@ -15,15 +15,15 @@ const InviteFriend = () => {
         <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
         <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
       </AvatarGroup>
-      <Paper className={classes.content}>
+      <Box className={classes.content}>
         <Typography variant="body2" className={classes.text}>
           Nan, Hoa, Xe, Đạp và 122 người khác tham gia thử thách này
         </Typography>
         <Button fullWidth color="primary" variant="contained" className={classes.btn} size="large">
           {getLabel("L_INVITE")}
         </Button>
-      </Paper>
-    </Box>
+      </Box>
+    </Paper>
   );
 };
 const useStyles = makeStyles(theme => ({
@@ -32,6 +32,11 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+
+    [theme.breakpoints.down("xs")]: {
+      borderRadius: "0px",
+      background: theme.palette.white,
+    },
   },
   avatarGroup: {
     margin: "0px",
@@ -41,6 +46,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     position: "relative",
     marginBottom: "-27.5px",
+    zIndex: "0",
   },
   avatar: {
     width: "55px",
@@ -63,7 +69,6 @@ const useStyles = makeStyles(theme => ({
   btn: {
     background: "#e9f8ff",
     color: theme.palette.primary.main,
-    textTransform: "none",
     height: "45px",
   },
 }));

@@ -9,25 +9,40 @@ function Company() {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
-    <Box className={classes.item}>
+    <Box>
       <Paper elevation={1} className={classes.logoContainer}>
         <Box className={classes.logoOutline}>
-          <LogoIcon />
+          <LogoIcon width={isMobile ? 30 : 50} height={isMobile ? 15 : 25} />
         </Box>
-        <Typography variant="h5" className={classes.coName}>
-          {getLabel("L_COMPANY")}
-        </Typography>
+        {isMobile ? (
+          <Typography>
+            <Typography variant="body2" component="span">
+              {`By `}
+            </Typography>
+            <Typography variant="subtitle2" component="span">
+              GAT
+            </Typography>
+          </Typography>
+        ) : (
+          <Typography variant="subtitle1" className={classes.coName}>
+            {getLabel("L_COMPANY")}
+          </Typography>
+        )}
       </Paper>
     </Box>
   );
 }
 const useStyles = makeStyles(theme => ({
   logoContainer: {
-    height: "157px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "column",
+    [theme.breakpoints.down("xs")]: {
+      borderRadius: "0px",
+      flexDirection: "row",
+      justifyContent: "flex-start",
+    },
   },
   logoOutline: {
     height: "72px",
@@ -37,9 +52,13 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "center",
     border: `solid 1px ${theme.palette.text.link}`,
+    [theme.breakpoints.down("xs")]: {
+      height: "40px",
+      width: "40px",
+      margin: theme.spacing(1),
+    },
   },
   coName: {
-    fontSize: "18px",
     color: "#2d6291",
   },
 }));

@@ -1,27 +1,31 @@
 import React from "react";
-import { makeStyles, Typography, Paper } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, useTheme, useMediaQuery } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { PersonIcon, DateIcon } from "../../icons/index";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 const ChallengeInfo = ({ name, count, from, to }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Paper elevation={1} className={classes.root}>
       <Typography variant="h5" component="h1" className={classes.title}>
         {name}
       </Typography>
-      <Typography className={classes.content}>
-        <Typography variant="body1" component="span" className={classes.centerText}>
-          <PersonIcon />
-          <Typography component="span" className={classes.text}>{`${count} ${getLabel("TXT_PEOPLE")}`}</Typography>
-        </Typography>
-        <Typography variant="body1" component="span" className={classes.centerText}>
-          <DateIcon />
-          <Typography component="span" className={classes.text}>{`${from} ${getLabel("TXT_To")} ${to}`}</Typography>
-        </Typography>
-      </Typography>
+      <Box className={classes.content}>
+        <Box className={clsx("ic-person", classes.centerText)}>
+          <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${count} ${getLabel(
+            "TXT_PEOPLE",
+          )}`}</Typography>
+        </Box>
+        <Box className={clsx("ic-date", classes.centerText)}>
+          <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${from} ${getLabel(
+            "TXT_To",
+          )} ${to}`}</Typography>
+        </Box>
+      </Box>
     </Paper>
   );
 };
@@ -37,6 +41,12 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     padding: "24px",
     borderRadius: "10px 10px 0px 0px",
+    [theme.breakpoints.down("xs")]: {
+      borderRadius: "10px 10px 0px 0px ",
+      position: "relative",
+      marginTop: "-50px",
+      zIndex: 10,
+    },
   },
   title: {
     marginBottom: "24px",
@@ -44,17 +54,18 @@ const useStyles = makeStyles(theme => ({
   content: {
     display: "flex",
     justifyContent: "flex-start",
+    fontSize: "20px",
     "&>*:nth-child(2)": {
       marginLeft: "40px",
     },
-  },
-  centerText: {
-    display: "flex",
-    alignItems: "center",
-    margin: "5px 0px 5px 0px",
-  },
-  text: {
-    marginLeft: "8px",
+    "&>*": {
+      "&>*:nth-child(1)": {
+        marginLeft: "8px",
+      },
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "18px",
+    },
   },
 }));
 export default ChallengeInfo;

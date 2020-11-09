@@ -98,5 +98,20 @@
 .ic-trophy:before {
   font-family: "FontAwesome5Pro";
   content: "\f091";
-  font-size: 24px;
+}
+
+.ic-person:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f007";
+}
+
+.ic-date::before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f133";
+}
+
+.ic-chat::before {
+  font-family: "FontAwesome5Pro";
+  content: "\f27a";
+  font-size: 14px;
 }

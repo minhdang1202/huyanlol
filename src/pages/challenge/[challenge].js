@@ -19,7 +19,7 @@ const Challenge = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: "asdasdasd" };
+  const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: "Challenge name", shareUrl: "/" };
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container maxWidth="lg" className={classes.root}>
@@ -33,44 +33,65 @@ const Challenge = () => {
           </Breadcrumbs>
         )}
         <Grid container justify="center" spacing={0}>
-          <Grid container alignItems="center" item xs={12} sm={3} direction="column">
-            <Box className={classes.item}>
-              <ChallengeCover />
-            </Box>
-            {isMobile && (
+          {!isMobile && (
+            <Grid container alignItems="center" item xs={12} sm={3} direction="column">
               <Box className={classes.item}>
-                <ChallengeInfo />
-                <Goal goal="personal goal" />
+                <ChallengeCover />
               </Box>
-            )}
-            <Box className={classes.item}>
-              <InviteFriend />
-            </Box>
-            {!isMobile && (
+              <Box className={classes.item}>
+                <InviteFriend />
+              </Box>
               <Box className={classes.item}>
                 <Company />
               </Box>
-            )}
-          </Grid>
+            </Grid>
+          )}
 
-          <Grid container item xs={12} sm={7} direction="column" className={classes.rightContainer}>
-            {!isMobile && (
+          {!isMobile && (
+            <Grid container item xs={12} sm={7} direction="column" className={classes.rightContainer}>
               <Box className={classes.item}>
                 <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
                 <Goal goal="personal goal" />
                 <GoalList />
               </Box>
-            )}
-            <Box className={classes.item}>
-              <Description />
-            </Box>
-            <Box className={classes.item}>
-              <PositiveMember />
-            </Box>
-            <Box className={classes.item}>
-              <Activity />
-            </Box>
-          </Grid>
+              <Box className={classes.item}>
+                <Description />
+              </Box>
+              <Box className={classes.item}>
+                <PositiveMember />
+              </Box>
+              <Box className={classes.item}>
+                <Activity />
+              </Box>
+            </Grid>
+          )}
+          {isMobile && (
+            <Grid container alignItems="center" item xs={12} direction="column">
+              <Box className={classes.item}>
+                <ChallengeCover />
+              </Box>
+              <Box className={classes.item}>
+                <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
+                <Goal goal="personal goal" />
+                <GoalList />
+              </Box>
+              <Box className={classes.item}>
+                <Description />
+              </Box>
+              <Box className={classes.item}>
+                <Company />
+              </Box>
+              <Box className={classes.item}>
+                <InviteFriend />
+              </Box>
+              <Box className={classes.item}>
+                <PositiveMember />
+              </Box>
+              <Box className={classes.item}>
+                <Activity />
+              </Box>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </MainLayout>
@@ -80,8 +101,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    padding: 0,
-    overflow: "hidden",
+    padding: "0px",
   },
   breadcrumb: {
     margin: "18px 0px 24px 0px",
@@ -96,7 +116,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     margin: "10px 0px 10px 0px",
     [theme.breakpoints.down("xs")]: {
-      margin: "4px",
+      margin: "4px 0px 4px 0px",
     },
   },
   rightContainer: {
@@ -111,10 +131,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       position: "static !important",
       boxShadow: "none !important",
-      background: "none !important",
-      "& svg": {
-        fill: `${theme.palette.white} !important`,
-      },
     },
   },
 }));

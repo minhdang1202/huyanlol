@@ -12,8 +12,6 @@ import FacebookIcon from "./FacebookIcon";
 import GoogleIcon from "./GoogleIcon";
 import LogoIcon from "./LogoIcon";
 import GoalIcon from "./GoalIcon";
-import PersonIcon from "./PersonIcon";
-import DateIcon from "./DateIcon";
 export {
   SearchIcon,
   ArrowDownIcon,
@@ -29,6 +27,4 @@ export {
   GoogleIcon,
   LogoIcon,
   GoalIcon,
-  PersonIcon,
-  DateIcon,
 };
