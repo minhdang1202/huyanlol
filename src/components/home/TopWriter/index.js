@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
-import { Avatar, Box, makeStyles, Tab, Tabs } from "@material-ui/core";
+import { Box, Divider, IconButton, makeStyles, Typography } from "@material-ui/core";
 import { Section, ReviewSummary } from "components";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
@@ -11,7 +11,7 @@ const TopWriter = props => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
 
-  const [selectedTab, setSelectedTab] = useState(MOCK_DATA[0].user.id);
+  const [selectedTab, setSelectedTab] = useState(1);
 
   const onSelectedTab = (event, selectedTabIndex) => {
     setSelectedTab(selectedTabIndex);
@@ -20,11 +20,17 @@ const TopWriter = props => {
   return (
     <Section title={getLabel("TXT_LIST_REVIEWS")}>
       <TabUsers data={MOCK_DATA.map(item => item.user)} value={selectedTab} onChange={onSelectedTab} />
+
       <Box className={classes.root}>
-        {MOCK_DATA.map((review, index) => (
-          <Box key={uuid()} className={classes.item}>
-            <ReviewSummary data={review} isHiddenAction={0 === index % 2} />
-          </Box>
+        <Box className={("center-root", classes.header)}>
+          <Typography variant="subtitle2">{MOCK_DATA[selectedTab - 1].user.name}</Typography>
+          <IconButton>
+            <Box className="ic-arrow-circle-right" />
+          </IconButton>
+        </Box>
+        <Divider />
+        {MOCK_DATA.map(review => (
+          <ReviewSummary data={review} isHiddenAction={true} key={uuid()} classes={{ root: classes.item }} />
         ))}
       </Box>
     </Section>
@@ -41,12 +47,28 @@ export default memo(TopWriter);
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    height: "100%",
-    "& > $item:not(:last-child)": {
-      marginBottom: theme.spacing(2),
+    background: "white",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    borderRadius: 9,
+    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.08)",
+    border: "solid 1px rgba(216, 216, 216, 0.18)",
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 12,
+    "& > button": {
+      color: theme.palette.grey[500],
+      fontSize: 16,
     },
   },
-  item: {},
+  item: {
+    border: "none",
+    borderRadius: "none",
+    boxShadow: "unset",
+  },
 }));
 
 const MOCK_DATA = [

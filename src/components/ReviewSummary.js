@@ -26,8 +26,8 @@ import StringFormat from "string-format";
 import clsx from "clsx";
 import CustomRating from "./CustomRating";
 
-const ReviewSummary = ({ data, isHiddenAction }) => {
-  const classes = useStyles({ isHidden: isHiddenAction });
+const ReviewSummary = ({ data, isHiddenAction, classes }) => {
+  const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const theme = useTheme();
 
@@ -47,17 +47,17 @@ const ReviewSummary = ({ data, isHiddenAction }) => {
   let isHeart = Boolean(review.heart && review.heart > 0);
 
   return (
-    <Card className={classes.root}>
+    <Card className={clsx(defaultClasses.root, classes && classes.root)}>
       <CardHeader
-        classes={{ root: classes.header, action: classes.headerAction }}
+        classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
-          <Avatar src={user.avatar} className={classes.headerAvatar}>
+          <Avatar src={user.avatar} className={defaultClasses.headerAvatar}>
             {(user.name || AppConstant.APP_NAME).charAt(0)}
           </Avatar>
         }
         action={
           <>
-            <IconButton aria-label="bookmark" classes={{ label: classes.bookmarkButton }}>
+            <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }}>
               <BookmarkIcon color="white" stroke="currentColor" />
             </IconButton>
             <IconButton aria-label="settings">
@@ -77,7 +77,7 @@ const ReviewSummary = ({ data, isHiddenAction }) => {
         }
       />
 
-      <CardContent className={classes.main}>
+      <CardContent className={defaultClasses.main}>
         <Grid container>
           <Grid item xs={8} md={9}>
             <Typography variant="subtitle1" component="p">
@@ -87,12 +87,12 @@ const ReviewSummary = ({ data, isHiddenAction }) => {
             <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
               {review.description}
             </Typography>
-            <ListItem className={classes.bookTitle}>
-              <ListItemIcon className={classes.bookTitleIcon}>
+            <ListItem className={defaultClasses.bookTitle}>
+              <ListItemIcon className={defaultClasses.bookTitleIcon}>
                 <Box className="ic-book" />
               </ListItemIcon>
               <ListItemText
-                className={classes.bookTitleText}
+                className={defaultClasses.bookTitleText}
                 primary={
                   <Typography
                     variant="body2"
@@ -110,11 +110,11 @@ const ReviewSummary = ({ data, isHiddenAction }) => {
               />
             </ListItem>
           </Grid>
-          <Grid item xs={4} md={3} className={classes.mainCover}>
+          <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
             <CardMedia src={book.cover} title={book.title} component="img" />
           </Grid>
 
-          <Grid item xs={8} md={9} className={classes.mainTotalHeart}>
+          <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
             <HeartIcon isActive={isHeart} width={12} height={12} />
             <Typography variant="body2" color="textSecondary" component="p">
               {review.heart}
@@ -128,9 +128,9 @@ const ReviewSummary = ({ data, isHiddenAction }) => {
         </Grid>
       </CardContent>
 
-      <Divider />
-      <CardActions disableSpacing className={classes.action}>
-        <Button startIcon={<HeartIcon isActive={isHeart} />} className={clsx(isHeart && classes.heartColor)}>
+      {!isHiddenAction && <Divider />}
+      <CardActions disableSpacing className={defaultClasses.action}>
+        <Button startIcon={<HeartIcon isActive={isHeart} />} className={clsx(isHeart && defaultClasses.heartColor)}>
           {getLabel("TXT_LOVE")}
         </Button>
         <Button startIcon={<MessageIcon />}>{getLabel("TXT_COMMENT")}</Button>
@@ -230,7 +230,8 @@ const useStyles = makeStyles(theme => ({
 ReviewSummary.propTypes = {
   data: PropTypes.object,
   isHiddenAction: PropTypes.bool,
+  classes: PropTypes.object,
 };
-ReviewSummary.defaultProps = { isHiddenAction: false };
+ReviewSummary.defaultProps = { isHiddenAction: false, classes: {} };
 
 export default memo(ReviewSummary);

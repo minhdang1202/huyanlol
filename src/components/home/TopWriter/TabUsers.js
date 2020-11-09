@@ -23,9 +23,9 @@ const TabUsers = ({ data, ...otherProps }) => {
       classes={{ root: classes.root, indicator: classes.indicator }}
       TabIndicatorProps={{ style: { left: (otherProps.value - 1) * 64 + 24 } }}
     >
-      {listUsers.map(user => (
+      {listUsers.map((user, index) => (
         <Tab
-          value={user.id}
+          value={index + 1}
           label={
             <Avatar src={user.avatar} className={classes.avatar}>
               {(user.name || "").charAt(0)}

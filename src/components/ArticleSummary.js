@@ -25,7 +25,7 @@ import { uuid } from "utils";
 import clsx from "clsx";
 
 const ArticleSummary = ({ data, isHiddenAction }) => {
-  const classes = useStyles({ isHidden: isHiddenAction });
+  const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const theme = useTheme();
 
@@ -51,17 +51,17 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
   let isHeart = Boolean(article.heart && article.heart > 0);
 
   return (
-    <Card className={classes.root}>
+    <Card className={defaultClasses.root}>
       <CardHeader
-        classes={{ root: classes.header, action: classes.headerAction }}
+        classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
-          <Avatar aria-label="recipe" src={user.avatar} className={classes.headerAvatar}>
+          <Avatar aria-label="recipe" src={user.avatar} className={defaultClasses.headerAvatar}>
             {(user.name || AppConstant.APP_NAME).charAt(0)}
           </Avatar>
         }
         action={
           <>
-            <IconButton aria-label="bookmark" classes={{ label: classes.bookmarkButton }}>
+            <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }}>
               <BookmarkIcon color="white" stroke="currentColor" />
             </IconButton>
             <IconButton aria-label="settings">
@@ -81,7 +81,7 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
         }
       />
 
-      <CardContent className={classes.main}>
+      <CardContent className={defaultClasses.main}>
         <Grid container>
           <Grid item xs={8} md={9}>
             <Typography variant="subtitle1" component="p">
@@ -99,11 +99,11 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
             )}
             {article.categories && <Box ml="-6px">{<CategoryTag content={article.categories[0]} key={uuid()} />}</Box>}
           </Grid>
-          <Grid item xs={4} md={3} className={classes.mainCover}>
+          <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
             <CardMedia src={book.cover} title={book.title} component="img" />
           </Grid>
 
-          <Grid item xs={8} md={9} className={classes.mainTotalHeart}>
+          <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
             <HeartIcon isActive={isHeart} width={12} height={12} />
             <Typography variant="body2" color="textSecondary" component="p">
               {article.heart}
@@ -117,9 +117,9 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
         </Grid>
       </CardContent>
 
-      <Divider />
-      <CardActions disableSpacing className={classes.action}>
-        <Button startIcon={<HeartIcon isActive={isHeart} />} className={clsx(isHeart && classes.heartColor)}>
+      {!isHiddenAction && <Divider />}
+      <CardActions disableSpacing className={defaultClasses.action}>
+        <Button startIcon={<HeartIcon isActive={isHeart} />} className={clsx(isHeart && defaultClasses.heartColor)}>
           {getLabel("TXT_LOVE")}
         </Button>
         <Button startIcon={<MessageIcon />}>{getLabel("TXT_COMMENT")}</Button>

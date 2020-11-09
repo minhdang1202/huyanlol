@@ -19,10 +19,10 @@ const Home = () => {
             </Grid>
           </Hidden>
           <Grid item xs={12} sm={7} md={6} className={classes.mainContainer}>
-            <TopWriter />
             <MostBorrowing />
             <ListReviews />
             <ListArticles />
+            <TopWriter />
           </Grid>
           <Grid item xs={12} sm={5} md={4} className={classes.rightContainer}>
             <Box className={classes.fixedPosition}>
