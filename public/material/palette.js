@@ -16,7 +16,7 @@ export default {
     main: "#65B39D",
     light: "#65B39D",
   },
-  danger: {
+  error: {
     contrastText: white,
     dark: "#D34753",
     main: "#F66262",

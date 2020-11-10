@@ -80,7 +80,7 @@ export const HEIGHT_APP_BAR = "72px";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    position: "sticky",
+    position: "fixed",
     background: theme.palette.white,
     color: "inherit",
     fontSize: 18,
