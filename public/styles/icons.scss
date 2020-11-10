@@ -40,6 +40,11 @@
   content: "\f141";
 }
 
+.ic-arrow-circle-right:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f0a9";
+}
+
 .ic-user:before {
   font-family: "FontAwesome5Pro-Solid";
   content: "\f007";
@@ -81,4 +86,9 @@
   content: "\f381";
   color: $color-primary-main;
   font-size: 16px;
+}
+
+.ic-book:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f02d";
 }

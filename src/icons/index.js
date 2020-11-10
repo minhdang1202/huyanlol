@@ -10,6 +10,10 @@ import InfoIcon from "./InfoIcon";
 import CartIcon from "./CartIcon";
 import FacebookIcon from "./FacebookIcon";
 import GoogleIcon from "./GoogleIcon";
+import BookIcon from "./BookIcon";
+import PersonIcon from "./PersonIcon";
+import DotIcon from "./DotIcon";
+import LocalOfferIcon from "./LocalOfferIcon";
 
 export {
   SearchIcon,
@@ -24,4 +28,8 @@ export {
   CartIcon,
   FacebookIcon,
   GoogleIcon,
+  BookIcon,
+  PersonIcon,
+  DotIcon,
+  LocalOfferIcon,
 };
