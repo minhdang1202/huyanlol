@@ -56,7 +56,7 @@ const BookDetail = ({ book, bookCover }) => {
     setSelectedTab(tab);
   };
   return (
-    <MainLayout appBarProps={appBarProps} headProps={headProps}>
+    <MainLayout className={classes.root} appBarProps={appBarProps} headProps={headProps}>
       {isMobile ? (
         <Box>
           <BookInfo
@@ -152,6 +152,11 @@ BookDetail.defaultProps = {
 };
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    [theme.breakpoints.down("xs")]: {
+      paddingTop: 0,
+    },
+  },
   rootDesktop: {
     maxWidth: 1020,
     paddingTop: theme.spacing(3),

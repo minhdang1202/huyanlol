@@ -33,6 +33,7 @@ export default {
     TXT_FOLLOW: "Theo dõi",
     TXT_FOLLOWED: "Đã theo dõi",
     TXT_GIVERS: "Givers",
+    TXT_BOOKMARK: "Bookmark",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",

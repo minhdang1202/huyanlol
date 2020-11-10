@@ -16,6 +16,7 @@ import ArticleSummary from "./ArticleSummary";
 import Hashtag from "./Hashtag";
 import CategoryTag from "./CategoryTag";
 import ReviewSummary from "./ReviewSummary";
+import FBShareButton from "./FBShareButton";
 
 export {
   AppHead,
@@ -36,4 +37,5 @@ export {
   Hashtag,
   CategoryTag,
   ReviewSummary,
+  FBShareButton,
 };

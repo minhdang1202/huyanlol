@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
 import StringFormat from "string-format";
 import { useTranslation } from "react-i18next";
 import { Box, Badge, Avatar, IconButton, Typography, makeStyles } from "@material-ui/core";
@@ -27,11 +29,11 @@ const Giver = ({ name, avatar, giver, isFollowing }) => {
         </AppLink>
         <Box ml={1}>
           <AppLink to="#">
-            <Typography variant="subtitle2" component="div" className="eclipse">
+            <Typography component="div" className={clsx("eclipse", classes.name)}>
               {name}
             </Typography>
           </AppLink>
-          <Typography variant="caption" className="eclipse">
+          <Typography variant="body2" className={clsx("eclipse", "grey-text")}>
             {StringFormat(getLabel("FM_GIVERS"), giver)}
           </Typography>
         </Box>
@@ -48,6 +50,13 @@ const Heart = () => {
       <Box className="ic-heart" />
     </IconButton>
   );
+};
+
+Giver.propTypes = {
+  name: PropTypes.string,
+  avatar: PropTypes.string,
+  giver: PropTypes.number,
+  isFollowing: PropTypes.bool,
 };
 
 const useStyles = makeStyles(theme => ({
@@ -89,6 +98,10 @@ const useStyles = makeStyles(theme => ({
       fontSize: 10,
       color: theme.palette.white,
     },
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 600,
   },
 }));
 

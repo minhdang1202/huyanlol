@@ -1,6 +1,6 @@
 import React from "react";
 import StringFormat from "string-format";
-import { makeStyles, Container, Hidden, Typography, Box, Grid } from "@material-ui/core";
+import { makeStyles, Container, Hidden, Typography, Box, Grid, Divider } from "@material-ui/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ import {
   ArticleHashtagButtons,
   ArticleAuthor,
   ArticleReacts,
+  ArticleReactButtons,
 } from "components/articles";
 import { BookSlider } from "components/articles/ArticleSliders";
 
@@ -23,7 +24,7 @@ const ArticleDetail = () => {
   const classes = useStyles();
   const shareUrl = AppConstant.WEBSITE_URL;
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
-  const appBarProps = { isDetail: true, shareUrl, appBarTitle: DEMO_TITLE };
+  const appBarProps = { isDetail: true, shareUrl, appBarTitle: DEMO_TITLE, hasBookmark: true };
   //   const headProps = { title: book.title, description: book.description, ogImage: bookCover };
 
   return (
@@ -39,14 +40,7 @@ const ArticleDetail = () => {
           <ArticleContent />
         </Box>
         <Grid container item xs={12} md={8} className={classes.subContainer}>
-          <Box
-            width="100%"
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mt={3}
-            mb={{ xs: 1, sm: 1.5 }}
-          >
+          <Box className={classes.bookMentioned}>
             <Typography variant="h6">{getLabel("TXT_ARTICLE_BOOK_MENTIONED")}</Typography>
             {DEMO_ARTICLE_TYPE ? (
               <Typography variant="body2" className="grey-text">
@@ -67,6 +61,11 @@ const ArticleDetail = () => {
           <ArticleAuthor {...DEMO_AUTHOR} />
           <ArticleReacts reactCount={DEMO_REACT_COUNT} commentCount={DEMO_COMMENT_COUNT} />
         </Grid>
+        <Box className={classes.reactButtons}>
+          <Divider className={classes.divider} />
+          <ArticleReactButtons shareUrl={shareUrl} />
+          <Divider className={classes.divider} />
+        </Box>
         <ArticleRelated isReviewType={!DEMO_ARTICLE_TYPE} isArticleType={Boolean(DEMO_ARTICLE_TYPE)} />
       </Container>
     </MainLayout>
@@ -74,6 +73,7 @@ const ArticleDetail = () => {
 };
 
 export const PADDING_X_CONTAINER_MOBILE = "16px";
+export const PADDING_X_CONTAINER_TABLET = "24px";
 
 const DEMO_AUTHOR = {
   name: "Nguyễn Thanh Sơn",
@@ -117,6 +117,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.white,
   },
   container: {
+    position: "relative",
     maxWidth: 1020,
     [theme.breakpoints.down("sm")]: {
       maxWidth: 624,
@@ -125,6 +126,37 @@ const useStyles = makeStyles(theme => ({
   },
   subContainer: {
     margin: "0 auto",
+  },
+  divider: {
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      width: `calc(100% + ${PADDING_X_CONTAINER_MOBILE} * 2)`,
+      marginLeft: `calc(${PADDING_X_CONTAINER_MOBILE} * -1)`,
+    },
+  },
+  reactButtons: {
+    position: "relative",
+    bottom: 0,
+    maxWidth: "calc(1020px / 12 * 8)",
+    left: "50%",
+    transform: "translate(-50%, 0)",
+    [theme.breakpoints.down("xs")]: {
+      position: "sticky",
+      width: "100%",
+      left: 0,
+      transform: "none",
+    },
+  },
+  bookMentioned: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(1.5),
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: theme.spacing(1),
+    },
   },
 }));
 

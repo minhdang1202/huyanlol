@@ -48,6 +48,7 @@ MainLayout.defaultProps = {
     appBarTitle: null,
     className: "",
     shareUrl: "",
+    hasBookmark: false,
   },
   classes: {},
 };

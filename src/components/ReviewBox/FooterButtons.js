@@ -3,7 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import { Divider, Box, Button, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { FacebookShareButton } from "react-share";
+import FBShareButton from "../FBShareButton";
 
 const FooterButtons = ({ shareUrl, onOpenDownload }) => {
   const classes = useStyles();
@@ -12,23 +12,13 @@ const FooterButtons = ({ shareUrl, onOpenDownload }) => {
     <>
       <Divider className={classes.divider} />
       <Box display="flex" justifyContent="space-between">
-        <Button
-          startIcon={<Box className={clsx("ic-heart-empty", classes.textSecondary)} />}
-          onClick={e => onOpenDownload(e)}
-        >
+        <Button startIcon={<Box className={clsx("ic-heart-empty", "grey-text")} />} onClick={e => onOpenDownload(e)}>
           {getLabel("TXT_LOVE")}
         </Button>
-        <Button
-          startIcon={<Box className={clsx("ic-comment", classes.textSecondary)} />}
-          onClick={e => onOpenDownload(e)}
-        >
+        <Button startIcon={<Box className={clsx("ic-comment", "grey-text")} />} onClick={e => onOpenDownload(e)}>
           {getLabel("TXT_COMMENT")}
         </Button>
-        <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
-          <Button component="div" startIcon={<Box className={clsx("ic-share", classes.textSecondary)} />}>
-            {getLabel("TXT_SHARE")}
-          </Button>
-        </FacebookShareButton>
+        <FBShareButton shareUrl={shareUrl} />
       </Box>
     </>
   );
@@ -48,19 +38,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: `${theme.spacing(1)}px !important`,
     [theme.breakpoints.down("xs")]: {
       marginBottom: `${theme.spacing(0.5)}px !important`,
-    },
-  },
-  textSecondary: {
-    color: theme.palette.text.secondary,
-    fontSize: 16,
-  },
-  shareButton: {
-    width: "fit-content",
-    height: "fit-content",
-    border: "none",
-    background: "none",
-    "& span": {
-      color: theme.palette.text.secondary,
     },
   },
 }));
