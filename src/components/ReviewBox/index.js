@@ -6,15 +6,34 @@ import { convertDistanceDate } from "utils/date";
 import { useTranslation } from "react-i18next";
 import { AppConstant, PathConstant } from "const";
 import { CustomRating, DialogAppDownload, AppLink } from "components";
-import { makeStyles, Paper, Typography, Box, Avatar, Button } from "@material-ui/core";
+import { makeStyles, Paper, Typography, Box, Avatar, Button, IconButton } from "@material-ui/core";
 import FooterButtons from "./FooterButtons";
 import TopIconButtons from "./TopIconButtons";
+import HashtagButtons from "./HashtagButtons";
+import BookNameButton from "./BookNameButton";
+import ReactButtons from "./ReactButtons";
 
-const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide }) => {
-  const { articleId, title, intro, name, lastUpdate, avatar, thumbnail, reactCount, commentCount, rate } = review;
+const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide, isBookDetail }) => {
+  const {
+    articleId,
+    title,
+    intro,
+    name,
+    lastUpdate,
+    avatar,
+    thumbnail,
+    reactCount,
+    commentCount,
+    rate,
+    hashtags,
+    category,
+    bookName,
+  } = review;
   const classes = useStyles({ isArticleType, isReviewType });
   const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
-  const { t: getLabel, i18n } = useTranslation();
+  const articleUrl = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
+  const editionUrl = bookName ? StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId) : null;
+  const { i18n } = useTranslation();
   const displayDate = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
 
@@ -30,13 +49,21 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide }) 
   return (
     <>
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
-      <AppLink className={classes.link} to={StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId)}>
+      <AppLink className={classes.link} to={articleUrl} component="div">
         <Button component="div" className={clsx(classes.button, className)}>
           <Paper className={clsx(classes.paper, "paper")}>
             <Box display="flex" alignItems="center">
-              <Avatar src={avatar} />
+              <AppLink to="#">
+                <IconButton className={classes.avatarButton}>
+                  <Avatar src={avatar} />
+                </IconButton>
+              </AppLink>
               <Box ml={1}>
-                <Typography variant="subtitle2">{name}</Typography>
+                <AppLink to="#">
+                  <Typography variant="subtitle2" component="div">
+                    {name}
+                  </Typography>
+                </AppLink>
                 <Typography variant="caption">{displayDate}</Typography>
               </Box>
               <TopIconButtons onOpenDownload={onOpenDownload} />
@@ -46,25 +73,16 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide }) 
                 <Typography className={clsx("eclipse", classes.title)} variant="subtitle1">
                   {title}
                 </Typography>
-                <CustomRating readOnly={true} defaultValue={rate} />
+                {isReviewType && <CustomRating readOnly={true} defaultValue={rate} />}
                 <Typography variant="body2" className={clsx("eclipse-2", classes.content)}>
                   {intro}
                 </Typography>
+                {isReviewType && !isBookDetail && <BookNameButton editionUrl={editionUrl} bookName={bookName} />}
+                {isArticleType && <HashtagButtons articleUrl={articleUrl} hashtags={hashtags} category={category} />}
               </Box>
               <Avatar className={classes.thumbnail} variant="square" src={thumbnail} />
             </Box>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Box className={classes.heartWrapper}>
-                <Box className={clsx("ic-heart", classes.heartIcon)} />
-                <Typography variant="body2" className={classes.greyText}>
-                  {reactCount}
-                </Typography>
-              </Box>
-              <Typography variant="body2" className={classes.greyText}>
-                {StringFormat(getLabel("FM_COMMENT"), commentCount)}
-              </Typography>
-            </Box>
-            {/* {isReviewType && } */}
+            <ReactButtons commentCount={commentCount} reactCount={reactCount} articleUrl={articleUrl} />
             {!isSlide && <FooterButtons shareUrl={shareUrl} onOpenDownload={onOpenDownload} />}
           </Paper>
         </Button>
@@ -85,10 +103,6 @@ const useStyles = makeStyles(theme => ({
       paddingBottom: `${theme.spacing(0.5)}px !important`,
     },
   },
-  greyText: {
-    textTransform: "lowercase",
-    color: theme.palette.text.secondary,
-  },
   thumbnail: {
     width: 94,
     height: 142,
@@ -102,20 +116,16 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1.5),
     color: theme.palette.text.secondary,
   },
-  heartWrapper: {
-    display: "flex",
-    alignItems: "center",
-    "&>*:first-child": {
-      marginRight: theme.spacing(0.5),
-    },
-  },
-  heartIcon: {
-    color: theme.palette.danger.main,
-    fontSize: 12,
-  },
   link: {
     "&:hover": {
       textDecoration: "none",
+    },
+    "& a": {
+      color: theme.palette.text.primary,
+      "&:hover": {
+        textDecoration: "none",
+        color: theme.palette.primary.main,
+      },
     },
   },
   button: {
@@ -125,14 +135,20 @@ const useStyles = makeStyles(theme => ({
     padding: "0 !important",
     justifyContent: "flex-start",
   },
+  avatarButton: {
+    padding: "0 !important",
+    minWidth: "fit-content",
+    width: "fit-content",
+  },
 }));
 
 ReviewBox.propTypes = {
   review: PropTypes.object,
   className: PropTypes.string,
-  isReviewType: PropTypes.bool,
-  isArticleType: PropTypes.bool,
-  iSlide: PropTypes.bool,
+  isReviewType: PropTypes.bool, //has Rating
+  isArticleType: PropTypes.bool, //has Hashtags
+  isSlide: PropTypes.bool,
+  isBookDetail: PropTypes.bool, // hidden BookNameButton
 };
 
 export default ReviewBox;

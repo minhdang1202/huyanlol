@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { makeStyles, Box } from "@material-ui/core";
 import BookBox from "../BookBox";
 import SliderButtons from "./SliderButtons";
+import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 
 const BookSlider = ({ sliderList, ...otherProps }) => {
   const classes = useStyles();
@@ -32,7 +33,11 @@ const BookSlider = ({ sliderList, ...otherProps }) => {
   };
 
   return (
-    <Box position="relative" width="100%">
+    <Box
+      position="relative"
+      width={{ xs: `calc(100% + ${PADDING_X_CONTAINER_MOBILE})`, sm: "100%" }}
+      mr={{ xs: `calc(${PADDING_X_CONTAINER_MOBILE} * -1)`, sm: "auto" }}
+    >
       <Slider ref={slider} {...settings} {...otherProps} className={classes.root}>
         {sliderList.map((slide, index) => (
           <BookBox key={index} {...slide} className={classes.slide} />
@@ -61,13 +66,15 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     maxWidth: "100%",
+    "& .slick-slide": {
+      marginRight: theme.spacing(2),
+    },
   },
   slide: {
     width: WIDTH_BOOK_BOX,
     minWidth: WIDTH_BOOK_BOX,
     maxWidth: WIDTH_BOOK_BOX,
     height: HEIGHT_BOOK_BOX,
-    marginRight: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
       width: WIDTH_BOOK_BOX_MOBILE,
       minWidth: WIDTH_BOOK_BOX_MOBILE,

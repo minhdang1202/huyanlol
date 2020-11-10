@@ -30,6 +30,9 @@ export default {
     TXT_LOVE: "Ghi nhận",
     TXT_COMMENT: "Bình luận",
     TXT_SHARE: "Chia sẻ",
+    TXT_FOLLOW: "Theo dõi",
+    TXT_FOLLOWED: "Đã theo dõi",
+    TXT_GIVERS: "Givers",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -42,6 +45,8 @@ export default {
     //FM: format
     FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
     FM_NUMBER_COMMENTS: "{0} bình luận",
+    FM_GIVERS_BY: "{0} ghi nhận bởi {1} thành viên",
+    FM_GIVERS: "{0} ghi nhận",
     FM_REVIEW_BOOK_TITLE:
       "<a href={href} class='semiBold-md-txt'>{title}</a> của <a href={href} class='semiBold-md-txt'>{author}</a>",
 
@@ -92,7 +97,8 @@ export default {
   },
   articleDetail: {
     TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",
-    TXT_ARTICLE_REVIEW_BY: "Đánh giá bởi",
+    TXT_ARTICLE_REVIEW_TITLE_MOBILE: "Đánh giá",
+    TXT_ARTICLE_REVIEW_BY: "Bài viết bởi",
     TXT_ARTICLE_BOOK_MENTIONED: "Sách được nhắc đến",
     TXT_ARTICLE_RELATED: "Bài viết liên quan",
 

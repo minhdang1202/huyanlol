@@ -8,8 +8,8 @@ import ArticleSlider from "./ArticleSliders/ArticleSlider";
 const ArticleRelated = ({ isReviewType, isArticleType }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   return (
-    <Hidden mdDown>
-      <Typography variant="h5" className="mb-24">
+    <Hidden xsDown>
+      <Typography variant="h5" className="mb-16">
         {getLabel("TXT_ARTICLE_RELATED")}
       </Typography>
       <ArticleSlider sliderList={DEMO_ARTICLE_RELATED_LIST} isReviewType={isReviewType} isArticleType={isArticleType} />
@@ -28,9 +28,10 @@ const DEMO_ARTICLE_RELATED_LIST = Array(4).fill({
   thumbnail: "/images/img-demo-avatar.jpg",
   reactCount: 145,
   commentCount: 160,
-  tags: ["#tieudiem1", "#tieudiem2", "#tieudiem3"],
+  hashtags: ["#tieudiem1", "#tieudiem2", "#tieudiem3"],
   category: "Tiêu điểm sách",
   rate: 4,
+  bookName: "Nếu chỉ còn một ngày để sống",
 });
 
 ArticleRelated.propTypes = {

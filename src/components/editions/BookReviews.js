@@ -75,7 +75,9 @@ const BookReviews = ({ editionId }) => {
       <Box>
         {reviewsList &&
           reviewsList.map((review, index) => {
-            return review ? <Review key={index} review={review} className={classes.review} /> : null;
+            return review ? (
+              <Review key={index} review={review} className={classes.review} isReviewType={true} isBookDetail={true} />
+            ) : null;
           })}
         {isLoading && <CircularProgress className={classes.loading} />}
       </Box>
@@ -106,7 +108,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       marginBottom: theme.spacing(1),
     },
-  }
+  },
 }));
 
 BookReviews.propTypes = {
