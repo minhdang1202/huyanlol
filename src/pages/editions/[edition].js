@@ -156,7 +156,6 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 1020,
     paddingTop: theme.spacing(3),
     "&>*:first-child": {
-      marginBottom: theme.spacing(2),
       "&+*": {
         "&>*:first-child": {
           "&>*:not(:last-child)": {
@@ -177,7 +176,7 @@ const useStyles = makeStyles(theme => ({
       position: "static !important",
       boxShadow: "none !important",
       background: "none !important",
-      "& button": {
+      "& *": {
         color: `${theme.palette.white} !important`,
       },
     },

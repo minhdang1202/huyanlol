@@ -10,5 +10,6 @@ export const DEFAULT_LANG = "vi";
 // Namespace corresponding with screen
 export const NS_COMMON = "common";
 export const NS_BOOK_DETAIL = "bookDetail";
+export const NS_ARTICLE_DETAIL = "articleDetail";
 
 export const getCommonKey = key => `${NS_COMMON}:${key}`;

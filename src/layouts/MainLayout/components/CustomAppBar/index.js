@@ -23,7 +23,7 @@ import { FacebookShareButton } from "react-share";
 const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const classes = useStyles({ isDetail: isDetail, isMobile: isMobile });
+  const classes = useStyles({ isDetail: isDetail });
 
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0}>
@@ -82,8 +82,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     position: "sticky",
     background: theme.palette.white,
-    boxShadow: ({ isDetail, isMobile }) =>
-      isDetail && isMobile ? `0px 1px 0px ${theme.palette.text.disabled}` : "none",
+    color: "inherit",
+    fontSize: 18,
+    boxShadow: `0px 1px 0px ${theme.palette.grey[100]}`,
   },
   toolbar: {
     height: HEIGHT_APP_BAR,
@@ -115,9 +116,6 @@ const useStyles = makeStyles(theme => ({
     height: "fit-content",
     border: "none",
     background: "none",
-    "&>*": {
-      color: theme.palette.white,
-    },
   },
 }));
 

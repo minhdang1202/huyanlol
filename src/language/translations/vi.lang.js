@@ -22,6 +22,10 @@ export default {
     TXT_LOGIN_SOCIAL_MEDIA: "Đăng nhập bằng mạng xã hội",
     TXT_HAVE_ACC: "Bạn đã có tài khoản? ",
     TXT_NO_ACC: "Bạn chưa có tài khoản? ",
+    TXT_USER_PAGE: "Trang cá nhân",
+    TXT_LOVE: "Ghi nhận",
+    TXT_COMMENT: "Bình luận",
+    TXT_SHARE: "Chia sẻ",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -32,6 +36,12 @@ export default {
     L_PASSWORD2: "Xác nhận mật khẩu",
     //ERR: Error
     //MSG: Message
+
+    //FM
+    FM_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
+    FM_BOOK_AUTHOR: "{0} của {1}",
+    FM_COMMENT: "{0} Bình luận",
+    FM_LOVE: "{0} Ghi nhận",
   },
   bookDetail: {
     //TXT: Text
@@ -68,5 +78,14 @@ export default {
     //FM: Format
     FM_EDITION_BOOK_LENDERS: "{0} bạn cho mượn gần bạn",
     FM_EDITION_BOOK_COMMENTS: "{0} bình luận",
+  },
+  articleDetail: {
+    TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",
+    TXT_ARTICLE_REVIEW_BY: "Đánh giá bởi",
+    TXT_ARTICLE_BOOK_MENTIONED: "Sách được nhắc đến",
+    TXT_ARTICLE_RELATED: "Bài viết liên quan",
+
+    //FM
+    FM_ARTICLE_BOOK: "{0} cuốn",
   },
 };

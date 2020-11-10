@@ -30,6 +30,11 @@
   content: "\f053";
 }
 
+.ic-chevron-right:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f054";
+}
+
 .ic-chevron-down:before {
   font-family: "FontAwesome5Pro";
   content: "\f078";
@@ -74,6 +79,11 @@
 .ic-bookmark:before {
   font-family: "FontAwesome5Pro-Solid";
   content: "\f02e";
+}
+
+.ic-book:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f02d";
 }
 
 .ic-cloud-download:before {

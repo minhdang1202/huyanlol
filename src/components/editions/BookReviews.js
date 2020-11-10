@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, CircularProgress, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
-import Review from "./Review";
+import Review from "components/ReviewBox";
 import { EditionTypes } from "redux/edition.redux";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 
@@ -75,7 +75,7 @@ const BookReviews = ({ editionId }) => {
       <Box>
         {reviewsList &&
           reviewsList.map((review, index) => {
-            return review ? <Review key={index} review={review} /> : null;
+            return review ? <Review key={index} review={review} className={classes.review} /> : null;
           })}
         {isLoading && <CircularProgress className={classes.loading} />}
       </Box>
@@ -101,6 +101,12 @@ const useStyles = makeStyles(theme => ({
     display: "inherit",
     textAlign: "center",
   },
+  review: {
+    marginBottom: theme.spacing(2),
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: theme.spacing(1),
+    },
+  }
 }));
 
 BookReviews.propTypes = {
