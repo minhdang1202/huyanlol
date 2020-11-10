@@ -1,29 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles, Typography, Paper } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { GoalIcon } from "../../icons/index";
-const Goal = ({ goal }) => {
+import clsx from "clsx";
+const Goal = ({ goal, isGroup }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Paper elevation={1} className={classes.root}>
       <Typography className={classes.titleContainer}>
         <GoalIcon />
-        <Typography className={classes.title} component="span" variant="subtitle1">
-          {getLabel("L_PERSONAL_GOAL")}
+        <Typography className={classes.title} component="span" variant="h6">
+          {getLabel(isGroup ? "L_GROUP_GOAL" : "L_PERSONAL_GOAL")}
         </Typography>
       </Typography>
       <Typography className={classes.content} variant="body1">
         {goal}
       </Typography>
+      {isGroup && (
+        <Box className={clsx("ic-progress", classes.progress)}>
+          <Typography variant="subtitle1" component="span">{`${getLabel("L_COMPLETE")}: 750/3000 (25%)`}</Typography>
+        </Box>
+      )}
     </Paper>
   );
 };
 
 Goal.propTypes = {
   goal: PropTypes.string,
+  isGroup: PropTypes.bool,
+};
+Goal.defaultProps = {
+  isGroup: false,
 };
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     height: "112px",
     marginTop: "2px",
-    padding: "24px",
+    padding: theme.spacing(3),
     justifyContent: "space-around",
     borderRadius: "0px",
   },
@@ -41,11 +51,18 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     fontSize: "20px",
-    marginLeft: "16px",
+    marginLeft: theme.spacing(2),
   },
   content: {
-    fontSize: "16px",
     marginLeft: "40px",
+  },
+  progress: {
+    marginLeft: "40px",
+    color: theme.palette.text.link,
+    "&>:first-child": {
+      color: theme.palette.text.primary,
+      marginLeft: theme.spacing(1),
+    },
   },
 }));
 export default Goal;

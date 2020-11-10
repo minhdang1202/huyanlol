@@ -73,6 +73,7 @@ export default {
     L_HOME: "Home",
     L_CHALLENGE: "Thử Thách",
     L_PERSONAL_GOAL: "Mục tiêu cá nhân",
+    L_GROUP_GOAL: "Mục tiêu tập thể",
     L_POSITIVE_MEMBER: "Thành viên tích cực",
     L_JOIN: "Tham gia thử thách",
     L_INVITE: "Mời bạn bè",
@@ -84,6 +85,7 @@ export default {
     L_UPDATE_PROGRESS: "Cập nhật tiến độ",
     L_PROCESS: "Quá trình",
     L_END: "Đã hết hạn",
+    L_COMPLETE: "Hoàn thành",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",

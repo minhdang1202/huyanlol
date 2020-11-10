@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography, Paper, useTheme, useMediaQuery, Box, Button } from "@material-ui/core";
+import { makeStyles, Typography, Paper, useTheme, useMediaQuery, Box } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 const Description = () => {

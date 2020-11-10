@@ -6,7 +6,7 @@ import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 const IMG_HEIGHT = 378;
 
-const ChallengeCover = ({ isDone, isEnd }) => {
+const ChallengeCover = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
@@ -16,46 +16,53 @@ const ChallengeCover = ({ isDone, isEnd }) => {
       <Avatar alt="cover" src="/images/img-goal.jpg" variant="square" className={classes.img} />
       {!isMobile && <Paper elevation={1} className={classes.coverBack} />}
       <Paper elevation={1} className={classes.content}>
-        <Box className={classes.detail}>
-          {isMobile && <Typography variant="subtitle1">{getLabel("L_PROCESS")}</Typography>}
-          {console.log(isDone, isEnd)}
-          {isDone ? (
-            <Box className={!isMobile && clsx(classes.icLine, classes.isDone, "ic-check")}>
-              <Typography variant="body1" component="span">
-                {`${getLabel("TXT_HAVE_READ")} 69/69 ${getLabel("TXT_BOOK")}`}
-              </Typography>
-            </Box>
-          ) : (
-            <Box className={!isMobile && clsx(classes.icLine, "ic-bullseye")}>
-              <Typography variant="body1" component="span">
-                {`${getLabel("TXT_HAVE_READ")} 0/69 ${getLabel("TXT_BOOK")}`}
-              </Typography>
-            </Box>
-          )}
-
-          <Box className={clsx(classes.icLine, classes.gray, "ic-calendar-alt")}>
-            {isEnd ? (
-              <Typography variant={isMobile ? "body2" : "body1"} component="span">
-                {getLabel("L_END")}
-              </Typography>
+        {joined && (
+          <Box className={classes.detail}>
+            {!isMobile && <Typography variant="subtitle1">{getLabel("L_PROCESS")}</Typography>}
+            {isDone ? (
+              <Box className={clsx(`${!isMobile && clsx(classes.icLine, "ic-check")}`, `${isDone && classes.isDone}`)}>
+                <Typography variant="body1" component="span">
+                  {`${getLabel("TXT_HAVE_READ")} 69/69 ${getLabel("TXT_BOOK")}`}
+                </Typography>
+              </Box>
             ) : (
-              <Typography variant={isMobile ? "body2" : "body1"} component="span">
-                {"Còn 30 ngày nữa"}
-              </Typography>
+              <Box className={!isMobile && clsx(classes.icLine, "ic-bullseye")}>
+                <Typography variant="body1" component="span">
+                  {`${getLabel("TXT_HAVE_READ")} 0/69 ${getLabel("TXT_BOOK")}`}
+                </Typography>
+              </Box>
             )}
+
+            <Box className={clsx(classes.icLine, classes.gray, "ic-calendar-alt")}>
+              {isEnd ? (
+                <Typography variant={isMobile ? "body2" : "body1"} component="span">
+                  {getLabel("L_END")}
+                </Typography>
+              ) : (
+                <Typography variant={isMobile ? "body2" : "body1"} component="span">
+                  {"Còn 30 ngày nữa"}
+                </Typography>
+              )}
+            </Box>
           </Box>
-        </Box>
-        <Box className={classes.btnContainer}>
-          <Button
-            fullWidth
-            size={isMobile ? "small" : "large"}
-            color="primary"
-            variant="contained"
-            className={classes.btn}
-          >
-            {getLabel("L_UPDATE_PROGRESS")}
+        )}
+        {joined ? (
+          <Box className={classes.btnContainer}>
+            <Button
+              fullWidth
+              size={isMobile ? "small" : "large"}
+              color="primary"
+              variant="contained"
+              className={classes.btn}
+            >
+              {getLabel("L_UPDATE_PROGRESS")}
+            </Button>
+          </Box>
+        ) : (
+          <Button fullWidth size={isMobile ? "medium" : "large"} color="primary" variant="contained">
+            {getLabel("L_JOIN")}
           </Button>
-        </Box>
+        )}
       </Paper>
     </Box>
   );
@@ -64,11 +71,13 @@ const ChallengeCover = ({ isDone, isEnd }) => {
 ChallengeCover.propTypes = {
   isDone: PropTypes.bool,
   isEnd: PropTypes.bool,
+  joined: PropTypes.bool,
 };
 
 ChallengeCover.defaultProps = {
   isDone: false,
   isEnd: false,
+  joined: true,
 };
 
 const useStyles = makeStyles(theme => ({
