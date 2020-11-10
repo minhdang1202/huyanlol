@@ -10,9 +10,9 @@ import { makeStyles, Paper, Typography, Box, Avatar, Button } from "@material-ui
 import FooterButtons from "./FooterButtons";
 import TopIconButtons from "./TopIconButtons";
 
-const ReviewBox = ({ review, className, isArticleType, isReviewType }) => {
+const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide }) => {
   const { articleId, title, intro, name, lastUpdate, avatar, thumbnail, reactCount, commentCount, rate } = review;
-  const classes = useStyles();
+  const classes = useStyles({ isArticleType, isReviewType });
   const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
   const { t: getLabel, i18n } = useTranslation();
   const displayDate = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
@@ -47,7 +47,7 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType }) => {
                   {title}
                 </Typography>
                 <CustomRating readOnly={true} defaultValue={rate} />
-                <Typography variant="body2" className={clsx("eclipse", classes.content)}>
+                <Typography variant="body2" className={clsx("eclipse-2", classes.content)}>
                   {intro}
                 </Typography>
               </Box>
@@ -60,11 +60,12 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType }) => {
                   {reactCount}
                 </Typography>
               </Box>
-              <Typography variant="body2" className={classes.greyText} onClick={onOpenDownload}>
+              <Typography variant="body2" className={classes.greyText}>
                 {StringFormat(getLabel("FM_COMMENT"), commentCount)}
               </Typography>
             </Box>
-            {!isReviewType && !isArticleType && <FooterButtons shareUrl={shareUrl} onOpenDownload={onOpenDownload} />}
+            {/* {isReviewType && } */}
+            {!isSlide && <FooterButtons shareUrl={shareUrl} onOpenDownload={onOpenDownload} />}
           </Paper>
         </Button>
       </AppLink>
@@ -95,11 +96,9 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     marginBottom: theme.spacing(1),
-    WebkitLineClamp: "2 !important",
     lineHeight: "normal",
   },
   content: {
-    WebkitLineClamp: "2 !important",
     marginTop: theme.spacing(1.5),
     color: theme.palette.text.secondary,
   },
@@ -133,6 +132,7 @@ ReviewBox.propTypes = {
   className: PropTypes.string,
   isReviewType: PropTypes.bool,
   isArticleType: PropTypes.bool,
+  iSlide: PropTypes.bool,
 };
 
 export default ReviewBox;

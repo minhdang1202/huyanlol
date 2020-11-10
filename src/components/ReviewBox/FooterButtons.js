@@ -14,9 +14,7 @@ const FooterButtons = ({ shareUrl, onOpenDownload }) => {
       <Box display="flex" justifyContent="space-between">
         <Button
           startIcon={<Box className={clsx("ic-heart-empty", classes.textSecondary)} />}
-          onClick={e => {
-            onOpenDownload(e);
-          }}
+          onClick={e => onOpenDownload(e)}
         >
           {getLabel("TXT_LOVE")}
         </Button>

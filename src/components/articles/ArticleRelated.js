@@ -28,6 +28,8 @@ const DEMO_ARTICLE_RELATED_LIST = Array(4).fill({
   thumbnail: "/images/img-demo-avatar.jpg",
   reactCount: 145,
   commentCount: 160,
+  tags: ["#tieudiem1", "#tieudiem2", "#tieudiem3"],
+  category: "Tiêu điểm sách",
   rate: 4,
 });
 

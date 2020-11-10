@@ -6,10 +6,10 @@ const TopIconButtons = ({ onOpenDownload }) => {
   const classes = useStyles();
   return (
     <Box ml="auto">
-      <IconButton className={classes.iconButton} onClick={(e) => onOpenDownload(e)}>
+      <IconButton className={classes.iconButton} onClick={e => onOpenDownload(e)}>
         <Box className="ic-bookmark-empty" />
       </IconButton>
-      <IconButton className={classes.iconButton}>
+      <IconButton className={classes.iconButton} onClick={e => onOpenDownload(e)}>
         <Box className="ic-ellipsis-h" />
       </IconButton>
     </Box>

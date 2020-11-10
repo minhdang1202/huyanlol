@@ -42,6 +42,7 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
             review={slider}
             isReviewType={isReviewType}
             isArticleType={isArticleType}
+            isSlide={true}
           />
         ))}
       </Slider>
@@ -65,12 +66,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     maxWidth: "100%",
+    "& .slick-slide": {
+      width: 497,
+      maxWidth: 497,
+      marginRight: theme.spacing(3),
+    },
   },
   slide: {
-    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.08)",
-    width: 497,
-    maxWidth: 497,
-    marginRight: `${theme.spacing(3)}px !important`,
     border: `solid 1px ${theme.palette.grey[100]}`,
   },
 }));
