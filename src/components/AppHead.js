@@ -10,7 +10,7 @@ const getTitle = title => {
 
 const AppHead = props => {
   let primaryUrl = AppConstant.WEBSITE_URL + props.url;
-  let primaryImageUrl = AppConstant.WEBSITE_URL + props.ogImage;
+  let primaryImageUrl = props.ogImage;
   let primaryTitle = getTitle(props.title);
 
   return (

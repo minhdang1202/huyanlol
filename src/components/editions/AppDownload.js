@@ -12,8 +12,8 @@ const AppDownload = () => {
     <Box className={classes.root}>
       <LogoBox width={parseInt(HEIGHT_LOGO_BOX)} />
       <Container>
-        <Typography variant="h6">{getLabel("TXT_BOOKDETAIL_GAT_APP")}</Typography>
-        <Typography variant="body2">{getLabel("TXT_BOOKDETAIL_APP_DOWNLOAD")}</Typography>
+        <Typography variant="h6">{getLabel("TXT_EDITION_GAT_APP")}</Typography>
+        <Typography variant="body2">{getLabel("TXT_EDITION_APP_DOWNLOAD")}</Typography>
         <DownloadButtons className={classes.downloadButtons} />
       </Container>
     </Box>

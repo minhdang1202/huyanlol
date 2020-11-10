@@ -1,5 +1,5 @@
 // Base Api
-export const BASE_API = "https://fordevv2.gatbook.org";
+export const BASE_API = "https://fordevv2.gatbook.org/api/v1";
 
 export const HEADER_DEFAULT = {
   Accept: "application/json",
@@ -21,10 +21,12 @@ export const STT_FORBIDDEN = 403;
 export const STT_INTERNAL_SERVER = 500;
 
 // Api
-export const POST_LOGIN = "/api/v1/user/login_by_email";
-export const POST_LOGIN_BY_SOCIAL = "/api/v1/user/login_by_social";
-export const POST_REGISTER = "/api/v1/user/register_by_email";
-
 //Auth
-export const KEY_TOKEN = "auth-token";
-export const EXPIRES_TOKEN = 1;
+export const POST_LOGIN = "/user/login_by_email";
+export const POST_LOGIN_BY_SOCIAL = "/user/login_by_social";
+export const POST_REGISTER = "/user/register_by_email";
+
+export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;
+export const PUT_BOOK_LENDERS = "/book_edition/_find_sharing_users";
+export const GET_SELF_REVIEW = editionId => `/articles/self/review/${editionId}`;
+export const PUT_BOOK_REVIEWS = "/articles/_get_articles";

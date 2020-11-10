@@ -60,6 +60,14 @@ const AuthDialog = ({ onClose, isOpen }) => {
     setIsLogin(true);
   };
 
+  const onFacebookResponse = response => {
+    console.log(response);
+  };
+
+  const onGoogleResponse = response => {
+    console.log(response);
+  };
+
   const onChangeForm = () => {
     setIsLogin(!isLogin);
   };
@@ -155,13 +163,6 @@ const AuthDialog = ({ onClose, isOpen }) => {
                 }}
                 value={password2}
                 onChange={onChangePass2}
-                helperText={
-                  errors ? (
-                    <Typography variant="body1" className={classes.errMessage} component="span">
-                      {errors[0].details}
-                    </Typography>
-                  ) : null
-                }
                 type={showPassword ? "text" : "password"}
                 fullWidth
               />
@@ -188,7 +189,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
                 appId={AppConstant.APP_FACEBOOK}
                 autoLoad={false}
                 fields="name,email,picture"
-                callback={data => console.log(data)}
+                callback={onFacebookResponse}
                 render={renderProps => (
                   <Button
                     className={clsx(classes.sclBtn, classes.fbBtn)}
@@ -205,8 +206,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
               />
               <GoogleLogin
                 clientId={AppConstant.APP_GOOGLE}
-                onSuccess={() => console.log("ok")}
-                onFailure={() => console.log("fk")}
+                onSuccess={onGoogleResponse}
                 cookiePolicy={"single_host_origin"}
                 render={renderProps => (
                   <Button

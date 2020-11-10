@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import {
   makeStyles,
@@ -12,28 +13,30 @@ import {
   IconButton,
 } from "@material-ui/core";
 import clsx from "clsx";
+import PropTypes from "prop-types";
+import Skeleton from "@material-ui/lab/Skeleton";
 import CustomRating from "components/CustomRating";
 import { LangConstant } from "const";
-import { BookmarkIcon } from "icons";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import LenderList from "./LenderList";
 import DialogAppDownload from "../DialogAppDownload";
+import { EditionTypes } from "redux/edition.redux";
 
-const BookInfo = () => {
+const BookInfo = ({ authorName, title, rateAvg, bookCover, editionId }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
 
-  const [isAuth, setIsAuth] = useState(true);
-  const [isSaved, setIsSaved] = useState(true);
+  const dispatch = useDispatch();
+  const dispatchGetTotalLenders = editionId =>
+    dispatch({ type: EditionTypes.REQUEST_GET_TOTAL_LENDERS, editionId: editionId });
+
+  const totalLenders = useSelector(state => state.editionRedux.totalLenders);
+
   const [isLenderOpen, setIsLenderOpen] = useState(false);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
-
-  const onSave = () => {
-    if (isAuth) setIsSaved(!isSaved);
-  };
 
   const onOpenLenderList = () => {
     setIsLenderOpen(true);
@@ -51,73 +54,78 @@ const BookInfo = () => {
     setIsDownloadOpen(false);
   };
 
+  useEffect(() => {
+    dispatchGetTotalLenders(editionId);
+  }, []);
+
   return (
     <>
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
-      <LenderList isOpen={isLenderOpen} onClose={onCloseLenderList} />
+      <LenderList isOpen={isLenderOpen} onClose={onCloseLenderList} editionId={editionId} />
       {isMobile ? (
         <Box className={classes.rootMobile}>
-          <Avatar variant="square" src="/images/img-demo-avatar.jpg">
-            {BOOK_INFO_DEMO.title}
+          <Avatar variant="square" src={bookCover}>
+            {authorName}
           </Avatar>
           <Box my="auto" ml={1.5}>
             <Typography variant="h5" className={clsx("eclipse-2", "mb-8")} component="h1">
-              {BOOK_INFO_DEMO.title}
+              {title}
             </Typography>
-            <Typography variant="h6" color="inherit" className={clsx("eclipse", "mb-12")}>
-              {BOOK_INFO_DEMO.author}
+            <Typography variant="h6" color="inherit" className={clsx("eclipse", "mb-12", classes.author)}>
+              {authorName}
             </Typography>
             <Box display="flex" alignItems="center" mb={2}>
-              <CustomRating defaultValue={BOOK_INFO_DEMO.rating} readOnly={true} />
+              <CustomRating defaultValue={rateAvg} readOnly={true} />
               <Typography variant="h6" color="inherit">
-                {BOOK_INFO_DEMO.rating}
+                {rateAvg}
               </Typography>
             </Box>
-            <Box display="flex" mb={1}>
-              <Button size="small" variant="contained" className="light-blue-button" onClick={onOpenDownload}>
-                {getLabel("TXT_BOOKDETAIL_ADD_TO_LIBRARY")}
+            <Box display="flex" mb="6px">
+              <Button
+                size="small"
+                variant="contained"
+                className={clsx("light-blue-button", classes.button)}
+                onClick={onOpenDownload}
+              >
+                {getLabel("TXT_EDITION_ADD_TO_LIBRARY")}
               </Button>
               <IconButton
                 classes={{ root: clsx(classes.asideButton, classes.bookmark) }}
                 disableRipple
-                onClick={onSave}
+                onClick={onOpenDownload}
               >
-                <BookmarkIcon
-                  width={16}
-                  height={21}
-                  stroke={isSaved ? "" : theme.palette.white}
-                  color={isSaved ? theme.palette.white : "none"}
-                />
+                <Box className={clsx("ic-bookmark-empty", classes.bookmarkIcon)} />
               </IconButton>
             </Box>
             <Box display="flex">
-              <Button size="small" variant="contained" className="dark-blue-button" onClick={onOpenLenderList}>
-                {getLabel("TXT_BOOKDETAIL_BORROW_BOOK")}
-              </Button>
               <Button
                 size="small"
-                classes={{ root: classes.asideButton, disabled: classes.disabledButton, startIcon: "mr-4" }}
-                disabled
-                startIcon={<Avatar variant="square" className={classes.userIcon} src="/images/ic-user.png" />}
+                variant="contained"
+                className={clsx("dark-blue-button", classes.button)}
+                onClick={onOpenLenderList}
               >
-                135
+                {getLabel("TXT_EDITION_BORROW_BOOK")}
               </Button>
+              <Box className={classes.asideButton}>
+                <Box className={clsx("ic-user", "mr-4")} />
+                {totalLenders || totalLenders === 0 ? totalLenders : <Skeleton width={20} />}
+              </Box>
             </Box>
           </Box>
         </Box>
       ) : (
         <Box className={classes.rootDesktop}>
-          <Avatar variant="square" src="/images/img-demo-avatar.jpg">
-            {BOOK_INFO_DEMO.title}
+          <Avatar variant="square" src={bookCover}>
+            {authorName}
           </Avatar>
           <Paper>
             <Typography variant="h5" component="h1">
-              {BOOK_INFO_DEMO.title}
+              {title}
             </Typography>
-            <Typography variant="h6">{BOOK_INFO_DEMO.author}</Typography>
+            <Typography variant="h6">{authorName}</Typography>
             <Box display="flex" alignItems="center" mb={4}>
-              <CustomRating defaultValue={BOOK_INFO_DEMO.rating} readOnly={true} />
-              <Typography variant="h6">{BOOK_INFO_DEMO.rating}</Typography>
+              <CustomRating defaultValue={rateAvg} readOnly={true} />
+              <Typography variant="h6">{rateAvg}</Typography>
             </Box>
             <Button
               size={isDesktop ? "large" : "medium"}
@@ -125,7 +133,7 @@ const BookInfo = () => {
               className="light-blue-button"
               onClick={onOpenDownload}
             >
-              {getLabel("TXT_BOOKDETAIL_ADD_TO_LIBRARY")}
+              {getLabel("TXT_EDITION_ADD_TO_LIBRARY")}
             </Button>
             <Button
               size={isDesktop ? "large" : "medium"}
@@ -133,15 +141,16 @@ const BookInfo = () => {
               className="dark-blue-button"
               onClick={onOpenLenderList}
             >
-              {getLabel("TXT_BOOKDETAIL_BORROW_BOOK")}
+              {getLabel("TXT_EDITION_BORROW_BOOK")}
             </Button>
             <Button
               size={isDesktop ? "large" : "medium"}
               variant="contained"
-              startIcon={<BookmarkIcon />}
+              startIcon={<Box className="ic-bookmark" />}
               className="white-button"
+              onClick={onOpenDownload}
             >
-              {getLabel("TXT_BOOKDETAIL_SAVE_BOOK")}
+              {getLabel("TXT_EDITION_SAVE_BOOK")}
             </Button>
           </Paper>
         </Box>
@@ -150,14 +159,16 @@ const BookInfo = () => {
   );
 };
 
-const BOOK_INFO_DEMO = {
-  title: "Nếu chỉ còn một ngày để sống",
-  author: "Hạ Vũ",
-  rating: 4.2,
-};
-
 const HEIGHT_BOOK_COVER = "280px";
 const WIDTH_BOOK_COVER = "180px";
+
+BookInfo.propTypes = {
+  authorName: PropTypes.string,
+  title: PropTypes.string,
+  rateAvg: PropTypes.number,
+  bookCover: PropTypes.string,
+  editionId: PropTypes.number,
+};
 
 const useStyles = makeStyles(theme => ({
   rootDesktop: {
@@ -207,31 +218,32 @@ const useStyles = makeStyles(theme => ({
     },
     "& button": {
       flexGrow: 1,
-      paddingLeft: "0 !important",
-      paddingRight: "0 !important",
+      minHeight: 35,
     },
-  },
-  userIcon: {
-    width: 14,
-    height: 16,
-  },
-  disabledButton: {
-    color: `${theme.palette.white} !important`,
   },
   asideButton: {
     padding: "0 !important",
     marginLeft: theme.spacing(1.5),
+    display: "flex",
+    alignItems: "center",
     flexGrow: "0 !important",
-    width: 40,
-    minWidth: 40,
-  },
-  bookmark: {
-    "&:hover": {
-      background: "none",
-      "& svg": {
-        fill: theme.palette.white,
-      },
+    minWidth: "fit-content",
+    width: 35,
+    minHeight: 35,
+    color: `${theme.palette.white} !important`,
+    "& .ic-user": {
+      fontSize: 16,
     },
+  },
+  bookmarkIcon: {
+    fontSize: 20,
+    color: theme.palette.white,
+  },
+  button: {
+    width: 135,
+  },
+  author: {
+    opacity: 0.7,
   },
 }));
 

@@ -12,7 +12,7 @@ const DialogAppDownload = ({ isOpen, onClose }) => {
   const { t: getLabel } = useTranslation();
 
   return (
-    <Dialog open={isOpen} className={classes.root}>
+    <Dialog open={isOpen} onBackdropClick={() => onClose()} className={classes.root}>
       <AppDownloadImage />
       <DialogTitle title={getLabel("TXT_APPDOWNLOAD_TITLE")} onClose={() => onClose()} className={classes.title} />
       <DialogContent>

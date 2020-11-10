@@ -18,8 +18,9 @@ import AppLink from "components/AppLink";
 import { PathConstant } from "const";
 import SearchBar from "./SearchBar";
 import SignIn from "./SignIn";
-import { ShareIcon, ArrowDownIcon } from "icons";
-const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
+import { FacebookShareButton } from "react-share";
+
+const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const classes = useStyles({ isDetail: isDetail, isMobile: isMobile });
@@ -31,8 +32,8 @@ const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
           {isDetail && isMobile ? (
             <>
               <Box display="flex" alignItems="center">
-                <IconButton classes={{ root: classes.iconButton, label: classes.icon }}>
-                  <ArrowDownIcon className={classes.arrowIcon} />
+                <IconButton className={classes.iconButton}>
+                  <Box className="ic-chevron-left" />
                 </IconButton>
                 {appBarTitle && (
                   <Typography variant="h5" className="eclipse">
@@ -40,9 +41,13 @@ const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
                   </Typography>
                 )}
               </Box>
-              <IconButton>
-                <ShareIcon />
-              </IconButton>
+              {shareUrl && (
+                <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
+                  <IconButton component="div" className={classes.iconButton}>
+                    <Box className="ic-share" />
+                  </IconButton>
+                </FacebookShareButton>
+              )}
             </>
           ) : (
             <>
@@ -63,7 +68,12 @@ const CustomAppBar = ({ isDetail, className, appBarTitle }) => {
   );
 };
 
-CustomAppBar.propTypes = { isDetail: PropTypes.bool, className: PropTypes.string, appBarTitle: PropTypes.string };
+CustomAppBar.propTypes = {
+  isDetail: PropTypes.bool,
+  className: PropTypes.string,
+  appBarTitle: PropTypes.string,
+  shareUrl: PropTypes.string,
+};
 CustomAppBar.defaultProps = {};
 
 export const HEIGHT_APP_BAR = "72px";
@@ -90,15 +100,24 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 612,
     height: "100%",
   },
-  icon: {
-    minHeight: 14,
-  },
   iconButton: {
-    marginRight: theme.spacing(1),
+    width: 35,
+    height: 35,
+    "& *": {
+      fontSize: 18,
+    },
+    "&:not(:last-child)": {
+      marginRight: theme.spacing(1),
+    },
   },
-  arrowIcon: {
-    transform: "rotate(90deg)",
-    color: theme.palette.text.secondary,
+  shareButton: {
+    width: "fit-content",
+    height: "fit-content",
+    border: "none",
+    background: "none",
+    "&>*": {
+      color: theme.palette.white,
+    },
   },
 }));
 
