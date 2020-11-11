@@ -20,10 +20,10 @@ import SearchBar from "./SearchBar";
 import SignIn from "./SignIn";
 import { FacebookShareButton } from "react-share";
 
-const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl }) => {
+const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const classes = useStyles({ isDetail: isDetail, isMobile: isMobile });
+  const classes = useStyles({ isDetail: isDetail });
 
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0}>
@@ -41,6 +41,11 @@ const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl }) => {
                   </Typography>
                 )}
               </Box>
+              {hasBookmark && (
+                <IconButton className={classes.iconButton}>
+                  <Box className="ic-bookmark-empty" />
+                </IconButton>
+              )}
               {shareUrl && (
                 <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
                   <IconButton component="div" className={classes.iconButton}>
@@ -73,6 +78,7 @@ CustomAppBar.propTypes = {
   className: PropTypes.string,
   appBarTitle: PropTypes.string,
   shareUrl: PropTypes.string,
+  hasBookmark: PropTypes.bool,
 };
 CustomAppBar.defaultProps = {};
 
@@ -82,8 +88,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     position: "fixed",
     background: theme.palette.white,
-    boxShadow: ({ isDetail, isMobile }) =>
-      isDetail && isMobile ? `0px 1px 0px ${theme.palette.text.disabled}` : "none",
+    color: "inherit",
+    fontSize: 18,
+    boxShadow: `0px 1px 0px ${theme.palette.grey[100]}`,
   },
   toolbar: {
     height: HEIGHT_APP_BAR,
@@ -107,7 +114,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: 18,
     },
     "&:not(:last-child)": {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing(0.5),
     },
   },
   shareButton: {
@@ -115,9 +122,7 @@ const useStyles = makeStyles(theme => ({
     height: "fit-content",
     border: "none",
     background: "none",
-    "&>*": {
-      color: theme.palette.white,
-    },
+    padding: 0,
   },
 }));
 
