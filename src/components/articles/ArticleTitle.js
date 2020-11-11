@@ -32,7 +32,7 @@ const ArticleTitle = ({ isReviewType, name, avatar, date, category }) => {
         </Box>
       </Hidden>
       {isReviewType ? (
-        <Box display="flex" alignItems="center" mt={3} mb={3}>
+        <Box display="flex" alignItems="center" mt={{ xs: 2, sm: 3 }} mb={{ xs: 2, sm: 3 }}>
           <Typography variant={isMobile ? "subtitle1" : "body1"} className="mr-16">
             {isMobile ? getLabel("TXT_ARTICLE_REVIEW_TITLE_MOBILE") : getLabel("TXT_ARTICLE_REVIEW_TITLE")}
           </Typography>
@@ -56,12 +56,16 @@ const DEMO_TITLE = "Đánh giá cuốn sách Nếu chỉ còn một ngày để 
 const useStyles = makeStyles(theme => ({
   title: {
     marginBottom: props => (props.hasRating ? 0 : theme.spacing(4)),
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: "0 !important",
+    },
   },
   subTitle: {
     width: "100%",
     display: "flex",
     alignItems: "center",
     marginTop: theme.spacing(1.5),
+    marginBottom: props => (props.hasRating ? 0 : theme.spacing(3)),
     "& > *:not(:last-child)": {
       marginRight: theme.spacing(1),
     },

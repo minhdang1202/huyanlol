@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Hidden } from "@material-ui/core";
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { LangConstant } from "const";
@@ -9,7 +10,7 @@ const ArticleRelated = ({ isReviewType, isArticleType }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   return (
     <Hidden xsDown>
-      <Typography variant="h5" className="mb-16">
+      <Typography variant="h5" className={clsx("mb-16", "mt-24")}>
         {getLabel("TXT_ARTICLE_RELATED")}
       </Typography>
       <ArticleSlider sliderList={DEMO_ARTICLE_RELATED_LIST} isReviewType={isReviewType} isArticleType={isArticleType} />

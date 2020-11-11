@@ -1,29 +1,24 @@
 import React from "react";
-import StringFormat from "string-format";
-import { makeStyles, Container, Hidden, Typography, Box, Grid, Divider } from "@material-ui/core";
+import { makeStyles, Container, Hidden, Box, Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
 import MainLayout from "layouts/MainLayout";
 import { AppConstant } from "const";
 import { CustomBreadcrumb } from "components";
 import {
   ArticleContent,
   ArticleTitle,
-  BookBox,
   ArticleRelated,
   ArticleHashtagButtons,
   ArticleAuthor,
   ArticleReacts,
   ArticleReactButtons,
+  ArticleBookMentioned,
+  ArticleComments,
 } from "components/articles";
-import { BookSlider } from "components/articles/ArticleSliders";
 
 const ArticleDetail = () => {
   const classes = useStyles();
   const shareUrl = AppConstant.WEBSITE_URL;
-  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const appBarProps = { isDetail: true, shareUrl, appBarTitle: DEMO_TITLE, hasBookmark: true };
   //   const headProps = { title: book.title, description: book.description, ogImage: bookCover };
 
@@ -40,19 +35,11 @@ const ArticleDetail = () => {
           <ArticleContent />
         </Box>
         <Grid container item xs={12} md={8} className={classes.subContainer}>
-          <Box className={classes.bookMentioned}>
-            <Typography variant="h6">{getLabel("TXT_ARTICLE_BOOK_MENTIONED")}</Typography>
-            {DEMO_ARTICLE_TYPE ? (
-              <Typography variant="body2" className="grey-text">
-                {StringFormat(getLabel("FM_ARTICLE_BOOK"), 4)}
-              </Typography>
-            ) : null}
-          </Box>
-          {!DEMO_ARTICLE_TYPE ? (
-            <BookBox {...DEMO_BOOK_SLIDER_LIST[0]} className="mb-16" />
-          ) : (
-            <BookSlider sliderList={DEMO_BOOK_SLIDER_LIST} className="mb-16" />
-          )}
+          <ArticleBookMentioned
+            isReviewType={!DEMO_ARTICLE_TYPE}
+            bookList={DEMO_BOOK_SLIDER_LIST}
+            bookMentioned={DEMO_BOOK_SLIDER_LIST[0]}
+          />
           <ArticleHashtagButtons
             className="mt-16"
             hashtags={DEMO_ARTICLE_RELATED_LIST[0].hashtags}
@@ -61,11 +48,10 @@ const ArticleDetail = () => {
           <ArticleAuthor {...DEMO_AUTHOR} />
           <ArticleReacts reactCount={DEMO_REACT_COUNT} commentCount={DEMO_COMMENT_COUNT} />
         </Grid>
-        <Box className={classes.reactButtons}>
-          <Divider className={classes.divider} />
-          <ArticleReactButtons shareUrl={shareUrl} />
-          <Divider className={classes.divider} />
-        </Box>
+        <ArticleReactButtons shareUrl={shareUrl} />
+        <Grid container item xs={12} md={8} className={classes.subContainer}>
+          <ArticleComments commentList={DEMO_COMMENT_LIST} />
+        </Grid>
         <ArticleRelated isReviewType={!DEMO_ARTICLE_TYPE} isArticleType={Boolean(DEMO_ARTICLE_TYPE)} />
       </Container>
     </MainLayout>
@@ -82,7 +68,7 @@ const DEMO_AUTHOR = {
   avatar: "/images/img-demo-avatar.jpg",
   category: "Tiêu điểm sách",
 };
-const DEMO_ARTICLE_TYPE = 0; // 0: categoryId= 0 == reviewType, 1: categoryId= 1 == articleType
+const DEMO_ARTICLE_TYPE = 1; // 0: categoryId= 0 == reviewType, 1: categoryId= 1 == articleType
 const DEMO_TITLE = "Đánh giá cuốn sách Nếu chỉ còn một ngày để sống";
 const DEMO_REACT_COUNT = 1234;
 const DEMO_COMMENT_COUNT = 134;
@@ -91,6 +77,31 @@ const DEMO_BOOK_SLIDER_LIST = Array(4).fill({
   bookName: "Nếu chỉ còn một ngày để sống",
   author: "Hạ Vũ",
   rate: 4,
+});
+
+const DEMO_COMMENT_LIST = Array(4).fill({
+  content:
+    "Khi Người Ta Tư Duy consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit...",
+  name: "Lê Thu Hân",
+  avatar: "/images/img-demo-avatar.jpg",
+  date: "12 giờ trước",
+  reactCount: 40,
+  commentCount: 20,
+  hasMentioned: true,
+  bookMentioned: {
+    bookCover: "/images/img-demo-avatar.jpg",
+    bookName: "Nếu chỉ còn một ngày để sống",
+    author: "Hạ Vũ",
+    rate: 4,
+  },
+  replyList: Array(3).fill({
+    content:
+      "Khi Người Ta Tư Duy consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit...",
+    name: "Lê Thu Hân",
+    avatar: "/images/img-demo-avatar.jpg",
+    date: "12 giờ trước",
+    reactCount: 40,
+  }),
 });
 
 const DEMO_ARTICLE_RELATED_LIST = Array(4).fill({
@@ -126,37 +137,6 @@ const useStyles = makeStyles(theme => ({
   },
   subContainer: {
     margin: "0 auto",
-  },
-  divider: {
-    width: "100%",
-    [theme.breakpoints.down("xs")]: {
-      width: `calc(100% + ${PADDING_X_CONTAINER_MOBILE} * 2)`,
-      marginLeft: `calc(${PADDING_X_CONTAINER_MOBILE} * -1)`,
-    },
-  },
-  reactButtons: {
-    position: "relative",
-    bottom: 0,
-    maxWidth: "calc(1020px / 12 * 8)",
-    left: "50%",
-    transform: "translate(-50%, 0)",
-    [theme.breakpoints.down("xs")]: {
-      position: "sticky",
-      width: "100%",
-      left: 0,
-      transform: "none",
-    },
-  },
-  bookMentioned: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(1.5),
-    [theme.breakpoints.down("xs")]: {
-      marginBottom: theme.spacing(1),
-    },
   },
 }));
 

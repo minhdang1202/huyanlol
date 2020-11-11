@@ -7,6 +7,8 @@ import ArticleHashtagButtons from "./ArticleHashtagButtons";
 import ArticleAuthor from "./ArticleAuthor";
 import ArticleReacts from "./ArticleReacts";
 import ArticleReactButtons from "./ArticleReactButtons";
+import ArticleBookMentioned from "./ArticleBookMentioned";
+import ArticleComments from "./ArticleComments";
 
 export {
   AsideAuthorButton,
@@ -18,4 +20,6 @@ export {
   ArticleAuthor,
   ArticleReacts,
   ArticleReactButtons,
+  ArticleBookMentioned,
+  ArticleComments,
 };
