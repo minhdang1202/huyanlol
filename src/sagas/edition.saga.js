@@ -179,3 +179,19 @@ export function* requestGetReviews(action) {
     yield put(EditionAction.getReviewsFailure(error));
   }
 }
+
+export function* requestGetBookSuggestion(action) {
+  let response = yield call(EditionService.getBookSuggestion, action.data);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      yield put(EditionAction.requestEditionSuccess({ suggestions: responseData }));
+    } else {
+      yield put(EditionAction.requestEditionFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(EditionAction.requestEditionFailure(error));
+  }
+}

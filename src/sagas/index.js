@@ -16,6 +16,7 @@ import {
   requestGetSelfReview,
   requestGetTotalLenders,
   requestGetNearestLenders,
+  requestGetBookSuggestion,
 } from "./edition.saga";
 
 /* ------------- Connect Types To Sagas ------------- */
@@ -30,5 +31,6 @@ export default function* root() {
     takeLatest(EditionTypes.REQUEST_GET_REVIEWS, requestGetReviews),
     takeLatest(EditionTypes.REQUEST_GET_TOTAL_LENDERS, requestGetTotalLenders),
     takeLatest(EditionTypes.REQUEST_GET_NEAREST_LENDERS, requestGetNearestLenders),
+    takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION, requestGetBookSuggestion),
   ]);
 }

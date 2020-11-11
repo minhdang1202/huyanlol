@@ -1,19 +1,35 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { Section, BookSummary } from "components";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { uuid } from "utils";
+import { useDispatch, useSelector } from "react-redux";
+import EditionAction from "redux/edition.redux";
 
-const MostBorrowing = props => {
+const MostBorrowing = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
+  const dispatch = useDispatch();
+  const listSuggestionsRedux = useSelector(({ editionRedux }) => editionRedux.suggestions);
+
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    if (listSuggestionsRedux && listSuggestionsRedux != list) {
+      setList(listSuggestionsRedux);
+    }
+  }, [listSuggestionsRedux]);
+
+  useEffect(() => {
+    dispatch(EditionAction.requestGetBookSuggestion(DEFAULT_PARAMS));
+  }, []);
 
   return (
     <Section title={getLabel("TXT_MOST_BORROWING_BOOK")}>
       <Box className={classes.root}>
-        {MOCK_DATA.map(book => (
+        {list.map(book => (
           <Box key={uuid()} className={classes.item}>
             <BookSummary data={book} />
           </Box>
@@ -29,6 +45,13 @@ MostBorrowing.propTypes = {
 MostBorrowing.defaultProps = {};
 
 export default memo(MostBorrowing);
+
+const DEFAULT_PARAMS = {
+  keyword: "GAT",
+  languagesPriority: 1,
+  size: 5,
+  type: "ALL",
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,37 +70,3 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 94,
   },
 }));
-
-const MOCK_DATA = [
-  {
-    title: "Sự im lặng của bầy cừu",
-    author: "Thomas Harris",
-    rating: 3,
-    cover: "/images/img-demo-avatar.jpg",
-  },
-  {
-    title: "Sự im lặng của bầy cừu",
-    author: "Thomas Harris",
-    rating: 2,
-    cover: "/images/img-demo-avatar.jpg",
-  },
-
-  {
-    title: "Sự im lặng của bầy cừu",
-    author: "Thomas Harris",
-    rating: 1,
-    cover: "/images/img-demo-avatar.jpg",
-  },
-  {
-    title: "Sự im lặng của bầy cừu",
-    author: "Thomas Harris",
-    rating: 4,
-    cover: "/images/img-demo-avatar.jpg",
-  },
-  {
-    title: "Sự im lặng của bầy cừu",
-    author: "Thomas Harris",
-    rating: 5,
-    cover: "/images/img-demo-avatar.jpg",
-  },
-];

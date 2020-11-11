@@ -16,3 +16,7 @@ export const getSelfReview = editionId => {
 export const getBookReviews = bodyReq => {
   return createApi().put(ApiConstant.PUT_BOOK_REVIEWS, bodyReq);
 };
+
+export const getBookSuggestion = bodyReq => {
+  return createApi().get(ApiConstant.GET_BOOK_SUGGESTION, bodyReq);
+};
