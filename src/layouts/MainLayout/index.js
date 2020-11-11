@@ -2,11 +2,11 @@ import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, Hidden, makeStyles, NoSsr } from "@material-ui/core";
 import { AppHead } from "../../components";
-import { CustomAppBar, MobileAppDownload } from "./components";
 import clsx from "clsx";
-import { HEIGHT_MOBILE_APP_DOWNLOAD } from "./components/MobileAppDownload";
+import MobileAppDownload, { HEIGHT_MOBILE_APP_DOWNLOAD } from "./components/MobileAppDownload";
+import CustomAppBar, { HEIGHT_APP_BAR } from "./components/CustomAppBar";
 
-const MainLayout = ({ headProps, className, children, appBarProps }) => {
+const MainLayout = ({ headProps, className, classes, children, appBarProps }) => {
   const primaryHead = headProps || {};
   const [isClose, setIsClose] = useState(false);
   const defaultClasses = useStyles({ isClose: isClose });
@@ -21,7 +21,7 @@ const MainLayout = ({ headProps, className, children, appBarProps }) => {
       <NoSsr>
         <Box id={MAIN_LAYOUT_ID} className={clsx(defaultClasses.root, className)}>
           <CustomAppBar {...appBarProps} />
-          <main className={defaultClasses.main}>{children}</main>
+          <main className={clsx(defaultClasses.main, classes.main)}>{children}</main>
           {!isClose && (
             <Hidden smUp>
               <MobileAppDownload onClose={onClose} />
@@ -37,6 +37,7 @@ MainLayout.propTypes = {
   headProps: PropTypes.object,
   className: PropTypes.string,
   appBarProps: PropTypes.object,
+  classes: PropTypes.object,
 };
 
 MainLayout.defaultProps = {
@@ -48,6 +49,7 @@ MainLayout.defaultProps = {
     className: "",
     shareUrl: "",
   },
+  classes: {},
 };
 
 export const MAIN_LAYOUT_ID = "main-layout";
@@ -60,6 +62,7 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     overflow: "auto",
     background: theme.palette.background.default,
+    paddingTop: HEIGHT_APP_BAR,
   },
   main: {
     [theme.breakpoints.down("xs")]: {
