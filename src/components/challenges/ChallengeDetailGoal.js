@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { makeStyles, Typography, Paper, Box } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
-import { GoalIcon } from "../../icons/index";
+import { GoalIcon } from "icons";
 import clsx from "clsx";
 const Goal = ({ goal, isGroup }) => {
   const classes = useStyles();
@@ -16,9 +16,7 @@ const Goal = ({ goal, isGroup }) => {
           {getLabel(isGroup ? "L_GROUP_GOAL" : "L_PERSONAL_GOAL")}
         </Typography>
       </Typography>
-      <Typography className={classes.content} variant="body1">
-        {goal}
-      </Typography>
+      <Typography variant="body1">{goal}</Typography>
       {isGroup && (
         <Box className={clsx("ic-progress", classes.progress)}>
           <Typography variant="subtitle1" component="span">{`${getLabel("L_COMPLETE")}: 750/3000 (25%)`}</Typography>
@@ -53,11 +51,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "20px",
     marginLeft: theme.spacing(2),
   },
-  content: {
-    marginLeft: "40px",
-  },
   progress: {
-    marginLeft: "40px",
     color: theme.palette.text.link,
     "&>:first-child": {
       color: theme.palette.text.primary,

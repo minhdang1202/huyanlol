@@ -2,8 +2,8 @@ import React from "react";
 import { makeStyles, Typography, useTheme, useMediaQuery, Box, Paper } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
-import LogoIcon from "../../../src/icons/LogoIcon";
-function Company() {
+import LogoIcon from "icons/LogoIcon";
+const Company = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -17,10 +17,10 @@ function Company() {
         {isMobile ? (
           <Typography>
             <Typography variant="body2" component="span">
-              {`By `}
+              {`${getLabel("L_BY")} `}
             </Typography>
             <Typography variant="subtitle2" component="span">
-              GAT
+              {getLabel("L_COMPANY_NAME")}
             </Typography>
           </Typography>
         ) : (
@@ -31,7 +31,7 @@ function Company() {
       </Paper>
     </Box>
   );
-}
+};
 const useStyles = makeStyles(theme => ({
   logoContainer: {
     display: "flex",

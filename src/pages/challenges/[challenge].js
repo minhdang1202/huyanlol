@@ -1,5 +1,5 @@
 import React from "react";
-import MainLayout from "../../layouts/MainLayout";
+import MainLayout from "layouts/MainLayout";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { makeStyles, Container, Breadcrumbs, Typography, useTheme, useMediaQuery, Box, Grid } from "@material-ui/core";
@@ -13,7 +13,7 @@ import {
   Company,
   GoalList,
   Description,
-} from "../../../src/components/ChallengeDetail";
+} from "components/challenges";
 
 const Challenge = () => {
   const classes = useStyles();

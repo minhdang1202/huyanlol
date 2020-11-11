@@ -1,15 +1,33 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Avatar } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Avatar, Link } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
+import StringFormat from "string-format";
 const ACT_DATA = {
   name: "Duongdz",
   time: "12 giờ trước",
-  activity: " vừa đọc xong quyển ",
+  activity: "vừa đọc xong quyển",
   book: "Nghệ Thuật Bài Trí Của Người Nhật",
 };
+
+const Activity = () => {
+  const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  return (
+    <Box className={classes.root}>
+      <Typography variant={"h6"} className={classes.title}>
+        {getLabel("L_ACTIVITY")}
+      </Typography>
+      <Item data={ACT_DATA} className={classes.item} />
+      <Item data={ACT_DATA} className={classes.item} />
+      <Item data={ACT_DATA} className={classes.item} />
+    </Box>
+  );
+};
+
 const Item = ({ data }) => {
   const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Paper className={classes.item}>
       <Box className={classes.itemTop}>
@@ -20,34 +38,19 @@ const Item = ({ data }) => {
         </Box>
       </Box>
       <Box className={classes.content}>
-        <Typography className={classes.text}>
-          <Typography component="span" variant="subtitle1">
-            {data.name}
-          </Typography>
-          <Typography component="span" variant="body1">
-            {data.activity}
-          </Typography>
-          <Typography component="span" variant="subtitle1">
-            {data.book}
-          </Typography>
-        </Typography>
+        <Typography
+          dangerouslySetInnerHTML={{
+            __html: StringFormat(getLabel("FM_ACTIVITY"), {
+              name: data.name,
+              bookLink: "/",
+              book: data.book,
+            }),
+          }}
+        />
+
         <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.img} />
       </Box>
     </Paper>
-  );
-};
-const Activity = () => {
-  const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  return (
-    <Box className={classes.root}>
-      <Typography variant={"h6"} className={classes.title}>
-        {getLabel("L_Activity")}
-      </Typography>
-      <Item data={ACT_DATA} className={classes.item} />
-      <Item data={ACT_DATA} className={classes.item} />
-      <Item data={ACT_DATA} className={classes.item} />
-    </Box>
   );
 };
 

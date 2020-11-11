@@ -20,7 +20,7 @@ const ChallengeCover = ({ isDone, isEnd, joined }) => {
           <Box className={classes.detail}>
             {!isMobile && <Typography variant="subtitle1">{getLabel("L_PROCESS")}</Typography>}
             {isDone ? (
-              <Box className={clsx(`${!isMobile && clsx(classes.icLine, "ic-check")}`, `${isDone && classes.isDone}`)}>
+              <Box className={clsx(!isMobile && clsx(classes.icLine, "ic-check"), isDone && classes.isDone)}>
                 <Typography variant="body1" component="span">
                   {`${getLabel("TXT_HAVE_READ")} 69/69 ${getLabel("TXT_BOOK")}`}
                 </Typography>

@@ -95,11 +95,13 @@ export default {
     L_MORE: "Xem thêm",
     L_GOAL_LIST: "Danh sách mục tiêu cần hoàn thành",
     L_DESCRIPTION: "Mô tả",
-    L_Activity: "Hoạt động",
+    L_ACTIVITY: "Hoạt động",
     L_UPDATE_PROGRESS: "Cập nhật tiến độ",
     L_PROCESS: "Quá trình",
     L_END: "Đã hết hạn",
     L_COMPLETE: "Hoàn thành",
+    L_BY: "By",
+    L_COMPANY_NAME: "GAT",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
@@ -109,6 +111,8 @@ export default {
     TXT_To: "đến",
     TXT_HAVE_READ: "Đã đọc",
     TXT_BOOK: "cuốn sách",
+
+    FM_ACTIVITY: `<span style="font-weight:600">{name}</span> vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
   },
   home: {
     TXT_BOOK_SHELVES: "Book shelves",
