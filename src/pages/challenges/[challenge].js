@@ -1,8 +1,6 @@
 import React from "react";
 import MainLayout from "layouts/MainLayout";
-import { LangConstant } from "const";
-import { useTranslation } from "react-i18next";
-import { makeStyles, Container, Breadcrumbs, Typography, useTheme, useMediaQuery, Box, Grid } from "@material-ui/core";
+import { makeStyles, Container, useTheme, useMediaQuery, Box, Grid } from "@material-ui/core";
 import {
   ChallengeCover,
   InviteFriend,
@@ -14,33 +12,29 @@ import {
   GoalList,
   Description,
 } from "components/challenges";
-
+import CustomBreadCrumb from "components/CustomBreadcrumb";
 const Challenge = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: "Challenge name", shareUrl: "/" };
 
   //////////////////screen variant
-  const isDone = true; //progress
-  const isEnd = true; // due date
+  const isDone = false; //progress
+  const isEnd = false; // due date
   const joined = true;
-  const isGroup = true;
+  const isGroup = false;
   //////////////////
 
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container maxWidth="lg" className={classes.root}>
         {!isMobile && (
-          <Breadcrumbs separator={">"} aria-label="breadcrumb" className={classes.breadcrumb}>
-            <Typography variant="body2">{getLabel("L_HOME")}</Typography>
-            <Typography variant="body2">{getLabel("L_CHALLENGE")}</Typography>
-            <Typography variant="body2" className={classes.current}>
-              Challenge name
-            </Typography>
-          </Breadcrumbs>
+          <Box className={classes.breadcrumbContainer}>
+            <CustomBreadCrumb challengeName="duongdz" className={classes.breadcrumb} />
+          </Box>
         )}
+
         <Grid container justify="center" spacing={0}>
           {!isMobile && (
             <Grid container alignItems="center" item xs={12} sm={4} md={3} direction="column">
@@ -110,13 +104,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    padding: "0px",
+    padding: 0,
   },
-  breadcrumb: {
-    margin: "18px 0px 24px 0px",
-    width: "100%",
-    color: theme.palette.text.secondary,
-    cursor: "pointer",
+  breadcrumbContainer: {
+    margin: "18px 0px 24px 100px",
   },
   current: {
     color: theme.palette.text.primary,

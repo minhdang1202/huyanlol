@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Avatar, Link } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Avatar } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import StringFormat from "string-format";

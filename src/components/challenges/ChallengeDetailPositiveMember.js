@@ -1,13 +1,14 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Button, Avatar, useTheme, useMediaQuery } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Button, Avatar, useTheme, useMediaQuery, Badge } from "@material-ui/core";
 import clsx from "clsx";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
+
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Paper elevation={1} className={classes.root}>
       <Box className={classes.top}>
@@ -22,21 +23,24 @@ const PositiveMember = () => {
         </Button>
       </Box>
       <Box className={classes.bottom}>
-        <Member />
-        <Member />
-        <Member />
-        <Member />
-        {!isMobile && <Member />}
+        <Member place={1} />
+        <Member place={2} />
+        <Member place={3} />
+        <Member place={4} />
+        {!isTablet && <Member place={5} />}
       </Box>
     </Paper>
   );
 };
 
-const Member = () => {
+const Member = ({ place }) => {
   const classes = useStyles();
   return (
     <Box className={classes.member}>
-      <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
+      <Badge badgeContent={<Box>{place}</Box>}>
+        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
+      </Badge>
+
       <Typography variant="subtitle1">name</Typography>
       <Typography variant="body2">xxx</Typography>
     </Box>
@@ -79,7 +83,7 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     height: "77px",
     width: "77px",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       height: "55px",
       width: "55px",
     },

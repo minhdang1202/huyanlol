@@ -15,12 +15,12 @@ const ChallengeInfo = ({ name, count, from, to }) => {
         {name}
       </Typography>
       <Box className={classes.content}>
-        <Box className={clsx("ic-person", classes.centerText)}>
+        <Box className={"ic-person"}>
           <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${count} ${getLabel(
             "TXT_PEOPLE",
           )}`}</Typography>
         </Box>
-        <Box className={clsx("ic-date", classes.centerText)}>
+        <Box className={"ic-date"}>
           <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${from} ${getLabel(
             "TXT_To",
           )} ${to}`}</Typography>
@@ -59,6 +59,9 @@ const useStyles = makeStyles(theme => ({
       marginLeft: "40px",
     },
     "&>*": {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
       "&>*:nth-child(1)": {
         marginLeft: "8px",
       },

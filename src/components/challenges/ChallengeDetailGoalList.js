@@ -6,6 +6,7 @@ const GoalList = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Paper className={classes.root}>
@@ -17,7 +18,7 @@ const GoalList = () => {
         <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.goal} />
         <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.goal} />
         <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.goal} />
-        <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.goal} />
+        {!isTablet && <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.goal} />}
         {!isMobile && <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.goal} />}
       </Box>
     </Paper>
@@ -45,10 +46,11 @@ const useStyles = makeStyles(theme => ({
   goal: {
     height: "142px",
     width: "94px",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       height: "94px",
       width: "62px",
     },
+    zIndex: "1",
   },
 }));
 

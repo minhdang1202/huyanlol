@@ -26,7 +26,7 @@ const ChallengeCover = ({ isDone, isEnd, joined }) => {
                 </Typography>
               </Box>
             ) : (
-              <Box className={!isMobile && clsx(classes.icLine, "ic-bullseye")}>
+              <Box className={`${!isMobile && clsx(classes.icLine, "ic-bullseye")}`}>
                 <Typography variant="body1" component="span">
                   {`${getLabel("TXT_HAVE_READ")} 0/69 ${getLabel("TXT_BOOK")}`}
                 </Typography>
@@ -114,6 +114,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    zIndex: 2,
     [theme.breakpoints.down("xs")]: {
       flexDirection: "row",
       justifyContent: "space-around",
@@ -121,7 +122,6 @@ const useStyles = makeStyles(theme => ({
       bottom: "0",
       alignItems: "center",
       height: "75px",
-      zIndex: 1,
     },
   },
   btnContainer: {

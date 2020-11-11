@@ -37,6 +37,7 @@ export default {
     L_EMAIL: "Email",
     L_PASSWORD: "Mật khẩu",
     L_PASSWORD2: "Xác nhận mật khẩu",
+    L_CHALLENGE: "Thử Thách",
 
     //FM: format
     FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
