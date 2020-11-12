@@ -19,7 +19,7 @@ import {
   requestGetNearestLenders,
   requestGetBookSuggestion,
 } from "./edition.saga";
-import { requestGetArticles } from "./article.saga";
+import { requestGetHomeArticles, requestGetHomeReviews } from "./article.saga";
 
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
@@ -36,6 +36,7 @@ export default function* root() {
     takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION, requestGetBookSuggestion),
 
     // article
-    takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetArticles),
+    takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),
+    takeLatest(ArticleTypes.REQUEST_HOME_REVIEWS, requestGetHomeReviews),
   ]);
 }

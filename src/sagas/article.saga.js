@@ -3,13 +3,29 @@ import { ApiConstant } from "const";
 import ArticleAction from "redux/article.redux";
 import { ArticleService } from "services";
 
-export function* requestGetArticles(action) {
+export function* requestGetHomeArticles(action) {
   let response = yield call(ArticleService.getListArticles, action.data);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
       yield put(ArticleAction.articleSuccess({ homeArticles: responseData }));
+    } else {
+      yield put(ArticleAction.articleFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(ArticleAction.articleFailure(error));
+  }
+}
+
+export function* requestGetHomeReviews(action) {
+  let response = yield call(ArticleService.getListArticles, action.data);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      yield put(ArticleAction.articleSuccess({ homeReviews: responseData }));
     } else {
       yield put(ArticleAction.articleFailure());
     }

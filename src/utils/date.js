@@ -73,6 +73,5 @@ export const getCreatedTime = created => {
       result = getLabel("TXT_NEW_CREATED_BY_SECOND");
     }
   }
-  console.log("result", result);
   return result;
 };

@@ -25,34 +25,46 @@ import { AppConstant } from "const";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import CustomRating from "./CustomRating";
+import { getCreatedTime } from "utils/date";
+import { parseISO } from "date-fns";
+import { getImageById } from "utils";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const theme = useTheme();
 
-  const [user, setUser] = useState({});
-  const [book, setBook] = useState({});
+  const [creator, setCreator] = useState({});
   const [review, setReview] = useState({});
 
   useEffect(() => {
     if (data) {
-      const { user, book, ...review } = data;
-      if (user) setUser(user);
-      if (book) setBook(book);
+      const { creator, ...review } = data;
+      if (creator) setCreator(creator);
       if (review) setReview(review);
+      if (review) {
+        let newReview = { ...review };
+        if (newReview.hashtags) {
+          newReview.hashtags = newReview.hashtags < 4 ? newReview.hashtags : newReview.hashtags.slice(0, 3);
+        }
+        let createTime = review.lastUpdate || review.publishedDate;
+        if (createTime) {
+          newReview.createTime = getCreatedTime(parseISO(createTime));
+        }
+        setReview(newReview);
+      }
     }
   }, [data]);
 
-  let isHeart = Boolean(review.heart && review.heart > 0);
+  let isHeart = Boolean(review.reactCount && review.reactCount > 0);
 
   return (
     <Card className={clsx(defaultClasses.root, classes && classes.root)}>
       <CardHeader
         classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
-          <Avatar src={user.avatar} className={defaultClasses.headerAvatar}>
-            {(user.name || AppConstant.APP_NAME).charAt(0)}
+          <Avatar src={getImageById(creator.imageId)} className={defaultClasses.headerAvatar}>
+            {(creator.name || AppConstant.APP_NAME).charAt(0)}
           </Avatar>
         }
         action={
@@ -67,12 +79,12 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
         }
         title={
           <Typography variant="subtitle2" component="p">
-            {user.name}
+            {creator.name}
           </Typography>
         }
         subheader={
           <Typography variant="caption" color="textSecondary" component="p">
-            {review.time}
+            {review.createTime}
           </Typography>
         }
       />
@@ -85,44 +97,22 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
             </Typography>
             <CustomRating readOnly={true} value={review.rating || 0} size="small" />
             <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
-              {review.description}
+              {review.intro}
             </Typography>
-            <ListItem className={defaultClasses.bookTitle}>
-              <ListItemIcon className={defaultClasses.bookTitleIcon}>
-                <Box className="ic-book" />
-              </ListItemIcon>
-              <ListItemText
-                className={defaultClasses.bookTitleText}
-                primary={
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                    dangerouslySetInnerHTML={{
-                      __html: StringFormat(getLabel("FM_REVIEW_BOOK_TITLE"), {
-                        href: "#das",
-                        title: book.title,
-                        author: book.author,
-                      }),
-                    }}
-                  />
-                }
-              />
-            </ListItem>
           </Grid>
           <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-            <CardMedia src={book.cover} title={book.title} component="img" />
+            <CardMedia src={getImageById(review.thumbnailId)} title={review.title} component="img" />
           </Grid>
 
           <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
             <HeartIcon isActive={isHeart} width={12} height={12} />
             <Typography variant="body2" color="textSecondary" component="p">
-              {review.heart}
+              {review.reactCount}
             </Typography>
           </Grid>
           <Grid item xs={4} md={3}>
             <Typography variant="body2" color="textSecondary" component="p">
-              {StringFormat(getLabel("FM_NUMBER_COMMENTS"), review.numberComments)}
+              {StringFormat(getLabel("FM_NUMBER_COMMENTS"), review.commentCount || 0)}
             </Typography>
           </Grid>
         </Grid>

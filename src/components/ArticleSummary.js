@@ -32,14 +32,12 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
   const theme = useTheme();
 
   const [creator, setCreator] = useState({});
-  const [book, setBook] = useState({});
   const [article, setArticle] = useState({});
 
   useEffect(() => {
     if (data) {
-      const { creator, editions, ...article } = data;
+      const { creator, ...article } = data;
       if (creator) setCreator(creator);
-      if (editions && editions[0]) setBook(editions[0]);
       if (article) {
         let newArticle = { ...article };
         if (newArticle.hashtags) {
@@ -112,7 +110,7 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
             )}
           </Grid>
           <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-            <CardMedia src={getImageById(book.imageId)} title={book.title} component="img" />
+            <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
           </Grid>
 
           <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
