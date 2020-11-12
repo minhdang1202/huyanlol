@@ -35,9 +35,29 @@ const PositiveMember = () => {
 
 const Member = ({ place }) => {
   const classes = useStyles();
+  const certificate = place => {
+    switch (place) {
+      case 1:
+        return classes.first;
+      case 2:
+        return classes.second;
+      case 3:
+        return classes.third;
+      default:
+        return classes.fourth;
+    }
+  };
+
   return (
     <Box className={classes.member}>
-      <Badge badgeContent={<Box>{place}</Box>}>
+      <Badge
+        badgeContent={
+          <Box className={classes.badgeContainer}>
+            <Typography variant="subtitle2">{place}</Typography>
+            <Box className={clsx(classes.badge, certificate(place), "ic-certificate")} />
+          </Box>
+        }
+      >
         <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
       </Badge>
 
@@ -97,6 +117,32 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       fontSize: "14px",
     },
+  },
+  badgeContainer: {
+    color: theme.palette.white,
+    "&>*:nth-child(1)": {
+      position: "relative",
+      margin: "0 0 -28px -8px",
+      zIndex: 2,
+    },
+  },
+  badge: {
+    position: "relative",
+    margin: "0 0 -20px -20px",
+    "-webkit-background-clip": "text",
+    "-webkit-text-fill-color": "transparent",
+  },
+  first: {
+    backgroundImage: "linear-gradient(to top, #ffdf00, #ffbb00)",
+  },
+  second: {
+    backgroundImage: "linear-gradient(to top, #00ffe0, #01dacd)",
+  },
+  third: {
+    backgroundImage: "linear-gradient(to top, #ffb800, #c88400)",
+  },
+  fourth: {
+    backgroundImage: "linear-gradient(to top, #d4d4d4, #767676)",
   },
 }));
 export default PositiveMember;

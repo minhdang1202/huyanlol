@@ -3,7 +3,6 @@ import { makeStyles, Typography, Paper, Box, useTheme, useMediaQuery } from "@ma
 import PropTypes from "prop-types";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
-import clsx from "clsx";
 const ChallengeInfo = ({ name, count, from, to }) => {
   const classes = useStyles();
   const theme = useTheme();

@@ -23,7 +23,7 @@ const Challenge = () => {
   const isDone = false; //progress
   const isEnd = false; // due date
   const joined = true;
-  const isGroup = false;
+  const isGroup = true;
   //////////////////
 
   return (
