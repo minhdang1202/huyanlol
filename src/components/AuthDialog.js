@@ -349,7 +349,7 @@ const useStyles = makeStyles(theme => ({
   },
   errMessage: {
     fontSize: "14px",
-    color: theme.palette.danger.main,
+    color: theme.palette.error.main,
   },
   loginBtn: {
     height: "45px",
