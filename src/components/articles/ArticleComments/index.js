@@ -69,7 +69,7 @@ const ArticleComments = ({ commentList }) => {
               <Button
                 variant="outlined"
                 className={clsx("grey-text", classes.commentButton)}
-                startIcon={<Avatar className={classes.userAvatar} src="/images/img-demo-avatar.jpg" />}
+                startIcon={<Avatar className={classes.userAvatar} src="" />}
               >
                 <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
               </Button>

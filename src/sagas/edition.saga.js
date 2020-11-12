@@ -118,7 +118,7 @@ export function* requestGetSelfReview(action) {
       const { rate, review } = responseData.userRelation.evaluation;
       const { name, imageId } = responseData.users;
       const avatar = imageId ? getImageById(imageId) : null;
-      yield put(EditionAction.requestEditiontSuccess({ rate, review, name, avatar }));
+      yield put(EditionAction.requestEditionSuccess({ rate, review, name, avatar }));
     }
   } catch (error) {
     console.log(error);
@@ -151,13 +151,13 @@ export function* requestGetReviews(action) {
           reactCount,
           commentCount,
           editions,
-          imageId,
           thumbnailId,
+          creator,
         } = review;
         const rate = editions[0].userRelation.evaluation.rate;
-        const avatar = imageId ? getImageById(imageId) : null;
+        const avatar = creator.imageId ? getImageById(creator.imageId) : null;
         const thumbnail = thumbnailId ? getImageById(thumbnailId) : null;
-        const { name } = review.creator;
+        const { name } = creator;
         return {
           avatar,
           thumbnail,

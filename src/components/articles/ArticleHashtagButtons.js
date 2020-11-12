@@ -26,13 +26,14 @@ const ArticleHashtagButtons = ({ hashtags, category, className }) => {
           {category}
         </Button>
       </AppLink>
-      {hashtags.map((hashtag, index) => (
-        <AppLink key={index} to="#">
-          <Button variant="contained" className="light-blue-button">
-            <Typography variant="body2">{hashtag}</Typography>
-          </Button>
-        </AppLink>
-      ))}
+      {hashtags.lenght &&
+        hashtags.map((hashtag, index) => (
+          <AppLink key={index} to="#">
+            <Button variant="contained" className="light-blue-button">
+              <Typography variant="body2">{hashtag}</Typography>
+            </Button>
+          </AppLink>
+        ))}
     </Slider>
   ) : (
     <Box className={clsx(classes.root, className)}>
@@ -41,13 +42,14 @@ const ArticleHashtagButtons = ({ hashtags, category, className }) => {
           {category}
         </Button>
       </AppLink>
-      {hashtags.map((hashtag, index) => (
-        <AppLink key={index} to="#">
-          <Button variant="contained" className="light-blue-button">
-            <Typography variant="body1">{hashtag}</Typography>
-          </Button>
-        </AppLink>
-      ))}
+      {hashtags.lenght &&
+        hashtags.map((hashtag, index) => (
+          <AppLink key={index} to="#">
+            <Button variant="contained" className="light-blue-button">
+              <Typography variant="body1">{hashtag}</Typography>
+            </Button>
+          </AppLink>
+        ))}
     </Box>
   );
 };

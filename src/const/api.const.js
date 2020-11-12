@@ -22,7 +22,10 @@ export const STT_INTERNAL_SERVER = 500;
 
 // Api
 export const POST_LOGIN = "/auth/cons/login";
+// * BookDetail
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;
 export const PUT_BOOK_LENDERS = "/book_edition/_find_sharing_users";
 export const GET_SELF_REVIEW = editionId => `/articles/self/review/${editionId}`;
 export const PUT_BOOK_REVIEWS = "/articles/_get_articles";
+// * ArticleDetail
+export const GET_ARTICLE_DETAIL = articleId => `/articles/${articleId}`;

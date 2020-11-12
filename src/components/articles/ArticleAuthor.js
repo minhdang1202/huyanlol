@@ -21,7 +21,6 @@ const ArticleAuthor = ({ name, avatar, date, address }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   return (
     <Hidden lgUp>
       <Hidden smUp>

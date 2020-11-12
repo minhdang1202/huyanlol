@@ -25,7 +25,7 @@ const ArticleReacts = ({ reactCount, commentCount }) => {
 
   return (
     <>
-      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList}/>
+      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} />
       {isMobile ? (
         <Box display="flex" justifyContent="space-between" width="100%">
           <Button
@@ -75,6 +75,9 @@ const useStyles = makeStyles(theme => ({
       [theme.breakpoints.down("xs")]: {
         fontSize: 12,
       },
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: theme.spacing(-1),
     },
   },
 }));

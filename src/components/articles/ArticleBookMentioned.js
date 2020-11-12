@@ -9,6 +9,12 @@ import { BookSlider } from "./ArticleSliders";
 
 const ArticleBookMentioned = ({ isReviewType, bookList, bookMentioned }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
+  const { bookCover, title, authorName, editionId, rateAvg } = bookMentioned;
+  bookList = bookList.map(book => {
+    const { bookCover, title, authorName, editionId, rateAvg } = book;
+    return { bookCover, title, authorName, editionId, rateAvg };
+  });
+
   return (
     <>
       <Box
@@ -20,16 +26,23 @@ const ArticleBookMentioned = ({ isReviewType, bookList, bookMentioned }) => {
         mb={{ xs: 1, sm: 1.5 }}
       >
         <Typography variant="h6">{getLabel("TXT_ARTICLE_BOOK_MENTIONED")}</Typography>
-        {!isReviewType ? (
+        {!isReviewType && (
           <Typography variant="body2" className="grey-text">
             {StringFormat(getLabel("FM_ARTICLE_BOOK"), 4)}
           </Typography>
-        ) : null}
+        )}
       </Box>
       {isReviewType ? (
-        <BookBox {...bookMentioned} className="mb-16" />
+        <BookBox
+          editionId={editionId}
+          bookCover={bookCover}
+          rateAvg={rateAvg}
+          bookName={title}
+          author={authorName}
+          className="mb-8"
+        />
       ) : (
-        <BookSlider sliderList={bookList} className="mb-16" />
+        <BookSlider sliderList={bookList} className="mb-8" />
       )}
     </>
   );
