@@ -7,7 +7,7 @@ const InviteFriend = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
-    <Paper className={classes.root}>
+    <Box className={classes.root}>
       <AvatarGroup spacing={20} className={classes.avatarGroup}>
         <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
         <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
@@ -23,7 +23,7 @@ const InviteFriend = () => {
           {getLabel("L_INVITE")}
         </Button>
       </Box>
-    </Paper>
+    </Box>
   );
 };
 const useStyles = makeStyles(theme => ({
@@ -32,10 +32,11 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-
+    padding: 0,
     [theme.breakpoints.down("xs")]: {
       borderRadius: "0px",
       background: theme.palette.white,
+      paddingTop: theme.spacing(2),
     },
   },
   avatarGroup: {
@@ -47,6 +48,10 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     marginBottom: "-27.5px",
     zIndex: "0",
+    [theme.breakpoints.down("xs")]: {
+      borderRadius: "0px",
+      background: theme.palette.white,
+    },
   },
   avatar: {
     width: "55px",
@@ -62,6 +67,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "10px 10px 10px 10px",
     color: theme.palette.text.secondary,
     textAlign: "center",
+    background: theme.palette.white,
+    [theme.breakpoints.down("xs")]: {
+      borderRadius: "0px",
+    },
   },
   text: {
     margin: "16px",

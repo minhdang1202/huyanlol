@@ -60,6 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
   coName: {
     color: "#2d6291",
+    textAlign: "center",
   },
 }));
 export default Company;

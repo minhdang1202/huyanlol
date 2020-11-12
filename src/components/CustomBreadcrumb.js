@@ -33,11 +33,6 @@ const CustomBreadcrumb = ({ bookName, articleName, challengeName }) => {
           {getLabel("TXT_HOMEPAGE")}
         </Typography>
       )}
-      {challengeName && (
-        <AppLink className={classes.link} to="/">
-          <Typography variant="body2">{getLabel("L_CHALLENGE")}</Typography>
-        </AppLink>
-      )}
       {pathNames.map((pathname, index) => {
         const routeTo = `/${pathNames.slice(0, index + 1).join("/")}`;
         const isLast = index === pathNames.length - 1;

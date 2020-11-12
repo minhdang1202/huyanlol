@@ -14,12 +14,12 @@ const ChallengeInfo = ({ name, count, from, to }) => {
         {name}
       </Typography>
       <Box className={classes.content}>
-        <Box className={"ic-person"}>
+        <Box className="ic-person">
           <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${count} ${getLabel(
             "TXT_PEOPLE",
           )}`}</Typography>
         </Box>
-        <Box className={"ic-date"}>
+        <Box className="ic-date">
           <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${from} ${getLabel(
             "TXT_To",
           )} ${to}`}</Typography>
