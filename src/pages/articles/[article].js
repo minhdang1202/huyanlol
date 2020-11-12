@@ -37,8 +37,8 @@ const ArticleDetail = ({ article, author, editions }) => {
     reactCount,
     commentCount,
   } = article;
-  const isReviewType = !categories[0].categoryId;
-  const rate = isReviewType ? editions[0].userRelation.evaluation.rate : null;
+  const isReviewType = categories[0].categoryId === 0;
+  const rate = isReviewType && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
   const bookMentioned = isReviewType ? editions[0] : null;
   const displayDate = convertDistanceDate(new Date(lastUpdate ? lastUpdate : publishedDate), new Date(), i18n.language);
   const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
@@ -70,13 +70,18 @@ const ArticleDetail = ({ article, author, editions }) => {
           <ArticleBookMentioned isReviewType={isReviewType} bookList={editions} bookMentioned={bookMentioned} />
           <ArticleHashtagButtons className="mt-16" hashtags={hashtags} category={categories[0].title} />
           <ArticleAuthor name={author.name} avatar={author.avatar} date={displayDate} address={author.address} />
-          <ArticleReacts reactCount={reactCount} commentCount={commentCount} />
+          <ArticleReacts reactCount={reactCount} commentCount={commentCount} articleId={articleId} />
         </Grid>
         <ArticleReactButtons shareUrl={shareUrl} />
         <Grid container item xs={12} md={8} className={classes.subContainer}>
-          <ArticleComments commentList={DEMO_COMMENT_LIST} />
+          <ArticleComments commentList={DEMO_COMMENT_LIST} commentCount={commentCount} articleId={articleId} />
         </Grid>
-        <ArticleRelated isReviewType={isReviewType} isArticleType={!isReviewType} />
+        <ArticleRelated
+          isReviewType={isReviewType}
+          isArticleType={!isReviewType}
+          categoryId={categories[0].categoryId}
+          editionId={editions[0].editionId}
+        />
       </Container>
     </MainLayout>
   );

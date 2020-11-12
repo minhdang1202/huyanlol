@@ -10,7 +10,7 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
   const classes = useStyles();
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.between("xs", "md"));
-  const totalSlides = sliderList.length;
+  const totalSlides = sliderList ? sliderList.length : null;
   let settings = {
     dots: false,
     infinite: false,
@@ -38,7 +38,7 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
     slider.current.slickNext();
   };
 
-  return (
+  return totalSlides ? (
     <Box position="relative">
       <Slider ref={slider} {...settings} {...otherProps} className={classes.root}>
         {sliderList.map((slider, index) => {
@@ -63,11 +63,11 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
         isArticleSlider={true}
       />
     </Box>
-  );
+  ) : null;
 };
 
 ArticleSlider.propTypes = {
-  sliderList: PropTypes.array.isRequired,
+  sliderList: PropTypes.array,
   isReviewType: PropTypes.bool,
   isArticleType: PropTypes.bool,
 };

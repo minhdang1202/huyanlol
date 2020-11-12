@@ -127,16 +127,9 @@ export function* requestGetSelfReview(action) {
 }
 
 export function* requestGetReviews(action) {
-  const { editionId, pageNum, categoryId } = action;
-  const bodyReq = {
-    criteria: {
-      editionIds: [editionId],
-      categoryIds: [categoryId],
-    },
-    pageNum: pageNum,
-    pageSize: AppConstant.DATA_SIZES.articles,
-  };
-  let response = yield call(EditionService.getBookReviews, bodyReq);
+  const { data } = action;
+
+  let response = yield call(EditionService.getBookReviews, data);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
@@ -155,6 +148,8 @@ export function* requestGetReviews(action) {
           creator,
         } = review;
         const rate = editions[0].userRelation.evaluation.rate;
+        const bookName = editions[0].title;
+        const editionId = editions[0].editionId;
         const avatar = creator.imageId ? getImageById(creator.imageId) : null;
         const thumbnail = thumbnailId ? getImageById(thumbnailId) : null;
         const { name } = creator;
@@ -169,6 +164,8 @@ export function* requestGetReviews(action) {
           reactCount,
           commentCount,
           rate,
+          bookName,
+          editionId,
         };
       });
 

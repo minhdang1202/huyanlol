@@ -5,7 +5,7 @@ const { Types, Creators } = createActions({
   requestGetLendersList: null,
   getLendersListSuccess: ["data"],
   getLendersListFailure: ["data"],
-  
+
   requestGetNearestLenders: null,
   getNearestLendersSuccess: ["data"],
   getNearestLendersFailure: ["data"],
@@ -14,7 +14,7 @@ const { Types, Creators } = createActions({
   getTotalLendersSuccess: ["data"],
   getTotalLendersFailure: ["data"],
 
-  requestGetReviews: null,
+  requestGetReviews: ["data"],
   getReviewsSuccess: ["data"],
   getReviewsFailure: ["data"],
 

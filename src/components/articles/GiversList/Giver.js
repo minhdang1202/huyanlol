@@ -7,7 +7,7 @@ import { Box, Badge, Avatar, IconButton, Typography, makeStyles } from "@materia
 import FollowButton from "../FollowButton";
 import { AppLink } from "components";
 
-const Giver = ({ name, avatar, giver, isFollowing }) => {
+const Giver = ({ name, avatar, userId, followRelation, reactCount }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   return (
@@ -34,11 +34,11 @@ const Giver = ({ name, avatar, giver, isFollowing }) => {
             </Typography>
           </AppLink>
           <Typography variant="body2" className={clsx("eclipse", "grey-text")}>
-            {StringFormat(getLabel("FM_GIVERS"), giver)}
+            {StringFormat(getLabel("FM_GIVERS"), reactCount)}
           </Typography>
         </Box>
       </Box>
-      <FollowButton isFollowing={isFollowing} className="ml-8" />
+      <FollowButton isFollowing={followRelation} className="ml-8" />
     </Box>
   );
 };
@@ -55,8 +55,9 @@ const Heart = () => {
 Giver.propTypes = {
   name: PropTypes.string,
   avatar: PropTypes.string,
-  giver: PropTypes.number,
-  isFollowing: PropTypes.bool,
+  reactCount: PropTypes.number,
+  followRelation: PropTypes.bool,
+  userId: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({

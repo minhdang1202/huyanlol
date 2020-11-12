@@ -6,7 +6,7 @@ import { Button, Typography, Box, makeStyles, useTheme, useMediaQuery } from "@m
 import PropTypes from "prop-types";
 import GiversList from "./GiversList";
 
-const ArticleReacts = ({ reactCount, commentCount }) => {
+const ArticleReacts = ({ reactCount, commentCount, articleId }) => {
   const classes = useStyles();
   const theme = useTheme();
   const { t: getLabel } = useTranslation();
@@ -25,7 +25,7 @@ const ArticleReacts = ({ reactCount, commentCount }) => {
 
   return (
     <>
-      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} />
+      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} reactCount={reactCount} articleId={articleId} />
       {isMobile ? (
         <Box display="flex" justifyContent="space-between" width="100%">
           <Button
@@ -59,6 +59,7 @@ const ArticleReacts = ({ reactCount, commentCount }) => {
 ArticleReacts.propTypes = {
   reactCount: PropTypes.number,
   commentCount: PropTypes.number,
+  articleId: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({

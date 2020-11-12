@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import StringFormat from "string-format";
-import { Typography, Box, Hidden, Button, Divider, makeStyles, Avatar } from "@material-ui/core";
+import { Typography, Box, Hidden, Button, makeStyles, Avatar } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
+import ArticleActions from "redux/article.redux";
 import MobileInput from "./MobileInput";
 import SortPopup from "./SortPopup";
 import Comment from "./Comment";
+import Replies from "./Replies";
 
-const ArticleComments = ({ commentList }) => {
+const ArticleComments = ({ commentList, commentCount, articleId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
@@ -25,9 +28,16 @@ const ArticleComments = ({ commentList }) => {
       displayLabel: getLabel(getCommonKey("TXT_FRIEND_COMMENT")),
     },
   ];
+
+  const dispatch = useDispatch();
+  const dispatchGetComments = data => dispatch(ArticleActions.requestGetCommentsList(articleId, data));
+
+  const comments = useSelector(state => state.articleRedux.comments);
+
   const [isOpenSort, setIsOpenSort] = useState(false);
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
+
   const onOpenSort = () => {
     setIsOpenSort(true);
   };
@@ -38,6 +48,7 @@ const ArticleComments = ({ commentList }) => {
     setSortValue(value);
     setDisplaySort(RADIO_LIST[value].displayLabel);
   };
+  
   return (
     <Box width="100%">
       <SortPopup
@@ -56,7 +67,7 @@ const ArticleComments = ({ commentList }) => {
         </Box>
       </Hidden>
       <Box position="relative">
-        {commentList.length === 0 ? (
+        {commentCount === 0 ? (
           <Box py={{ xs: 10, sm: 8 }} className="center-root" flexDirection="column">
             <Box className="ic-comment-alt-dots" />
             <Typography variant="body2" className="grey-text">
@@ -81,26 +92,14 @@ const ArticleComments = ({ commentList }) => {
                 <Box key={index}>
                   <Comment comment={comment} />
                   <Hidden smUp>
-                    <Box display="flex" mt={1}>
-                      <Divider orientation="vertical" className="mr-12" flexItem />
-                      <Box>
-                        {hasReply &&
-                          replyList.map((reply, index) => (
-                            <Comment
-                              key={index}
-                              comment={reply}
-                              className={index === replyList.length - 1 ? null : "mb-8"}
-                            />
-                          ))}
-                      </Box>
-                    </Box>
+                    <Replies hasReply={hasReply} replyList={replyList} />
                   </Hidden>
                 </Box>
               );
             })}
             <Hidden xsDown>
               <Button variant="contained" className={clsx("light-blue-button", classes.seeAllButton)}>
-                {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentList.length)}
+                {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
               </Button>
             </Hidden>
           </Box>
@@ -115,6 +114,8 @@ const ArticleComments = ({ commentList }) => {
 
 ArticleComments.propTypes = {
   commentList: PropTypes.array,
+  commentCount: PropTypes.number,
+  articleId: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({
