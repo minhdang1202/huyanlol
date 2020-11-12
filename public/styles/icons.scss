@@ -30,6 +30,11 @@
   content: "\f053";
 }
 
+.ic-chevron-right:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f054";
+}
+
 .ic-chevron-down:before {
   font-family: "FontAwesome5Pro";
   content: "\f078";
@@ -38,6 +43,11 @@
 .ic-ellipsis-h:before {
   font-family: "FontAwesome5Pro";
   content: "\f141";
+}
+
+.ic-plus:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f067";
 }
 
 .ic-arrow-circle-right:before {
@@ -79,6 +89,16 @@
 .ic-bookmark:before {
   font-family: "FontAwesome5Pro-Solid";
   content: "\f02e";
+}
+
+.ic-book:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f02d";
+}
+
+.ic-tag:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f02b";
 }
 
 .ic-cloud-download:before {
@@ -141,4 +161,11 @@
   font-family: "FontAwesome5Pro-Solid";
   content: "\f0a3";
   font-size: 32px;
+}
+
+.ic-comment-alt-dots:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f4a3";
+  color: #ebf4f9;
+  font-size: 100px;
 }

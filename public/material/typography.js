@@ -2,6 +2,9 @@ import palette from "./palette";
 
 export default {
   fontFamily: "SFProDisplay",
+  h4: {
+    fontWeight: 500,
+  },
   h5: {
     fontWeight: 600,
   },

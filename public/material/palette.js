@@ -35,7 +35,7 @@ export default {
     light: "#A4F3AC",
   },
   grey: {
-    100: "#FAFAFB",
+    100: "#F0F3F6",
     200: "#D4D5D8",
     300: "#D2D9DE",
     400: "#979AA1",
