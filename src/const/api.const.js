@@ -28,4 +28,4 @@ export const PUT_BOOK_LENDERS = "/book_edition/_find_sharing_users";
 export const GET_BOOK_SUGGESTION = "/book_edition/suggestion";
 
 export const GET_SELF_REVIEW = editionId => `/articles/self/review/${editionId}`;
-export const PUT_BOOK_REVIEWS = "/articles/_get_articles";
+export const GET_ARTICLES = "/articles";

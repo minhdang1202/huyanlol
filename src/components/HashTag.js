@@ -11,7 +11,7 @@ const Hashtag = ({ content, ...otherProps }) => {
     content
   ) : (
     <Typography variant="body2" component="span">
-      {content}
+      {`#${content}`}
     </Typography>
   );
 

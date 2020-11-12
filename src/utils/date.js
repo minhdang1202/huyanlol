@@ -1,8 +1,18 @@
 import "date-fns";
-import { LangConstant } from "../const";
+import { AppConstant, LangConstant } from "../const";
 import viLocale from "date-fns/locale/vi";
 import enLocale from "date-fns/locale/en-US";
-import { format, differenceInCalendarDays, formatDistance, getDate } from "date-fns";
+import {
+  format,
+  differenceInCalendarDays,
+  formatDistance,
+  isSameYear,
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+} from "date-fns";
+import StringFormat from "string-format";
+import { getLabel } from "language";
 
 export const getDateLang = lang => {
   if (LangConstant.EN_LANG == lang) {
@@ -38,4 +48,31 @@ export const convertDistanceDate = (date, baseDate, lang) => {
   });
   const displayDate = isSameDay ? displayDateInSameDay : convertFormat(baseDate, "dd/MM/yyyy");
   return displayDate;
+};
+
+export const getCreatedTime = created => {
+  let result = "";
+  if (created) {
+    let currentDate = new Date();
+    let differenceDaysWithCurrent = differenceInDays(currentDate, created);
+    let differenceHoursWithCurrent = differenceInHours(currentDate, created);
+    let differenceMinutesWithCurrent = differenceInMinutes(currentDate, created);
+    if (differenceDaysWithCurrent >= 1) {
+      if (differenceDaysWithCurrent >= 7) {
+        let isSame = isSameYear(created, currentDate);
+        let primaryFormat = isSame ? AppConstant.FM_DD_MM : AppConstant.FM_DD_MM_YYYY;
+        result = format(created, primaryFormat);
+      } else {
+        result = StringFormat(getLabel("FM_NEW_CREATED_BY_DAY"), differenceDaysWithCurrent);
+      }
+    } else if (differenceHoursWithCurrent >= 1) {
+      result = StringFormat(getLabel("FM_NEW_CREATED_BY_HOUR"), differenceHoursWithCurrent);
+    } else if (differenceMinutesWithCurrent >= 1) {
+      result = StringFormat(getLabel("FM_NEW_CREATED_BY_MINUTE"), differenceMinutesWithCurrent);
+    } else if (differenceMinutesWithCurrent >= 0) {
+      result = getLabel("TXT_NEW_CREATED_BY_SECOND");
+    }
+  }
+  console.log("result", result);
+  return result;
 };

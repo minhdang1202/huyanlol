@@ -1,21 +1,37 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { Section, ArticleSummary } from "components";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { uuid } from "utils";
+import { useDispatch, useSelector } from "react-redux";
+import ArticleAction from "redux/article.redux";
 
-const ListArticles = props => {
+const ListArticles = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
+  const dispatch = useDispatch();
+  const listArticlesRedux = useSelector(({ articleRedux }) => articleRedux.homeArticles.pageData);
+
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    if (listArticlesRedux && listArticlesRedux != list) {
+      setList(listArticlesRedux);
+    }
+  }, [listArticlesRedux]);
+
+  useEffect(() => {
+    dispatch(ArticleAction.requestHomeArticles(DEFAULT_PARAMS));
+  }, []);
 
   return (
     <Section title={getLabel("TXT_LIST_ARTICLES")}>
       <Box className={classes.root}>
-        {MOCK_DATA.map((article, index) => (
+        {list.map(article => (
           <Box key={uuid()} className={classes.item}>
-            <ArticleSummary data={article} isHiddenAction={index % 2 === 0} />
+            <ArticleSummary data={article} />
           </Box>
         ))}
       </Box>
@@ -29,6 +45,12 @@ ListArticles.propTypes = {
 ListArticles.defaultProps = {};
 
 export default memo(ListArticles);
+
+const DEFAULT_PARAMS = {
+  categoryIds: [],
+  pageNum: 1,
+  pageSize: 2,
+};
 
 const useStyles = makeStyles(theme => ({
   root: {

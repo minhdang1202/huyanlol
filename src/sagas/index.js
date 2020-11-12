@@ -7,6 +7,7 @@ import { takeLatest, all } from "redux-saga/effects";
 /* ------------- Types ------------- */
 import { AuthTypes } from "../redux/auth.redux";
 import { EditionTypes } from "redux/edition.redux";
+import { ArticleTypes } from "redux/article.redux";
 
 /* ------------- Sagas ------------- */
 import { requestLogin } from "./auth.saga";
@@ -18,6 +19,7 @@ import {
   requestGetNearestLenders,
   requestGetBookSuggestion,
 } from "./edition.saga";
+import { requestGetArticles } from "./article.saga";
 
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
@@ -32,5 +34,8 @@ export default function* root() {
     takeLatest(EditionTypes.REQUEST_GET_TOTAL_LENDERS, requestGetTotalLenders),
     takeLatest(EditionTypes.REQUEST_GET_NEAREST_LENDERS, requestGetNearestLenders),
     takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION, requestGetBookSuggestion),
+
+    // article
+    takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetArticles),
   ]);
 }

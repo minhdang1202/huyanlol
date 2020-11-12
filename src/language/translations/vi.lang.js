@@ -29,6 +29,7 @@ export default {
     TXT_LOVE: "Ghi nhận",
     TXT_COMMENT: "Bình luận",
     TXT_SHARE: "Chia sẻ",
+    TXT_NEW_CREATED_BY_SECOND: "Vừa xong",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -43,6 +44,9 @@ export default {
     FM_NUMBER_COMMENTS: "{0} bình luận",
     FM_REVIEW_BOOK_TITLE:
       "<a href={href} class='semiBold-md-txt'>{title}</a> của <a href={href} class='semiBold-md-txt'>{author}</a>",
+    FM_NEW_CREATED_BY_DAY: "{0} ngày trước",
+    FM_NEW_CREATED_BY_HOUR: "{0} giờ trước",
+    FM_NEW_CREATED_BY_MINUTE: "{0} phút trước",
 
     //ERR: Error
     //MSG: Message
