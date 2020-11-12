@@ -53,6 +53,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     display: "flex",
     justifyContent: "flex-start",
+    color: theme.palette.text.secondary,
     fontSize: "20px",
     "&>*:nth-child(2)": {
       marginLeft: "40px",
@@ -63,6 +64,8 @@ const useStyles = makeStyles(theme => ({
       textOverflow: "ellipsis",
       "&>*:nth-child(1)": {
         marginLeft: "8px",
+
+        color: theme.palette.text.primary,
       },
     },
     [theme.breakpoints.down("xs")]: {

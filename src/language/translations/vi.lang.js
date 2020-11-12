@@ -122,6 +122,7 @@ export default {
     L_COMPLETE: "Hoàn thành",
     L_BY: "By",
     L_COMPANY_NAME: "GAT",
+    L_LESS: "Rút gọn",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
@@ -129,9 +130,8 @@ export default {
     TXT_JUST_READ: "Vừa đọc xong quyển",
     TXT_PEOPLE: "người",
     TXT_To: "đến",
-    TXT_HAVE_READ: "Đã đọc",
-    TXT_BOOK: "cuốn sách",
 
+    FM_PROGRESS: " Đã đọc {0}/{1} cuốn sách",
     FM_ACTIVITY: `<span style="font-weight:600">{name}</span> vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
   },
   articleDetail: {

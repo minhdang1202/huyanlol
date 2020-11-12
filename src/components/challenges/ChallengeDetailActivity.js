@@ -89,6 +89,10 @@ const useStyles = makeStyles(theme => ({
   content: {
     display: "flex",
     justifyContent: "space-between",
+    marginTop: theme.spacing(2),
+    "&>:nth-child(1)": {
+      marginRight: theme.spacing(2),
+    },
   },
   img: {
     width: "94px",

@@ -4,6 +4,7 @@ import { makeStyles, Typography, Paper, Box, Button, Avatar, useTheme, useMediaQ
 import clsx from "clsx";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
+import StringFormat from "string-format";
 const IMG_HEIGHT = 378;
 
 const ChallengeCover = ({ isDone, isEnd, joined }) => {
@@ -18,22 +19,26 @@ const ChallengeCover = ({ isDone, isEnd, joined }) => {
       <Paper elevation={1} className={classes.content}>
         {joined && (
           <Box className={classes.detail}>
-            {!isMobile && <Typography variant="subtitle1">{getLabel("L_PROCESS")}</Typography>}
+            {!isMobile && (
+              <Typography variant="subtitle1" className="processLabel">
+                {getLabel("L_PROCESS")}
+              </Typography>
+            )}
             {isDone ? (
-              <Box className={clsx(!isMobile && [classes.icLine, "ic-check"], isDone && classes.isDone)}>
+              <Box className={clsx(!isMobile && [classes.icLine1, "ic-check"], isDone && classes.isDone)}>
                 <Typography variant="body1" component="span">
-                  {`${getLabel("TXT_HAVE_READ")} 69/69 ${getLabel("TXT_BOOK")}`}
+                  {StringFormat(getLabel("FM_PROGRESS"), 0, 69)}
                 </Typography>
               </Box>
             ) : (
-              <Box className={!isMobile ? clsx(classes.icLine, "ic-bullseye") : null}>
+              <Box className={!isMobile ? clsx(classes.icLine1, "ic-bullseye") : null}>
                 <Typography variant="body1" component="span">
-                  {`${getLabel("TXT_HAVE_READ")} 0/69 ${getLabel("TXT_BOOK")}`}
+                  {StringFormat(getLabel("FM_PROGRESS"), 0, 69)}
                 </Typography>
               </Box>
             )}
 
-            <Box className={clsx(classes.icLine, classes.gray, "ic-calendar-alt")}>
+            <Box className={clsx(classes.icLine2, classes.gray, "ic-calendar-alt")}>
               {isEnd ? (
                 <Typography variant={isMobile ? "body2" : "body1"} component="span">
                   {getLabel("L_END")}
@@ -93,9 +98,9 @@ const useStyles = makeStyles(theme => ({
     margin: " 0px 5% 0px 5%",
     width: "90%",
     height: IMG_HEIGHT,
-    background: "lightblue",
     borderRadius: "10px",
-    zIndex: "10",
+    zIndex: "3",
+    objectFit: "contain !important",
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       margin: " 0px",
@@ -126,7 +131,7 @@ const useStyles = makeStyles(theme => ({
   },
   btnContainer: {
     width: "100%",
-    height: "45px",
+    minHeight: "45px",
     display: "flex",
     alignItem: "center",
     justifyContent: "center",
@@ -141,12 +146,22 @@ const useStyles = makeStyles(theme => ({
   },
   detail: {
     marginBottom: theme.spacing(2),
-
+    "&>:nth-child(n+2)": {
+      marginTop: theme.spacing(1),
+    },
     [theme.breakpoints.down("xs")]: {
       marginTop: "10px",
+      "&>:nth-child(n+2)": {
+        marginTop: 0,
+      },
     },
   },
-  icLine: {
+  icLine1: {
+    "&>:first-child": {
+      margin: "4px",
+    },
+  },
+  icLine2: {
     "&>:first-child": {
       margin: theme.spacing(1),
     },

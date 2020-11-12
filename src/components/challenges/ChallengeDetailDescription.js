@@ -9,8 +9,8 @@ const Description = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [isFull, setIsFull] = useState(false);
 
-  const onClickMore = () => {
-    setIsFull(true);
+  const onChangeContent = () => {
+    setIsFull(!isFull);
   };
 
   return (
@@ -26,11 +26,9 @@ const Description = () => {
           est laborum.
         </Typography>
       </Box>
-      {!isFull && (
-        <Typography variant="subtitle2" className={classes.btn} onClick={onClickMore}>
-          {getLabel("L_MORE")}
-        </Typography>
-      )}
+      <Typography variant="subtitle2" className={classes.btn} onClick={onChangeContent}>
+        {isFull ? getLabel("L_LESS") : getLabel("L_MORE")}
+      </Typography>
     </Paper>
   );
 };
@@ -40,6 +38,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     padding: theme.spacing(3),
+    "&>:nth-child(2)": {
+      cursor: "pointer",
+    },
   },
   content: {
     width: "100%",

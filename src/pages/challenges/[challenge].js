@@ -29,11 +29,7 @@ const Challenge = () => {
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container maxWidth="lg" className={classes.root}>
-        {!isMobile && (
-          <Box className={classes.breadcrumbContainer}>
-            <CustomBreadCrumb challengeName="duongdz" className={classes.breadcrumb} />
-          </Box>
-        )}
+        {!isMobile && <CustomBreadCrumb challengeName="duongdz" className={classes.breadcrumb} />}
 
         <Grid container justify="center" spacing={0}>
           {!isMobile && (
@@ -106,8 +102,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     padding: 0,
   },
-  breadcrumbContainer: {
-    margin: "18px 0px 24px 100px",
+  breadcrumb: {
+    margin: "24px 0px 0px 100px",
   },
   current: {
     color: theme.palette.text.primary,
