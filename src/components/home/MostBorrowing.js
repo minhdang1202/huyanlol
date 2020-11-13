@@ -57,11 +57,9 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     display: "flex",
     justifyContent: "space-between",
+    overflow: "scroll",
     "& > $item:not(:last-child)": {
       marginRight: theme.spacing(2),
-    },
-    [theme.breakpoints.down("md")]: {
-      overflow: "scroll",
     },
   },
   item: {
