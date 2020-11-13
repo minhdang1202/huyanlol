@@ -8,6 +8,7 @@ import { takeLatest, all } from "redux-saga/effects";
 import { AuthTypes } from "../redux/auth.redux";
 import { EditionTypes } from "redux/edition.redux";
 import { ArticleTypes } from "redux/article.redux";
+import { UserTypes } from "redux/user.redux";
 
 /* ------------- Sagas ------------- */
 import { requestLogin } from "./auth.saga";
@@ -20,6 +21,7 @@ import {
   requestGetBookSuggestion,
 } from "./edition.saga";
 import { requestGetHomeArticles, requestGetHomeReviews } from "./article.saga";
+import { requestGetTopWriter } from "./user.saga";
 
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
@@ -38,5 +40,8 @@ export default function* root() {
     // article
     takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),
     takeLatest(ArticleTypes.REQUEST_HOME_REVIEWS, requestGetHomeReviews),
+
+    // user
+    takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
   ]);
 }

@@ -29,3 +29,5 @@ export const GET_BOOK_SUGGESTION = "/suggestion/book_suggestion";
 
 export const GET_SELF_REVIEW = editionId => `/articles/self/review/${editionId}`;
 export const GET_ARTICLES = "/articles";
+
+export const GET_USER_TOP_WRITER = "/user/articles/top_writer";

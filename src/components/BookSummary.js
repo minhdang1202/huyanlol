@@ -37,9 +37,9 @@ const BookSummary = ({ data, classes }) => {
               </Typography>
 
               <Typography variant="caption" component="p" className="eclipse">
-                {book.authorName}
+                {book.authorName || book.author}
               </Typography>
-              <CustomRating readOnly={true} value={book.rating} size="small" />
+              <CustomRating readOnly={true} value={book.rateAvg || 0} size="small" />
             </CardContent>
           </>
         )}
@@ -75,8 +75,12 @@ const useStyles = makeStyles(theme => ({
   content: {
     minHeight: "max-content",
     padding: "12px 0",
+    "& .eclipse": {
+      minHeight: 19,
+    },
   },
   title: {
+    height: 42,
     "&:hover": {
       textDecoration: "underline",
     },

@@ -27,3 +27,5 @@ export const GAT_APP_STORE = "https://apps.apple.com/vn/app/gat/id1230316898";
 
 export const FM_DD_MM_YYYY = "dd/MM/yyyy";
 export const FM_DD_MM = "dd/MM";
+
+export const CATEGORY_REVIEW = 0;

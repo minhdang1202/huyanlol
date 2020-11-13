@@ -15,6 +15,7 @@ import ArticleSummary from "./ArticleSummary";
 import Hashtag from "./Hashtag";
 import CategoryTag from "./CategoryTag";
 import ReviewSummary from "./ReviewSummary";
+import TabPanel from "./TabPanel";
 
 export {
   AppHead,
@@ -34,4 +35,5 @@ export {
   Hashtag,
   CategoryTag,
   ReviewSummary,
+  TabPanel,
 };

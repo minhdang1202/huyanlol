@@ -2,7 +2,6 @@ import React, { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Avatar,
-  Box,
   Button,
   Card,
   CardActions,
@@ -12,9 +11,6 @@ import {
   Divider,
   Grid,
   IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   makeStyles,
   Typography,
   useTheme,
