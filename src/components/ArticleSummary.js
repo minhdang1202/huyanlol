@@ -53,7 +53,6 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
   }, [data]);
 
   let isHeart = Boolean(article.reactCount && article.reactCount > 0);
-
   return (
     <Card className={defaultClasses.root}>
       <CardHeader

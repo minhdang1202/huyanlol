@@ -39,7 +39,7 @@ const TopWriter = () => {
 
       <Box className={classes.root}>
         <Box className={("center-root", classes.header)}>
-          <Typography variant="subtitle2">{list[selectedTab].name}</Typography>
+          <Typography variant="subtitle2">{(list[selectedTab] || {}).name}</Typography>
           <IconButton>
             <Box className="ic-arrow-circle-right" />
           </IconButton>
