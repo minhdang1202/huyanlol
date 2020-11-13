@@ -1,37 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import StringFormat from "string-format";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
-import { Avatar, makeStyles, Button, TextareaAutosize } from "@material-ui/core";
+import { Avatar, Box, makeStyles, Button, TextareaAutosize, IconButton, Typography } from "@material-ui/core";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
+import ArticleActions from "redux/article.redux";
 
 const MobileInput = () => {
   const classes = useStyles();
+  const input = useRef();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
+
+  const dispatch = useDispatch();
+  const onCancelReply = () => dispatch(ArticleActions.onCancelReply());
+  const [isTypingReply, replyInfo] = useSelector(state => [
+    state.articleRedux.isTypingReply,
+    state.articleRedux.replyInfo,
+  ]);
+
   const [content, setContent] = useState();
 
+  useEffect(() => {
+    const onFocusout = () => {
+      onCancelReply();
+      input.current.value = null;
+    };
+    input.current.addEventListener("focusout", onFocusout);
+    return () => {
+      input.current.removeEventListener("focusout", onFocusout);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isTypingReply) {
+      input.current.focus();
+      input.current.value = replyInfo.name;
+      return;
+    }
+    input.current.value = null;
+  }, [isTypingReply]);
+
   const onChange = e => {
-    setContent(e.target.value);
+    const content = e.target.value;
+    setContent(content);
   };
+
   return (
-    <form className={classes.root}>
-      <Avatar variant="square" src="/images/ic-book.png" />
-      <TextareaAutosize
-        className={classes.textarea}
-        placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
-        onChange={onChange}
-      />
-      <Button disabled={!Boolean(content)} classes={{ root: classes.button, disabled: classes.disabled }}>
-        {getLabel(getCommonKey("TXT_POST"))}
-      </Button>
-    </form>
+    <Box className={classes.root}>
+      {isTypingReply && (
+        <Box className={classes.reply}>
+          <Typography variant="subtitle1" className="eclipse">
+            {StringFormat(getLabel("FM_ARTICLE_REPLY_COMMENT"), replyInfo.name)}
+          </Typography>
+          <IconButton>
+            <Box className="ic-times-circle" onClick={onCancelReply} />
+          </IconButton>
+        </Box>
+      )}
+      <form className={classes.form}>
+        <Avatar variant="square" src="/images/ic-book.png" />
+        <TextareaAutosize
+          ref={input}
+          className={classes.textarea}
+          placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
+          onChange={onChange}
+        />
+        <Button disabled={!Boolean(content)} classes={{ root: classes.button, disabled: classes.disabled }}>
+          {getLabel(getCommonKey("TXT_POST"))}
+        </Button>
+      </form>
+    </Box>
   );
 };
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
-    alignItems: "center",
     width: "100%",
     position: "sticky",
     bottom: 0,
@@ -39,6 +84,10 @@ const useStyles = makeStyles(theme => ({
       width: `calc(100% + ${PADDING_X_CONTAINER_MOBILE} * 2)`,
       marginLeft: `calc(${PADDING_X_CONTAINER_MOBILE} * -1)`,
     },
+  },
+  form: {
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(1, 2),
     background: theme.palette.white,
     boxShadow: `0px -1px 0px ${theme.palette.grey[100]}, 0px 1px 0px ${theme.palette.grey[100]}`,
@@ -75,6 +124,18 @@ const useStyles = makeStyles(theme => ({
   },
   disabled: {
     color: `${theme.palette.grey[500]} !important`,
+  },
+  reply: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    background: theme.palette.grey[100],
+    padding: theme.spacing(1, 2),
+    color: theme.palette.grey[500],
+    "& .ic-times-circle": {
+      fontSize: 14,
+      color: theme.palette.grey[500],
+    },
   },
 }));
 

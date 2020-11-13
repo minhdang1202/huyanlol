@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import StringFormat from "string-format";
-import { Typography, Box, Hidden, Button, makeStyles, Avatar } from "@material-ui/core";
+import {
+  Typography,
+  Box,
+  Hidden,
+  Button,
+  makeStyles,
+  useTheme,
+  useMediaQuery,
+  CircularProgress,
+} from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import ArticleActions from "redux/article.redux";
 import MobileInput from "./MobileInput";
 import SortPopup from "./SortPopup";
 import Comment from "./Comment";
 import Replies from "./Replies";
+import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
+import { AvatarIcon } from "icons";
 
-const ArticleComments = ({ commentList, commentCount, articleId }) => {
+const ArticleComments = ({ articleId, commentCount }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
   const RADIO_LIST = [
@@ -30,13 +43,42 @@ const ArticleComments = ({ commentList, commentCount, articleId }) => {
   ];
 
   const dispatch = useDispatch();
-  const dispatchGetComments = data => dispatch(ArticleActions.requestGetCommentsList(articleId, data));
+  const dispatchGetComments = params => {
+    dispatch(ArticleActions.requestGetCommentsList(articleId, params));
+  };
 
-  const comments = useSelector(state => state.articleRedux.comments);
+  const [comments, totalComments] = useSelector(state => [
+    state.articleRedux.commentsList,
+    state.articleRedux.totalComments,
+  ]);
 
   const [isOpenSort, setIsOpenSort] = useState(false);
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
+  const [commentsList, setCommentsList] = useState();
+  const [pageNum, setPageNum] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasChangeSort, setHasChangeSort] = useState(false);
+
+  const onScroll = e => {
+    if (isLoading || !commentsList) return;
+    if (commentsList.length >= totalComments) {
+      setIsLoading(false);
+      return;
+    }
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    if (scrollHeight <= scrollTop + clientHeight) {
+      onFetchMoreData();
+      setIsLoading(true);
+    }
+  };
+
+  const onGetParams = (pageNum, isFriend = false) => ({
+    article_id: articleId,
+    pageNum: pageNum,
+    pageSize: AppConstant.DATA_SIZES.articles,
+    isFriend: isFriend,
+  });
 
   const onOpenSort = () => {
     setIsOpenSort(true);
@@ -48,7 +90,55 @@ const ArticleComments = ({ commentList, commentCount, articleId }) => {
     setSortValue(value);
     setDisplaySort(RADIO_LIST[value].displayLabel);
   };
-  
+
+  const onFetchWithSort = pageNum => {
+    switch (sortValue) {
+      case 1:
+        dispatchGetComments(onGetParams(pageNum, true));
+        break;
+      default:
+        dispatchGetComments(onGetParams(pageNum));
+    }
+  };
+
+  const onFetchMoreData = () => {
+    onFetchWithSort(pageNum + 1);
+    setPageNum(pageNum + 1);
+  };
+
+  useEffect(() => {
+    if (isMobile) {
+      const mainLayout = document.querySelector(`#${MAIN_LAYOUT_ID}`);
+      mainLayout.addEventListener("scroll", onScroll);
+      return () => {
+        mainLayout.removeEventListener("scroll", onScroll);
+      };
+    }
+  });
+
+  useEffect(() => {
+    dispatchGetComments(onGetParams(pageNum));
+  }, []);
+
+  useEffect(() => {
+    onFetchWithSort(1);
+    setHasChangeSort(true);
+  }, [sortValue]);
+
+  useEffect(() => {
+    if (commentsList && pageNum != 1) {
+      setCommentsList(commentsList.concat(comments));
+      setIsLoading(false);
+      setHasChangeSort(false);
+      return;
+    }
+    if (comments) {
+      setCommentsList(comments);
+      setIsLoading(false);
+      setHasChangeSort(false);
+    }
+  }, [comments]);
+
   return (
     <Box width="100%">
       <SortPopup
@@ -67,7 +157,7 @@ const ArticleComments = ({ commentList, commentCount, articleId }) => {
         </Box>
       </Hidden>
       <Box position="relative">
-        {commentCount === 0 ? (
+        {totalComments === 0 ? (
           <Box py={{ xs: 10, sm: 8 }} className="center-root" flexDirection="column">
             <Box className="ic-comment-alt-dots" />
             <Typography variant="body2" className="grey-text">
@@ -80,23 +170,29 @@ const ArticleComments = ({ commentList, commentCount, articleId }) => {
               <Button
                 variant="outlined"
                 className={clsx("grey-text", classes.commentButton)}
-                startIcon={<Avatar className={classes.userAvatar} src="" />}
+                startIcon={<AvatarIcon />}
               >
                 <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
               </Button>
             </Hidden>
-            {commentList.slice(0, 2).map((comment, index) => {
-              const { replyList } = comment;
-              const hasReply = Boolean(replyList.length);
-              return (
-                <Box key={index}>
-                  <Comment comment={comment} />
-                  <Hidden smUp>
-                    <Replies hasReply={hasReply} replyList={replyList} />
-                  </Hidden>
-                </Box>
-              );
-            })}
+            {!hasChangeSort &&
+              commentsList &&
+              commentsList.map((comment, index) => {
+                if (!isMobile && index >= 2) return;
+                const { replies, replyCount, commentId } = comment;
+                const hasReply = Boolean(replies);
+                return (
+                  <Box key={index}>
+                    <Comment comment={comment} />
+                    {hasReply && (
+                      <Hidden smUp>
+                        <Replies initialReplies={replies} replyCount={replyCount} commentId={commentId} />
+                      </Hidden>
+                    )}
+                  </Box>
+                );
+              })}
+            {(isLoading || hasChangeSort) && <CircularProgress className={classes.loading} />}
             <Hidden xsDown>
               <Button variant="contained" className={clsx("light-blue-button", classes.seeAllButton)}>
                 {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
@@ -113,9 +209,8 @@ const ArticleComments = ({ commentList, commentCount, articleId }) => {
 };
 
 ArticleComments.propTypes = {
-  commentList: PropTypes.array,
-  commentCount: PropTypes.number,
   articleId: PropTypes.number,
+  commentCount: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({
@@ -143,6 +238,11 @@ const useStyles = makeStyles(theme => ({
     width: 48,
     height: 48,
     marginRight: theme.spacing(1),
+  },
+  loading: {
+    margin: theme.spacing(5, "auto"),
+    textAlign: "center",
+    display: "inherit",
   },
 }));
 

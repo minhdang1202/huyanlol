@@ -16,7 +16,7 @@ const GiversList = ({ isOpen, onClose, reactCount, articleId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const dispatch = useDispatch();
-  const dispatchGetGiversList = data => dispatch(ArticleActions.requestGetGiversList(articleId, data));
+  const dispatchGetGiversList = params => dispatch(ArticleActions.requestGetGiversList(articleId, params));
 
   const [givers, total] = useSelector(state => [state.articleRedux.giversList, state.articleRedux.totalGivers]);
   const [totalGivers, setTotalGivers] = useState();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { Box, Typography, Button, IconButton, Hidden, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
@@ -17,11 +17,26 @@ const CommentContent = ({
 }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
+  const { bookCover, editionId, title, rateAvg, authorName } = bookMentioned;
+  const [displayContent, setDisplayContent] = useState();
+
+  useEffect(() => {
+    if (!hasSeeMoreBtn) {
+      setDisplayContent(content);
+      return;
+    }
+    if (isFullComment) {
+      setDisplayContent(content);
+    } else {
+      setDisplayContent(shortComment);
+    }
+  }, [isFullComment]);
+
   return (
     <Box my={1.5}>
       <Box display="flex" alignItems="flex-start">
         <Box flexGrow={1}>
-          <Typography component="span">{hasSeeMoreBtn ? (isFullComment ? content : shortComment) : content}</Typography>
+          <Box className={classes.content} dangerouslySetInnerHTML={{ __html: displayContent }} />
           {hasSeeMoreBtn && (
             <Button size="small" className={clsx(classes.seeMoreBtn, "blue-text")} onClick={() => onClick()}>
               {isFullComment ? getLabel("TXT_SEE_LESS") : getLabel("TXT_SEE_MORE")}
@@ -33,15 +48,24 @@ const CommentContent = ({
             <IconButton className={clsx(classes.loveBtn, reactCount && classes.reacted)}>
               <Box className="ic-heart" />
             </IconButton>
-            {reactCount && (
-              <Typography variant="caption" className={classes.reactCount}>
+            {(reactCount || reactCount === 0) && (
+              <Typography variant="caption" component="p" className={classes.reactCount}>
                 {reactCount}
               </Typography>
             )}
           </Box>
         </Hidden>
       </Box>
-      {hasMentioned && <BookBox className="mt-12" {...bookMentioned} />}
+      {hasMentioned && (
+        <BookBox
+          className="mt-12"
+          bookCover={bookCover}
+          rateAvg={rateAvg}
+          bookName={title}
+          author={authorName}
+          editionId={editionId}
+        />
+      )}
     </Box>
   );
 };
@@ -58,10 +82,23 @@ CommentContent.propTypes = {
 };
 
 const useStyles = makeStyles(theme => ({
+  content: {
+    fontSize: 16,
+    "& a": {
+      textDecoration: "none",
+      color: theme.palette.primary.main,
+    },
+    "& *:first-child": {
+      marginTop: 0,
+    },
+    "& *:last-child": {
+      marginBottom: 0,
+    },
+  },
   seeMoreBtn: {
     display: "inline-block",
     minHeight: "fit-content",
-    marginLeft: theme.spacing(-0.5),
+    marginLeft: theme.spacing(-1),
     "&:hover": {
       background: "none",
     },
@@ -83,7 +120,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   reactCount: {
-    color: theme.palette.error.main,
+    color: "inherit",
     marginTop: theme.spacing(-1),
   },
   reacted: {

@@ -2,17 +2,23 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Box, makeStyles } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 import CommentAuthor from "./CommentAuthor";
 import CommentContent from "./CommentContent";
 import CommentButtons from "./CommentButtons";
 import { cutString } from "utils";
+import { convertDistanceDate } from "utils/date";
 
 const Comment = ({ comment, className }) => {
-  const { avatar, name, date, reactCount, commentCount, content, hasMentioned, bookMentioned } = comment;
+  const { avatar, name, userId, lastUpdate, commentToEditions, reactCount, replyCount, content, commentId } = comment;
   const classes = useStyles();
-  const LIMIT_COMMENT_LENGTH = 100;
+  const { i18n } = useTranslation();
+  const date = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
+  const LIMIT_COMMENT_LENGTH = 250;
   const shortComment = cutString(LIMIT_COMMENT_LENGTH, content);
   const hasSeeMoreBtn = content.length > LIMIT_COMMENT_LENGTH;
+  const hasMentioned = Boolean(commentToEditions.length);
+  const bookMentioned = hasMentioned ? commentToEditions[0] : {};
 
   const [isFullComment, setIsFullComment] = useState(false);
 
@@ -33,7 +39,13 @@ const Comment = ({ comment, className }) => {
         bookMentioned={bookMentioned}
         reactCount={reactCount}
       />
-      <CommentButtons reactCount={reactCount} commentCount={commentCount} />
+      <CommentButtons
+        reactCount={reactCount}
+        replyCount={replyCount}
+        commentId={commentId}
+        userId={userId}
+        name={name}
+      />
     </Box>
   );
 };

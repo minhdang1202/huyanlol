@@ -31,3 +31,4 @@ export const GET_BOOK_REVIEWS = "/articles";
 export const GET_ARTICLE_DETAIL = articleId => `/articles/${articleId}`;
 export const GET_ARTICLE_GIVERS = articleId => `/articles/${articleId}/reaction`;
 export const GET_ARTICLE_COMMENTS = articleId => `/articles/${articleId}/comments`;
+export const GET_ARTICLE_REPLIES = commentId => `/articles/comments/${commentId}/replies`;

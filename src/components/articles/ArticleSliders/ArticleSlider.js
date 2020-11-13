@@ -15,11 +15,11 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
     dots: false,
     infinite: false,
     speed: 300,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     swipeToSlide: true,
-    slidesToShow: 1,
+    slidesToShow: 2,
     arrows: false,
-    variableWidth: true,
+    // variableWidth: true,
     beforeChange: (current, next) => {
       setSlideIndex(next);
     },
@@ -77,16 +77,16 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     maxWidth: "100%",
     marginBottom: theme.spacing(8.5),
-    "& .slick-slide": {
-      width: 497,
-      maxWidth: 497,
-      marginRight: theme.spacing(3),
-      [theme.breakpoints.between("xs", "md")]: {
-        width: "100%",
-        maxWidth: "100%",
-        marginRight: 0,
-      },
-    },
+    // "& .slick-slide": {
+    //   width: "calc(50% - 24px)",
+    //   maxWidth: "calc(50% - 24px)",
+    //   marginRight: theme.spacing(3),
+    //   [theme.breakpoints.between("xs", "md")]: {
+    //     width: "100%",
+    //     maxWidth: "100%",
+    //     marginRight: 0,
+    //   },
+    // },
   },
   slide: {
     border: `solid 1px ${theme.palette.grey[100]}`,

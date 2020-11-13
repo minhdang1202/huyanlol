@@ -119,6 +119,7 @@ export default {
     //FM
     FM_ARTICLE_BOOK: "{0} cuốn",
     FM_ARTICLE_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
+    FM_ARTICLE_SEE_MORE_REPLIES: "Xem thêm {0} trả lời",
     FM_ARTICLE_REPLY_COMMENT: "Trả lời bình luận của {0}",
   },
   home: {

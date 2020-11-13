@@ -8,3 +8,11 @@ export const getArticleDetail = articleId => {
 export const getArticleGivers = (articleId, params) => {
   return createApi().get(ApiConstant.GET_ARTICLE_GIVERS(articleId), params);
 };
+
+export const getArticleComments = (articleId, params) => {
+  return createApi().get(ApiConstant.GET_ARTICLE_COMMENTS(articleId), params);
+};
+
+export const getArticleReplies = (commentId, params) => {
+  return createApi().get(ApiConstant.GET_ARTICLE_REPLIES(commentId), params);
+};

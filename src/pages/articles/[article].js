@@ -74,7 +74,7 @@ const ArticleDetail = ({ article, author, editions }) => {
         </Grid>
         <ArticleReactButtons shareUrl={shareUrl} />
         <Grid container item xs={12} md={8} className={classes.subContainer}>
-          <ArticleComments commentList={DEMO_COMMENT_LIST} commentCount={commentCount} articleId={articleId} />
+          <ArticleComments commentCount={commentCount} articleId={articleId} />
         </Grid>
         <ArticleRelated
           isReviewType={isReviewType}
@@ -136,31 +136,6 @@ export const getServerSideProps = async ({ res, query }) => {
 
 export const PADDING_X_CONTAINER_MOBILE = "16px";
 export const PADDING_X_CONTAINER_TABLET = "24px";
-
-const DEMO_COMMENT_LIST = Array(4).fill({
-  content:
-    "Khi Người Ta Tư Duy consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit...",
-  name: "Lê Thu Hân",
-  avatar: "/images/img-demo-avatar.jpg",
-  date: "12 giờ trước",
-  reactCount: 40,
-  commentCount: 20,
-  hasMentioned: true,
-  bookMentioned: {
-    bookCover: "/images/img-demo-avatar.jpg",
-    bookName: "Nếu chỉ còn một ngày để sống",
-    author: "Hạ Vũ",
-    rate: 4,
-  },
-  replyList: Array(3).fill({
-    content:
-      "Khi Người Ta Tư Duy consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit...",
-    name: "Lê Thu Hân",
-    avatar: "/images/img-demo-avatar.jpg",
-    date: "12 giờ trước",
-    reactCount: 40,
-  }),
-});
 
 const useStyles = makeStyles(theme => ({
   root: {
