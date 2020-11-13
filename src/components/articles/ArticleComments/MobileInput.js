@@ -37,14 +37,15 @@ const MobileInput = () => {
     if (isTypingReply) {
       input.current.focus();
       input.current.value = replyInfo.name;
+      setContent(replyInfo.name);
       return;
     }
+    setContent(null);
     input.current.value = null;
   }, [isTypingReply]);
 
   const onChange = e => {
-    const content = e.target.value;
-    setContent(content);
+    setContent(e.target.value);
   };
 
   return (
@@ -54,8 +55,8 @@ const MobileInput = () => {
           <Typography variant="subtitle1" className="eclipse">
             {StringFormat(getLabel("FM_ARTICLE_REPLY_COMMENT"), replyInfo.name)}
           </Typography>
-          <IconButton>
-            <Box className="ic-times-circle" onClick={onCancelReply} />
+          <IconButton onClick={onCancelReply}>
+            <Box className="ic-times-circle" />
           </IconButton>
         </Box>
       )}

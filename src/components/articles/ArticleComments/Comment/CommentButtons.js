@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Box, useTheme, makeStyles, useMediaQuery } from "@material-ui/core";
 import DialogAppDownload from "components/DialogAppDownload";
 import ArticleActions from "redux/article.redux";
+import GiverList from "../../GiversList";
 
 const CommentButtons = ({ reactCount, replyCount, commentId, userId, name }) => {
   const classes = useStyles();
@@ -17,6 +18,15 @@ const CommentButtons = ({ reactCount, replyCount, commentId, userId, name }) => 
   const onReplyComment = () => dispatch(ArticleActions.onReplyComment(commentId, userId, name));
 
   const [isOpenDownload, setIsOpenDownload] = useState(false);
+  const [isOpenGivers, setIsOpenGivers] = useState(false);
+
+  const onOpenGiversList = () => {
+    setIsOpenGivers(true);
+  };
+
+  const onCloseGiversList = () => {
+    setIsOpenGivers(false);
+  };
 
   const onOpenDownload = () => {
     setIsOpenDownload(true);
@@ -26,11 +36,23 @@ const CommentButtons = ({ reactCount, replyCount, commentId, userId, name }) => 
   };
   return (
     <>
+      <GiverList
+        isOpen={isOpenGivers}
+        onClose={onCloseGiversList}
+        reactCount={reactCount}
+        id={commentId}
+        isComment={true}
+      />
       <DialogAppDownload isOpen={isOpenDownload} onClose={onCloseDownload} />
       {isMobile ? (
-        <Button size="small" className={clsx(classes.buttonMobile, "grey-text")} onClick={onReplyComment}>
-          {getLabel("TXT_REPLY")}
-        </Button>
+        <Box display="flex">
+          <Button size="small" className={clsx(classes.buttonMobile, "grey-text", "mr-4")} onClick={onReplyComment}>
+            {getLabel("TXT_REPLY")}
+          </Button>
+          <Button size="small" className={clsx(classes.buttonMobile, "grey-text")} onClick={onOpenGiversList}>
+            {StringFormat(getLabel("FM_LOVE"), reactCount)}
+          </Button>
+        </Box>
       ) : (
         <Box display="flex">
           <Button

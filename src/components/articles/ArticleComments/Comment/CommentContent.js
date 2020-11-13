@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-import { Box, Typography, Button, IconButton, Hidden, makeStyles } from "@material-ui/core";
+import { Box, Button, IconButton, Hidden, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import BookBox from "../../BookBox";
@@ -13,7 +13,6 @@ const CommentContent = ({
   hasSeeMoreBtn,
   hasMentioned,
   bookMentioned,
-  reactCount,
 }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
@@ -44,16 +43,9 @@ const CommentContent = ({
           )}
         </Box>
         <Hidden smUp>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <IconButton className={clsx(classes.loveBtn, reactCount && classes.reacted)}>
-              <Box className="ic-heart" />
-            </IconButton>
-            {(reactCount || reactCount === 0) && (
-              <Typography variant="caption" component="p" className={classes.reactCount}>
-                {reactCount}
-              </Typography>
-            )}
-          </Box>
+          <IconButton className={clsx(classes.loveBtn)}>
+            <Box className="ic-heart" />
+          </IconButton>
         </Hidden>
       </Box>
       {hasMentioned && (
@@ -78,7 +70,6 @@ CommentContent.propTypes = {
   hasSeeMoreBtn: PropTypes.bool,
   hasMentioned: PropTypes.bool,
   bookMentioned: PropTypes.object,
-  reactCount: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({

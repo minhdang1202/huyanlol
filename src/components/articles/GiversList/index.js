@@ -12,11 +12,11 @@ import DialogActions from "components/DialogLayout/DialogActions";
 import Giver from "./Giver";
 import ArticleActions from "redux/article.redux";
 
-const GiversList = ({ isOpen, onClose, reactCount, articleId }) => {
+const GiversList = ({ isOpen, onClose, reactCount, id, isComment }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const dispatch = useDispatch();
-  const dispatchGetGiversList = params => dispatch(ArticleActions.requestGetGiversList(articleId, params));
+  const dispatchGetGiversList = params => dispatch(ArticleActions.requestGetGiversList(id, params, isComment));
 
   const [givers, total] = useSelector(state => [state.articleRedux.giversList, state.articleRedux.totalGivers]);
   const [totalGivers, setTotalGivers] = useState();
@@ -24,11 +24,18 @@ const GiversList = ({ isOpen, onClose, reactCount, articleId }) => {
   const [pageNum, setPageNum] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const onGetParams = pageNum => ({
-    id: articleId,
-    pageNum: pageNum,
-    pageSize: AppConstant.DATA_SIZES.articles,
-  });
+  const onGetParams = pageNum =>
+    isComment
+      ? {
+          id: id,
+          pageNum: pageNum,
+          pageSize: AppConstant.DATA_SIZES.articles,
+        }
+      : {
+          article_id: id,
+          pageNum: pageNum,
+          pageSize: AppConstant.DATA_SIZES.articles,
+        };
 
   const onScroll = e => {
     if (isLoading || !giversList) return;
@@ -106,7 +113,8 @@ GiversList.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   reactCount: PropTypes.number,
-  articleId: PropTypes.number,
+  id: PropTypes.number,
+  isComment: PropTypes.bool,
 };
 
 const useStyles = makeStyles(theme => ({

@@ -9,6 +9,10 @@ export const getArticleGivers = (articleId, params) => {
   return createApi().get(ApiConstant.GET_ARTICLE_GIVERS(articleId), params);
 };
 
+export const getArticleCommentGivers = (commentId, params) => {
+  return createApi().get(ApiConstant.GET_ARTICLE_COMMENT_GIVERS(commentId), params);
+};
+
 export const getArticleComments = (articleId, params) => {
   return createApi().get(ApiConstant.GET_ARTICLE_COMMENTS(articleId), params);
 };

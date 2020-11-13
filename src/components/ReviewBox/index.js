@@ -123,10 +123,6 @@ const useStyles = makeStyles(theme => ({
     },
     "& a": {
       color: theme.palette.text.primary,
-      "&:hover": {
-        textDecoration: "none",
-        color: theme.palette.primary.main,
-      },
     },
   },
   button: {

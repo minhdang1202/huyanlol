@@ -5,8 +5,10 @@ import { ArticleService } from "services";
 import { getImageById } from "utils";
 
 export function* requestGetGiversList(action) {
-  const { articleId, params } = action;
-  let response = yield call(ArticleService.getArticleGivers, articleId, params);
+  const { id, params, isComment } = action;
+  let response = isComment
+    ? yield call(ArticleService.getArticleCommentGivers, id, params)
+    : yield call(ArticleService.getArticleGivers, id, params);
 
   try {
     if (response.status === ApiConstant.STT_OK) {

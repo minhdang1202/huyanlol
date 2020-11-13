@@ -2,7 +2,7 @@ import { createReducer, createActions } from "reduxsauce";
 
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
-  requestGetGiversList: ["articleId", "params"],
+  requestGetGiversList: ["id", "params", "isComment"],
   getGiversListSuccess: ["data"],
   getGiversListFailure: ["data"],
 

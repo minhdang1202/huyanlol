@@ -42,7 +42,8 @@ const useStyles = makeStyles(theme => ({
     },
     "& img": {
       maxWidth: "100%",
-      textAlign: "center",
+      display: "block",
+      margin: "0 auto",
     },
     "& p:first-child": {
       marginTop: 0,

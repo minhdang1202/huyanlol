@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import StringFormat from "string-format";
 import { useTranslation } from "react-i18next";
@@ -21,11 +21,17 @@ const ArticleReacts = ({ reactCount, commentCount, articleId }) => {
 
   const onCloseGiversList = () => {
     setIsOpenGivers(false);
+    localStorage.removeItem("isOpenGiversList");
   };
+
+  useEffect(() => {
+    const hasOpenGivers = localStorage.getItem("isOpenGiversList");
+    if (hasOpenGivers) setIsOpenGivers(true);
+  }, []);
 
   return (
     <>
-      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} reactCount={reactCount} articleId={articleId} />
+      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} reactCount={reactCount} id={articleId} />
       {isMobile ? (
         <Box display="flex" justifyContent="space-between" width="100%">
           <Button

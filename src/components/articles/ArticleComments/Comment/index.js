@@ -37,7 +37,6 @@ const Comment = ({ comment, className }) => {
         onClick={onShowComment}
         hasMentioned={hasMentioned}
         bookMentioned={bookMentioned}
-        reactCount={reactCount}
       />
       <CommentButtons
         reactCount={reactCount}
