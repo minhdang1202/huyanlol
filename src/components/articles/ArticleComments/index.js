@@ -108,7 +108,7 @@ const ArticleComments = ({ articleId, commentCount }) => {
 
   useEffect(() => {
     if (isMobile) {
-      const mainLayout = document.querySelector(`#${MAIN_LAYOUT_ID}`);
+      const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
       mainLayout.addEventListener("scroll", onScroll);
       return () => {
         mainLayout.removeEventListener("scroll", onScroll);
