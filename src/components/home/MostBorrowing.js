@@ -47,10 +47,8 @@ MostBorrowing.defaultProps = {};
 export default memo(MostBorrowing);
 
 const DEFAULT_PARAMS = {
-  keyword: "GAT",
-  languagesPriority: 1,
-  size: 5,
-  type: "ALL",
+  page: 1,
+  page_size: 5,
 };
 
 const useStyles = makeStyles(theme => ({

@@ -186,7 +186,8 @@ export function* requestGetBookSuggestion(action) {
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
-      yield put(EditionAction.requestEditionSuccess({ suggestions: responseData }));
+      let hasData = responseData.resultInfo && Array.isArray(responseData.resultInfo);
+      yield put(EditionAction.requestEditionSuccess({ suggestions: hasData ? responseData.resultInfo : [] }));
     } else {
       yield put(EditionAction.requestEditionFailure());
     }
