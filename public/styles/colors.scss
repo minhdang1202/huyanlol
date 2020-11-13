@@ -3,17 +3,22 @@ $color-primary-main: #5aa4cc;
 $color-primary-light: #aadaf3;
 $color-blue-light: #e9f8ff;
 $color-white: #ffffff;
+$color-text-primary: #001a39;
 $color-text-secondary: #7b93a5;
 
 $color-primary-200: #e4f2fa;
 $color-grey-600: #5a748c;
-
+$color-grey-500: #7b93a5;
 .blue-text {
   color: $color-primary-main !important;
 }
 
 .grey-text {
   color: $color-text-secondary !important;
+}
+
+.primary-text {
+  color: $color-text-primary;
 }
 
 .light-blue-button {
@@ -38,4 +43,9 @@ $color-grey-600: #5a748c;
   &:hover {
     color: $color-grey-600 !important;
   }
+}
+
+[contenteditable][placeholder]:empty:before {
+  content: attr(placeholder);
+  color: $color-grey-500;
 }

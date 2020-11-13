@@ -1,11 +1,12 @@
 import React from "react";
 import { makeStyles, Breadcrumbs, Typography } from "@material-ui/core";
+import clsx from "clsx";
 import AppLink from "./AppLink";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 
-const CustomBreadcrumb = ({ bookName, articleName }) => {
+const CustomBreadcrumb = ({ bookName, articleName, className }) => {
   const BREADCRUMB_NAME_MAP = {
     editions: null,
     edition: bookName,
@@ -21,7 +22,7 @@ const CustomBreadcrumb = ({ bookName, articleName }) => {
     .map(pathname => pathname.replace(/\[/, "").replace(/\]/, ""))
     .filter(pathname => BREADCRUMB_NAME_MAP[pathname]);
   return (
-    <Breadcrumbs separator={">"}>
+    <Breadcrumbs className={clsx(classes.root, className)} separator={">"}>
       {pathNames.length > 0 ? (
         <AppLink className={classes.link} to="/">
           <Typography variant="body2">{getLabel("TXT_HOMEPAGE")}</Typography>
@@ -49,6 +50,9 @@ const CustomBreadcrumb = ({ bookName, articleName }) => {
 };
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    marginBottom: theme.spacing(2),
+  },
   link: {
     color: theme.palette.text.secondary,
     "&:hover": {
@@ -65,6 +69,7 @@ const useStyles = makeStyles(theme => ({
 CustomBreadcrumb.propTypes = {
   bookName: PropTypes.string,
   articleName: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default CustomBreadcrumb;

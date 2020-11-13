@@ -14,7 +14,7 @@ const { Types, Creators } = createActions({
   getTotalLendersSuccess: ["data"],
   getTotalLendersFailure: ["data"],
 
-  requestGetReviews: null,
+  requestGetReviews: ["data"],
   getReviewsSuccess: ["data"],
   getReviewsFailure: ["data"],
 

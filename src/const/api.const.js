@@ -23,11 +23,19 @@ export const STT_INTERNAL_SERVER = 500;
 
 // Api
 export const POST_LOGIN = "/auth/cons/login";
+
+// * Book
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;
 export const PUT_BOOK_LENDERS = "/book_edition/_find_sharing_users";
 export const GET_BOOK_SUGGESTION = "/suggestion/book_suggestion";
-
 export const GET_SELF_REVIEW = editionId => `/articles/self/review/${editionId}`;
-export const GET_ARTICLES = "/articles";
 
+// * Article
+export const GET_ARTICLES = "/articles";
 export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
+export const GET_BOOK_REVIEWS = "/articles";
+export const GET_ARTICLE_DETAIL = articleId => `/articles/${articleId}`;
+export const GET_ARTICLE_GIVERS = articleId => `/articles/${articleId}/reaction`;
+export const GET_ARTICLE_COMMENTS = articleId => `/articles/${articleId}/comments`;
+export const GET_ARTICLE_REPLIES = commentId => `/articles/comments/${commentId}/replies`;
+export const GET_ARTICLE_COMMENT_GIVERS = commentId => `/articles/comments/${commentId}/reaction`;

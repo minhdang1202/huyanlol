@@ -11,6 +11,7 @@ const BookDescription = ({ description }) => {
   const theme = useTheme(0);
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const shortDescription = cutString(LIMIT_DESCRIPTION, description);
+  const hasSeeMoreBtn = description.length > LIMIT_DESCRIPTION;
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const [isFullContent, setIsFullContent] = useState(false);
 
@@ -21,14 +22,16 @@ const BookDescription = ({ description }) => {
   return (
     <Paper className={clsx("paper", classes.root)}>
       <Typography variant="h6">{getLabel("TXT_EDITION_BOOK_INTRO")}</Typography>
-      <Typography>{isFullContent ? description : shortDescription}</Typography>
-      <Button
-        size={isMobile ? "small" : "large"}
-        className={clsx(classes.button, "blue-text")}
-        onClick={onShowDescription}
-      >
-        {isFullContent ? getLabel("TXT_EDITION_READ_LESS") : getLabel("TXT_EDITION_READ_MORE")}
-      </Button>
+      <Typography>{hasSeeMoreBtn ? (isFullContent ? description : shortDescription) : description}</Typography>
+      {hasSeeMoreBtn && (
+        <Button
+          size={isMobile ? "small" : "large"}
+          className={clsx(classes.button, "blue-text")}
+          onClick={onShowDescription}
+        >
+          {isFullContent ? getLabel("TXT_EDITION_READ_LESS") : getLabel("TXT_EDITION_READ_MORE")}
+        </Button>
+      )}
     </Paper>
   );
 };

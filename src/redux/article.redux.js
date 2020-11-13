@@ -5,6 +5,24 @@ const { Types, Creators } = createActions({
   requestHomeArticles: ["data"],
   requestHomeReviews: ["data"],
 
+  requestGetGiversList: ["id", "params", "isComment"],
+  getGiversListSuccess: ["data"],
+  getGiversListFailure: ["data"],
+
+  requestGetCommentsList: ["articleId", "params"],
+  getCommentsListSuccess: ["data"],
+  getCommentsListFailure: ["data"],
+
+  requestGetRepliesList: ["commentId", "params"],
+  getRepliesListSuccess: ["data"],
+  getRepliesListFailure: ["data"],
+
+  onReplyComment: ["commentId", "userId", "name"],
+  onCancelReply: null,
+
+  requestArticleFailure: ["data"],
+  requestArticleSuccess: ["data"],
+
   articleFailure: ["data"],
   articleSuccess: ["data"],
 });
@@ -19,6 +37,8 @@ export const INITIAL_STATE = {
 
   homeArticles: {},
   homeReviews: {},
+  isTypingReply: false,
+  replyInfo: null,
 };
 
 /* ------------- Reducers ------------- */
@@ -27,6 +47,28 @@ export const request = () => ({
   isFetching: true,
   error: null,
 });
+
+const onReplyComment = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isTypingReply: true,
+  replyInfo: { ...action },
+});
+
+const onCancelReply = (state = INITIAL_STATE) => ({
+  ...state,
+  isTypingReply: false,
+  replyInfo: null,
+});
+
+export const requestArticleSuccess = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return { ...state, error: null, ...data };
+};
+
+export const requestArticleFailure = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return { ...state, ...data };
+};
 
 export const finish = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
@@ -42,6 +84,18 @@ export const finish = (state = INITIAL_STATE, action) => {
 export const HANDLERS = {
   [Types.REQUEST_HOME_ARTICLES]: request,
   [Types.REQUEST_HOME_REVIEWS]: request,
+
+  [Types.GET_GIVERS_LIST_SUCCESS]: requestArticleSuccess,
+  [Types.GET_GIVERS_LIST_FAILURE]: requestArticleFailure,
+
+  [Types.GET_COMMENTS_LIST_SUCCESS]: requestArticleSuccess,
+  [Types.GET_COMMENTS_LIST_FAILURE]: requestArticleFailure,
+
+  [Types.GET_REPLIES_LIST_SUCCESS]: requestArticleSuccess,
+  [Types.GET_REPLIES_LIST_FAILURE]: requestArticleFailure,
+
+  [Types.ON_REPLY_COMMENT]: onReplyComment,
+  [Types.ON_CANCEL_REPLY]: onCancelReply,
 
   [Types.ARTICLE_SUCCESS]: finish,
   [Types.ARTICLE_FAILURE]: finish,

@@ -20,8 +20,15 @@ import {
   requestGetNearestLenders,
   requestGetBookSuggestion,
 } from "./edition.saga";
-import { requestGetHomeArticles, requestGetHomeReviews } from "./article.saga";
 import { requestGetTopWriter } from "./user.saga";
+
+import {
+  requestGetGiversList,
+  requestGetCommentsList,
+  requestGetRepliesList,
+  requestGetHomeArticles,
+  requestGetHomeReviews,
+} from "./article.saga";
 
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
@@ -40,6 +47,9 @@ export default function* root() {
     // article
     takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),
     takeLatest(ArticleTypes.REQUEST_HOME_REVIEWS, requestGetHomeReviews),
+    takeLatest(ArticleTypes.REQUEST_GET_GIVERS_LIST, requestGetGiversList),
+    takeLatest(ArticleTypes.REQUEST_GET_COMMENTS_LIST, requestGetCommentsList),
+    takeLatest(ArticleTypes.REQUEST_GET_REPLIES_LIST, requestGetRepliesList),
 
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),

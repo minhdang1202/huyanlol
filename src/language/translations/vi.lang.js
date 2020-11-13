@@ -22,14 +22,28 @@ export default {
     TXT_LOGIN_SOCIAL_MEDIA: "Đăng nhập bằng mạng xã hội",
     TXT_HAVE_ACC: "Bạn đã có tài khoản? ",
     TXT_NO_ACC: "Bạn chưa có tài khoản? ",
+    TXT_USER_PAGE: "Trang cá nhân",
     TXT_GAT_UP: "GATUP",
     TXT_GAT_COMMUNITY: "Cộng đồng GAT ",
-    TXT_SEE_MORE: "Xem Thêm",
+    TXT_SEE_MORE: "Xem thêm",
+    TXT_SEE_LESS: "Rút gọn",
     TXT_LIST_CATEGORY: "Khám phá thêm chủ đề",
     TXT_LOVE: "Ghi nhận",
     TXT_COMMENT: "Bình luận",
     TXT_SHARE: "Chia sẻ",
     TXT_NEW_CREATED_BY_SECOND: "Vừa xong",
+    TXT_FOLLOW: "Theo dõi",
+    TXT_FOLLOWED: "Đã theo dõi",
+    TXT_GIVERS: "Givers",
+    TXT_BOOKMARK: "Bookmark",
+    TXT_POPULAR_COMMENT: "Bình luận phổ biến",
+    TXT_FRIEND_COMMENT: "Bình luận của bạn bè",
+    TXT_POPULAR_COMMENT_RANGE: "Sắp xếp theo phổ biến nhất",
+    TXT_FRIEND_COMMENT_RANGE: "Sắp xếp theo bạn bè",
+    TXT_POST: "Đăng",
+    TXT_REPLY: "Trả lời",
+    TXT_ARRANGE: "Sắp xếp",
+    TXT_NO_GIVER: "Bài viết chưa có giver",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -38,15 +52,22 @@ export default {
     L_EMAIL: "Email",
     L_PASSWORD: "Mật khẩu",
     L_PASSWORD2: "Xác nhận mật khẩu",
+    L_COMMENT_ARRANGE: "Sắp xếp bình luận theo:",
 
     //FM: format
     FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
     FM_NUMBER_COMMENTS: "{0} bình luận",
+    FM_GIVERS_BY: "{0} ghi nhận bởi {1} thành viên",
+    FM_GIVERS: "{0} ghi nhận",
     FM_REVIEW_BOOK_TITLE:
       "<a href={href} class='semiBold-md-txt'>{title}</a> của <a href={href} class='semiBold-md-txt'>{author}</a>",
     FM_NEW_CREATED_BY_DAY: "{0} ngày trước",
     FM_NEW_CREATED_BY_HOUR: "{0} giờ trước",
     FM_NEW_CREATED_BY_MINUTE: "{0} phút trước",
+    FM_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
+    FM_BOOK_AUTHOR: "{0} của {1}",
+    FM_COMMENT: "{0} Bình luận",
+    FM_LOVE: "{0} Ghi nhận",
 
     //ERR: Error
     //MSG: Message
@@ -86,6 +107,24 @@ export default {
     //FM: Format
     FM_EDITION_BOOK_LENDERS: "{0} bạn cho mượn gần bạn",
     FM_EDITION_BOOK_COMMENTS: "{0} bình luận",
+  },
+  articleDetail: {
+    TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",
+    TXT_ARTICLE_REVIEW_TITLE_MOBILE: "Đánh giá",
+    TXT_ARTICLE_REVIEW_BY: "Bài viết bởi",
+    TXT_ARTICLE_BOOK_MENTIONED: "Sách được nhắc đến",
+    TXT_ARTICLE_RELATED: "Bài viết liên quan",
+    TXT_ARTICLE_FIRST_COMMENT: "Hãy trở thành người bình luận đầu tiên",
+    TXT_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",
+
+    //P
+    P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",
+
+    //FM
+    FM_ARTICLE_BOOK: "{0} cuốn",
+    FM_ARTICLE_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
+    FM_ARTICLE_SEE_MORE_REPLIES: "Xem thêm {0} trả lời",
+    FM_ARTICLE_REPLY_COMMENT: "Trả lời bình luận của {0}",
   },
   home: {
     TXT_BOOK_SHELVES: "Book shelves",
