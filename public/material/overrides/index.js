@@ -1,23 +1,23 @@
-import MuiButton from "./MuiButton";
-import MuiPaper from "./MuiPaper";
 import MuiAppBar from "./MuiAppBar";
-import MuiIconButton from "./MuiIconButton";
-import MuiContainer from "./MuiContainer";
-import MuiLink from "./MuiLink";
-import MuiPopover from "./MuiPopover";
-import MuiDialog from "./MuiDialog";
+import MuiButton from "./MuiButton";
 import MuiCircularProgress from "./MuiCircularProgress";
+import MuiContainer from "./MuiContainer";
+import MuiDialog from "./MuiDialog";
+import MuiIconButton from "./MuiIconButton";
+import MuiLink from "./MuiLink";
+import MuiPaper from "./MuiPaper";
+import MuiPopover from "./MuiPopover";
 import MuiRating from "./MuiRating";
 
 export default {
-  MuiButton,
-  MuiPaper,
   MuiAppBar,
+  MuiButton,
+  MuiCircularProgress,
+  MuiContainer,
+  MuiDialog,
   MuiIconButton,
   MuiLink,
-  MuiContainer,
+  MuiPaper,
   MuiPopover,
-  MuiDialog,
-  MuiCircularProgress,
   MuiRating,
 };

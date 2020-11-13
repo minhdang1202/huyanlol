@@ -41,18 +41,20 @@ const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark 
                   </Typography>
                 )}
               </Box>
-              {hasBookmark && (
-                <IconButton className={classes.iconButton}>
-                  <Box className="ic-bookmark-empty" />
-                </IconButton>
-              )}
-              {shareUrl && (
-                <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
-                  <IconButton component="div" className={classes.iconButton}>
-                    <Box className="ic-share" />
+              <Box>
+                {hasBookmark && (
+                  <IconButton className={classes.iconButton}>
+                    <Box className="ic-bookmark-empty" />
                   </IconButton>
-                </FacebookShareButton>
-              )}
+                )}
+                {shareUrl && (
+                  <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
+                    <IconButton component="div" className={classes.iconButton}>
+                      <Box className="ic-share" />
+                    </IconButton>
+                  </FacebookShareButton>
+                )}
+              </Box>
             </>
           ) : (
             <>

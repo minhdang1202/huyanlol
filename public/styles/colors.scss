@@ -8,7 +8,7 @@ $color-text-secondary: #7b93a5;
 
 $color-primary-200: #e4f2fa;
 $color-grey-600: #5a748c;
-
+$color-grey-500: #7b93a5;
 .blue-text {
   color: $color-primary-main !important;
 }
@@ -43,4 +43,9 @@ $color-grey-600: #5a748c;
   &:hover {
     color: $color-grey-600 !important;
   }
+}
+
+[contenteditable][placeholder]:empty:before {
+  content: attr(placeholder);
+  color: $color-grey-500;
 }

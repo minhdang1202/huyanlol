@@ -9,10 +9,15 @@ import { AppLink } from "components";
 const ReactButtons = ({ reactCount, commentCount, articleUrl }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
+
+  const onOpenGiversList = () => {
+    localStorage.setItem("isOpenGiversList", true);
+  };
+
   return (
     <Box display="flex" justifyContent="space-between" alignItems="center">
       <AppLink className={classes.link} to={articleUrl}>
-        <Button startIcon={<Box className={clsx("ic-heart", classes.heartIcon)} />}>
+        <Button startIcon={<Box className={clsx("ic-heart", classes.heartIcon)} />} onClick={onOpenGiversList}>
           <Typography variant="body2" className={classes.greyText}>
             {reactCount}
           </Typography>

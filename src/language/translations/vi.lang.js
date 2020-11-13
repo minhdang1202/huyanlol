@@ -42,6 +42,7 @@ export default {
     TXT_POST: "Đăng",
     TXT_REPLY: "Trả lời",
     TXT_ARRANGE: "Sắp xếp",
+    TXT_NO_GIVER: "Bài viết chưa có giver",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -63,7 +64,7 @@ export default {
     FM_BOOK_AUTHOR: "{0} của {1}",
     FM_COMMENT: "{0} Bình luận",
     FM_LOVE: "{0} Ghi nhận",
-    
+
     //ERR: Error
     //MSG: Message
   },
@@ -118,6 +119,7 @@ export default {
     //FM
     FM_ARTICLE_BOOK: "{0} cuốn",
     FM_ARTICLE_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
+    FM_ARTICLE_SEE_MORE_REPLIES: "Xem thêm {0} trả lời",
     FM_ARTICLE_REPLY_COMMENT: "Trả lời bình luận của {0}",
   },
   home: {
