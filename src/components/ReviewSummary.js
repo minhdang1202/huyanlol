@@ -13,9 +13,8 @@ import {
   IconButton,
   makeStyles,
   Typography,
-  useTheme,
 } from "@material-ui/core";
-import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon, ShareIcon } from "icons";
+import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
 import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
@@ -25,20 +24,19 @@ import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { getImageById } from "utils";
 import { useRouter } from "next/router";
+import { FBShareButton } from "components";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
-  const theme = useTheme();
   const router = useRouter();
 
   const [creator, setCreator] = useState({});
   const [review, setReview] = useState({});
+  const [linkToDetail, setLinkToDetail] = useState();
 
   const onGoToDetail = () => {
-    if (review.articleId) {
-      router.push(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, review.articleId));
-    }
+    router.push(linkToDetail);
   };
 
   const onBookmark = event => {
@@ -53,9 +51,8 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
     event.stopPropagation();
     console.log("onSendHear");
   };
-  const onShare = event => {
+  const onStopTriggerParent = event => {
     event.stopPropagation();
-    console.log("onShare");
   };
 
   useEffect(() => {
@@ -73,6 +70,9 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
           newReview.createTime = getCreatedTime(parseISO(createTime));
         }
         setReview(newReview);
+        if (newReview.articleId) {
+          setLinkToDetail(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, review.articleId));
+        }
       }
     }
   }, [data]);
@@ -140,7 +140,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
       </CardContent>
 
       {!isHiddenAction && <Divider />}
-      <CardActions disableSpacing className={defaultClasses.action}>
+      <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
         <Button
           startIcon={<HeartIcon isActive={isHeart} />}
           className={clsx(isHeart && defaultClasses.heartColor)}
@@ -148,10 +148,10 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
         >
           {getLabel("TXT_LOVE")}
         </Button>
-        <Button startIcon={<MessageIcon />}>{getLabel("TXT_COMMENT")}</Button>
-        <Button startIcon={<ShareIcon color={theme.palette.text.secondary} />} onClick={onShare}>
-          {getLabel("TXT_SHARE")}
+        <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
+          {getLabel("TXT_COMMENT")}
         </Button>
+        <FBShareButton url={AppConstant.WEBSITE_URL + linkToDetail} />
       </CardActions>
     </Card>
   );
@@ -241,6 +241,9 @@ const useStyles = makeStyles(theme => ({
     },
     "& button": {
       color: theme.palette.text.secondary,
+      "& .ic-share": {
+        fontSize: 17,
+      },
     },
   },
 }));
