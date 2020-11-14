@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, Paper, Box, Avatar, useTheme, useMediaQuery } from "@material-ui/core";
-
-const IMG_HEIGHT = 378;
-import { Footer } from "./";
+import Footer from "./ChallengeDetailFooter";
 const ChallengeCover = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
 
@@ -29,7 +27,7 @@ ChallengeCover.defaultProps = {
   isEnd: false,
   joined: true,
 };
-
+const IMG_HEIGHT = 378;
 const useStyles = makeStyles(theme => ({
   root: {
     alignItems: "center",

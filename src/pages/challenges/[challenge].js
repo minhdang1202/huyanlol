@@ -34,7 +34,15 @@ const Challenge = () => {
 
         <Grid container justify="center" spacing={0}>
           {!isMobile && (
-            <Grid container alignItems="center" item xs={12} sm={4} md={3} direction="column">
+            <Grid
+              container
+              alignItems="center"
+              item
+              xs={12}
+              sm={4}
+              direction="column"
+              className={classes.leftContainer}
+            >
               <Box className={classes.item}>
                 <ChallengeCover isDone={isDone} isEnd={isEnd} joined={joined} />
               </Box>
@@ -113,13 +121,20 @@ const useStyles = makeStyles(theme => ({
   },
   item: {
     width: "100%",
-    margin: "10px 0px 10px 0px",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     [theme.breakpoints.down("xs")]: {
       margin: "4px 0px 4px 0px",
     },
   },
+  leftContainer: {
+    maxWidth: "330px",
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "255px",
+    },
+  },
   rightContainer: {
-    padding: "0px 20px 0px 20px",
+    marginLeft: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
       padding: "0px",
     },
