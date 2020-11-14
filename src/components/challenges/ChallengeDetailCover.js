@@ -9,7 +9,10 @@ const ChallengeCover = ({ isDone, isEnd, joined }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Box className={classes.root}>
-      <Avatar alt="cover" src="/images/img-goal.jpg" variant="square" className={classes.img} />
+      <Box className={classes.imgContainer}>
+        <Avatar alt="cover" src="/images/img-goal.jpg" variant="square" className={classes.img} />
+      </Box>
+
       {!isMobile && <Paper elevation={1} className={classes.coverBack} />}
       <Footer isDone={isDone} isEnd={isEnd} joined={joined} />
     </Box>
@@ -35,19 +38,25 @@ const useStyles = makeStyles(theme => ({
     gridTemplateRows: "1fr 1fr 1fr 1fr",
     overflow: "hidden",
   },
-  img: {
+  imgContainer: {
     gridRow: "1 / span 4",
     gridColumn: "1",
-    margin: " 0px 5% 0px 5%",
-    width: "90%",
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
     height: IMG_HEIGHT,
-    borderRadius: "10px",
     zIndex: "3",
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
-      margin: " 0px",
-      borderRadius: "0px",
+    [theme.breakpoints.down("md")]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
     },
+    [theme.breakpoints.down("xs")]: {
+      padding: 0,
+    },
+  },
+  img: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 10,
   },
   coverBack: {
     gridRow: "3  / span 4",

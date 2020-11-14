@@ -88,9 +88,6 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     zIndex: 2,
     [theme.breakpoints.down("xs")]: {
-      padding: theme.spacing(1),
-    },
-    [theme.breakpoints.down("xs")]: {
       flexDirection: "row",
       justifyContent: "space-between",
       position: "absolute",
@@ -98,6 +95,7 @@ const useStyles = makeStyles(theme => ({
       alignItems: "center",
       height: "75px",
       marginTop: "75px",
+      padding: theme.spacing(1),
     },
   },
   btnContainer: {

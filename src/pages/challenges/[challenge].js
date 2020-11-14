@@ -130,7 +130,7 @@ const useStyles = makeStyles(theme => ({
   leftContainer: {
     maxWidth: "330px",
     [theme.breakpoints.down("md")]: {
-      maxWidth: "255px",
+      minWidth: "255px",
     },
   },
   rightContainer: {

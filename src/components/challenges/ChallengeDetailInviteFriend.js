@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     margin: "0px",
     width: "100%",
-    padding: "27.5px  16px 16px 16px",
+    padding: `27.5px  24px 24px 24px`,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -70,6 +70,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.white,
     [theme.breakpoints.down("xs")]: {
       borderRadius: "0px",
+      padding: `16px`,
     },
   },
   text: {
