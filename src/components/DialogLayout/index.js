@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
+    height: `calc((100vh - ${HEIGHT_APP_BAR}) * 0.95)`,
     marginLeft: 0,
     marginRight: 0,
   },

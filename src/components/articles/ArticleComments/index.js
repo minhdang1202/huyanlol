@@ -194,9 +194,11 @@ const ArticleComments = ({ articleId, commentCount }) => {
               })}
             {(isLoading || hasChangeSort) && <CircularProgress className={classes.loading} />}
             <Hidden xsDown>
-              <Button variant="contained" className={clsx("light-blue-button", classes.seeAllButton)}>
-                {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
-              </Button>
+              {commentsList && commentsList.length > commentCount &&
+                <Button variant="contained" className={clsx("light-blue-button", classes.seeAllButton)}>
+                  {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
+                </Button>
+              }
             </Hidden>
           </Box>
         )}
