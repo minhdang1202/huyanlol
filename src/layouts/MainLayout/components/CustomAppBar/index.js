@@ -32,9 +32,11 @@ const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark 
           {isDetail && isMobile ? (
             <>
               <Box display="flex" alignItems="center">
-                <IconButton className={classes.iconButton}>
-                  <Box className="ic-chevron-left" />
-                </IconButton>
+                <AppLink to={PathConstant.ROOT}>
+                  <IconButton className={classes.iconButton}>
+                    <Box className="ic-chevron-left" />
+                  </IconButton>
+                </AppLink>
                 {appBarTitle && (
                   <Typography variant="h5" className="eclipse">
                     {appBarTitle}
@@ -93,6 +95,9 @@ const useStyles = makeStyles(theme => ({
     color: "inherit",
     fontSize: 18,
     boxShadow: `0px 1px 0px ${theme.palette.grey[100]}`,
+    "& a:hover": {
+      textDecoration: "none",
+    },
   },
   toolbar: {
     height: HEIGHT_APP_BAR,
