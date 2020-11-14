@@ -67,7 +67,9 @@ const ArticleDetail = ({ article, author, editions }) => {
           <ArticleContent name={author.name} body={body} avatar={author.avatar} date={displayDate} />
         </Box>
         <Grid container item xs={12} md={8} className={classes.subContainer}>
-          <ArticleBookMentioned isReviewType={isReviewType} bookList={editions} bookMentioned={bookMentioned} />
+          {editions.length > 0 && (
+            <ArticleBookMentioned isReviewType={isReviewType} bookList={editions} bookMentioned={bookMentioned} />
+          )}
           <ArticleHashtagButtons className="mt-16" hashtags={hashtags} category={categories[0].title} />
           <ArticleAuthor name={author.name} avatar={author.avatar} date={displayDate} address={author.address} />
           <ArticleReacts reactCount={reactCount} commentCount={commentCount} articleId={articleId} />
@@ -76,12 +78,14 @@ const ArticleDetail = ({ article, author, editions }) => {
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           <ArticleComments commentCount={commentCount} articleId={articleId} />
         </Grid>
-        <ArticleRelated
-          isReviewType={isReviewType}
-          isArticleType={!isReviewType}
-          categoryId={categories[0].categoryId}
-          editionId={editions[0].editionId}
-        />
+        {editions.length > 0 && (
+          <ArticleRelated
+            isReviewType={isReviewType}
+            isArticleType={!isReviewType}
+            categoryId={categories[0].categoryId}
+            editionId={editions[0].editionId}
+          />
+        )}
       </Container>
     </MainLayout>
   );
@@ -115,13 +119,14 @@ export const getServerSideProps = async ({ res, query }) => {
     creator.avatar = creatorAvatar;
     const articleCover = coverId ? getImageById(coverId) : null;
     article.cover = articleCover;
-    editions = editions.map(edition => {
-      const bookCoverId = edition.imageId;
-      return {
-        ...edition,
-        bookCover: bookCoverId ? getImageById(bookCoverId) : null,
-      };
-    });
+    if (editions.length)
+      editions = editions.map(edition => {
+        const bookCoverId = edition.imageId;
+        return {
+          ...edition,
+          bookCover: bookCoverId ? getImageById(bookCoverId) : null,
+        };
+      });
 
     return {
       props: {

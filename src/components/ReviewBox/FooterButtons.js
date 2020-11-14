@@ -18,7 +18,7 @@ const FooterButtons = ({ shareUrl, onOpenDownload }) => {
         <Button startIcon={<Box className={clsx("ic-comment", "grey-text")} />} onClick={e => onOpenDownload(e)}>
           {getLabel("TXT_COMMENT")}
         </Button>
-        <FBShareButton shareUrl={shareUrl} />
+        <FBShareButton url={shareUrl} />
       </Box>
     </>
   );
