@@ -1,5 +1,5 @@
 import { ApiConstant } from "const";
-import { createApi } from "api";
+import { createApi, defaultConfigV1 } from "api";
 
 export const getBookDetail = editionId => {
   return createApi().get(ApiConstant.GET_BOOK_DETAIL(editionId));
@@ -15,4 +15,8 @@ export const getSelfReview = editionId => {
 
 export const getBookReviews = params => {
   return createApi().get(ApiConstant.GET_BOOK_REVIEWS, params);
+};
+
+export const getBookSuggestion = bodyReq => {
+  return createApi(defaultConfigV1).get(ApiConstant.GET_BOOK_SUGGESTION, bodyReq);
 };

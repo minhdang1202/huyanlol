@@ -2,6 +2,9 @@ import { createReducer, createActions } from "reduxsauce";
 
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
+  requestHomeArticles: ["data"],
+  requestHomeReviews: ["data"],
+
   requestGetGiversList: ["id", "params", "isComment"],
   getGiversListSuccess: ["data"],
   getGiversListFailure: ["data"],
@@ -19,6 +22,9 @@ const { Types, Creators } = createActions({
 
   requestArticleFailure: ["data"],
   requestArticleSuccess: ["data"],
+
+  articleFailure: ["data"],
+  articleSuccess: ["data"],
 });
 
 export const ArticleTypes = Types;
@@ -26,12 +32,22 @@ export default Creators;
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = {
+  isFetching: false,
   error: null,
+
+  homeArticles: {},
+  homeReviews: {},
   isTypingReply: false,
   replyInfo: null,
 };
 
 /* ------------- Reducers ------------- */
+export const request = () => ({
+  ...INITIAL_STATE,
+  isFetching: true,
+  error: null,
+});
+
 const onReplyComment = (state = INITIAL_STATE, action) => ({
   ...state,
   isTypingReply: true,
@@ -54,8 +70,21 @@ export const requestArticleFailure = (state = INITIAL_STATE, action) => {
   return { ...state, ...data };
 };
 
+export const finish = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return {
+    ...state,
+    error: null,
+    isFetching: false,
+    ...data,
+  };
+};
+
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
+  [Types.REQUEST_HOME_ARTICLES]: request,
+  [Types.REQUEST_HOME_REVIEWS]: request,
+
   [Types.GET_GIVERS_LIST_SUCCESS]: requestArticleSuccess,
   [Types.GET_GIVERS_LIST_FAILURE]: requestArticleFailure,
 
@@ -67,6 +96,9 @@ export const HANDLERS = {
 
   [Types.ON_REPLY_COMMENT]: onReplyComment,
   [Types.ON_CANCEL_REPLY]: onCancelReply,
+
+  [Types.ARTICLE_SUCCESS]: finish,
+  [Types.ARTICLE_FAILURE]: finish,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

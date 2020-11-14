@@ -22,6 +22,8 @@ const { Types, Creators } = createActions({
   getSelfReviewSuccess: ["data"],
   getSelfReviewFailure: ["data"],
 
+  requestGetBookSuggestion: ["data"],
+
   requestEditionFailure: ["data"],
   requestEditionSuccess: ["data"],
 });
@@ -31,18 +33,27 @@ export default Creators;
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = {
+  isFetching: false,
   error: null,
+
+  suggestions: [],
 };
 
 /* ------------- Reducers ------------- */
+export const request = () => ({
+  ...INITIAL_STATE,
+  isFetching: true,
+  error: null,
+});
+
 export const requestEditionSuccess = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
-  return { ...state, error: null, ...data };
+  return { ...state, error: null, isFetching: false, ...data };
 };
 
 export const requestEditionFailure = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
-  return { ...state, ...data };
+  return { ...state, isFetching: false, ...data };
 };
 
 /* ------------- Mapping ------------- */
@@ -60,7 +71,11 @@ export const HANDLERS = {
   [Types.GET_TOTAL_LENDERS_FAILURE]: requestEditionFailure,
 
   [Types.GET_NEAREST_LENDERS_SUCCESS]: requestEditionSuccess,
-  [Types.GET_NEAREST_LENDERS_FAILURE]: requestEditionFailure,
+
+  [Types.REQUEST_GET_BOOK_SUGGESTION]: request,
+
+  [Types.REQUEST_EDITION_SUCCESS]: requestEditionSuccess,
+  [Types.REQUEST_EDITION_FAILURE]: requestEditionFailure,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

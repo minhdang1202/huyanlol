@@ -21,42 +21,45 @@ import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon, ShareIcon } from "icons"
 import { useTranslation } from "react-i18next";
 import { AppConstant } from "const";
 import StringFormat from "string-format";
-import { uuid } from "utils";
+import { getImageById, uuid } from "utils";
 import clsx from "clsx";
+import { getCreatedTime } from "utils/date";
+import { parseISO } from "date-fns";
 
 const ArticleSummary = ({ data, isHiddenAction }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const theme = useTheme();
 
-  const [user, setUser] = useState({});
-  const [book, setBook] = useState({});
+  const [creator, setCreator] = useState({});
   const [article, setArticle] = useState({});
 
   useEffect(() => {
     if (data) {
-      const { user, book, ...article } = data;
-      if (user) setUser(user);
-      if (book) setBook(book);
+      const { creator, ...article } = data;
+      if (creator) setCreator(creator);
       if (article) {
         let newArticle = { ...article };
         if (newArticle.hashtags) {
-          newArticle.hashtags = newArticle.hashtags.splice(0, 3);
+          newArticle.hashtags = newArticle.hashtags < 4 ? newArticle.hashtags : newArticle.hashtags.slice(0, 3);
+        }
+        let createTime = article.lastUpdate || article.publishedDate;
+        if (createTime) {
+          newArticle.createTime = getCreatedTime(parseISO(createTime));
         }
         setArticle(newArticle);
       }
     }
   }, [data]);
 
-  let isHeart = Boolean(article.heart && article.heart > 0);
-
+  let isHeart = Boolean(article.reactCount && article.reactCount > 0);
   return (
     <Card className={defaultClasses.root}>
       <CardHeader
         classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
-          <Avatar aria-label="recipe" src={user.avatar} className={defaultClasses.headerAvatar}>
-            {(user.name || AppConstant.APP_NAME).charAt(0)}
+          <Avatar aria-label="recipe" src={getImageById(creator.imageId)} className={defaultClasses.headerAvatar}>
+            {(creator.name || AppConstant.APP_NAME).charAt(0)}
           </Avatar>
         }
         action={
@@ -71,12 +74,12 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
         }
         title={
           <Typography variant="subtitle2" component="p">
-            {user.name}
+            {creator.name}
           </Typography>
         }
         subheader={
           <Typography variant="caption" color="textSecondary" component="p">
-            {article.time}
+            {article.createTime}
           </Typography>
         }
       />
@@ -85,33 +88,39 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
         <Grid container>
           <Grid item xs={8} md={9}>
             <Typography variant="subtitle1" component="p">
-              {book.title}
+              {article.title}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
-              {book.description}
+              {article.intro}
             </Typography>
             {article.hashtags && (
               <Box>
                 {article.hashtags.map(hashtag => (
-                  <Hashtag content={hashtag} key={uuid()} />
+                  <Hashtag content={hashtag.tagName} key={uuid()} />
                 ))}
               </Box>
             )}
-            {article.categories && <Box ml="-6px">{<CategoryTag content={article.categories[0]} key={uuid()} />}</Box>}
+            {article.categories && (
+              <Box ml="-6px">
+                {article.categories.map(category => (
+                  <CategoryTag content={category.title} key={uuid()} />
+                ))}
+              </Box>
+            )}
           </Grid>
           <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-            <CardMedia src={book.cover} title={book.title} component="img" />
+            <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
           </Grid>
 
           <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
             <HeartIcon isActive={isHeart} width={12} height={12} />
             <Typography variant="body2" color="textSecondary" component="p">
-              {article.heart}
+              {article.reactCount}
             </Typography>
           </Grid>
           <Grid item xs={4} md={3}>
             <Typography variant="body2" color="textSecondary" component="p">
-              {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.numberComments)}
+              {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
             </Typography>
           </Grid>
         </Grid>
@@ -128,6 +137,14 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
     </Card>
   );
 };
+
+ArticleSummary.propTypes = {
+  data: PropTypes.object,
+  isHiddenAction: PropTypes.bool,
+};
+ArticleSummary.defaultProps = { isHiddenAction: false };
+
+export default memo(ArticleSummary);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -206,11 +223,3 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-
-ArticleSummary.propTypes = {
-  data: PropTypes.object,
-  isHiddenAction: PropTypes.bool,
-};
-ArticleSummary.defaultProps = { isHiddenAction: false };
-
-export default memo(ArticleSummary);

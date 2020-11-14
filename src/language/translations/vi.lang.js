@@ -31,6 +31,7 @@ export default {
     TXT_LOVE: "Ghi nhận",
     TXT_COMMENT: "Bình luận",
     TXT_SHARE: "Chia sẻ",
+    TXT_NEW_CREATED_BY_SECOND: "Vừa xong",
     TXT_FOLLOW: "Theo dõi",
     TXT_FOLLOWED: "Đã theo dõi",
     TXT_GIVERS: "Givers",
@@ -60,6 +61,9 @@ export default {
     FM_GIVERS: "{0} ghi nhận",
     FM_REVIEW_BOOK_TITLE:
       "<a href={href} class='semiBold-md-txt'>{title}</a> của <a href={href} class='semiBold-md-txt'>{author}</a>",
+    FM_NEW_CREATED_BY_DAY: "{0} ngày trước",
+    FM_NEW_CREATED_BY_HOUR: "{0} giờ trước",
+    FM_NEW_CREATED_BY_MINUTE: "{0} phút trước",
     FM_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
     FM_BOOK_AUTHOR: "{0} của {1}",
     FM_COMMENT: "{0} Bình luận",
