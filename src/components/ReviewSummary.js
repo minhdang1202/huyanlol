@@ -13,25 +13,47 @@ import {
   IconButton,
   makeStyles,
   Typography,
-  useTheme,
 } from "@material-ui/core";
-import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon, ShareIcon } from "icons";
+import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
-import { AppConstant } from "const";
+import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import CustomRating from "./CustomRating";
 import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { getImageById } from "utils";
+import { useRouter } from "next/router";
+import { FBShareButton } from "components";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
-  const theme = useTheme();
+  const router = useRouter();
 
   const [creator, setCreator] = useState({});
   const [review, setReview] = useState({});
+  const [linkToDetail, setLinkToDetail] = useState();
+
+  const onGoToDetail = () => {
+    router.push(linkToDetail);
+  };
+
+  const onBookmark = event => {
+    event.stopPropagation();
+    console.log("Bookmark");
+  };
+  const onSetting = event => {
+    event.stopPropagation();
+    console.log("onSetting");
+  };
+  const onSendHear = event => {
+    event.stopPropagation();
+    console.log("onSendHear");
+  };
+  const onStopTriggerParent = event => {
+    event.stopPropagation();
+  };
 
   useEffect(() => {
     if (data) {
@@ -48,6 +70,9 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
           newReview.createTime = getCreatedTime(parseISO(createTime));
         }
         setReview(newReview);
+        if (newReview.articleId) {
+          setLinkToDetail(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, review.articleId));
+        }
       }
     }
   }, [data]);
@@ -55,7 +80,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   let isHeart = Boolean(review.reactCount && review.reactCount > 0);
 
   return (
-    <Card className={clsx(defaultClasses.root, classes && classes.root)}>
+    <Card className={clsx(defaultClasses.root, classes && classes.root)} onClick={onGoToDetail}>
       <CardHeader
         classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
@@ -65,10 +90,10 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
         }
         action={
           <>
-            <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }}>
+            <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }} onClick={onBookmark}>
               <BookmarkIcon color="white" stroke="currentColor" />
             </IconButton>
-            <IconButton aria-label="settings">
+            <IconButton aria-label="settings" onClick={onSetting}>
               <DotIcon />
             </IconButton>
           </>
@@ -115,12 +140,18 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
       </CardContent>
 
       {!isHiddenAction && <Divider />}
-      <CardActions disableSpacing className={defaultClasses.action}>
-        <Button startIcon={<HeartIcon isActive={isHeart} />} className={clsx(isHeart && defaultClasses.heartColor)}>
+      <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
+        <Button
+          startIcon={<HeartIcon isActive={isHeart} />}
+          className={clsx(isHeart && defaultClasses.heartColor)}
+          onClick={onSendHear}
+        >
           {getLabel("TXT_LOVE")}
         </Button>
-        <Button startIcon={<MessageIcon />}>{getLabel("TXT_COMMENT")}</Button>
-        <Button startIcon={<ShareIcon color={theme.palette.text.secondary} />}>{getLabel("TXT_SHARE")}</Button>
+        <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
+          {getLabel("TXT_COMMENT")}
+        </Button>
+        <FBShareButton url={AppConstant.WEBSITE_URL + linkToDetail} />
       </CardActions>
     </Card>
   );
@@ -129,6 +160,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
 const useStyles = makeStyles(theme => ({
   root: {
     padding: 0,
+    cursor: "pointer",
 
     "& > *:not(hr)": {
       paddingLeft: theme.spacing(2),
@@ -209,6 +241,9 @@ const useStyles = makeStyles(theme => ({
     },
     "& button": {
       color: theme.palette.text.secondary,
+      "& .ic-share": {
+        fontSize: 17,
+      },
     },
   },
 }));
