@@ -11,6 +11,7 @@ import {
   Company,
   GoalList,
   Description,
+  Footer,
 } from "components/challenges";
 import CustomBreadCrumb from "components/CustomBreadcrumb";
 const Challenge = () => {
@@ -50,7 +51,7 @@ const Challenge = () => {
             <Grid container item xs={12} sm={7} direction="column" className={classes.rightContainer}>
               <Box className={classes.item}>
                 <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
-                <Goal goal="some goal" isGroup={isGroup} />
+                <Goal goal="some goal" isGroup={isGroup} haveDone={750} total={3000} />
                 {!isDone && <GoalList />}
               </Box>
               <Box className={classes.item}>
@@ -65,31 +66,33 @@ const Challenge = () => {
             </Grid>
           )}
           {isMobile && (
-            <Grid container alignItems="center" item xs={12} direction="column">
-              <Box className={classes.item}>
-                <ChallengeCover isDone={isDone} isEnd={isEnd} joined={joined} />
-              </Box>
-              <Box className={classes.item}>
-                <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
-                <Goal goal="some goal" isGroup={isGroup} />
-                <GoalList />
-              </Box>
-              <Box className={classes.item}>
-                <Description />
-              </Box>
-              <Box className={classes.item}>
-                <Company />
-              </Box>
-              <Box className={classes.item}>
-                <InviteFriend />
-              </Box>
-              <Box className={classes.item}>
-                <PositiveMember />
-              </Box>
-              <Box className={classes.item}>
-                <Activity />
-              </Box>
-            </Grid>
+            <Box className={classes.mobileContainer}>
+              <Grid container alignItems="center" item xs={12} direction="column">
+                <Box className={classes.item}>
+                  <ChallengeCover isDone={isDone} isEnd={isEnd} joined={joined} />
+                </Box>
+                <Box className={classes.item}>
+                  <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
+                  <Goal goal="some goal" isGroup={isGroup} haveDone={750} total={3000} />
+                  <GoalList />
+                </Box>
+                <Box className={classes.item}>
+                  <Description />
+                </Box>
+                <Box className={classes.item}>
+                  <Company />
+                </Box>
+                <Box className={classes.item}>
+                  <InviteFriend />
+                </Box>
+                <Box className={classes.item}>
+                  <PositiveMember />
+                </Box>
+                <Box className={classes.item}>
+                  <Activity />
+                </Box>
+              </Grid>
+            </Box>
           )}
         </Grid>
       </Container>
@@ -128,6 +131,11 @@ const useStyles = makeStyles(theme => ({
       position: "static !important",
       boxShadow: "none !important",
     },
+  },
+  mobileContainer: {
+    width: "100%",
+    height: "100%",
+    paddingBottom: "75px",
   },
 }));
 export default Challenge;

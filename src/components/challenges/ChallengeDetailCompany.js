@@ -9,27 +9,25 @@ const Company = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
-    <Box>
-      <Paper elevation={1} className={classes.logoContainer}>
-        <Box className={classes.logoOutline}>
-          {isMobile ? <LogoIcon width={30} height={15} /> : <LogoIcon width={50} height={25} />}
-        </Box>
-        {isMobile ? (
-          <Typography>
-            <Typography variant="body2" component="span">
-              {`${getLabel("L_BY")} `}
-            </Typography>
-            <Typography variant="subtitle2" component="span">
-              {getLabel("L_COMPANY_NAME")}
-            </Typography>
+    <Paper elevation={1} className={classes.logoContainer}>
+      <Box className={classes.logoOutline}>
+        {isMobile ? <LogoIcon width={30} height={15} /> : <LogoIcon width={50} height={25} />}
+      </Box>
+      {isMobile ? (
+        <Typography>
+          <Typography variant="body2" component="span">
+            {`${getLabel("L_BY")} `}
           </Typography>
-        ) : (
-          <Typography variant="subtitle1" className={classes.coName}>
-            {getLabel("L_COMPANY")}
+          <Typography variant="subtitle2" component="span">
+            {getLabel("L_COMPANY_NAME")}
           </Typography>
-        )}
-      </Paper>
-    </Box>
+        </Typography>
+      ) : (
+        <Typography variant="subtitle1" className={classes.coName}>
+          {getLabel("L_COMPANY")}
+        </Typography>
+      )}
+    </Paper>
   );
 };
 const useStyles = makeStyles(theme => ({
@@ -38,10 +36,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "column",
+    padding: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
       borderRadius: "0px",
       flexDirection: "row",
       justifyContent: "flex-start",
+      padding: theme.spacing(1),
     },
   },
   logoOutline: {
@@ -52,6 +52,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "center",
     border: `solid 1px ${theme.palette.text.link}`,
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(1),
     [theme.breakpoints.down("xs")]: {
       height: "40px",
       width: "40px",

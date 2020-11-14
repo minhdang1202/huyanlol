@@ -45,6 +45,7 @@ const useStyles = makeStyles(theme => ({
       position: "relative",
       marginTop: "-50px",
       zIndex: 10,
+      padding: theme.spacing(2),
     },
   },
   title: {

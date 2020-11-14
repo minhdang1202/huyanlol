@@ -41,6 +41,10 @@ const useStyles = makeStyles(theme => ({
     "&>:nth-child(2)": {
       cursor: "pointer",
     },
+    [theme.breakpoints.down("xs")]: {
+      borderRadius: "0px",
+      padding: theme.spacing(2),
+    },
   },
   content: {
     width: "100%",

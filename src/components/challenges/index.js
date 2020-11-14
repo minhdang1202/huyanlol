@@ -7,4 +7,16 @@ import Goal from "./ChallengeDetailGoal";
 import Company from "./ChallengeDetailCompany";
 import GoalList from "./ChallengeDetailGoalList";
 import Description from "./ChallengeDetailDescription";
-export { ChallengeCover, Activity, InviteFriend, PositiveMember, ChallengeInfo, Goal, Company, GoalList, Description };
+import Footer from "./ChallengeDetailFooter";
+export {
+  ChallengeCover,
+  Activity,
+  InviteFriend,
+  PositiveMember,
+  ChallengeInfo,
+  Goal,
+  Company,
+  GoalList,
+  Description,
+  Footer,
+};

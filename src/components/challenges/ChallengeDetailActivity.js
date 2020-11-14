@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Avatar } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Avatar, useTheme, useMediaQuery } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import StringFormat from "string-format";
@@ -27,6 +27,8 @@ const Activity = () => {
 
 const Item = ({ data }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   return (
     <Paper className={classes.item}>
@@ -48,7 +50,7 @@ const Item = ({ data }) => {
           }}
         />
 
-        <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.img} />
+        {!isMobile && <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.img} />}
       </Box>
     </Paper>
   );
@@ -71,6 +73,7 @@ const useStyles = makeStyles(theme => ({
     margin: "16px 0px 16px 0px",
     [theme.breakpoints.down("xs")]: {
       margin: "2px 0px 2px 0px",
+      borderRadius: "0px",
     },
   },
 
@@ -90,8 +93,10 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "space-between",
     marginTop: theme.spacing(2),
-    "&>:nth-child(1)": {
-      marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      "&>:nth-child(1)": {
+        marginRight: theme.spacing(2),
+      },
     },
   },
   img: {

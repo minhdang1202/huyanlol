@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Button, Avatar } from "@material-ui/core";
+import { makeStyles, Typography, Box, Button, Avatar } from "@material-ui/core";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
@@ -19,7 +19,7 @@ const InviteFriend = () => {
         <Typography variant="body2" className={classes.text}>
           Nan, Hoa, Xe, Đạp và 122 người khác tham gia thử thách này
         </Typography>
-        <Button fullWidth color="primary" variant="contained" className={classes.btn} size="large">
+        <Button fullWidth color="secondary" variant="contained" className={classes.btn} size="large">
           {getLabel("L_INVITE")}
         </Button>
       </Box>
@@ -79,6 +79,9 @@ const useStyles = makeStyles(theme => ({
     background: "#e9f8ff",
     color: theme.palette.primary.main,
     height: "45px",
+    "&:hover": {
+      background: "#e9f8ff",
+    },
   },
 }));
 export default InviteFriend;
