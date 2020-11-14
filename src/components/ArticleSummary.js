@@ -19,20 +19,45 @@ import {
 import { CategoryTag, Hashtag } from "components";
 import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon, ShareIcon } from "icons";
 import { useTranslation } from "react-i18next";
-import { AppConstant } from "const";
+import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
 import { getImageById, uuid } from "utils";
 import clsx from "clsx";
 import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
+import { useRouter } from "next/router";
 
 const ArticleSummary = ({ data, isHiddenAction }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const theme = useTheme();
+  const router = useRouter();
 
   const [creator, setCreator] = useState({});
   const [article, setArticle] = useState({});
+
+  const onGoToDetail = () => {
+    if (article.articleId) {
+      router.push(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, article.articleId));
+    }
+  };
+
+  const onBookmark = event => {
+    event.stopPropagation();
+    console.log("Bookmark");
+  };
+  const onSetting = event => {
+    event.stopPropagation();
+    console.log("onSetting");
+  };
+  const onSendHear = event => {
+    event.stopPropagation();
+    console.log("onSendHear");
+  };
+  const onShare = event => {
+    event.stopPropagation();
+    console.log("onShare");
+  };
 
   useEffect(() => {
     if (data) {
@@ -54,7 +79,7 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
 
   let isHeart = Boolean(article.reactCount && article.reactCount > 0);
   return (
-    <Card className={defaultClasses.root}>
+    <Card className={defaultClasses.root} onClick={onGoToDetail}>
       <CardHeader
         classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
@@ -64,10 +89,10 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
         }
         action={
           <>
-            <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }}>
+            <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }} onClick={onBookmark}>
               <BookmarkIcon color="white" stroke="currentColor" />
             </IconButton>
-            <IconButton aria-label="settings">
+            <IconButton aria-label="settings" onClick={onSetting}>
               <DotIcon />
             </IconButton>
           </>
@@ -128,11 +153,17 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
 
       {!isHiddenAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action}>
-        <Button startIcon={<HeartIcon isActive={isHeart} />} className={clsx(isHeart && defaultClasses.heartColor)}>
+        <Button
+          startIcon={<HeartIcon isActive={isHeart} />}
+          className={clsx(isHeart && defaultClasses.heartColor)}
+          onClick={onSendHear}
+        >
           {getLabel("TXT_LOVE")}
         </Button>
         <Button startIcon={<MessageIcon />}>{getLabel("TXT_COMMENT")}</Button>
-        <Button startIcon={<ShareIcon color={theme.palette.text.secondary} />}>{getLabel("TXT_SHARE")}</Button>
+        <Button startIcon={<ShareIcon color={theme.palette.text.secondary} />} onClick={onShare}>
+          {getLabel("TXT_SHARE")}
+        </Button>
       </CardActions>
     </Card>
   );
@@ -149,6 +180,7 @@ export default memo(ArticleSummary);
 const useStyles = makeStyles(theme => ({
   root: {
     padding: 0,
+    cursor: "pointer",
 
     "& > *:not(hr)": {
       paddingLeft: theme.spacing(2),
