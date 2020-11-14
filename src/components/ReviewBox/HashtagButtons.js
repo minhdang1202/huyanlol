@@ -10,9 +10,7 @@ const HashtagButtons = ({ hashtags, category, articleUrl }) => {
       <Box>
         {hashtags.slice(0, 3).map((hashtag, index) => (
           <AppLink key={index} to={articleUrl}>
-            <Button>
-              <Typography variant="body2">{hashtag}</Typography>
-            </Button>
+            <Typography variant="body2">{hashtag}</Typography>
           </AppLink>
         ))}
       </Box>
@@ -41,12 +39,9 @@ const useStyles = makeStyles(theme => ({
     },
     "& button": {
       height: "fit-content",
-      padding: "4px !important",
-    },
-    "& button:last-child": {
       padding: "6px !important",
     },
-    "& a": {
+    "& a:last-child": {
       "&:hover": {
         textDecoration: "none",
       },

@@ -48,7 +48,7 @@ const ArticleReactButtons = ({ shareUrl }) => {
             >
               {getLabel("TXT_BOOKMARK")}
             </Button>
-            <FBShareButton size="large" shareUrl={shareUrl} />
+            <FBShareButton size="large" url={shareUrl} />
           </Box>
         </Hidden>
       </Box>

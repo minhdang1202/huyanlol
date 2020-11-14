@@ -28,11 +28,12 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide, is
     hashtags,
     category,
     bookName,
+    editionId,
   } = review;
   const classes = useStyles({ isArticleType, isReviewType });
   const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
   const articleUrl = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
-  const editionUrl = bookName ? StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId) : null;
+  const editionUrl = editionId ? "#" : null;
   const { i18n } = useTranslation();
   const displayDate = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
@@ -122,10 +123,6 @@ const useStyles = makeStyles(theme => ({
     },
     "& a": {
       color: theme.palette.text.primary,
-      "&:hover": {
-        textDecoration: "none",
-        color: theme.palette.primary.main,
-      },
     },
   },
   button: {

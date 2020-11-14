@@ -3,10 +3,13 @@ import PropTypes from "prop-types";
 import { Box, CardContent, CardMedia, makeStyles, Typography } from "@material-ui/core";
 import { AppLink, CustomRating } from "components";
 import clsx from "clsx";
+import { getImageById } from "utils";
+import StringFormat from "string-format";
+import { PathConstant } from "const";
 
 const BookSummary = ({ data, classes }) => {
   const defaultClasses = useStyles();
-  const [book, setBook] = useState();
+  const [book, setBook] = useState({});
 
   useEffect(() => {
     if (data) {
@@ -15,13 +18,16 @@ const BookSummary = ({ data, classes }) => {
   }, [data]);
 
   return (
-    <AppLink className={defaultClasses.link}>
+    <AppLink
+      className={defaultClasses.link}
+      to={book.editionId && StringFormat(PathConstant.FM_BOOK_DETAIL_ID, book.editionId)}
+    >
       <Box className={clsx(defaultClasses.root, classes.root)}>
         {book && (
           <>
             <CardMedia
               className={clsx(defaultClasses.cover, classes.cover)}
-              src={book.cover}
+              src={getImageById(book.imageId)}
               title={book.title}
               component="img"
             />
@@ -31,9 +37,9 @@ const BookSummary = ({ data, classes }) => {
               </Typography>
 
               <Typography variant="caption" component="p" className="eclipse">
-                {book.author}
+                {book.authorName || book.author}
               </Typography>
-              <CustomRating readOnly={true} value={book.rating} size="small" />
+              <CustomRating readOnly={true} value={book.rateAvg || 0} size="small" />
             </CardContent>
           </>
         )}
@@ -69,8 +75,12 @@ const useStyles = makeStyles(theme => ({
   content: {
     minHeight: "max-content",
     padding: "12px 0",
+    "& .eclipse": {
+      minHeight: 19,
+    },
   },
   title: {
+    height: 42,
     "&:hover": {
       textDecoration: "underline",
     },

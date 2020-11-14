@@ -39,10 +39,6 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     "& a": {
       color: theme.palette.text.primary,
-      "&:hover": {
-        textDecoration: "none",
-        color: theme.palette.primary.main,
-      },
     },
   },
   avatarButton: {

@@ -1,43 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography, Hidden } from "@material-ui/core";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { LangConstant } from "const";
+import EditionActions from "redux/edition.redux";
 import ArticleSlider from "./ArticleSliders/ArticleSlider";
 
-const ArticleRelated = ({ isReviewType, isArticleType }) => {
+const ArticleRelated = ({ isReviewType, isArticleType, categoryId, editionId }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
+  const PARAMS = isReviewType
+    ? {
+        editionIds: editionId,
+      }
+    : {
+        categoriesIds: categoryId,
+      };
+  const dispatch = useDispatch();
+  const dispatchGetArticleList = data => dispatch(EditionActions.requestGetReviews(data));
+
+  const articles = useSelector(state => state.editionRedux.reviewsList);
+  const [articlesList, setArticlesList] = useState();
+
+  useEffect(() => {
+    dispatchGetArticleList(PARAMS);
+  }, []);
+
+  useEffect(() => {
+    if (articles) {
+      setArticlesList(articles);
+    }
+  }, [articles]);
+
   return (
     <Hidden xsDown>
       <Typography variant="h5" className={clsx("mb-16", "mt-24")}>
         {getLabel("TXT_ARTICLE_RELATED")}
       </Typography>
-      <ArticleSlider sliderList={DEMO_ARTICLE_RELATED_LIST} isReviewType={isReviewType} isArticleType={isArticleType} />
+      <ArticleSlider sliderList={articlesList} isReviewType={isReviewType} isArticleType={isArticleType} />
     </Hidden>
   );
 };
 
-const DEMO_ARTICLE_RELATED_LIST = Array(4).fill({
-  articleId: 1399,
-  title: "Ai cũng cần có trong đời những tháng ngày lặng lẽ.",
-  intro:
-    "Mình từng nghe một câu như thế này : Em phụ trách việc xinh đẹp, anh sẽ lo...Mình từng nghe một câu như thế này : Em phụ trách việc xinh đẹp, anh sẽ lo...",
-  name: "Lê Thu Hân",
-  lastUpdate: new Date(),
-  avatar: "/images/img-demo-avatar.jpg",
-  thumbnail: "/images/img-demo-avatar.jpg",
-  reactCount: 145,
-  commentCount: 160,
-  hashtags: ["#tieudiem1", "#tieudiem2", "#tieudiem3"],
-  category: "Tiêu điểm sách",
-  rate: 4,
-  bookName: "Nếu chỉ còn một ngày để sống",
-});
-
 ArticleRelated.propTypes = {
   isReviewType: PropTypes.bool,
   isArticleType: PropTypes.bool,
+  categoryId: PropTypes.number,
+  editionId: PropTypes.number,
 };
 
 export default ArticleRelated;
