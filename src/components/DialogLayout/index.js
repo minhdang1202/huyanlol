@@ -34,8 +34,12 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
+    height: `calc((100vh - ${HEIGHT_APP_BAR}) * 0.95)`,
     marginLeft: 0,
     marginRight: 0,
+    [theme.breakpoints.down("xs")]: {
+      height: "100vh",
+    },
   },
   container: {
     height: "100vh",

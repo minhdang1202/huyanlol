@@ -67,14 +67,13 @@ const useStyles = makeStyles(theme => ({
       fontSize: 12,
     },
     "& button": {
-      height: 43,
+      minHeight: 43,
       padding: "0 16px !important",
       borderRadius: "4px !important",
       minWidth: "fit-content",
       marginRight: theme.spacing(1),
       marginBottom: theme.spacing(1),
       [theme.breakpoints.down("xs")]: {
-        height: 25,
         minHeight: 25,
         padding: "0 12px !important",
       },

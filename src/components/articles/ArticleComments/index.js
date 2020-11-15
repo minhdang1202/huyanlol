@@ -193,11 +193,13 @@ const ArticleComments = ({ articleId, commentCount }) => {
                 );
               })}
             {(isLoading || hasChangeSort) && <CircularProgress className={classes.loading} />}
-            <Hidden xsDown>
-              <Button variant="contained" className={clsx("light-blue-button", classes.seeAllButton)}>
-                {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
-              </Button>
-            </Hidden>
+            {commentsList && commentsList.length > commentCount && (
+              <Hidden xsDown>
+                <Button variant="contained" className={clsx("light-blue-button", classes.seeAllButton)}>
+                  {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
+                </Button>
+              </Hidden>
+            )}
           </Box>
         )}
         <Hidden smUp>

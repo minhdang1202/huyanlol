@@ -11,7 +11,7 @@ const FollowButton = ({ isFollowing, className }) => {
     <Button
       size="small"
       variant="contained"
-      className={clsx(classes.root, isFollowing ? "dark-blue-button" : "light-blue-button", className)}
+      className={clsx(classes.root, isFollowing ? "light-blue-button" : "dark-blue-button", className)}
       startIcon={isFollowing ? null : <Box className="ic-plus" />}
     >
       {isFollowing ? getLabel("TXT_FOLLOWED") : getLabel("TXT_FOLLOW")}

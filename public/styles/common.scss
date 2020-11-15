@@ -69,6 +69,7 @@ p,
   display: -webkit-box;
   -webkit-line-clamp: 1; // default 1 line
   -webkit-box-orient: vertical;
+  word-break: break-all;
 }
 
 .eclipse-2 {
@@ -77,6 +78,7 @@ p,
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  word-break: break-all;
 }
 
 .paper {

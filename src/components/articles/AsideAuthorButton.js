@@ -1,9 +1,10 @@
 import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { Typography, makeStyles, Button, Avatar } from "@material-ui/core";
+import { Typography, makeStyles, Avatar } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
+import FollowButton from "./FollowButton";
 
 const AsideAuthorButton = ({ name, date, avatar }) => {
   const classes = useStyles();
@@ -20,9 +21,7 @@ const AsideAuthorButton = ({ name, date, avatar }) => {
       <Typography variant="body2" className={clsx("eclipse", "grey-text")}>
         {date}
       </Typography>
-      <Button variant="contained" className={clsx("light-blue-button", classes.authorButton)}>
-        {getLabel(LangConstant.getCommonKey("TXT_USER_PAGE"))}
-      </Button>
+      <FollowButton className="mt-16" />
     </>
   );
 };
@@ -42,11 +41,6 @@ const useStyles = makeStyles(theme => ({
     width: 64,
     height: 64,
     margin: theme.spacing(2, 0, 1.5, 0),
-  },
-  authorButton: {
-    fontSize: 18,
-    padding: theme.spacing(0, 2),
-    marginTop: theme.spacing(2),
   },
 }));
 

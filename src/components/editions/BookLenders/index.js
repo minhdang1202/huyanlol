@@ -92,7 +92,7 @@ const useStyles = makeStyles(theme => ({
     },
     "&>*:nth-child(2)": {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))",
+      gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
       gridGap: theme.spacing(0.5),
     },
   },

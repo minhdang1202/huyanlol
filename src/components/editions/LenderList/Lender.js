@@ -5,7 +5,6 @@ import { LangConstant } from "const";
 import clsx from "clsx";
 import { makeStyles, Avatar, Button, Typography, Box, Hidden } from "@material-ui/core";
 import { convertUnitToKm } from "utils";
-import { AddressIcon } from "icons";
 import DialogAppDownload from "components/DialogAppDownload";
 
 const Lender = ({ name, avatar, distanceToUser, address }) => {
@@ -24,15 +23,16 @@ const Lender = ({ name, avatar, distanceToUser, address }) => {
   return (
     <>
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
-      <Box display="flex" width="100%" justifyContent="space-between" alignItems="center" py={2}>
-        <Box display="flex" mr={{ xs: 1.5, sm: 3, md: 5 }} width="100%">
+      <Box display="flex" width="100%" justifyContent="space-between" alignItems="center" py={2} minHeight={146}>
+        <Box display="flex" mr={{ xs: 1.5, sm: 3, md: 5 }}>
           <Button
             size="large"
             disabled
             classes={{ disabled: classes.disabledButton }}
             startIcon={<Avatar src={avatar} className={classes.avatar} />}
+            flexGrow={1}
           >
-            <Box display="flex" flexDirection="column" width="100%">
+            <Box display="flex" flexDirection="column" flexGrow={1}>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <span className={clsx("eclipse", classes.alignLeft)}>{name}</span>
                 <Hidden xsDown>
@@ -84,6 +84,7 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     minWidth: "fit-content",
+    width: "fit-content",
     padding: theme.spacing(0, 1.5),
     height: 43,
     [theme.breakpoints.down("xs")]: {
@@ -95,7 +96,7 @@ const useStyles = makeStyles(theme => ({
     color: `${theme.palette.text.primary} !important`,
     width: "100%",
     justifyContent: "flex-start",
-  },
+  }
 }));
 
 Distance.propTypes = {
