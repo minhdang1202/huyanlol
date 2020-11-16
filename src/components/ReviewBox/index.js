@@ -26,7 +26,7 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide, is
     commentCount,
     rate,
     hashtags,
-    category,
+    categories,
     bookName,
     editionId,
   } = review;
@@ -79,7 +79,9 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide, is
                   {intro}
                 </Typography>
                 {isReviewType && !isBookDetail && <BookNameButton editionUrl={editionUrl} bookName={bookName} />}
-                {isArticleType && <HashtagButtons articleUrl={articleUrl} hashtags={hashtags} category={category} />}
+                {isArticleType && (
+                  <HashtagButtons articleUrl={articleUrl} hashtags={hashtags} category={categories[0]} />
+                )}
               </Box>
               <Avatar className={classes.thumbnail} variant="square" src={thumbnail} />
             </Box>

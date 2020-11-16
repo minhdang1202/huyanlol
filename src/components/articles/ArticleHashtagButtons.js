@@ -26,11 +26,11 @@ const ArticleHashtagButtons = ({ hashtags, category, className }) => {
           {category}
         </Button>
       </AppLink>
-      {hashtags.lenght &&
+      {hashtags.length > 0 &&
         hashtags.map((hashtag, index) => (
           <AppLink key={index} to="#">
             <Button variant="contained" className="light-blue-button">
-              <Typography variant="body2">{hashtag}</Typography>
+              <Typography variant="body2">{hashtag.tagName}</Typography>
             </Button>
           </AppLink>
         ))}
@@ -42,11 +42,11 @@ const ArticleHashtagButtons = ({ hashtags, category, className }) => {
           {category}
         </Button>
       </AppLink>
-      {hashtags.lenght &&
+      {hashtags.length > 0 &&
         hashtags.map((hashtag, index) => (
           <AppLink key={index} to="#">
             <Button variant="contained" className="light-blue-button">
-              <Typography variant="body1">{hashtag}</Typography>
+              <Typography variant="body1">{hashtag.tagName}</Typography>
             </Button>
           </AppLink>
         ))}

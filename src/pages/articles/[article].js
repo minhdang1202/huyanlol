@@ -78,12 +78,13 @@ const ArticleDetail = ({ article, author, editions }) => {
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           <ArticleComments commentCount={commentCount} articleId={articleId} />
         </Grid>
-        {editions.length > 0 && (
+        {(editions.length > 0 || !isReviewType) && (
           <ArticleRelated
             isReviewType={isReviewType}
             isArticleType={!isReviewType}
             categoryId={categories[0].categoryId}
-            editionId={editions[0].editionId}
+            editionId={editions.length ? editions[0].editionId : null}
+            articleId={articleId}
           />
         )}
       </Container>

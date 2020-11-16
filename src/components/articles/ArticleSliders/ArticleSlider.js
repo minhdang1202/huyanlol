@@ -10,12 +10,12 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
   const classes = useStyles();
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.between("xs", "md"));
-  const totalSlides = sliderList ? sliderList.length : null;
+  const totalSlides = sliderList ? sliderList.length - 1 : null; // Exclude current Article
   let settings = {
     dots: false,
     infinite: false,
     speed: 300,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
     swipeToSlide: true,
     arrows: false,
     variableWidth: true,
@@ -59,7 +59,6 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
         onPrevSlide={onPrevSlide}
         totalSlides={totalSlides}
         slideIndex={slideIndex}
-        isArticleSlider={true}
       />
     </Box>
   ) : null;

@@ -146,10 +146,12 @@ export function* requestGetReviews(action) {
           editions,
           thumbnailId,
           creator,
+          categories,
+          hashtags,
         } = review;
-        const rate = editions[0].userRelation.evaluation.rate;
-        const bookName = editions[0].title;
-        const editionId = editions[0].editionId;
+        const rate = editions.length && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
+        const bookName = editions.length ? editions[0].title : null;
+        const editionId = editions.length ? editions[0].editionId : null;
         const avatar = creator.imageId ? getImageById(creator.imageId) : null;
         const thumbnail = thumbnailId ? getImageById(thumbnailId) : null;
         const { name } = creator;
@@ -166,6 +168,8 @@ export function* requestGetReviews(action) {
           rate,
           bookName,
           editionId,
+          categories,
+          hashtags,
         };
       });
 

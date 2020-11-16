@@ -8,14 +8,14 @@ import { LangConstant } from "const";
 import EditionActions from "redux/edition.redux";
 import ArticleSlider from "./ArticleSliders/ArticleSlider";
 
-const ArticleRelated = ({ isReviewType, isArticleType, categoryId, editionId }) => {
+const ArticleRelated = ({ isReviewType, isArticleType, categoryId, editionId, articleId }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const PARAMS = isReviewType
     ? {
         editionIds: editionId,
       }
     : {
-        categoriesIds: categoryId,
+        categoryIds: categoryId,
       };
   const dispatch = useDispatch();
   const dispatchGetArticleList = data => dispatch(EditionActions.requestGetReviews(data));
@@ -29,7 +29,7 @@ const ArticleRelated = ({ isReviewType, isArticleType, categoryId, editionId }) 
 
   useEffect(() => {
     if (articles) {
-      setArticlesList(articles);
+      setArticlesList(articles.filter(article => article.articleId != articleId));
     }
   }, [articles]);
 
@@ -48,6 +48,7 @@ ArticleRelated.propTypes = {
   isArticleType: PropTypes.bool,
   categoryId: PropTypes.number,
   editionId: PropTypes.number,
+  articleId: PropTypes.number,
 };
 
 export default ArticleRelated;
