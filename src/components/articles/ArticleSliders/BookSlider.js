@@ -39,9 +39,20 @@ const BookSlider = ({ sliderList, ...otherProps }) => {
       mr={{ xs: `calc(${PADDING_X_CONTAINER_MOBILE} * -1)`, sm: "auto" }}
     >
       <Slider ref={slider} {...settings} {...otherProps} className={classes.root}>
-        {sliderList.map((slide, index) => (
-          <BookBox key={index} {...slide} className={classes.slide} />
-        ))}
+        {sliderList.map((slide, index) => {
+          const { bookCover, title, authorName, editionId, rateAvg } = slide;
+          return (
+            <BookBox
+              key={index}
+              editionId={editionId}
+              bookCover={bookCover}
+              rateAvg={rateAvg}
+              bookName={title}
+              author={authorName}
+              className={classes.slide}
+            />
+          );
+        })}
       </Slider>
       <SliderButtons
         onNextSlide={onNextSlide}
@@ -54,7 +65,8 @@ const BookSlider = ({ sliderList, ...otherProps }) => {
 };
 
 export const HEIGHT_BOOK_BOX = "174px";
-const WIDTH_BOOK_BOX = "328px";
+const WIDTH_BOOK_BOX = "316px";
+const WIDTH_BOOK_BOX_TABLET = "280px";
 export const HEIGHT_BOOK_BOX_MOBILE = "139px";
 const WIDTH_BOOK_BOX_MOBILE = "287px";
 
@@ -75,6 +87,12 @@ const useStyles = makeStyles(theme => ({
     minWidth: WIDTH_BOOK_BOX,
     maxWidth: WIDTH_BOOK_BOX,
     height: HEIGHT_BOOK_BOX,
+    [theme.breakpoints.down("md")]: {
+      width: WIDTH_BOOK_BOX_TABLET,
+      minWidth: WIDTH_BOOK_BOX_TABLET,
+      maxWidth: WIDTH_BOOK_BOX,
+      height: HEIGHT_BOOK_BOX,
+    },
     [theme.breakpoints.down("xs")]: {
       width: WIDTH_BOOK_BOX_MOBILE,
       minWidth: WIDTH_BOOK_BOX_MOBILE,

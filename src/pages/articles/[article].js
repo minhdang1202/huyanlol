@@ -78,12 +78,13 @@ const ArticleDetail = ({ article, author, editions }) => {
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           <ArticleComments commentCount={commentCount} articleId={articleId} />
         </Grid>
-        {editions.length > 0 && (
+        {(editions.length > 0 || !isReviewType) && (
           <ArticleRelated
             isReviewType={isReviewType}
             isArticleType={!isReviewType}
             categoryId={categories[0].categoryId}
-            editionId={editions[0].editionId}
+            editionId={editions.length ? editions[0].editionId : null}
+            articleId={articleId}
           />
         )}
       </Container>
@@ -110,10 +111,11 @@ export const getServerSideProps = async ({ res, query }) => {
     const creatorImgId = creator.imageId;
     if (isOnlyNumber) {
       const articleTitleNoMark = getTitleNoMark(title);
-      res.writeHead(301, {
-        Location: StringFormat(PathConstant.FM_ARTICLE_DETAIL, articleTitleNoMark, articleId),
-      });
-      res.end();
+      res
+        .writeHead(301, {
+          Location: StringFormat(PathConstant.FM_ARTICLE_DETAIL, articleTitleNoMark, articleId),
+        })
+        .end();
     }
     const creatorAvatar = creatorImgId ? getImageById(creatorImgId) : null;
     creator.avatar = creatorAvatar;

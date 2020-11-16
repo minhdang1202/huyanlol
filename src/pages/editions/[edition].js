@@ -125,10 +125,11 @@ export const getServerSideProps = async ({ res, query }) => {
     const { title, imageId } = book;
     if (isOnlyNumber) {
       const bookTitleNoMark = getTitleNoMark(title);
-      res.writeHead(301, {
-        Location: StringFormat(PathConstant.FM_BOOK_DETAIL, bookTitleNoMark, editionId),
-      });
-      res.end();
+      res
+        .writeHead(301, {
+          Location: StringFormat(PathConstant.FM_BOOK_DETAIL, bookTitleNoMark, editionId),
+        })
+        .end();
     }
     const bookCover = imageId ? getImageById(imageId) : null;
 

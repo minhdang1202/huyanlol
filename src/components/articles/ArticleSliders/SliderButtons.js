@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { IconButton, Box, makeStyles, Hidden, useTheme, useMediaQuery } from "@material-ui/core";
+import React, { useState } from "react";
+import { IconButton, Box, makeStyles, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-const SliderButtons = ({ onPrevSlide, onNextSlide, isArticleSlider, slideIndex, totalSlides }) => {
+const SliderButtons = ({ onPrevSlide, onNextSlide, slideIndex, totalSlides }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isTablet = useMediaQuery(theme.breakpoints.between("xs", "md"));
-  const [lastSlide, setLastSlide] = useState(totalSlides - 1);
-
-  useEffect(() => {
-    setLastSlide(isTablet && isArticleSlider ? totalSlides - 3 : totalSlides - 1);
-  }, [isTablet]);
+  const [lastSlide, setLastSlide] = useState(Math.ceil(totalSlides / 2));
 
   return (
     <Hidden xsDown>
       {slideIndex === 0 ? null : (
         <CustomSliderButton className={clsx(classes.button, classes.prevButton)} onClick={onPrevSlide} />
       )}
-      {slideIndex === lastSlide ? null : (
+      {slideIndex === lastSlide || totalSlides <= 2 ? null : (
         <CustomSliderButton isNext={true} className={clsx(classes.button, classes.nextButton)} onClick={onNextSlide} />
       )}
     </Hidden>
@@ -41,7 +35,6 @@ SliderButtons.propTypes = {
   onPrevSlide: PropTypes.func,
   slideIndex: PropTypes.number,
   totalSlides: PropTypes.number,
-  isArticleSlider: PropTypes.bool,
 };
 
 CustomSliderButton.propTypes = {

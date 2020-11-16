@@ -82,7 +82,7 @@ export const getTitleNoMark = title => {
   title = title.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
   title = title.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
   title = title.replace(/đ/g, "d");
-  title = title.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "");
+  title = title.replace(/[^a-zA-Z0-9]/g, "_");
   const regex = /\s/gi;
   const titleNoMark = title.replace(regex, "-");
   return titleNoMark;
