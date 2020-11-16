@@ -27,4 +27,4 @@ export const GAT_APP_STORE = "https://apps.apple.com/vn/app/gat/id1230316898";
 
 //OAuth AppId
 export const APP_GOOGLE = "658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com";
-export const APP_FACEBOOK = "1937935059771206";
+export const APP_FACEBOOK = "383010478803297";

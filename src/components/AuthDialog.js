@@ -62,6 +62,8 @@ const AuthDialog = ({ onClose, isOpen }) => {
 
   const onFacebookResponse = response => {
     console.log(response);
+    const { email, name, id } = response;
+    dispatch(AuthAction.requestLogin({ email, name, socialID: id, socialType: 1, uuid: FIXED_UUID }));
   };
 
   const onGoogleResponse = response => {
