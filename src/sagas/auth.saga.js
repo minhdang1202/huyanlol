@@ -8,12 +8,8 @@ export function* requestLogin(action) {
   let isResult = false;
   const { data } = action;
 
-  let response;
-  if (data.socialType !== null) {
-    response = yield call(AuthService.loginSocial, data);
-  } else {
-    response = yield call(AuthService.login, data);
-  }
+  let response =
+    data.socialType === null ? yield call(AuthService.login, data) : yield call(AuthService.loginSocial, data);
 
   try {
     let responseData = response.data.data;

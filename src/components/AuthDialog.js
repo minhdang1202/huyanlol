@@ -46,7 +46,9 @@ const AuthDialog = ({ onClose, isOpen }) => {
 
   const onLogin = () => {
     if (email !== "" && password !== "") {
-      dispatch(AuthAction.requestLogin({ email, password, uuid: FIXED_UUID }));
+      dispatch(
+        AuthAction.requestLogin({ email, password, uuid: FIXED_UUID, name: null, socialID: null, socialType: null }),
+      );
     } else {
       dispatch(AuthAction.authFailure({ errors: [{ details: getText("ERR_INVALID_INPUT") }] }));
     }
