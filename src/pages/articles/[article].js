@@ -111,10 +111,11 @@ export const getServerSideProps = async ({ res, query }) => {
     const creatorImgId = creator.imageId;
     if (isOnlyNumber) {
       const articleTitleNoMark = getTitleNoMark(title);
-      res.writeHead(301, {
-        Location: StringFormat(PathConstant.FM_ARTICLE_DETAIL, articleTitleNoMark, articleId),
-      });
-      res.end();
+      res
+        .writeHead(301, {
+          Location: StringFormat(PathConstant.FM_ARTICLE_DETAIL, articleTitleNoMark, articleId),
+        })
+        .end();
     }
     const creatorAvatar = creatorImgId ? getImageById(creatorImgId) : null;
     creator.avatar = creatorAvatar;

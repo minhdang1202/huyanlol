@@ -46,7 +46,7 @@ const ArticleHashtagButtons = ({ hashtags, category, className }) => {
         hashtags.map((hashtag, index) => (
           <AppLink key={index} to="#">
             <Button variant="contained" className="light-blue-button">
-              <Typography variant="body1">{hashtag.tagName}</Typography>
+              <Typography variant="body1">{`#${hashtag.tagName}`}</Typography>
             </Button>
           </AppLink>
         ))}
