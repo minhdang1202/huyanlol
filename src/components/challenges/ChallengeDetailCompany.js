@@ -15,7 +15,7 @@ const Company = () => {
       </Box>
       {isMobile ? (
         <Typography>
-          <Typography variant="body2" component="span">
+          <Typography variant="body2" component="span" color="textSecondary">
             {`${getLabel("L_BY")} `}
           </Typography>
           <Typography variant="subtitle2" component="span">

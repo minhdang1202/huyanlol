@@ -95,7 +95,7 @@ const useStyles = makeStyles(theme => ({
       alignItems: "center",
       height: "75px",
       marginTop: "75px",
-      padding: theme.spacing(1),
+      padding: theme.spacing(2),
     },
   },
   btnContainer: {

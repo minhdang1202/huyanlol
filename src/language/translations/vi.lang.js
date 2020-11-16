@@ -125,7 +125,7 @@ export default {
     L_PROCESS: "Quá trình",
     L_END: "Đã hết hạn",
     L_COMPLETE: "Hoàn thành",
-    L_BY: "By",
+    L_BY: "Tạo bởi",
     L_COMPANY_NAME: "GAT",
     L_LESS: "Rút gọn",
 
@@ -139,6 +139,7 @@ export default {
     FM_PROGRESS: " Đã đọc {0}/{1} cuốn sách",
     FM_HAVE_DONE: "Hoàn thành: {0}/{1} ({2}%)",
     FM_ACTIVITY: `<span style="font-weight:600">{name}</span> vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
+    FM_ACTIVITY_MOBILE: `Vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
   },
   articleDetail: {
     TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",

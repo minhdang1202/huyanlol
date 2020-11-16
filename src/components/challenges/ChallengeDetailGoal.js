@@ -20,7 +20,8 @@ const Goal = ({ goal, isGroup, haveDone, total }) => {
       <Typography variant="body1">{goal}</Typography>
       {isGroup && (
         <Box className={classes.progress}>
-          <CircularProgress variant="static" value={progress} size={16} />
+          <CircularProgress variant="static" value={progress} size={16} thickness={5} />
+          <CircularProgress variant="static" value={100} size={16} thickness={5} className={classes.bottom} />
           <Typography variant="subtitle1" component="span">
             {StringFormat(getLabel("FM_HAVE_DONE"), haveDone, total, progress)}
           </Typography>
@@ -58,15 +59,22 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     fontSize: "20px",
-    marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(1),
   },
   progress: {
     color: theme.palette.text.primary,
     display: "flex",
     alignItems: "center",
+    position: "relative",
     "&>:nth-child(1)": {
-      color: theme.palette.text.link,
+      position: "absolute",
+      marginRight: "0px",
+      zIndex: 1,
+      color: "#d2d9de",
+    },
+    "&>:nth-child(2)": {
       marginRight: theme.spacing(1),
+      color: theme.palette.text.link,
     },
   },
 }));

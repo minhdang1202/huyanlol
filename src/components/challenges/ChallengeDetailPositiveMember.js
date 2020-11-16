@@ -1,9 +1,20 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Button, Avatar, useTheme, useMediaQuery, Badge } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  Paper,
+  Box,
+  Button,
+  Avatar,
+  useTheme,
+  useMediaQuery,
+  Badge,
+  Link,
+} from "@material-ui/core";
 import clsx from "clsx";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
-
+import Router from "next/router";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -47,7 +58,9 @@ const Member = ({ place }) => {
         return classes.fourth;
     }
   };
-
+  const onClickAvatar = () => {
+    Router.push("/#");
+  };
   return (
     <Box className={classes.member}>
       <Badge
@@ -58,10 +71,12 @@ const Member = ({ place }) => {
           </Box>
         }
       >
-        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
+        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} onClick={onClickAvatar} />
       </Badge>
 
-      <Typography variant="subtitle1">name</Typography>
+      <Typography variant="subtitle1" className={classes.name}>
+        <Link href="#">name</Link>
+      </Typography>
       <Typography variant="body2">xxx</Typography>
     </Box>
   );
@@ -70,7 +85,6 @@ const Member = ({ place }) => {
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    height: "240px",
     padding: theme.spacing(3),
     borderRadius: "10px",
     [theme.breakpoints.down("xs")]: {
@@ -95,7 +109,6 @@ const useStyles = makeStyles(theme => ({
   },
   member: {
     width: "105px",
-    height: "132px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -115,11 +128,19 @@ const useStyles = makeStyles(theme => ({
   icLine: {
     fontSize: "24px",
     "&>:first-child": {
-      margin: theme.spacing(2),
+      margin: theme.spacing(1),
       color: theme.palette.text.primary,
     },
     [theme.breakpoints.down("xs")]: {
       fontSize: "14px",
+    },
+  },
+  name: {
+    "&>*": {
+      color: theme.palette.text.primary,
+    },
+    [theme.breakpoints.down("md")]: {
+      marginBottom: "-8px",
     },
   },
   badgeContainer: {

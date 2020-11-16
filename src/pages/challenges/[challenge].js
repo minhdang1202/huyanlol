@@ -11,7 +11,6 @@ import {
   Company,
   GoalList,
   Description,
-  Footer,
 } from "components/challenges";
 import CustomBreadCrumb from "components/CustomBreadcrumb";
 const Challenge = () => {
@@ -150,7 +149,7 @@ const useStyles = makeStyles(theme => ({
   mobileContainer: {
     width: "100%",
     height: "100%",
-    paddingBottom: "75px",
+    paddingBottom: "85px",
   },
 }));
 export default Challenge;

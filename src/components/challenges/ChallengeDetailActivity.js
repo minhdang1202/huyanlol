@@ -40,15 +40,28 @@ const Item = ({ data }) => {
         </Box>
       </Box>
       <Box className={classes.content}>
-        <Typography
-          dangerouslySetInnerHTML={{
-            __html: StringFormat(getLabel("FM_ACTIVITY"), {
-              name: data.name,
-              bookLink: "/",
-              book: data.book,
-            }),
-          }}
-        />
+        {isMobile ? (
+          <Typography
+            variant="body2"
+            dangerouslySetInnerHTML={{
+              __html: StringFormat(getLabel("FM_ACTIVITY_MOBILE"), {
+                bookLink: "/",
+                book: data.book,
+              }),
+            }}
+          />
+        ) : (
+          <Typography
+            variant="subtitle1"
+            dangerouslySetInnerHTML={{
+              __html: StringFormat(getLabel("FM_ACTIVITY"), {
+                name: data.name,
+                bookLink: "/",
+                book: data.book,
+              }),
+            }}
+          />
+        )}
 
         {!isMobile && <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.img} />}
       </Box>
@@ -103,6 +116,7 @@ const useStyles = makeStyles(theme => ({
     width: "94px",
     height: "142px",
     borderRadius: "6px",
+    marginLeft: theme.spacing(3),
   },
   text: {
     "&>:nth-child(3)": {

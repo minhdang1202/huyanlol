@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles, Typography, Paper, useTheme, useMediaQuery, Box } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 const Description = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -17,7 +18,7 @@ const Description = () => {
     <Paper className={classes.root}>
       <Box className={classes.content}>
         {!isMobile && <Typography variant="h6">{getLabel("L_DESCRIPTION")}</Typography>}
-        {isMobile && <Box className="ic-chat" />}
+        {isMobile && <Box className={clsx("ic-chat", classes.gray)} />}
         <Typography variant={isMobile ? "body2" : "body1"} className={`${!isFull && "eclipse-3"}`}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -66,6 +67,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       marginLeft: "22px",
     },
+  },
+  gray: {
+    color: theme.palette.text.secondary,
   },
 }));
 
