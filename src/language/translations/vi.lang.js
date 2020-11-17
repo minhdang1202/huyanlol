@@ -63,11 +63,14 @@ export default {
     FM_BOOK_AUTHOR: "{0} của {1}",
     FM_COMMENT: "{0} Bình luận",
     FM_LOVE: "{0} Ghi nhận",
-    
+
     //ERR: Error
     ERR_INVALID_INPUT: "Vui lòng nhập đúng định dạng",
     ERR_MISSING_INPUT: "Vui lòng điền chính xác và đầy đủ thông tin",
+    ERR_REGISTER: "Đăng ký không thành công!",
+
     //MSG: Message
+    MSG_REGISTER: "Kiểm tra email để xác thực tài khoản",
   },
   bookDetail: {
     //TXT: Text

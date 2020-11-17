@@ -17,7 +17,6 @@ const AuthSocial = ({ isLogin, onChangeForm }) => {
   const dispatch = useDispatch();
 
   const onFacebookResponse = response => {
-    console.log(response);
     const { email, name, id } = response;
     dispatch(AuthAction.requestLoginBySocial({ email, name, socialID: id, socialType: 1, uuid: FIXED_UUID }));
   };

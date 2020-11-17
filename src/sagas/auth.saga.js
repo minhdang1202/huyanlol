@@ -1,8 +1,9 @@
 import { call, put } from "redux-saga/effects";
-import { ApiConstant, AppConstant } from "../const";
-import AuthAction from "../redux/auth.redux";
-import { AuthService } from "../services";
+import { ApiConstant, AppConstant } from "const";
+import AuthAction from "redux/auth.redux";
+import { AuthService } from "services";
 import Cookie from "js-cookie";
+import { getLabel } from "language";
 
 export function* requestLogin(action) {
   let isResult = false;
@@ -39,12 +40,12 @@ export function* requestRegister(action) {
   try {
     let response = yield call(AuthService.register, data);
     if (response.status === ApiConstant.STT_OK) {
-      alert("Request sent, check your email to validate the account.");
+      yield put(AuthAction.authSuccess({ isRegister: true }));
     } else {
-      alert("something is wrong");
+      yield put(AuthAction.authFailure({ errors: { details: getLabel("ERR_REGISTER") } }));
     }
-    yield put(AuthAction.authReset());
   } catch (error) {
+    console.log(error);
     yield put(AuthAction.authFailure(error));
   }
 }

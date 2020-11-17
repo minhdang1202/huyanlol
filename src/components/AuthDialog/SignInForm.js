@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AuthAction from "redux/auth.redux";
 const FIXED_UUID = "f4e25588-e48f-4dd5-b7c5-812f68204be4";
 
-const SignIn = () => {
+const SignInForm = () => {
   const { t: getText } = useTranslation();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -94,8 +94,8 @@ const SignIn = () => {
   );
 };
 
-SignIn.propTypes = {};
-export default SignIn;
+SignInForm.propTypes = {};
+export default SignInForm;
 
 const useStyles = makeStyles(theme => ({
   form: {

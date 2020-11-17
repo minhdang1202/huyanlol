@@ -3,7 +3,7 @@ import { Box, Button, Menu, MenuItem, IconButton, Avatar, Divider, makeStyles } 
 import { useTranslation } from "react-i18next";
 import { AvatarIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
-import AuthDialog from "components/AuthDialog/AuthDialog";
+import AuthDialog from "components/AuthDialog";
 
 const SignIn = () => {
   const classes = useStyles();

@@ -19,6 +19,7 @@ export default Creators;
 export const INITIAL_STATE = {
   isFetching: false,
   isAuth: Cookie.get(AppConstant.KEY_TOKEN) ? true : false,
+  isRegister: false,
 
   errors: null,
   status: null,
@@ -35,7 +36,6 @@ export const success = (state = INITIAL_STATE, action) => {
   return {
     ...state,
     isFetching: false,
-    isAuth: true,
     errors: null,
     status: null,
     ...data,
@@ -44,7 +44,6 @@ export const success = (state = INITIAL_STATE, action) => {
 
 export const failure = (state = INITIAL_STATE, action) => {
   const data = action.data ? action.data : {};
-  Cookie.remove(AppConstant.KEY_TOKEN);
   return { ...state, isFetching: false, isAuth: false, ...data };
 };
 

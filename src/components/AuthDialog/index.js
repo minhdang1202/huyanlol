@@ -6,8 +6,8 @@ import { Processing } from "components";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import AuthSocial from "./AuthSocial";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import SignInForm from "./SignInForm";
+import SignUpForm from "./SignUpForm";
 
 const AuthDialog = ({ onClose, isOpen }) => {
   const theme = useTheme();
@@ -36,7 +36,7 @@ const AuthDialog = ({ onClose, isOpen }) => {
         </Box>
         <Divider className={classes.divider} />
         <Box className={classes.content}>
-          {isLogin ? <SignIn /> : <SignUp />}
+          {isLogin ? <SignInForm /> : <SignUpForm />}
           <AuthSocial onChangeForm={onChangeForm} isLogin={isLogin} />
         </Box>
       </Box>

@@ -1,28 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Typography, TextField, Box, makeStyles, InputAdornment } from "@material-ui/core/";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import AuthAction from "redux/auth.redux";
+import { validateEmail, validatePassword } from "utils";
 
-const AuthDialog = () => {
-  const { t: getText } = useTranslation();
+const SignUpForm = () => {
+  const { t: getLabel } = useTranslation();
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const errors = useSelector(state => state.authRedux.errors);
+  const [errorsRedux, isRegister] = useSelector(({ authRedux }) => [authRedux.error, authRedux.isRegister]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [error, setError] = useState({});
 
   const onRegister = () => {
-    if (password !== "" && password === password2) {
+    setError({});
+    if (validateEmail(email) && password === password2 && validatePassword(password)) {
       dispatch(AuthAction.requestRegister({ email, password }));
     } else {
-      dispatch(AuthAction.authFailure({ errors: [{ details: getText("ERR_MISSING_INPUT") }] }));
+      setError({ ...error, content: getLabel("ERR_MISSING_INPUT") });
     }
   };
 
@@ -31,13 +34,19 @@ const AuthDialog = () => {
   const onChangePass = e => setPassword(e.target.value);
   const onChangePass2 = e => setPassword2(e.target.value);
 
+  useEffect(() => {
+    if (errorsRedux && errorsRedux.details != error.details) {
+      setError({ ...errorsRedux, content: getLabel("ERR_REGISTER") });
+    }
+  }, [errorsRedux]);
+
   return (
     <Box className={classes.form}>
       <TextField
-        name="email"
+        id="email"
         label={
           <Typography variant="h5" className={classes.inputLabel}>
-            {getText("L_EMAIL")}
+            {getLabel("L_EMAIL")}
           </Typography>
         }
         className={classes.textInput}
@@ -48,16 +57,15 @@ const AuthDialog = () => {
           },
           autoComplete: "off",
         }}
-        value={email}
         onChange={onChangeEmail}
         type="email"
         fullWidth
       />
       <TextField
-        name="password"
+        id="password"
         label={
           <Typography variant="h5" className={classes.inputLabel}>
-            {getText("L_PASSWORD")}
+            {getLabel("L_PASSWORD")}
           </Typography>
         }
         className={classes.textInput}
@@ -72,15 +80,7 @@ const AuthDialog = () => {
             input: classes.textOfInput,
           },
         }}
-        value={password}
         onChange={onChangePass}
-        helperText={
-          errors && (
-            <Typography variant="body1" className={classes.errMessage} component="span">
-              {errors[0].details}
-            </Typography>
-          )
-        }
         type={showPassword ? "text" : "password"}
         fullWidth
       />
@@ -89,7 +89,7 @@ const AuthDialog = () => {
         name="password2"
         label={
           <Typography variant="h5" className={classes.inputLabel}>
-            {getText("L_PASSWORD2")}
+            {getLabel("L_PASSWORD2")}
           </Typography>
         }
         className={classes.textInput}
@@ -104,22 +104,25 @@ const AuthDialog = () => {
             input: classes.textOfInput,
           },
         }}
-        value={password2}
         onChange={onChangePass2}
         type={showPassword ? "text" : "password"}
         fullWidth
       />
+      <Typography variant="body1" className={classes.errMessage}>
+        {error.content}
+      </Typography>
+      {isRegister && <Typography className="medium-md-txt">{getLabel("MSG_REGISTER")}</Typography>}
       <Button className={classes.loginBtn} fullWidth variant="contained" color="primary" onClick={onRegister}>
         <Typography variant={"h5"} className={classes.loginBtnText}>
-          {getText("TXT_SIGNUP")}
+          {getLabel("TXT_SIGNUP")}
         </Typography>
       </Button>
     </Box>
   );
 };
 
-AuthDialog.propTypes = {};
-export default AuthDialog;
+SignUpForm.propTypes = {};
+export default SignUpForm;
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -128,7 +131,6 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
   },
-
   textInput: {
     height: "60px",
     boxShadow: `inset 0 -1px 0 0 ${theme.palette.text.disabled}`,
