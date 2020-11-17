@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Avatar, makeStyles, Tab, Tabs } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
+import { getImageById } from "utils";
 
 const TabUsers = ({ data, ...otherProps }) => {
   const classes = useStyles();
@@ -21,18 +22,19 @@ const TabUsers = ({ data, ...otherProps }) => {
       {...otherProps}
       aria-label={getLabel("TXT_LIST_WRITERS")}
       classes={{ root: classes.root, indicator: classes.indicator }}
-      TabIndicatorProps={{ style: { left: (otherProps.value - 1) * 64 + 24 } }}
+      TabIndicatorProps={{ style: { left: otherProps.value * 64 + 24 } }}
     >
       {listUsers.map((user, index) => (
         <Tab
-          value={index + 1}
+          value={index}
           label={
-            <Avatar src={user.avatar} className={classes.avatar}>
+            <Avatar src={getImageById(user.imageId)} className={classes.avatar}>
               {(user.name || "").charAt(0)}
             </Avatar>
           }
-          key={user.id}
+          key={index}
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+          disableRipple
         />
       ))}
     </Tabs>

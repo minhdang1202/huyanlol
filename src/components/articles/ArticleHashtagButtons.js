@@ -26,13 +26,14 @@ const ArticleHashtagButtons = ({ hashtags, category, className }) => {
           {category}
         </Button>
       </AppLink>
-      {hashtags.map((hashtag, index) => (
-        <AppLink key={index} to="#">
-          <Button variant="contained" className="light-blue-button">
-            <Typography variant="body2">{hashtag}</Typography>
-          </Button>
-        </AppLink>
-      ))}
+      {hashtags.length > 0 &&
+        hashtags.map((hashtag, index) => (
+          <AppLink key={index} to="#">
+            <Button variant="contained" className="light-blue-button">
+              <Typography variant="body2">{hashtag.tagName}</Typography>
+            </Button>
+          </AppLink>
+        ))}
     </Slider>
   ) : (
     <Box className={clsx(classes.root, className)}>
@@ -41,13 +42,14 @@ const ArticleHashtagButtons = ({ hashtags, category, className }) => {
           {category}
         </Button>
       </AppLink>
-      {hashtags.map((hashtag, index) => (
-        <AppLink key={index} to="#">
-          <Button variant="contained" className="light-blue-button">
-            <Typography variant="body1">{hashtag}</Typography>
-          </Button>
-        </AppLink>
-      ))}
+      {hashtags.length > 0 &&
+        hashtags.map((hashtag, index) => (
+          <AppLink key={index} to="#">
+            <Button variant="contained" className="light-blue-button">
+              <Typography variant="body1">{`#${hashtag.tagName}`}</Typography>
+            </Button>
+          </AppLink>
+        ))}
     </Box>
   );
 };
@@ -65,14 +67,13 @@ const useStyles = makeStyles(theme => ({
       fontSize: 12,
     },
     "& button": {
-      height: 43,
+      minHeight: 43,
       padding: "0 16px !important",
       borderRadius: "4px !important",
       minWidth: "fit-content",
       marginRight: theme.spacing(1),
       marginBottom: theme.spacing(1),
       [theme.breakpoints.down("xs")]: {
-        height: 25,
         minHeight: 25,
         padding: "0 12px !important",
       },

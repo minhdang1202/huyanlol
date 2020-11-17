@@ -65,9 +65,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(0.5),
     marginBottom: theme.spacing(1.5),
     lineHeight: "normal",
+    minHeight: 16,
   },
   name: {
     lineHeight: "normal",
+    minHeight: 22,
   },
   button: {
     height: 43,

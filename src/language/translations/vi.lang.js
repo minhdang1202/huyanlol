@@ -31,6 +31,7 @@ export default {
     TXT_LOVE: "Ghi nhận",
     TXT_COMMENT: "Bình luận",
     TXT_SHARE: "Chia sẻ",
+    TXT_NEW_CREATED_BY_SECOND: "Vừa xong",
     TXT_FOLLOW: "Theo dõi",
     TXT_FOLLOWED: "Đã theo dõi",
     TXT_GIVERS: "Givers",
@@ -42,6 +43,7 @@ export default {
     TXT_POST: "Đăng",
     TXT_REPLY: "Trả lời",
     TXT_ARRANGE: "Sắp xếp",
+    TXT_NO_GIVER: "Bài viết chưa có giver",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -59,6 +61,9 @@ export default {
     FM_GIVERS: "{0} ghi nhận",
     FM_REVIEW_BOOK_TITLE:
       "<a href={href} class='semiBold-md-txt'>{title}</a> của <a href={href} class='semiBold-md-txt'>{author}</a>",
+    FM_NEW_CREATED_BY_DAY: "{0} ngày trước",
+    FM_NEW_CREATED_BY_HOUR: "{0} giờ trước",
+    FM_NEW_CREATED_BY_MINUTE: "{0} phút trước",
     FM_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
     FM_BOOK_AUTHOR: "{0} của {1}",
     FM_COMMENT: "{0} Bình luận",
@@ -108,6 +113,39 @@ export default {
     FM_EDITION_BOOK_LENDERS: "{0} bạn cho mượn gần bạn",
     FM_EDITION_BOOK_COMMENTS: "{0} bình luận",
   },
+  challengeDetail: {
+    L_HOME: "Home",
+    L_CHALLENGE: "Thử Thách",
+    L_PERSONAL_GOAL: "Mục tiêu cá nhân",
+    L_GROUP_GOAL: "Mục tiêu tập thể",
+    L_POSITIVE_MEMBER: "Thành viên tích cực",
+    L_JOIN: "Tham gia thử thách",
+    L_INVITE: "Mời bạn bè",
+    L_COMPANY: "Công ty Sách và Công nghệ GAT",
+    L_MORE: "Xem thêm",
+    L_GOAL_LIST: "Danh sách mục tiêu cần hoàn thành",
+    L_DESCRIPTION: "Mô tả",
+    L_ACTIVITY: "Hoạt động",
+    L_UPDATE_PROGRESS: "Cập nhật tiến độ",
+    L_PROCESS: "Quá trình",
+    L_END: "Đã hết hạn",
+    L_COMPLETE: "Hoàn thành",
+    L_BY: "Tạo bởi",
+    L_COMPANY_NAME: "GAT",
+    L_LESS: "Rút gọn",
+
+    TXT_AND: "và",
+    TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
+    TXT_BOOK_COUNT: "cuốn",
+    TXT_JUST_READ: "Vừa đọc xong quyển",
+    TXT_PEOPLE: "người",
+    TXT_To: "đến",
+
+    FM_PROGRESS: " Đã đọc {0}/{1} cuốn sách",
+    FM_HAVE_DONE: "Hoàn thành: {0}/{1} ({2}%)",
+    FM_ACTIVITY: `<span style="font-weight:600">{name}</span> vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
+    FM_ACTIVITY_MOBILE: `Vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
+  },
   articleDetail: {
     TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",
     TXT_ARTICLE_REVIEW_TITLE_MOBILE: "Đánh giá",
@@ -123,6 +161,7 @@ export default {
     //FM
     FM_ARTICLE_BOOK: "{0} cuốn",
     FM_ARTICLE_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
+    FM_ARTICLE_SEE_MORE_REPLIES: "Xem thêm {0} trả lời",
     FM_ARTICLE_REPLY_COMMENT: "Trả lời bình luận của {0}",
   },
   home: {

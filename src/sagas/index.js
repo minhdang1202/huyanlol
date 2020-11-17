@@ -7,6 +7,8 @@ import { takeLatest, all } from "redux-saga/effects";
 /* ------------- Types ------------- */
 import { AuthTypes } from "../redux/auth.redux";
 import { EditionTypes } from "redux/edition.redux";
+import { ArticleTypes } from "redux/article.redux";
+import { UserTypes } from "redux/user.redux";
 
 /* ------------- Sagas ------------- */
 import { requestLogin, requestRegister } from "./auth.saga";
@@ -16,7 +18,17 @@ import {
   requestGetSelfReview,
   requestGetTotalLenders,
   requestGetNearestLenders,
+  requestGetBookSuggestion,
 } from "./edition.saga";
+import { requestGetTopWriter } from "./user.saga";
+
+import {
+  requestGetGiversList,
+  requestGetCommentsList,
+  requestGetRepliesList,
+  requestGetHomeArticles,
+  requestGetHomeReviews,
+} from "./article.saga";
 
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
@@ -31,5 +43,16 @@ export default function* root() {
     takeLatest(EditionTypes.REQUEST_GET_REVIEWS, requestGetReviews),
     takeLatest(EditionTypes.REQUEST_GET_TOTAL_LENDERS, requestGetTotalLenders),
     takeLatest(EditionTypes.REQUEST_GET_NEAREST_LENDERS, requestGetNearestLenders),
+    takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION, requestGetBookSuggestion),
+
+    // article
+    takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),
+    takeLatest(ArticleTypes.REQUEST_HOME_REVIEWS, requestGetHomeReviews),
+    takeLatest(ArticleTypes.REQUEST_GET_GIVERS_LIST, requestGetGiversList),
+    takeLatest(ArticleTypes.REQUEST_GET_COMMENTS_LIST, requestGetCommentsList),
+    takeLatest(ArticleTypes.REQUEST_GET_REPLIES_LIST, requestGetRepliesList),
+
+    // user
+    takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
   ]);
 }

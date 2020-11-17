@@ -118,7 +118,7 @@ export function* requestGetSelfReview(action) {
       const { rate, review } = responseData.userRelation.evaluation;
       const { name, imageId } = responseData.users;
       const avatar = imageId ? getImageById(imageId) : null;
-      yield put(EditionAction.requestEditiontSuccess({ rate, review, name, avatar }));
+      yield put(EditionAction.requestEditionSuccess({ rate, review, name, avatar }));
     }
   } catch (error) {
     console.log(error);
@@ -127,16 +127,9 @@ export function* requestGetSelfReview(action) {
 }
 
 export function* requestGetReviews(action) {
-  const { editionId, pageNum, categoryId } = action;
-  const bodyReq = {
-    criteria: {
-      editionIds: [editionId],
-      categoryIds: [categoryId],
-    },
-    pageNum: pageNum,
-    pageSize: AppConstant.DATA_SIZES.articles,
-  };
-  let response = yield call(EditionService.getBookReviews, bodyReq);
+  const { data } = action;
+
+  let response = yield call(EditionService.getBookReviews, data);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
@@ -151,13 +144,17 @@ export function* requestGetReviews(action) {
           reactCount,
           commentCount,
           editions,
-          imageId,
           thumbnailId,
+          creator,
+          categories,
+          hashtags,
         } = review;
-        const rate = editions[0].userRelation.evaluation.rate;
-        const avatar = imageId ? getImageById(imageId) : null;
+        const rate = editions.length && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
+        const bookName = editions.length ? editions[0].title : null;
+        const editionId = editions.length ? editions[0].editionId : null;
+        const avatar = creator.imageId ? getImageById(creator.imageId) : null;
         const thumbnail = thumbnailId ? getImageById(thumbnailId) : null;
-        const { name } = review.creator;
+        const { name } = creator;
         return {
           avatar,
           thumbnail,
@@ -169,6 +166,10 @@ export function* requestGetReviews(action) {
           reactCount,
           commentCount,
           rate,
+          bookName,
+          editionId,
+          categories,
+          hashtags,
         };
       });
 
@@ -177,5 +178,22 @@ export function* requestGetReviews(action) {
   } catch (error) {
     console.log(error);
     yield put(EditionAction.getReviewsFailure(error));
+  }
+}
+
+export function* requestGetBookSuggestion(action) {
+  let response = yield call(EditionService.getBookSuggestion, action.data);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      let hasData = responseData.resultInfo && Array.isArray(responseData.resultInfo);
+      yield put(EditionAction.requestEditionSuccess({ suggestions: hasData ? responseData.resultInfo : [] }));
+    } else {
+      yield put(EditionAction.requestEditionFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(EditionAction.requestEditionFailure(error));
   }
 }

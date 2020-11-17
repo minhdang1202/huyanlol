@@ -26,13 +26,14 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide, is
     commentCount,
     rate,
     hashtags,
-    category,
+    categories,
     bookName,
+    editionId,
   } = review;
   const classes = useStyles({ isArticleType, isReviewType });
   const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
   const articleUrl = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
-  const editionUrl = bookName ? StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId) : null;
+  const editionUrl = editionId ? "#" : null;
   const { i18n } = useTranslation();
   const displayDate = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
@@ -78,7 +79,9 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide, is
                   {intro}
                 </Typography>
                 {isReviewType && !isBookDetail && <BookNameButton editionUrl={editionUrl} bookName={bookName} />}
-                {isArticleType && <HashtagButtons articleUrl={articleUrl} hashtags={hashtags} category={category} />}
+                {isArticleType && (
+                  <HashtagButtons articleUrl={articleUrl} hashtags={hashtags} category={categories[0]} />
+                )}
               </Box>
               <Avatar className={classes.thumbnail} variant="square" src={thumbnail} />
             </Box>
@@ -122,10 +125,6 @@ const useStyles = makeStyles(theme => ({
     },
     "& a": {
       color: theme.palette.text.primary,
-      "&:hover": {
-        textDecoration: "none",
-        color: theme.palette.primary.main,
-      },
     },
   },
   button: {

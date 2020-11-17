@@ -6,12 +6,14 @@ import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 
-const CustomBreadcrumb = ({ bookName, articleName, className }) => {
+const CustomBreadcrumb = ({ bookName, articleName, className, challengeName }) => {
   const BREADCRUMB_NAME_MAP = {
     editions: null,
     edition: bookName,
     articles: null,
     article: articleName,
+    challenges: null,
+    challenge: challengeName,
   };
   const { t: getLabel } = useTranslation();
   const classes = useStyles();
@@ -69,6 +71,7 @@ const useStyles = makeStyles(theme => ({
 CustomBreadcrumb.propTypes = {
   bookName: PropTypes.string,
   articleName: PropTypes.string,
+  challengeName: PropTypes.string,
   className: PropTypes.string,
 };
 

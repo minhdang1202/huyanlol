@@ -14,69 +14,99 @@ import {
   IconButton,
   makeStyles,
   Typography,
-  useTheme,
 } from "@material-ui/core";
-import { CategoryTag, Hashtag } from "components";
-import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon, ShareIcon } from "icons";
+import { CategoryTag, FBShareButton, Hashtag } from "components";
+import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
-import { AppConstant } from "const";
+import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
-import { uuid } from "utils";
+import { getImageById, uuid } from "utils";
 import clsx from "clsx";
+import { getCreatedTime } from "utils/date";
+import { parseISO } from "date-fns";
+import { useRouter } from "next/router";
 
 const ArticleSummary = ({ data, isHiddenAction }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
-  const theme = useTheme();
+  const router = useRouter();
 
-  const [user, setUser] = useState({});
-  const [book, setBook] = useState({});
+  const [creator, setCreator] = useState({});
   const [article, setArticle] = useState({});
+  const [linkToDetail, setLinkToDetail] = useState();
+
+  const onGoToDetail = () => {
+    router.push(linkToDetail);
+  };
+
+  const onBookmark = event => {
+    event.stopPropagation();
+    console.log("Bookmark");
+  };
+
+  const onSetting = event => {
+    event.stopPropagation();
+    console.log("onSetting");
+  };
+
+  const onSendHear = event => {
+    event.stopPropagation();
+    console.log("onSendHear");
+  };
+
+  const onStopTriggerParent = event => {
+    event.stopPropagation();
+  };
 
   useEffect(() => {
     if (data) {
-      const { user, book, ...article } = data;
-      if (user) setUser(user);
-      if (book) setBook(book);
+      const { creator, ...article } = data;
+      if (creator) setCreator(creator);
       if (article) {
         let newArticle = { ...article };
         if (newArticle.hashtags) {
-          newArticle.hashtags = newArticle.hashtags.splice(0, 3);
+          newArticle.hashtags = newArticle.hashtags < 4 ? newArticle.hashtags : newArticle.hashtags.slice(0, 3);
+        }
+        let createTime = article.lastUpdate || article.publishedDate;
+        if (createTime) {
+          newArticle.createTime = getCreatedTime(parseISO(createTime));
         }
         setArticle(newArticle);
+        if (newArticle.articleId) {
+          setLinkToDetail(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, newArticle.articleId));
+        }
       }
     }
   }, [data]);
 
-  let isHeart = Boolean(article.heart && article.heart > 0);
-
+  let isHeart = Boolean(article.reactCount && article.reactCount > 0);
   return (
-    <Card className={defaultClasses.root}>
+    <Card className={defaultClasses.root} onClick={onGoToDetail}>
       <CardHeader
         classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
-          <Avatar aria-label="recipe" src={user.avatar} className={defaultClasses.headerAvatar}>
-            {(user.name || AppConstant.APP_NAME).charAt(0)}
+          <Avatar aria-label="recipe" src={getImageById(creator.imageId)} className={defaultClasses.headerAvatar}>
+            {(creator.name || AppConstant.APP_NAME).charAt(0)}
           </Avatar>
         }
         action={
           <>
-            <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }}>
+            <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }} onClick={onBookmark}>
               <BookmarkIcon color="white" stroke="currentColor" />
             </IconButton>
-            <IconButton aria-label="settings">
+            <IconButton aria-label="settings" onClick={onSetting}>
               <DotIcon />
             </IconButton>
           </>
         }
         title={
           <Typography variant="subtitle2" component="p">
-            {user.name}
+            {creator.name}
           </Typography>
         }
         subheader={
           <Typography variant="caption" color="textSecondary" component="p">
-            {article.time}
+            {article.createTime}
           </Typography>
         }
       />
@@ -85,53 +115,74 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
         <Grid container>
           <Grid item xs={8} md={9}>
             <Typography variant="subtitle1" component="p">
-              {book.title}
+              {article.title}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
-              {book.description}
+              {article.intro}
             </Typography>
             {article.hashtags && (
               <Box>
                 {article.hashtags.map(hashtag => (
-                  <Hashtag content={hashtag} key={uuid()} />
+                  <Hashtag content={hashtag.tagName} key={uuid()} />
                 ))}
               </Box>
             )}
-            {article.categories && <Box ml="-6px">{<CategoryTag content={article.categories[0]} key={uuid()} />}</Box>}
+            {article.categories && (
+              <Box ml="-6px">
+                {article.categories.map(category => (
+                  <CategoryTag content={category.title} key={uuid()} />
+                ))}
+              </Box>
+            )}
           </Grid>
           <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-            <CardMedia src={book.cover} title={book.title} component="img" />
+            <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
           </Grid>
 
           <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
             <HeartIcon isActive={isHeart} width={12} height={12} />
             <Typography variant="body2" color="textSecondary" component="p">
-              {article.heart}
+              {article.reactCount}
             </Typography>
           </Grid>
           <Grid item xs={4} md={3}>
             <Typography variant="body2" color="textSecondary" component="p">
-              {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.numberComments)}
+              {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
 
       {!isHiddenAction && <Divider />}
-      <CardActions disableSpacing className={defaultClasses.action}>
-        <Button startIcon={<HeartIcon isActive={isHeart} />} className={clsx(isHeart && defaultClasses.heartColor)}>
+      <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
+        <Button
+          startIcon={<HeartIcon isActive={isHeart} />}
+          className={clsx(isHeart && defaultClasses.heartColor)}
+          onClick={onSendHear}
+        >
           {getLabel("TXT_LOVE")}
         </Button>
-        <Button startIcon={<MessageIcon />}>{getLabel("TXT_COMMENT")}</Button>
-        <Button startIcon={<ShareIcon color={theme.palette.text.secondary} />}>{getLabel("TXT_SHARE")}</Button>
+        <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
+          {getLabel("TXT_COMMENT")}
+        </Button>
+        <FBShareButton url={AppConstant.WEBSITE_URL + linkToDetail} />
       </CardActions>
     </Card>
   );
 };
 
+ArticleSummary.propTypes = {
+  data: PropTypes.object,
+  isHiddenAction: PropTypes.bool,
+};
+ArticleSummary.defaultProps = { isHiddenAction: false };
+
+export default memo(ArticleSummary);
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: 0,
+    cursor: "pointer",
 
     "& > *:not(hr)": {
       paddingLeft: theme.spacing(2),
@@ -203,14 +254,9 @@ const useStyles = makeStyles(theme => ({
     },
     "& button": {
       color: theme.palette.text.secondary,
+      "& .ic-share": {
+        fontSize: 17,
+      },
     },
   },
 }));
-
-ArticleSummary.propTypes = {
-  data: PropTypes.object,
-  isHiddenAction: PropTypes.bool,
-};
-ArticleSummary.defaultProps = { isHiddenAction: false };
-
-export default memo(ArticleSummary);

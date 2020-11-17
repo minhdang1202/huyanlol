@@ -32,27 +32,31 @@ const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark 
           {isDetail && isMobile ? (
             <>
               <Box display="flex" alignItems="center">
-                <IconButton className={classes.iconButton}>
-                  <Box className="ic-chevron-left" />
-                </IconButton>
+                <AppLink to={PathConstant.ROOT}>
+                  <IconButton className={classes.iconButton}>
+                    <Box className="ic-chevron-left" />
+                  </IconButton>
+                </AppLink>
                 {appBarTitle && (
                   <Typography variant="h5" className="eclipse">
                     {appBarTitle}
                   </Typography>
                 )}
               </Box>
-              {hasBookmark && (
-                <IconButton className={classes.iconButton}>
-                  <Box className="ic-bookmark-empty" />
-                </IconButton>
-              )}
-              {shareUrl && (
-                <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
-                  <IconButton component="div" className={classes.iconButton}>
-                    <Box className="ic-share" />
+              <Box>
+                {hasBookmark && (
+                  <IconButton className={classes.iconButton}>
+                    <Box className="ic-bookmark-empty" />
                   </IconButton>
-                </FacebookShareButton>
-              )}
+                )}
+                {shareUrl && (
+                  <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
+                    <IconButton component="div" className={classes.iconButton}>
+                      <Box className="ic-share" />
+                    </IconButton>
+                  </FacebookShareButton>
+                )}
+              </Box>
             </>
           ) : (
             <>
@@ -91,6 +95,9 @@ const useStyles = makeStyles(theme => ({
     color: "inherit",
     fontSize: 18,
     boxShadow: `0px 1px 0px ${theme.palette.grey[100]}`,
+    "& a:hover": {
+      textDecoration: "none",
+    },
   },
   toolbar: {
     height: HEIGHT_APP_BAR,

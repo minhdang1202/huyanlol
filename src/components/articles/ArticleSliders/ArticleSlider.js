@@ -10,14 +10,13 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
   const classes = useStyles();
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.between("xs", "md"));
-  const totalSlides = sliderList.length;
+  const totalSlides = sliderList ? sliderList.length - 1 : null; // Exclude current Article
   let settings = {
     dots: false,
     infinite: false,
     speed: 300,
     slidesToScroll: 1,
     swipeToSlide: true,
-    slidesToShow: 1,
     arrows: false,
     variableWidth: true,
     beforeChange: (current, next) => {
@@ -38,7 +37,7 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
     slider.current.slickNext();
   };
 
-  return (
+  return totalSlides ? (
     <Box position="relative">
       <Slider ref={slider} {...settings} {...otherProps} className={classes.root}>
         {sliderList.map((slider, index) => {
@@ -60,14 +59,13 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
         onPrevSlide={onPrevSlide}
         totalSlides={totalSlides}
         slideIndex={slideIndex}
-        isArticleSlider={true}
       />
     </Box>
-  );
+  ) : null;
 };
 
 ArticleSlider.propTypes = {
-  sliderList: PropTypes.array.isRequired,
+  sliderList: PropTypes.array,
   isReviewType: PropTypes.bool,
   isArticleType: PropTypes.bool,
 };
@@ -78,8 +76,8 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "100%",
     marginBottom: theme.spacing(8.5),
     "& .slick-slide": {
-      width: 497,
-      maxWidth: 497,
+      width: 474,
+      maxWidth: 474,
       marginRight: theme.spacing(3),
       [theme.breakpoints.between("xs", "md")]: {
         width: "100%",

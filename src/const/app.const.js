@@ -18,7 +18,7 @@ export const DATA_SIZES = {
 };
 
 // Base url
-export const WEBSITE_URL = "https://solution.relipasoft.com";
+export const WEBSITE_URL = "http://gatbook.ddsolution.co";
 export const BASE_IMAGE_URL = "https://fordev.gatbook.org/rest/api/common/get_image/{0}";
 
 // App download url
@@ -28,3 +28,9 @@ export const GAT_APP_STORE = "https://apps.apple.com/vn/app/gat/id1230316898";
 //OAuth AppId
 export const APP_GOOGLE = "658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com";
 export const APP_FACEBOOK = "298749031132657";
+
+// Date format
+export const FM_DD_MM_YYYY = "dd/MM/yyyy";
+export const FM_DD_MM = "dd/MM";
+
+export const CATEGORY_REVIEW = 0;

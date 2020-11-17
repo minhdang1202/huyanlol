@@ -1,21 +1,37 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { Section, ReviewSummary } from "components";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { uuid } from "utils";
+import { useDispatch, useSelector } from "react-redux";
+import ArticleAction from "redux/article.redux";
 
-const ListReviews = props => {
+const ListReviews = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
+  const dispatch = useDispatch();
+  const listReviewsRedux = useSelector(({ articleRedux }) => articleRedux.homeReviews.pageData);
+
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    if (listReviewsRedux && listReviewsRedux != list) {
+      setList(listReviewsRedux);
+    }
+  }, [listReviewsRedux]);
+
+  useEffect(() => {
+    dispatch(ArticleAction.requestHomeReviews(DEFAULT_PARAMS));
+  }, []);
 
   return (
     <Section title={getLabel("TXT_LIST_REVIEWS")}>
       <Box className={classes.root}>
-        {MOCK_DATA.map((review, index) => (
+        {list.map(review => (
           <Box key={uuid()} className={classes.item}>
-            <ReviewSummary data={review} isHiddenAction={0 === index % 2} />
+            <ReviewSummary data={review} />
           </Box>
         ))}
       </Box>
@@ -30,6 +46,12 @@ ListReviews.defaultProps = {};
 
 export default memo(ListReviews);
 
+const DEFAULT_PARAMS = {
+  categoryIds: [0],
+  pageNum: 1,
+  pageSize: 2,
+};
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -40,42 +62,3 @@ const useStyles = makeStyles(theme => ({
   },
   item: {},
 }));
-
-const MOCK_DATA = [
-  {
-    user: {
-      name: "Lê Thu Hân",
-      avatar: "/images/img-demo-avatar.jpg",
-    },
-    book: {
-      cover: "/images/img-demo-avatar.jpg",
-      title: "Sự im lặng của bầy cừu",
-      author: "Thomas Harris",
-    },
-    title: "Sự im lặng của bầy cừu",
-    description:
-      "Mình từng nghe một câu như thế này : Em phụ trách việc xinh đẹp, anh sẽ lo kiếm tiền. Nhưng anh lúc nào cũng quan tâm giúp đỡ. Mình từng nghe một câu như thế này : Em phụ trách việc xinh đẹp, anh sẽ lo kiếm tiền. Nhưng anh lúc nào cũng quan tâm giúp đỡ.",
-    time: "12 giờ trước",
-    heart: 23,
-    numberComments: 145,
-    rating: 2.5,
-  },
-  {
-    user: {
-      name: "Lê Thu Hân",
-      avatar: "/images/img-demo-avatar.jpg",
-    },
-    book: {
-      cover: "/images/img-demo-avatar.jpg",
-      title: "Sự im lặng của bầy cừu",
-      author: "Thomas Harris",
-    },
-    title: "Sự im lặng của bầy cừu",
-    description:
-      "Mình từng nghe một câu như thế này : Em phụ trách việc xinh đẹp, anh sẽ lo kiếm tiền. Nhưng anh lúc nào cũng quan tâm giúp đỡ. Mình từng nghe một câu như thế này : Em phụ trách việc xinh đẹp, anh sẽ lo kiếm tiền. Nhưng anh lúc nào cũng quan tâm giúp đỡ.",
-    time: "12 giờ trước",
-    heart: 23,
-    numberComments: 145,
-    rating: 2.5,
-  },
-];

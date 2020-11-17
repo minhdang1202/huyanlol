@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 import { Button, Box, makeStyles } from "@material-ui/core";
 import { FacebookShareButton } from "react-share";
 
-const FBShareButton = ({ shareUrl, size, className }) => {
+const FBShareButton = ({ size, className, ...otherProps }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   return (
-    <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={clsx(classes.root, className)}>
+    <FacebookShareButton resetButtonStyle={false} className={clsx(classes.root, className)} {...otherProps}>
       <Button
         size={size ? size : "medium"}
         component="div"
@@ -22,7 +22,6 @@ const FBShareButton = ({ shareUrl, size, className }) => {
 };
 
 FBShareButton.propTypes = {
-  shareUrl: PropTypes.string,
   size: PropTypes.string,
   className: PropTypes.string,
 };
