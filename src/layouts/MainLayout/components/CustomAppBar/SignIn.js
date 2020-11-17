@@ -1,18 +1,28 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Box, Button, Menu, MenuItem, IconButton, Avatar, Divider, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { AvatarIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
 import AuthDialog from "components/AuthDialog";
+import { hasLogged } from "utils/auth";
+import CookieUtil from "utils/cookie";
+import { getImageById } from "utils";
+import { useDispatch, useSelector } from "react-redux";
+import UserAction from "redux/user.redux";
 
 const SignIn = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
-  const [isAuth, setIsAuth] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = useDispatch();
+  const cookieData = CookieUtil.getCookieData();
+  const profileRedux = useSelector(({ userRedux }) => userRedux.profile);
+  const isLogin = hasLogged();
 
+  const [isAuth, setIsAuth] = useState(isLogin);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenAuth, setIsOpenAuth] = useState(false);
+  const [profile, setProfile] = useState(profileRedux || cookieData);
 
   const usernameBtn = useRef();
 
@@ -30,22 +40,31 @@ const SignIn = () => {
     usernameBtn.current.click();
   };
 
-  const onTriggerAuthDialog = () => {
-    setIsOpenAuth(true);
-  };
-  const onCloseAuthDialog = () => {
-    setIsOpenAuth(false);
-  };
+  useEffect(() => {
+    if (profileRedux && profileRedux != profile) {
+      setProfile(profileRedux);
+    }
+  }, [profileRedux]);
+
+  useEffect(() => {
+    if (isAuth && !Boolean(profileRedux && profileRedux.userId)) {
+      dispatch(UserAction.requestProfile());
+    }
+  }, [isAuth]);
+
+  useEffect(() => {
+    setIsAuth(isLogin);
+  }, [isLogin]);
 
   return (
     <>
       {isAuth ? (
         <Box className={classes.root}>
           <Button size="large" ref={usernameBtn} variant="text" className={classes.textPrimary} onClick={onOpenMenu}>
-            Trần Việt Phú
+            {profile.name}
           </Button>
           <IconButton onClick={onTriggerNameBtn}>
-            <Avatar src="/images/img-demo-avatar.jpg" />
+            {profile.imageId ? <Avatar src={getImageById(profile.imageId)} /> : <AvatarIcon />}
           </IconButton>
           <Menu
             anchorEl={anchorEl}
@@ -65,16 +84,14 @@ const SignIn = () => {
           </Menu>
         </Box>
       ) : (
-        <Box className={classes.root}>
-          <Button size="large" onClick={onTriggerAuthDialog}>
-            {getLabel("TXT_APPBAR_SIGNIN")}
-          </Button>
-          <IconButton onClick={onTriggerAuthDialog}>
+        <Box className={classes.root} onClick={() => setIsOpenAuth(true)}>
+          <Button size="large">{getLabel("TXT_APPBAR_SIGNIN")}</Button>
+          <IconButton>
             <AvatarIcon />
           </IconButton>
         </Box>
       )}
-      <AuthDialog onClose={onCloseAuthDialog} isOpen={isOpenAuth} />
+      <AuthDialog onClose={() => setIsOpenAuth(false)} isOpen={isOpenAuth} />
     </>
   );
 };

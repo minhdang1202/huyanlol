@@ -1,6 +1,6 @@
 import { createReducer, createActions } from "reduxsauce";
 import Cookie from "js-cookie";
-import { AppConstant } from "../const";
+import { AppConstant } from "const";
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
   requestLogin: ["data"],
@@ -18,7 +18,7 @@ export default Creators;
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = {
   isFetching: false,
-  isAuth: Cookie.get(AppConstant.KEY_TOKEN) ? true : false,
+  isAuth: Boolean(Cookie.get(AppConstant.KEY_TOKEN)),
   isRegister: false,
 
   errors: null,

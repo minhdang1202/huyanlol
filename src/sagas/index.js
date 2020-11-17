@@ -20,7 +20,7 @@ import {
   requestGetNearestLenders,
   requestGetBookSuggestion,
 } from "./edition.saga";
-import { requestGetTopWriter } from "./user.saga";
+import { requestGetTopWriter, requestGetUserProfile } from "./user.saga";
 
 import {
   requestGetGiversList,
@@ -54,5 +54,6 @@ export default function* root() {
 
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
+    takeLatest(UserTypes.REQUEST_PROFILE, requestGetUserProfile),
   ]);
 }
