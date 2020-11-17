@@ -137,4 +137,22 @@ export default {
     TXT_LIST_REVIEWS: "Danh sách review",
     TXT_LIST_WRITERS: "Danh sách nhà văn",
   },
+  create: {
+    TXT_CREATE_POST: "Đăng bài",
+    TXT_IMAGE: "Image",
+    TXT_LIST: "List",
+    TXT_BREAK: "Break",
+
+    P_CREATE_TITLE: "Enter title",
+    P_CREATE_REVIEW_TITLE: "Đánh giá cuốn sách {0}",
+    P_CREATE_REVIEW_CONTENT: "What do you think?",
+    p_CREATE_LINK: "Paste or type a link...",
+
+    L_CREATE_RATING: "Đánh giá cuốn sách",
+    L_CHARACTERS: "Ký tự",
+    L_WORDS: "Từ",
+
+    FM_CHARACTERS: "{0} ký tự",
+    FM_WORDS: "{0} từ",
+  },
 };

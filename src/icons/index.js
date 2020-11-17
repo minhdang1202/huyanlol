@@ -1,5 +1,7 @@
 import SearchIcon from "./SearchIcon";
 import ArrowDownIcon from "./ArrowDownIcon";
+import ArrowRightIcon from "./ArrowRightIcon";
+import ArrowLeftIcon from "./ArrowLeftIcon";
 import AvatarIcon from "./AvatarIcon";
 import DownloadIcon from "./DownloadIcon";
 import ShareIcon from "./ShareIcon";
@@ -32,4 +34,6 @@ export {
   PersonIcon,
   DotIcon,
   LocalOfferIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon,
 };

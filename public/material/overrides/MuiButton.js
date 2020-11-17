@@ -1,3 +1,5 @@
+import palette from "../palette";
+
 const smallSize = 24;
 const mediumSize = 43;
 const largeSize = 50;
@@ -40,6 +42,10 @@ export default {
     },
     "&:focus": {
       boxShadow: "none",
+    },
+    "&:disabled": {
+      background: `${palette.grey[300]} !important`,
+      color: `${palette.white} !important`,
     },
     ...mediumStyle,
     ...textSizeMedium,

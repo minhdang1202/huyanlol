@@ -9,6 +9,7 @@ export default {
     dark: "#4C90B5",
     main: "#5AA4CC",
     light: "#AADAF3",
+    100: "#E9F8FF",
   },
   secondary: {
     contrastText: white,

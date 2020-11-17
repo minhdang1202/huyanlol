@@ -12,5 +12,6 @@ export const NS_COMMON = "common";
 export const NS_BOOK_DETAIL = "bookDetail";
 export const NS_ARTICLE_DETAIL = "articleDetail";
 export const NS_HOME = "home";
+export const NS_CREATE = "create";
 
 export const getCommonKey = key => `${NS_COMMON}:${key}`;

@@ -25,6 +25,11 @@
   color: $color-text-secondary;
 }
 
+.ic-link:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f0c1";
+}
+
 .ic-chevron-left:before {
   font-family: "FontAwesome5Pro";
   content: "\f053";
@@ -116,6 +121,11 @@
 .ic-times-circle:before {
   font-family: "FontAwesome5Pro-Solid";
   content: "\f057";
+}
+
+.ic-cog:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f013";
 }
 
 .ic-comment-alt-dots:before {

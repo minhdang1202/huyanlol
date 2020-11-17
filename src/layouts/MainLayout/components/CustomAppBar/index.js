@@ -33,7 +33,7 @@ const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark 
             <>
               <Box display="flex" alignItems="center">
                 <AppLink to={PathConstant.ROOT}>
-                  <IconButton className={classes.iconButton}>
+                  <IconButton edge="start" className={classes.iconButton}>
                     <Box className="ic-chevron-left" />
                   </IconButton>
                 </AppLink>
