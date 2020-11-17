@@ -10,6 +10,7 @@ export const DEFAULT_LANG = "vi";
 // Namespace corresponding with screen
 export const NS_COMMON = "common";
 export const NS_BOOK_DETAIL = "bookDetail";
+export const NS_CHALLENGE_DETAIL = "challengeDetail";
 export const NS_ARTICLE_DETAIL = "articleDetail";
 export const NS_HOME = "home";
 

@@ -108,9 +108,59 @@
   font-size: 16px;
 }
 
+.ic-bullseye:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f140";
+  font-size: 20px;
+}
+
+.ic-calendar-alt:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f073";
+  font-size: 20px;
+}
+
+.ic-trophy:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f091";
+}
+
+.ic-person:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f007";
+}
+
+.ic-date:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f133";
+}
+
+.ic-chat:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f27a";
+  font-size: 14px;
+}
+
+.ic-check:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f058";
+  font-size: 20px;
+}
+.ic-progress:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f3f4";
+  font-size: 20px;
+}
+
 .ic-book:before {
   font-family: "FontAwesome5Pro-Solid";
   content: "\f02d";
+}
+
+.ic-certificate:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f0a3";
+  font-size: 32px;
 }
 
 .ic-times-circle:before {
