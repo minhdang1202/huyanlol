@@ -9,6 +9,7 @@ import { AuthTypes } from "../redux/auth.redux";
 import { EditionTypes } from "redux/edition.redux";
 import { ArticleTypes } from "redux/article.redux";
 import { UserTypes } from "redux/user.redux";
+import { ChallengeTypes } from "redux/challenge.redux";
 
 /* ------------- Sagas ------------- */
 import { requestLogin } from "./auth.saga";
@@ -30,6 +31,7 @@ import {
   requestGetHomeReviews,
 } from "./article.saga";
 
+import { requestGetChallengeInfo } from "./challenge.saga";
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
   yield all([
@@ -53,5 +55,8 @@ export default function* root() {
 
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
+
+    // challenge detail
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_INFO, requestGetChallengeInfo),
   ]);
 }

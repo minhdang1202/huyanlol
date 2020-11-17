@@ -2,15 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, Paper, Box, Avatar, useTheme, useMediaQuery } from "@material-ui/core";
 import Footer from "./ChallengeDetailFooter";
+import { useSelector } from "react-redux";
 const ChallengeCover = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const coverId = useSelector(state => state.ChallengeRedux.coverId);
+
   return (
     <Box className={classes.root}>
       <Box className={classes.imgContainer}>
-        <Avatar alt="cover" src="/images/img-goal.jpg" variant="square" className={classes.img} />
+        <Avatar alt="cover" src={coverId} variant="square" className={classes.img} />
       </Box>
 
       {!isMobile && <Paper elevation={1} className={classes.coverBack} />}

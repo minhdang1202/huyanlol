@@ -1,38 +1,36 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, useTheme, useMediaQuery } from "@material-ui/core";
-import PropTypes from "prop-types";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
-const ChallengeInfo = ({ name, count, from, to }) => {
+import { useSelector } from "react-redux";
+const ChallengeInfo = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+
+  const info = useSelector(state => state.ChallengeRedux);
+  const { title, startDate, endDate, challengeSummary } = info;
+
   return (
     <Paper elevation={1} className={classes.root}>
       <Typography variant="h5" component="h1" className={classes.title}>
-        {name}
+        {title}
       </Typography>
       <Box className={classes.content}>
         <Box className="ic-person">
-          <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${count} ${getLabel(
-            "TXT_PEOPLE",
-          )}`}</Typography>
+          <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${
+            challengeSummary.totalJoiner
+          } ${getLabel("TXT_PEOPLE")}`}</Typography>
         </Box>
         <Box className="ic-date">
-          <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${from} ${getLabel(
+          <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${startDate} ${getLabel(
             "TXT_To",
-          )} ${to}`}</Typography>
+          )} ${endDate}`}</Typography>
         </Box>
       </Box>
     </Paper>
   );
-};
-ChallengeInfo.propTypes = {
-  name: PropTypes.string,
-  count: PropTypes.number,
-  from: PropTypes.string,
-  to: PropTypes.string,
 };
 
 const useStyles = makeStyles(theme => ({

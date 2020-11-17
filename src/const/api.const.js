@@ -39,3 +39,7 @@ export const GET_ARTICLE_GIVERS = articleId => `/articles/${articleId}/reaction`
 export const GET_ARTICLE_COMMENTS = articleId => `/articles/${articleId}/comments`;
 export const GET_ARTICLE_REPLIES = commentId => `/articles/comments/${commentId}/replies`;
 export const GET_ARTICLE_COMMENT_GIVERS = commentId => `/articles/comments/${commentId}/reaction`;
+
+// * Challenge
+export const GET_CHALLENGE_INFO = challengeId => `/challenges/${challengeId}`;
+export const GET_CHALLENGE_LEADER_BOARD = challengeId => `/challenges/${challengeId}/leader_board`;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainLayout from "layouts/MainLayout";
 import { makeStyles, Container, useTheme, useMediaQuery, Box, Grid } from "@material-ui/core";
 import {
@@ -13,18 +13,28 @@ import {
   Description,
 } from "components/challenges";
 import CustomBreadCrumb from "components/CustomBreadcrumb";
-const Challenge = () => {
+import PropTypes from "prop-types";
+import { getTitleNoMark, getNumberIdFromQuery, getImageById } from "utils";
+import { useDispatch } from "react-redux";
+
+import { ChallengeService } from "services";
+import ChallengeAction from "redux/challenge.redux";
+const Challenge = ({ data }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: "Challenge name", shareUrl: "/" };
-
+  const dispatch = useDispatch();
   //////////////////screen variant
   const isDone = false; //progress
   const isEnd = false; // due date
-  const joined = true;
-  const isGroup = true;
+  const joined = false;
+  const isGroup = false;
   //////////////////
+
+  useEffect(() => {
+    dispatch(ChallengeAction.setChallengeInfo(data));
+  }, []);
 
   return (
     <MainLayout appBarProps={appBarProps}>
@@ -57,7 +67,7 @@ const Challenge = () => {
           {!isMobile && (
             <Grid container item xs={12} sm={7} direction="column" className={classes.rightContainer}>
               <Box className={classes.item}>
-                <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
+                <ChallengeInfo />
                 <Goal goal="some goal" isGroup={isGroup} haveDone={750} total={3000} />
                 {!isDone && <GoalList />}
               </Box>
@@ -79,7 +89,7 @@ const Challenge = () => {
                   <ChallengeCover isDone={isDone} isEnd={isEnd} joined={joined} />
                 </Box>
                 <Box className={classes.item}>
-                  <ChallengeInfo name="asdasdasda" count={6969} from="00/00/0000" to="00/00/0000" />
+                  <ChallengeInfo />
                   <Goal goal="some goal" isGroup={isGroup} haveDone={750} total={3000} />
                   <GoalList />
                 </Box>
@@ -106,6 +116,22 @@ const Challenge = () => {
     </MainLayout>
   );
 };
+
+export async function getServerSideProps({ query }) {
+  let challengeId = query && query.challenge ? query.challenge : null;
+  const isOnlyNumber = /^\d+$/.test(challengeId);
+  challengeId = isOnlyNumber ? challengeId : getNumberIdFromQuery(challengeId);
+  const challengeInfo = await ChallengeService.getChallengeInfo(challengeId);
+  let data = challengeInfo.data.data;
+  const coverId = data.coverId ? getImageById(data.coverId) : null;
+  data = { ...data, coverId };
+  return { props: { data } };
+}
+
+Challenge.propTypes = {
+  data: PropTypes.object,
+};
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
