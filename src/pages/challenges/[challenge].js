@@ -33,7 +33,7 @@ const Challenge = ({ data }) => {
   //////////////////
 
   useEffect(() => {
-    dispatch(ChallengeAction.setChallengeInfo(data));
+    dispatch(ChallengeAction.setChallengeDetail(data));
   }, []);
 
   return (
@@ -122,7 +122,8 @@ export async function getServerSideProps({ query }) {
   const isOnlyNumber = /^\d+$/.test(challengeId);
   challengeId = isOnlyNumber ? challengeId : getNumberIdFromQuery(challengeId);
   const challengeInfo = await ChallengeService.getChallengeInfo(challengeId);
-  let data = challengeInfo.data.data;
+  const challengeLeaderBoard = await ChallengeService.getChallengeLeaderBoard(challengeId);
+  let data = { ...challengeInfo.data.data, leaderBoard: challengeLeaderBoard.data.data.pageData };
   const coverId = data.coverId ? getImageById(data.coverId) : null;
   data = { ...data, coverId };
   return { props: { data } };

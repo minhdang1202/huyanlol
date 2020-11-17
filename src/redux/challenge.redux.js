@@ -5,7 +5,7 @@ const { Types, Creators } = createActions({
   requestGetChallengeInfo: ["data"],
   getChallengeInfoSuccess: ["data"],
   getChallengeInfoFailure: ["data"],
-  setChallengeInfo: ["data"],
+  setChallengeDetail: ["data"],
 
   requestGetChallengeLeaderBoard: ["data"],
   getChallengeLeaderBoardSuccess: ["data"],
@@ -61,7 +61,7 @@ export const HANDLERS = {
   [Types.REQUEST_GET_CHALLENGE_LEADER_BOARD]: request,
   [Types.GET_CHALLENGE_LEADER_BOARD_SUCCESS]: success,
   [Types.GET_CHALLENGE_LEADER_BOARD_FAILURE]: failure,
-  [Types.SET_CHALLENGE_INFO]: set,
+  [Types.SET_CHALLENGE_DETAIL]: set,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */
