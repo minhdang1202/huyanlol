@@ -4,6 +4,7 @@ import { AppConstant } from "../const";
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
   requestLogin: ["data"],
+  requestLoginBySocial: ["data"],
   requestRegister: ["data"],
 
   authSuccess: ["data"],
@@ -52,7 +53,9 @@ export const reset = () => INITIAL_STATE;
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
   [Types.REQUEST_LOGIN]: request,
+  [Types.REQUEST_LOGIN_BY_SOCIAL]: request,
   [Types.REQUEST_REGISTER]: request,
+
   [Types.AUTH_SUCCESS]: success,
   [Types.AUTH_FAILURE]: failure,
   [Types.AUTH_RESET]: reset,
