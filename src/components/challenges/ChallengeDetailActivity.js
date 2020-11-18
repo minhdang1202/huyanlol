@@ -1,8 +1,9 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Avatar, useTheme, useMediaQuery } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Avatar, useTheme, useMediaQuery, Link } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import StringFormat from "string-format";
+import Router from "next/router";
 const ACT_DATA = {
   name: "Duongdz",
   time: "12 giờ trước",
@@ -30,12 +31,21 @@ const Item = ({ data }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const LINK = "/#";
+  const onClickAvatar = () => {
+    Router.push(LINK);
+  };
   return (
     <Paper className={classes.item}>
       <Box className={classes.itemTop}>
-        <Avatar alt="Trump" src="/images/img-avatar.jpg" />
+        <Avatar alt="Trump" src="/images/img-avatar.jpg" onClick={onClickAvatar} />
         <Box className={classes.topText}>
-          <Typography variant="subtitle2">{data.name}</Typography>
+          <Link href={LINK}>
+            <Typography variant="subtitle2" color="textPrimary">
+              {data.name}
+            </Typography>
+          </Link>
+
           <Typography variant="caption">{data.time}</Typography>
         </Box>
       </Box>

@@ -15,21 +15,24 @@ import {
 import CustomBreadCrumb from "components/CustomBreadcrumb";
 import PropTypes from "prop-types";
 import { getTitleNoMark, getNumberIdFromQuery, getImageById } from "utils";
+import { convertFormat, pastDueDate } from "utils/date";
 import { useDispatch } from "react-redux";
-
 import { ChallengeService } from "services";
 import ChallengeAction from "redux/challenge.redux";
 const Challenge = ({ data }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: "Challenge name", shareUrl: "/" };
   const dispatch = useDispatch();
+
+  const { title, challengeProgress, challengeModeId, endDate } = data;
+  const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: "/" };
+
   //////////////////screen variant
-  const isDone = false; //progress
-  const isEnd = false; // due date
-  const joined = false;
-  const isGroup = false;
+  let isDone = challengeProgress && challengeProgress.completeStatus === 1 ? false : true; //progress
+  let isEnd = pastDueDate(endDate); // due date
+  let joined = challengeProgress ? true : false;
+  let isGroup = challengeModeId === 1 ? false : true;
   //////////////////
 
   useEffect(() => {
@@ -39,7 +42,7 @@ const Challenge = ({ data }) => {
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container maxWidth="lg" className={classes.root}>
-        {!isMobile && <CustomBreadCrumb challengeName="duongdz" className={classes.breadcrumb} />}
+        {!isMobile && <CustomBreadCrumb challengeName={title} className={classes.breadcrumb} />}
 
         <Grid container justify="center" spacing={0}>
           {!isMobile && (
@@ -69,7 +72,7 @@ const Challenge = ({ data }) => {
               <Box className={classes.item}>
                 <ChallengeInfo />
                 <Goal goal="some goal" isGroup={isGroup} haveDone={750} total={3000} />
-                {!isDone && <GoalList />}
+                <GoalList />
               </Box>
               <Box className={classes.item}>
                 <Description />
@@ -125,7 +128,9 @@ export async function getServerSideProps({ query }) {
   const challengeLeaderBoard = await ChallengeService.getChallengeLeaderBoard(challengeId);
   let data = { ...challengeInfo.data.data, leaderBoard: challengeLeaderBoard.data.data.pageData };
   const coverId = data.coverId ? getImageById(data.coverId) : null;
-  data = { ...data, coverId };
+  const startDate = data.startDate ? convertFormat(new Date(data.startDate), "dd/MM/yyyy") : null;
+  const endDate = data.endDate ? convertFormat(new Date(data.endDate), "dd/MM/yyyy") : null;
+  data = { ...data, coverId, startDate, endDate };
   return { props: { data } };
 }
 

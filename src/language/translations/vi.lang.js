@@ -138,7 +138,7 @@ export default {
 
     FM_PROGRESS: " Đã đọc {0}/{1} cuốn sách",
     FM_HAVE_DONE: "Hoàn thành: {0}/{1} ({2}%)",
-    FM_ACTIVITY: `<span style="font-weight:600">{name}</span> vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
+    FM_ACTIVITY: `<a style="font-weight:600;color:#001a39">{name}</a> vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
     FM_ACTIVITY_MOBILE: `Vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
   },
   articleDetail: {

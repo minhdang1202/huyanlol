@@ -8,10 +8,8 @@ const ChallengeInfo = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-
   const info = useSelector(state => state.ChallengeRedux);
   const { title, startDate, endDate, challengeSummary } = info;
-
   return (
     <Paper elevation={1} className={classes.root}>
       <Typography variant="h5" component="h1" className={classes.title}>
