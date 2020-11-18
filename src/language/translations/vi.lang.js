@@ -176,9 +176,9 @@ export default {
     TXT_LIST: "List",
     TXT_BREAK: "Break",
 
-    P_CREATE_TITLE: "Enter title",
+    P_CREATE_TITLE: "Nhập tiêu đề",
     P_CREATE_REVIEW_TITLE: "Đánh giá cuốn sách {0}",
-    P_CREATE_REVIEW_CONTENT: "What do you think?",
+    P_CREATE_REVIEW_CONTENT: "Bạn đang nghĩ gì?",
     p_CREATE_LINK: "Paste or type a link...",
 
     L_CREATE_RATING: "Đánh giá cuốn sách",

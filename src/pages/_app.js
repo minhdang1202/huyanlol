@@ -10,7 +10,8 @@ import "../language";
 import "../../public/styles/index.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import "draft-js/dist/Draft.css";
+ 
 function MyApp({ Component, pageProps }) {
   React.useEffect(() => {
     // Remove the server-side injected CSS.

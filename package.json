@@ -8,9 +8,6 @@
     "eslint": "eslint ./src/pages ./src/components --fix"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-balloon": "^23.1.0",
-    "@ckeditor/ckeditor5-react": "^3.0.0",
-    "@ckeditor/ckeditor5-word-count": "^23.1.0",
     "@date-io/date-fns": "1.3.13",
     "@date-io/moment": "^2.8.0",
     "@material-ui/core": "^4.9.5",
@@ -22,6 +19,11 @@
     "clsx": "^1.1.1",
     "cookie-parser": "^1.4.5",
     "date-fns": "^2.15.0",
+    "draft-js": "^0.11.7",
+    "draft-js-export-html": "^1.4.1",
+    "draft-js-inline-toolbar-plugin": "^3.0.1",
+    "draft-js-plugins-editor": "^3.0.0",
+    "draft-js-undo-plugin": "^2.0.3",
     "express": "^4.17.1",
     "i18next": "^19.6.2",
     "js-cookie": "^2.2.1",

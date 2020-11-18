@@ -1,10 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
-import { Popover, Box, Typography, makeStyles } from "@material-ui/core";
+import { Popover, Typography, makeStyles } from "@material-ui/core";
 
-const WordCountPopover = ({ words, characters, ...otherProps }) => {
+const WordCountPopover = props => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
   return (
@@ -22,40 +21,23 @@ const WordCountPopover = ({ words, characters, ...otherProps }) => {
         horizontal: "left",
       }}
       disableRestoreFocus
-      {...otherProps}
+      {...props}
     >
-      <Box mr={4}>
-        <Typography className="grey-text">{getLabel("L_WORDS")}</Typography>
-        <Typography id={WORDS_UPDATE_BOX_ID} variant="h5">
-          {DEMO_WORDS}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography className="grey-text">{getLabel("L_CHARACTERS")}</Typography>
-        <Typography id={CHARACTERS_UPDATE_BOX_ID} variant="h5">
-          {DEMO_CHARACTERS}
-        </Typography>
-      </Box>
+      <Typography className="grey-text">{getLabel("L_CHARACTERS")}</Typography>
+      <Typography id={CHARACTERS_UPDATE_BOX_ID} variant="h5">
+        {0}
+      </Typography>
     </Popover>
   );
 };
 
-const DEMO_WORDS = 50;
-const DEMO_CHARACTERS = 340;
-export const WORDS_UPDATE_BOX_ID = "words-update";
 export const CHARACTERS_UPDATE_BOX_ID = "characters-update";
-
-WordCountPopover.propTypes = {
-  words: PropTypes.number,
-  characters: PropTypes.number,
-};
 
 const useStyles = makeStyles(theme => ({
   root: {
     pointerEvents: "none",
   },
   paper: {
-    display: "flex",
     boxShadow: "none",
     marginTop: theme.spacing(0.5),
     marginLeft: theme.spacing(-2),

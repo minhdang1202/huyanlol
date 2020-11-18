@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import StringFormat from "string-format";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Toolbar, makeStyles, IconButton, Button, Box, Divider, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
-import { ArrowRightIcon, ArrowLeftIcon } from "icons";
 import WordCountPopover from "./WordCountPopover";
+import { UndoButton, RedoButton } from "../CustomEditor";
 
 const CreateToolbar = ({ isDisabled }) => {
   const classes = useStyles();
@@ -26,22 +25,21 @@ const CreateToolbar = ({ isDisabled }) => {
       <IconButton edge="start">
         <Box className={clsx("ic-plus", classes.icon)} />
       </IconButton>
-      <IconButton>
-        <ArrowLeftIcon />
+      <IconButton className={classes.undoButton} component="div">
+        <UndoButton />
       </IconButton>
-      <IconButton>
-        <ArrowRightIcon />
+      <IconButton className={classes.undoButton} component="div">
+        <RedoButton />
       </IconButton>
       <Divider orientation="vertical" />
       <Typography
+        id={WORDS_UPDATE_CONTAINER_ID}
         aria-owns={open ? "mouse-over-popover" : undefined}
         aria-haspopup="true"
         className={clsx("grey-text", classes.popoverButton)}
         onMouseEnter={onOpenPopover}
         onMouseLeave={onClosePopover}
-      >
-        {StringFormat(getLabel("FM_CHARACTERS"), 34)}
-      </Typography>
+      />
       <WordCountPopover id="mouse-over-popover" open={open} anchorEl={anchorEl} onClose={onClosePopover} />
       <IconButton>
         <Box className={clsx("ic-cog", classes.icon)} />
@@ -52,6 +50,8 @@ const CreateToolbar = ({ isDisabled }) => {
     </Toolbar>
   );
 };
+
+export const WORDS_UPDATE_CONTAINER_ID = "words-count";
 
 CreateToolbar.propTypes = {
   isDisabled: PropTypes.bool,
@@ -78,8 +78,6 @@ const useStyles = makeStyles(theme => ({
   },
   postButton: {
     padding: theme.spacing(0, 1.5),
-      // background: theme.palette.grey[300],
-      // color: theme.palette.white,
   },
   icon: {
     fontSize: 20,
@@ -91,6 +89,32 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     marginLeft: theme.spacing(1.5),
     height: "100%",
+  },
+  undoButton: {
+    padding: 0,
+    "& button": {
+      width: 40,
+      height: 40,
+      borderRadius: "50%",
+      cursor: "pointer",
+      border: "none",
+      background: "none",
+      "&:focus": {
+        outline: "none",
+      },
+      "&:disabled": {
+        "& svg": {
+          "& path": {
+            "&:first-child": {
+              stroke: theme.palette.grey[300],
+            },
+            "&:last-child": {
+              fill: theme.palette.grey[300],
+            },
+          },
+        },
+      },
+    },
   },
 }));
 

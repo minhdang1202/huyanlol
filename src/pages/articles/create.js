@@ -16,9 +16,11 @@ const Creator = () => {
   const [title, setTitle] = useState();
   const [rate, setRate] = useState(0);
   const [content, setContent] = useState();
+  const [hasContent, setHasContent] = useState();
 
-  const onChangeContent = (e, editor) => {
-    setContent(editor.getData());
+  const onChangeContent = (contentHtml, hasContent) => {
+    setContent(contentHtml);
+    setHasContent(hasContent);
   };
 
   const onChangeTitle = e => {
@@ -34,7 +36,7 @@ const Creator = () => {
       <Box position="relative">
         <Box position="sticky" top={0}>
           <Container className={classes.container}>
-            <CreateToolbar isDisabled={!(Boolean(content) && Boolean(title))} />
+            <CreateToolbar isDisabled={!(hasContent && title)} />
           </Container>
           <Divider />
         </Box>
@@ -52,7 +54,7 @@ const Creator = () => {
               <CustomRating value={rate} onChange={onChangeRate} />
             </Box>
           )}
-          <CustomEditor data={content} onChange={onChangeContent} />
+          <CustomEditor onChangeContent={onChangeContent} />
         </Container>
       </Box>
     </MainLayout>
