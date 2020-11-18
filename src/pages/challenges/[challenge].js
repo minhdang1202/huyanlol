@@ -19,14 +19,17 @@ import { convertFormat, pastDueDate } from "utils/date";
 import { useDispatch } from "react-redux";
 import { ChallengeService } from "services";
 import ChallengeAction from "redux/challenge.redux";
+import StringFormat from "string-format";
+import { AppConstant, PathConstant } from "const";
 const Challenge = ({ data }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
 
-  const { title, challengeProgress, challengeModeId, endDate } = data;
-  const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: "/" };
+  const { title, challengeProgress, challengeModeId, endDate, challengeId } = data;
+  const SHARE_URL = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
+  const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
 
   //////////////////screen variant
   let isDone = challengeProgress && challengeProgress.completeStatus === 1 ? false : true; //progress
@@ -120,18 +123,35 @@ const Challenge = ({ data }) => {
   );
 };
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ res, query }) {
   let challengeId = query && query.challenge ? query.challenge : null;
   const isOnlyNumber = /^\d+$/.test(challengeId);
   challengeId = isOnlyNumber ? challengeId : getNumberIdFromQuery(challengeId);
+
   const challengeInfo = await ChallengeService.getChallengeInfo(challengeId);
   const challengeLeaderBoard = await ChallengeService.getChallengeLeaderBoard(challengeId);
-  let data = { ...challengeInfo.data.data, leaderBoard: challengeLeaderBoard.data.data.pageData };
-  const coverId = data.coverId ? getImageById(data.coverId) : null;
-  const startDate = data.startDate ? convertFormat(new Date(data.startDate), "dd/MM/yyyy") : null;
-  const endDate = data.endDate ? convertFormat(new Date(data.endDate), "dd/MM/yyyy") : null;
-  data = { ...data, coverId, startDate, endDate };
-  return { props: { data } };
+
+  if (challengeInfo.data.data) {
+    let data = { ...challengeInfo.data.data, leaderBoard: challengeLeaderBoard.data.data.pageData };
+
+    if (isOnlyNumber) {
+      const challengeTitleNoMark = getTitleNoMark(data.title);
+      res
+        .writeHead(301, {
+          Location: StringFormat(PathConstant.FM_CHALLENGE_DETAIL, challengeTitleNoMark, challengeId),
+        })
+        .end();
+    }
+
+    const coverId = data.coverId ? getImageById(data.coverId) : null;
+    const startDate = data.startDate ? convertFormat(new Date(data.startDate), "dd/MM/yyyy") : null;
+    const endDate = data.endDate ? convertFormat(new Date(data.endDate), "dd/MM/yyyy") : null;
+
+    data = { ...data, coverId, startDate, endDate };
+    return { props: { data } };
+  } else {
+    return res.status(404).end();
+  }
 }
 
 Challenge.propTypes = {
@@ -176,6 +196,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       position: "static !important",
       boxShadow: "none !important",
+      paddingTop: 0,
     },
   },
   mobileContainer: {
