@@ -21,6 +21,7 @@ import { ChallengeService } from "services";
 import ChallengeAction from "redux/challenge.redux";
 import StringFormat from "string-format";
 import { AppConstant, PathConstant } from "const";
+import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 const Challenge = ({ data }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -196,7 +197,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       position: "static !important",
       boxShadow: "none !important",
-      paddingTop: 0,
+      marginTop: `-${HEIGHT_APP_BAR} !important`,
     },
   },
   mobileContainer: {
