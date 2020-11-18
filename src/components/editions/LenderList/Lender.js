@@ -30,7 +30,6 @@ const Lender = ({ name, avatar, distanceToUser, address }) => {
             disabled
             classes={{ disabled: classes.disabledButton }}
             startIcon={<Avatar src={avatar} className={classes.avatar} />}
-            flexGrow={1}
           >
             <Box display="flex" flexDirection="column" flexGrow={1}>
               <Box display="flex" justifyContent="space-between" mb={1}>
