@@ -43,7 +43,7 @@ const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark 
                   </Typography>
                 )}
               </Box>
-              <Box>
+              <Box display="flex">
                 {hasBookmark && (
                   <IconButton className={classes.iconButton}>
                     <Box className="ic-bookmark-empty" />

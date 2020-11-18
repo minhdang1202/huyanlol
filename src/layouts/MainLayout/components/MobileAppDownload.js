@@ -36,6 +36,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1.5, 2, 1.5, 0.5),
     height: HEIGHT_MOBILE_APP_DOWNLOAD,
     background: theme.palette.white,
+    zIndex: 10,
     "& > *:nth-child(1)": {
       height: "fit-content",
       width: "fit-content",

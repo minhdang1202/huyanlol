@@ -12,6 +12,8 @@ import InfoIcon from "./InfoIcon";
 import CartIcon from "./CartIcon";
 import FacebookIcon from "./FacebookIcon";
 import GoogleIcon from "./GoogleIcon";
+import LogoIcon from "./LogoIcon";
+import GoalIcon from "./GoalIcon";
 import BookIcon from "./BookIcon";
 import PersonIcon from "./PersonIcon";
 import DotIcon from "./DotIcon";
@@ -30,6 +32,8 @@ export {
   CartIcon,
   FacebookIcon,
   GoogleIcon,
+  LogoIcon,
+  GoalIcon,
   BookIcon,
   PersonIcon,
   DotIcon,
