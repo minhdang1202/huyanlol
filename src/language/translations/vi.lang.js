@@ -73,6 +73,7 @@ export default {
     ERR_INVALID_INPUT: "Vui lòng nhập đúng định dạng",
     ERR_MISSING_INPUT: "Vui lòng điền chính xác và đầy đủ thông tin",
     ERR_REGISTER: "Đăng ký không thành công!",
+    ERR_LOGIN: "Email hoặc tài khoản không đúng",
 
     //MSG: Message
     MSG_REGISTER: "Kiểm tra email để xác thực tài khoản",

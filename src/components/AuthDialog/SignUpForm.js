@@ -12,7 +12,7 @@ const SignUpForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [errorsRedux, isRegister] = useSelector(({ authRedux }) => [authRedux.error, authRedux.isRegister]);
+  const [errorsRedux, isRegister] = useSelector(({ authRedux }) => [authRedux.errors, authRedux.isRegister]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -35,8 +35,8 @@ const SignUpForm = () => {
   const onChangePass2 = e => setPassword2(e.target.value);
 
   useEffect(() => {
-    if (errorsRedux && errorsRedux.details != error.details) {
-      setError({ ...errorsRedux, content: getLabel("ERR_REGISTER") });
+    if (errorsRedux && errorsRedux.value != error.value) {
+      setError({ value: errorsRedux, content: getLabel("ERR_REGISTER") });
     }
   }, [errorsRedux]);
 

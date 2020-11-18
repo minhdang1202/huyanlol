@@ -1,30 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Typography, TextField, Box, makeStyles, InputAdornment } from "@material-ui/core/";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import AuthAction from "redux/auth.redux";
-const FIXED_UUID = "f4e25588-e48f-4dd5-b7c5-812f68204be4";
+import { validateEmail, validatePassword } from "utils";
 
 const SignInForm = () => {
-  const { t: getText } = useTranslation();
+  const { t: getLabel } = useTranslation();
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const errors = useSelector(state => state.authRedux.errors);
+  const errorsRedux = useSelector(({ authRedux }) => authRedux.errors);
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState({});
 
   const onLogin = () => {
-    if (email !== "" && password !== "") {
-      dispatch(
-        AuthAction.requestLogin({ email, password, uuid: FIXED_UUID, name: null, socialID: null, socialType: null }),
-      );
+    setError({});
+    if (validateEmail(email) && validatePassword(password)) {
+      dispatch(AuthAction.requestLogin({ email, password }));
     } else {
-      dispatch(AuthAction.authFailure({ errors: [{ details: getText("ERR_INVALID_INPUT") }] }));
+      setError({ ...error, content: getLabel("ERR_MISSING_INPUT") });
     }
   };
 
@@ -32,13 +32,19 @@ const SignInForm = () => {
   const onChangeEmail = e => setEmail(e.target.value);
   const onChangePass = e => setPassword(e.target.value);
 
+  useEffect(() => {
+    if (errorsRedux && errorsRedux != error.value) {
+      setError({ value: errorsRedux, content: getLabel("ERR_LOGIN") });
+    }
+  }, [errorsRedux]);
+
   return (
     <Box className={classes.form}>
       <TextField
         name="email"
         label={
           <Typography variant="h5" className={classes.inputLabel}>
-            {getText("L_EMAIL")}
+            {getLabel("L_EMAIL")}
           </Typography>
         }
         className={classes.textInput}
@@ -58,7 +64,7 @@ const SignInForm = () => {
         name="password"
         label={
           <Typography variant="h5" className={classes.inputLabel}>
-            {getText("L_PASSWORD")}
+            {getLabel("L_PASSWORD")}
           </Typography>
         }
         className={classes.textInput}
@@ -75,19 +81,15 @@ const SignInForm = () => {
         }}
         value={password}
         onChange={onChangePass}
-        helperText={
-          errors && (
-            <Typography variant="body1" className={classes.errMessage} component="span">
-              {errors[0].details}
-            </Typography>
-          )
-        }
         type={showPassword ? "text" : "password"}
         fullWidth
       />
+      <Typography variant="body1" className={classes.errMessage}>
+        {error.content}
+      </Typography>
       <Button className={classes.loginBtn} fullWidth variant="contained" color="primary" onClick={onLogin}>
         <Typography variant="h5" className={classes.loginBtnText}>
-          {getText("TXT_LOGIN")}
+          {getLabel("TXT_LOGIN")}
         </Typography>
       </Button>
     </Box>

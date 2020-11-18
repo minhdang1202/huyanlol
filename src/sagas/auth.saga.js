@@ -8,6 +8,7 @@ import { getLabel } from "language";
 
 export function* requestLogin(action) {
   const { data } = action;
+  let isSuccess = false;
 
   let response = yield call(Boolean(data.socialType) ? AuthService.loginSocial : AuthService.login, data);
 
@@ -22,13 +23,15 @@ export function* requestLogin(action) {
         yield put(AuthAction.authSuccess({ isAuth: true }));
         // Get profile
         yield put(UserAction.requestProfile());
-      } else {
-        yield put(AuthAction.authFailure({ errors: { details: getLabel("ERR_REGISTER") } }));
+        isSuccess = true;
       }
     }
   } catch (error) {
     console.log(error);
     yield put(AuthAction.authFailure(error));
+  }
+  if (!isSuccess) {
+    yield put(AuthAction.authFailure({ errors: { details: getLabel("ERR_REGISTER") } }));
   }
 }
 
