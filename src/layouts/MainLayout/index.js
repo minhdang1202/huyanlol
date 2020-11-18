@@ -64,9 +64,6 @@ const useStyles = makeStyles(theme => ({
     overflow: "auto",
     background: theme.palette.background.default,
     paddingTop: HEIGHT_APP_BAR,
-    [theme.breakpoints.down("xs")]: {
-      padding: 0,
-    },
   },
   main: {
     [theme.breakpoints.down("xs")]: {
