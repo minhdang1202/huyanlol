@@ -20,7 +20,7 @@ const Description = () => {
       <Box className={classes.content}>
         {!isMobile && <Typography variant="h6">{getLabel("L_DESCRIPTION")}</Typography>}
         {isMobile && <Box className={clsx("ic-chat", classes.gray)} />}
-        <Typography variant={isMobile ? "body2" : "body1"} className={`${!isFull && "eclipse-3"}`}>
+        <Typography variant={isMobile ? "body2" : "body1"} className={clsx(!isFull && "eclipse-3")}>
           {description}
         </Typography>
       </Box>

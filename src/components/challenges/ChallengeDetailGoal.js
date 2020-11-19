@@ -7,6 +7,7 @@ import { GoalIcon } from "icons";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
+import { CHALLENGE_TARGET_TYPE } from "const/app.const";
 const Goal = ({ isGroup, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -19,7 +20,15 @@ const Goal = ({ isGroup, joined }) => {
   const progressPercent = (progress / targetNumber) * 100;
 
   return (
-    <Paper elevation={1} className={clsx(classes.root, targetTypeId <= 2 ? classes.noList : null)}>
+    <Paper
+      elevation={1}
+      className={clsx(
+        classes.root,
+        targetTypeId === CHALLENGE_TARGET_TYPE.readBook || targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle
+          ? classes.noList
+          : null,
+      )}
+    >
       <Typography className={classes.titleContainer}>
         <GoalIcon />
         <Typography className={classes.title} component="span" variant="h6">
@@ -27,7 +36,7 @@ const Goal = ({ isGroup, joined }) => {
         </Typography>
       </Typography>
       <Typography variant="body1">
-        {targetTypeId === 1 || targetTypeId === 3
+        {targetTypeId === CHALLENGE_TARGET_TYPE.readBook || targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle
           ? StringFormat(getLabel(isGroup ? "FM_GOAL_GROUP" : "FM_GOAL"), targetNumber)
           : StringFormat(getLabel(isGroup ? "FM_GOAL_REVIEW_GROUP" : "FM_GOAL_REVIEW"), targetNumber)}
       </Typography>

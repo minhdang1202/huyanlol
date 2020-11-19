@@ -8,6 +8,7 @@ import Company from "./ChallengeDetailCompany";
 import GoalList from "./ChallengeDetailGoalList";
 import Description from "./ChallengeDetailDescription";
 import Footer from "./ChallengeDetailFooter";
+import Creator from "./ChallengeDetailCreator";
 export {
   ChallengeCover,
   Activity,
@@ -19,4 +20,5 @@ export {
   GoalList,
   Description,
   Footer,
+  Creator,
 };

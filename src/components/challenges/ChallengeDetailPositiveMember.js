@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { getImageById } from "utils";
 import { AppLink } from "components";
 import StringFormat from "string-format";
+import { CHALLENGE_TARGET_TYPE } from "const/app.const";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -28,12 +29,12 @@ const PositiveMember = () => {
           {getLabel("L_MORE")}
         </Button>
       </Box>
-      <Box className={clsx(classes.bottom, leaderBoard.length < 5 && classes.bottom2)}>
+      <Box className={clsx(classes.bottom, leaderBoard.length < 4 && classes.bottom2)}>
         {leaderBoard.map((each, index) => {
           if (index < 4) {
             return (
               <Member
-                key={index}
+                key={each.user.userId}
                 place={index + 1}
                 name={each.user.name}
                 imgId={each.user.imageId}
@@ -43,7 +44,7 @@ const PositiveMember = () => {
           } else if (index === 4) {
             return isTablet ? null : (
               <Member
-                key={index}
+                key={each.user.userId}
                 place={index + 1}
                 name={each.user.name}
                 imgId={each.user.imageId}
@@ -93,7 +94,11 @@ const Member = ({ place, imgId, name, progress }) => {
       </Typography>
       <Typography variant="body2">
         {StringFormat(
-          getLabel(targetTypeId === 1 || targetTypeId === 3 ? "FM_PROGRESS_SHRINK" : "FM_PROGRESS_REVIEW_SHRINK"),
+          getLabel(
+            targetTypeId === CHALLENGE_TARGET_TYPE.readBook || targetTypeId === CHALLENGE_TARGET_TYPE.readBookList
+              ? "FM_PROGRESS_SHRINK"
+              : "FM_PROGRESS_REVIEW_SHRINK",
+          ),
           progress,
         )}
       </Typography>
@@ -134,6 +139,10 @@ const useStyles = makeStyles(theme => ({
   },
   bottom2: {
     justifyContent: "center",
+    "&>*": {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+    },
   },
   member: {
     width: "105px",

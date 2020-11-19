@@ -11,6 +11,7 @@ import {
   Company,
   GoalList,
   Description,
+  Creator,
 } from "components/challenges";
 import CustomBreadCrumb from "components/CustomBreadcrumb";
 import PropTypes from "prop-types";
@@ -22,21 +23,22 @@ import ChallengeAction from "redux/challenge.redux";
 import StringFormat from "string-format";
 import { AppConstant, PathConstant } from "const";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
+import { CHALLENGE_TARGET_TYPE } from "const/app.const";
 const Challenge = ({ data }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
-
+  const { WEBSITE_URL, CHALLENGE_PROGRESS_STATUS, CHALLENGE_MODE } = AppConstant;
   const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId } = data;
-  const SHARE_URL = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
+  const SHARE_URL = WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
 
   //////////////////screen variant
-  let isDone = challengeProgress && !(challengeProgress.completeStatus === 1); //progress
+  let isDone = challengeProgress && challengeProgress.completeStatus === CHALLENGE_PROGRESS_STATUS.complete; //progress
   let isEnd = pastDueDate(endDate); // due date
   let joined = challengeProgress ? true : false;
-  let isGroup = !(challengeModeId === 1);
+  let isGroup = !(challengeModeId === CHALLENGE_MODE.personal);
   //////////////////
 
   useEffect(() => {
@@ -62,9 +64,9 @@ const Challenge = ({ data }) => {
               <Box className={classes.item}>
                 <ChallengeCover isDone={isDone} isEnd={isEnd} joined={joined} />
               </Box>
-              {/* <Box className={classes.item}>
+              <Box className={classes.item}>
                 <InviteFriend />
-              </Box> */}
+              </Box>
               <Box className={classes.item}>
                 <Company />
               </Box>
@@ -76,7 +78,7 @@ const Challenge = ({ data }) => {
               <Box className={classes.item}>
                 <ChallengeInfo />
                 <Goal isGroup={isGroup} />
-                {targetTypeId > 2 && <GoalList />}
+                {targetTypeId >= CHALLENGE_TARGET_TYPE.readBookList && <GoalList />}
               </Box>
               <Box className={classes.item}>
                 <Description />
@@ -84,9 +86,11 @@ const Challenge = ({ data }) => {
               <Box className={classes.item}>
                 <PositiveMember />
               </Box>
-              <Box className={classes.item}>
-                <Activity />
-              </Box>
+              {joined && (
+                <Box className={classes.item}>
+                  <Activity />
+                </Box>
+              )}
             </Grid>
           )}
           {isMobile && (
@@ -98,23 +102,25 @@ const Challenge = ({ data }) => {
                 <Box className={classes.item}>
                   <ChallengeInfo />
                   <Goal isGroup={isGroup} />
-                  {targetTypeId > 2 && <GoalList />}
+                  {targetTypeId >= CHALLENGE_TARGET_TYPE.readBookList && <GoalList />}
                 </Box>
                 <Box className={classes.item}>
                   <Description />
                 </Box>
                 <Box className={classes.item}>
-                  <Company />
+                  <Creator />
                 </Box>
-                {/* <Box className={classes.item}>
+                <Box className={classes.item}>
                   <InviteFriend />
-                </Box> */}
+                </Box>
                 <Box className={classes.item}>
                   <PositiveMember />
                 </Box>
-                <Box className={classes.item}>
-                  <Activity />
-                </Box>
+                {joined && (
+                  <Box className={classes.item}>
+                    <Activity />
+                  </Box>
+                )}
               </Grid>
             </Box>
           )}

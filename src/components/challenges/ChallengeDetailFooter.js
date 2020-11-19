@@ -7,18 +7,19 @@ import StringFormat from "string-format";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { daysLeft } from "utils/date";
+import { CHALLENGE_TARGET_TYPE } from "const/app.const";
 const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const data = useSelector(state => state.challengeRedux.challengeProgress);
+  const challengeProgress = useSelector(state => state.challengeRedux.challengeProgress);
   const fixedTargetNumber = useSelector(state => state.challengeRedux.targetNumber);
   const targetTypeId = useSelector(state => state.challengeRedux.targetTypeId);
   const endDate = useSelector(state => state.challengeRedux.endDate);
-  const progress = data ? data.progress : 0;
-  const target = data ? data.targetNumber : fixedTargetNumber;
+  const progress = challengeProgress ? challengeProgress.progress : 0;
+  const target = challengeProgress ? challengeProgress.targetNumber : fixedTargetNumber;
 
   return (
     <Paper elevation={1} className={classes.content}>
@@ -32,13 +33,31 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
           {isDone ? (
             <Box className={clsx(!isMobile && [classes.icLine1, "ic-check"], isDone && classes.isDone)}>
               <Typography variant="body1" component="span">
-                {StringFormat(getLabel(targetTypeId < 3 ? "FM_PROGRESS" : "FM_PROGRESS_REVIEW"), progress, target)}
+                {StringFormat(
+                  getLabel(
+                    targetTypeId === CHALLENGE_TARGET_TYPE.readBook ||
+                      targetTypeId === CHALLENGE_TARGET_TYPE.readBookList
+                      ? "FM_PROGRESS"
+                      : "FM_PROGRESS_REVIEW",
+                  ),
+                  progress,
+                  target,
+                )}
               </Typography>
             </Box>
           ) : (
             <Box className={!isMobile ? clsx(classes.icLine1, "ic-bullseye") : null}>
               <Typography variant="body1" component="span">
-                {StringFormat(getLabel(targetTypeId < 3 ? "FM_PROGRESS" : "FM_PROGRESS_REVIEW"), progress, target)}
+                {StringFormat(
+                  getLabel(
+                    targetTypeId === CHALLENGE_TARGET_TYPE.readBook ||
+                      targetTypeId === CHALLENGE_TARGET_TYPE.readBookList
+                      ? "FM_PROGRESS"
+                      : "FM_PROGRESS_REVIEW",
+                  ),
+                  progress,
+                  target,
+                )}
               </Typography>
             </Box>
           )}

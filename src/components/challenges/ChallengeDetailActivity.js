@@ -36,7 +36,7 @@ const Item = ({ data }) => {
     <Paper className={classes.item}>
       <Box className={classes.itemTop}>
         <AppLink>
-          <Avatar alt="Trump" src="/images/img-avatar.jpg" />
+          <Avatar src="/images/img-avatar.jpg" />
         </AppLink>
         <Box className={classes.topText}>
           <AppLink>
