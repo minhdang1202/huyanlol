@@ -7,7 +7,7 @@ const ChallengeCover = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const coverId = useSelector(state => state.ChallengeRedux.coverId);
+  const coverId = useSelector(state => state.challengeRedux.coverId);
 
   return (
     <Box className={classes.root}>

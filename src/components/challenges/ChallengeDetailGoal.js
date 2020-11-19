@@ -5,25 +5,38 @@ import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { GoalIcon } from "icons";
 import StringFormat from "string-format";
-const Goal = ({ goal, isGroup, haveDone, total }) => {
+import clsx from "clsx";
+import { useSelector } from "react-redux";
+const Goal = ({ isGroup, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  let progress = (haveDone / total) * 100;
+
+  const data = useSelector(state => state.challengeRedux.challengeProgress);
+  const targetTypeId = useSelector(state => state.challengeRedux.targetTypeId);
+  const fixedTargetNumber = useSelector(state => state.challengeRedux.targetNumber);
+  const progress = data ? data.progress : 0;
+  const targetNumber = data ? data.targetNumber : fixedTargetNumber;
+  const progressPercent = (progress / targetNumber) * 100;
+
   return (
-    <Paper elevation={1} className={classes.root}>
+    <Paper elevation={1} className={clsx(classes.root, targetTypeId <= 2 ? classes.noList : null)}>
       <Typography className={classes.titleContainer}>
         <GoalIcon />
         <Typography className={classes.title} component="span" variant="h6">
           {getLabel(isGroup ? "L_GROUP_GOAL" : "L_PERSONAL_GOAL")}
         </Typography>
       </Typography>
-      <Typography variant="body1">{goal}</Typography>
-      {isGroup && (
+      <Typography variant="body1">
+        {targetTypeId === 1 || targetTypeId === 3
+          ? StringFormat(getLabel(isGroup ? "FM_GOAL_GROUP" : "FM_GOAL"), targetNumber)
+          : StringFormat(getLabel(isGroup ? "FM_GOAL_REVIEW_GROUP" : "FM_GOAL_REVIEW"), targetNumber)}
+      </Typography>
+      {isGroup && joined && (
         <Box className={classes.progress}>
           <CircularProgress variant="static" value={progress} size={16} thickness={5} />
           <CircularProgress variant="static" value={100} size={16} thickness={5} className={classes.bottom} />
           <Typography variant="subtitle1" component="span">
-            {StringFormat(getLabel("FM_HAVE_DONE"), haveDone, total, progress)}
+            {StringFormat(getLabel("FM_HAVE_DONE"), progress, targetNumber, progressPercent)}
           </Typography>
         </Box>
       )}
@@ -32,13 +45,12 @@ const Goal = ({ goal, isGroup, haveDone, total }) => {
 };
 
 Goal.propTypes = {
-  goal: PropTypes.string,
   isGroup: PropTypes.bool,
-  haveDone: PropTypes.number,
-  total: PropTypes.number,
+  joined: PropTypes.bool,
 };
 Goal.defaultProps = {
   isGroup: false,
+  joined: false,
 };
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +64,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       padding: theme.spacing(2),
     },
+  },
+  noList: {
+    borderRadius: "0px 0px 10px 10px",
   },
   titleContainer: {
     display: "flex",

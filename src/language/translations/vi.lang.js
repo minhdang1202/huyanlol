@@ -137,9 +137,21 @@ export default {
     TXT_To: "đến",
 
     FM_PROGRESS: " Đã đọc {0}/{1} cuốn sách",
+    FM_PROGRESS_REVIEW: " Đã viết {0}/{1} đánh giá",
+    FM_GOAL: "Đọc {0} cuốn sách",
+    FM_GOAL_REVIEW: "Viết đánh giá {0} cuốn sách",
+    FM_GOAL_GROUP: "Cùng đọc {0} cuốn sách",
+    FM_GOAL_REVIEW_group: "Cùng Viết đánh giá {0} cuốn sách",
+
     FM_HAVE_DONE: "Hoàn thành: {0}/{1} ({2}%)",
     FM_ACTIVITY: `<a style="font-weight:600;color:#001a39">{name}</a> vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
     FM_ACTIVITY_MOBILE: `Vừa đọc xong quyển <a href={bookLink} style="font-weight:600;color:#5aa4cc">{book}</a>`,
+    FM_DUE_TIME: "{0} đến {1}",
+    FM_JOINED: "{0} người",
+    FM_PROGRESS_SHRINK: "{0} cuốn",
+    FM_PROGRESS_REVIEW_SHRINK: "{0} đánh giá",
+    FM_DAYS_LEFT: "Còn {0} ngày nữa",
+    FM_CREATOR: `<span>Tạo bởi <a style="color:#001a39">{0}</a></span>`,
   },
   articleDetail: {
     TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",

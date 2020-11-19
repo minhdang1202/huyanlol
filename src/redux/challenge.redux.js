@@ -22,12 +22,12 @@ export const INITIAL_STATE = {
 };
 
 /* ------------- Reducers ------------- */
-export const request = () => ({
+export const challengeRequest = () => ({
   ...INITIAL_STATE,
   isFetching: true,
 });
 
-export const success = (state = INITIAL_STATE, action) => {
+export const challengeSuccess = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
   return {
     ...state,
@@ -37,12 +37,12 @@ export const success = (state = INITIAL_STATE, action) => {
   };
 };
 
-export const failure = (state = INITIAL_STATE, action) => {
+export const challengeFailure = (state = INITIAL_STATE, action) => {
   const data = action.data ? action.data : {};
   return { ...state, isFetching: false, ...data };
 };
 
-export const set = (state = INITIAL_STATE, action) => {
+export const challengeSet = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
   return {
     ...state,
@@ -54,14 +54,15 @@ export const set = (state = INITIAL_STATE, action) => {
 
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
-  [Types.REQUEST_GET_CHALLENGE_INFO]: request,
-  [Types.GET_CHALLENGE_INFO_SUCCESS]: success,
-  [Types.GET_CHALLENGE_INFO_FAILURE]: failure,
+  [Types.REQUEST_GET_CHALLENGE_INFO]: challengeRequest,
+  [Types.GET_CHALLENGE_INFO_SUCCESS]: challengeSuccess,
+  [Types.GET_CHALLENGE_INFO_FAILURE]: challengeFailure,
 
-  [Types.REQUEST_GET_CHALLENGE_LEADER_BOARD]: request,
-  [Types.GET_CHALLENGE_LEADER_BOARD_SUCCESS]: success,
-  [Types.GET_CHALLENGE_LEADER_BOARD_FAILURE]: failure,
-  [Types.SET_CHALLENGE_DETAIL]: set,
+  [Types.REQUEST_GET_CHALLENGE_LEADER_BOARD]: challengeRequest,
+  [Types.GET_CHALLENGE_LEADER_BOARD_SUCCESS]: challengeSuccess,
+  [Types.GET_CHALLENGE_LEADER_BOARD_FAILURE]: challengeFailure,
+
+  [Types.SET_CHALLENGE_DETAIL]: challengeSet,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

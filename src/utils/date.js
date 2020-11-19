@@ -79,5 +79,9 @@ export const getCreatedTime = created => {
 };
 
 export const pastDueDate = dueDate => {
-  return compareAsc(new Date(), parseISO(dueDate)) <= 0 ? false : true;
+  return compareAsc(new Date(), new Date(parseISO(dueDate))) <= 0 ? false : true;
+};
+
+export const daysLeft = dueDate => {
+  return differenceInCalendarDays(new Date(parseISO(dueDate)), new Date());
 };

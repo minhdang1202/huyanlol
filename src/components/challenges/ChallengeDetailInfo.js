@@ -3,12 +3,15 @@ import { makeStyles, Typography, Paper, Box, useTheme, useMediaQuery } from "@ma
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import StringFormat from "string-format";
+import { convertFormat } from "utils/date";
 const ChallengeInfo = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const info = useSelector(state => state.ChallengeRedux);
+  const info = useSelector(state => state.challengeRedux);
   const { title, startDate, endDate, challengeSummary } = info;
   return (
     <Paper elevation={1} className={classes.root}>
@@ -17,14 +20,18 @@ const ChallengeInfo = () => {
       </Typography>
       <Box className={classes.content}>
         <Box className="ic-person">
-          <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${
-            challengeSummary.totalJoiner
-          } ${getLabel("TXT_PEOPLE")}`}</Typography>
+          <Typography variant={isMobile ? "body2" : "body1"} component="span">
+            {StringFormat(getLabel("FM_JOINED"), challengeSummary.totalJoiner)}
+          </Typography>
         </Box>
         <Box className="ic-date">
-          <Typography variant={isMobile ? "body2" : "body1"} component="span">{`${startDate} ${getLabel(
-            "TXT_To",
-          )} ${endDate}`}</Typography>
+          <Typography variant={isMobile ? "body2" : "body1"} component="span">
+            {StringFormat(
+              getLabel("FM_DUE_TIME"),
+              convertFormat(new Date(startDate), "dd/MM/yyyy"),
+              convertFormat(new Date(endDate), "dd/MM/yyyy"),
+            )}
+          </Typography>
         </Box>
       </Box>
     </Paper>

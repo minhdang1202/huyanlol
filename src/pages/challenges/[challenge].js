@@ -15,7 +15,7 @@ import {
 import CustomBreadCrumb from "components/CustomBreadcrumb";
 import PropTypes from "prop-types";
 import { getTitleNoMark, getNumberIdFromQuery, getImageById } from "utils";
-import { convertFormat, pastDueDate } from "utils/date";
+import { pastDueDate } from "utils/date";
 import { useDispatch } from "react-redux";
 import { ChallengeService } from "services";
 import ChallengeAction from "redux/challenge.redux";
@@ -28,15 +28,15 @@ const Challenge = ({ data }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
 
-  const { title, challengeProgress, challengeModeId, endDate, challengeId } = data;
+  const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId } = data;
   const SHARE_URL = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
 
   //////////////////screen variant
-  let isDone = challengeProgress && challengeProgress.completeStatus === 1 ? false : true; //progress
+  let isDone = challengeProgress && !(challengeProgress.completeStatus === 1); //progress
   let isEnd = pastDueDate(endDate); // due date
   let joined = challengeProgress ? true : false;
-  let isGroup = challengeModeId === 1 ? false : true;
+  let isGroup = !(challengeModeId === 1);
   //////////////////
 
   useEffect(() => {
@@ -62,9 +62,9 @@ const Challenge = ({ data }) => {
               <Box className={classes.item}>
                 <ChallengeCover isDone={isDone} isEnd={isEnd} joined={joined} />
               </Box>
-              <Box className={classes.item}>
+              {/* <Box className={classes.item}>
                 <InviteFriend />
-              </Box>
+              </Box> */}
               <Box className={classes.item}>
                 <Company />
               </Box>
@@ -75,8 +75,8 @@ const Challenge = ({ data }) => {
             <Grid container item xs={12} sm={7} direction="column" className={classes.rightContainer}>
               <Box className={classes.item}>
                 <ChallengeInfo />
-                <Goal goal="some goal" isGroup={isGroup} haveDone={750} total={3000} />
-                <GoalList />
+                <Goal isGroup={isGroup} />
+                {targetTypeId > 2 && <GoalList />}
               </Box>
               <Box className={classes.item}>
                 <Description />
@@ -97,8 +97,8 @@ const Challenge = ({ data }) => {
                 </Box>
                 <Box className={classes.item}>
                   <ChallengeInfo />
-                  <Goal goal="some goal" isGroup={isGroup} haveDone={750} total={3000} />
-                  <GoalList />
+                  <Goal isGroup={isGroup} />
+                  {targetTypeId > 2 && <GoalList />}
                 </Box>
                 <Box className={classes.item}>
                   <Description />
@@ -106,9 +106,9 @@ const Challenge = ({ data }) => {
                 <Box className={classes.item}>
                   <Company />
                 </Box>
-                <Box className={classes.item}>
+                {/* <Box className={classes.item}>
                   <InviteFriend />
-                </Box>
+                </Box> */}
                 <Box className={classes.item}>
                   <PositiveMember />
                 </Box>
@@ -145,14 +145,11 @@ export async function getServerSideProps({ res, query }) {
     }
 
     const coverId = data.coverId ? getImageById(data.coverId) : null;
-    const startDate = data.startDate ? convertFormat(new Date(data.startDate), "dd/MM/yyyy") : null;
-    const endDate = data.endDate ? convertFormat(new Date(data.endDate), "dd/MM/yyyy") : null;
 
-    data = { ...data, coverId, startDate, endDate };
+    data = { ...data, coverId };
     return { props: { data } };
-  } else {
-    return res.status(404).end();
   }
+  return res.status(404).end();
 }
 
 Challenge.propTypes = {

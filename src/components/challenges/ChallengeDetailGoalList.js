@@ -3,47 +3,21 @@ import { makeStyles, Typography, Paper, Avatar, useTheme, useMediaQuery, Grid } 
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
+import { useSelector } from "react-redux";
+import { getImageById } from "utils";
+import { AppLink } from "components";
+import { PathConstant } from "const";
+import StringFormat from "string-format";
 const GoalList = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-
-  const data = [
-    {
-      id: 1,
-      img: "/images/img-goal.jpg",
-    },
-    {
-      id: 2,
-      img: "/images/img-goal.jpg",
-    },
-    {
-      id: 3,
-      img: "/images/img-goal.jpg",
-    },
-    {
-      id: 4,
-      img: "/images/img-goal.jpg",
-    },
-    {
-      id: 5,
-      img: "/images/img-goal.jpg",
-    },
-    {
-      id: 6,
-      img: "/images/img-goal.jpg",
-    },
-    {
-      id: 7,
-      img: "/images/img-goal.jpg",
-    },
-    {
-      id: 8,
-      img: "/images/img-goal.jpg",
-    },
-  ];
+  const editions = useSelector(state => state.challengeRedux.editions);
+  const data = editions.map(edition => {
+    return { id: edition.editionId, img: edition.imageId, title: edition.title };
+  });
 
   const renderImageCount = () => {
     let count;
@@ -68,17 +42,28 @@ const GoalList = () => {
       </Typography>
       <Grid container direction="row" justify="space-around" alignItems="center">
         {data.map((item, index) => {
+          const bookURL = StringFormat(PathConstant.FM_BOOK_DETAIL_ID, item.id);
           if (index < renderImageCount()) {
             return (
               <Grid item xs={2} sm={3} className={classes.goalContainer} key={item.id}>
-                <Avatar alt="goal" src={item.img} variant="square" className={classes.goal} />
+                <AppLink to={bookURL}>
+                  <Avatar alt="goal" src={getImageById(item.img)} variant="square" className={classes.goal} />
+                </AppLink>
               </Grid>
             );
           }
         })}
-        <Grid item xs={2} sm={3} className={clsx(classes.goalContainer, classes.more)}>
-          <Typography variant={isMobile ? "h6" : "h5"}>{`+${data.length - renderImageCount()}`}</Typography>
-        </Grid>
+        {renderImageCount() < data.length && (
+          <Grid item xs={2} sm={3} className={clsx(classes.goalContainer, classes.more)}>
+            <Avatar
+              alt="goal"
+              src={getImageById(data[renderImageCount() + 1].img)}
+              variant="square"
+              className={classes.goal}
+            />
+            <Typography variant={isMobile ? "h6" : "h5"}>{`+${data.length - renderImageCount()}`}</Typography>
+          </Grid>
+        )}
       </Grid>
     </Paper>
   );
@@ -116,11 +101,11 @@ const useStyles = makeStyles(theme => ({
   },
   more: {
     cursor: "pointer",
-    backgroundImage: 'url("/images/img-goal.jpg")',
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    "&>:first-child": {
+    position: "relative",
+    "&>:nth-child(2)": {
       width: "100%",
       height: "100%",
       display: "flex",
@@ -128,6 +113,10 @@ const useStyles = makeStyles(theme => ({
       justifyContent: "center",
       backdropFilter: "blur(2px)",
       "-webkit-backdrop-filter": "blur(2px)",
+      marginTop: "-142px",
+      [theme.breakpoints.down("xs")]: {
+        marginTop: "-94px",
+      },
     },
   },
 }));

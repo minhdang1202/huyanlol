@@ -1,27 +1,36 @@
 import React from "react";
-import { makeStyles, Typography, useTheme, useMediaQuery, Box, Paper } from "@material-ui/core";
+import { makeStyles, Typography, useTheme, useMediaQuery, Box, Paper, Avatar } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import LogoIcon from "icons/LogoIcon";
+import StringFormat from "string-format";
+import { getImageById } from "utils";
+import { useSelector } from "react-redux";
 const Company = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const byGat = true;
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const creator = useSelector(state => state.challengeRedux.creator);
+  const { coverImageId, name } = creator;
   return (
     <Paper elevation={1} className={classes.logoContainer}>
-      <Box className={classes.logoOutline}>
-        {isMobile ? <LogoIcon width={30} height={15} /> : <LogoIcon width={50} height={25} />}
-      </Box>
+      {byGat || !isMobile ? (
+        <Box className={classes.logoOutline}>
+          {isMobile ? <LogoIcon width={30} height={15} /> : <LogoIcon width={50} height={25} />}
+        </Box>
+      ) : (
+        <Avatar className={classes.ava} src={getImageById(coverImageId)} />
+      )}
       {isMobile ? (
-        <Typography>
-          <Typography variant="body2" component="span" color="textSecondary">
-            {`${getLabel("L_BY")} `}
-          </Typography>
-          <Typography variant="subtitle2" component="span">
-            {getLabel("L_COMPANY_NAME")}
-          </Typography>
-        </Typography>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          dangerouslySetInnerHTML={{
+            __html: StringFormat(getLabel("FM_CREATOR"), byGat ? "GAT" : name),
+          }}
+        />
       ) : (
         <Typography variant="subtitle1" className={classes.coName}>
           {getLabel("L_COMPANY")}
@@ -63,6 +72,11 @@ const useStyles = makeStyles(theme => ({
   coName: {
     color: "#2d6291",
     textAlign: "center",
+  },
+  ava: {
+    height: "40px",
+    width: "40px",
+    margin: theme.spacing(1),
   },
 }));
 export default Company;

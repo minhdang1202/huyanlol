@@ -5,12 +5,21 @@ import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import StringFormat from "string-format";
 import PropTypes from "prop-types";
-
+import { useSelector } from "react-redux";
+import { daysLeft } from "utils/date";
 const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const data = useSelector(state => state.challengeRedux.challengeProgress);
+  const fixedTargetNumber = useSelector(state => state.challengeRedux.targetNumber);
+  const targetTypeId = useSelector(state => state.challengeRedux.targetTypeId);
+  const endDate = useSelector(state => state.challengeRedux.endDate);
+  const progress = data ? data.progress : 0;
+  const target = data ? data.targetNumber : fixedTargetNumber;
+
   return (
     <Paper elevation={1} className={classes.content}>
       {joined && (
@@ -23,13 +32,13 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
           {isDone ? (
             <Box className={clsx(!isMobile && [classes.icLine1, "ic-check"], isDone && classes.isDone)}>
               <Typography variant="body1" component="span">
-                {StringFormat(getLabel("FM_PROGRESS"), 0, 69)}
+                {StringFormat(getLabel(targetTypeId < 3 ? "FM_PROGRESS" : "FM_PROGRESS_REVIEW"), progress, target)}
               </Typography>
             </Box>
           ) : (
             <Box className={!isMobile ? clsx(classes.icLine1, "ic-bullseye") : null}>
               <Typography variant="body1" component="span">
-                {StringFormat(getLabel("FM_PROGRESS"), 0, 69)}
+                {StringFormat(getLabel(targetTypeId < 3 ? "FM_PROGRESS" : "FM_PROGRESS_REVIEW"), progress, target)}
               </Typography>
             </Box>
           )}
@@ -41,7 +50,7 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
               </Typography>
             ) : (
               <Typography variant={isMobile ? "body2" : "body1"} component="span">
-                {"Còn 30 ngày nữa"}
+                {StringFormat(getLabel("FM_DAYS_LEFT"), daysLeft(endDate))}
               </Typography>
             )}
           </Box>

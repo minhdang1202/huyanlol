@@ -10,7 +10,7 @@ const Description = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [isFull, setIsFull] = useState(false);
-  const description = useSelector(state => state.ChallengeRedux.description);
+  const description = useSelector(state => state.challengeRedux.description);
   const onChangeContent = () => {
     setIsFull(!isFull);
   };
