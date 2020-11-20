@@ -24,16 +24,15 @@ const Lender = ({ name, avatar, distanceToUser, address }) => {
     <>
       <DialogAppDownload isOpen={isDownloadOpen} onClose={onCloseDownload} />
       <Box display="flex" width="100%" justifyContent="space-between" alignItems="center" py={2} minHeight={146}>
-        <Box display="flex" mr={{ xs: 1.5, sm: 3, md: 5 }}>
+        <Box display="flex" mr={{ xs: 1.5, sm: 3, md: 5 }} flexGrow={1}>
           <Button
             size="large"
             disabled
             classes={{ disabled: classes.disabledButton }}
             startIcon={<Avatar src={avatar} className={classes.avatar} />}
-            flexGrow={1}
           >
             <Box display="flex" flexDirection="column" flexGrow={1}>
-              <Box display="flex" justifyContent="space-between" mb={1}>
+              <Box display="flex" justifyContent="space-between" mb={1} >
                 <span className={clsx("eclipse", classes.alignLeft)}>{name}</span>
                 <Hidden xsDown>
                   <Distance distance={distanceToUser} />
