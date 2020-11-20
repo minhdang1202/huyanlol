@@ -53,3 +53,10 @@ export const CHALLENGE_MODE = {
   publicGroup: 2,
   privateGroup: 3,
 };
+
+export const CHALLENGE_ACTIVITY_TYPE = {
+  join: 1,
+  read: 2,
+  share: 3,
+  write: 4,
+};

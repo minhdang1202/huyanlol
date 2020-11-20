@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, Typography, Paper, Box, useTheme, useMediaQuery } from "@material-ui/core";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import StringFormat from "string-format";
@@ -11,7 +11,7 @@ const ChallengeInfo = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const info = useSelector(state => state.challengeRedux);
+  const info = useSelector(state => state.challengeRedux.detail);
   const { title, startDate, endDate, challengeSummary } = info;
   return (
     <Paper elevation={1} className={classes.root}>
@@ -28,8 +28,8 @@ const ChallengeInfo = () => {
           <Typography variant={isMobile ? "body2" : "body1"} component="span">
             {StringFormat(
               getLabel("FM_DUE_TIME"),
-              convertFormat(new Date(startDate), "dd/MM/yyyy"),
-              convertFormat(new Date(endDate), "dd/MM/yyyy"),
+              convertFormat(new Date(startDate), AppConstant.FM_DD_MM_YYYY),
+              convertFormat(new Date(endDate), AppConstant.FM_DD_MM_YYYY),
             )}
           </Typography>
         </Box>

@@ -12,11 +12,11 @@ const Goal = ({ isGroup, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
 
-  const data = useSelector(state => state.challengeRedux.challengeProgress);
-  const targetTypeId = useSelector(state => state.challengeRedux.targetTypeId);
-  const fixedTargetNumber = useSelector(state => state.challengeRedux.targetNumber);
+  const data = useSelector(state => state.challengeRedux.detail.challengeProgress);
+  const targetTypeId = useSelector(state => state.challengeRedux.detail.targetTypeId);
+  const fixedTargetNumber = useSelector(state => state.challengeRedux.detail.targetNumber);
   const progress = data ? data.progress : 0;
-  const targetNumber = data ? data.targetNumber : fixedTargetNumber;
+  const targetNumber = data && data.progress ? data.targetNumber : fixedTargetNumber;
   const progressPercent = (progress / targetNumber) * 100;
 
   return (
@@ -24,9 +24,8 @@ const Goal = ({ isGroup, joined }) => {
       elevation={1}
       className={clsx(
         classes.root,
-        targetTypeId === CHALLENGE_TARGET_TYPE.readBook || targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle
-          ? classes.noList
-          : null,
+        (targetTypeId === CHALLENGE_TARGET_TYPE.readBook || targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle) &&
+          classes.noList,
       )}
     >
       <Typography className={classes.titleContainer}>
@@ -36,9 +35,11 @@ const Goal = ({ isGroup, joined }) => {
         </Typography>
       </Typography>
       <Typography variant="body1">
-        {targetTypeId === CHALLENGE_TARGET_TYPE.readBook || targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle
-          ? StringFormat(getLabel(isGroup ? "FM_GOAL_GROUP" : "FM_GOAL"), targetNumber)
-          : StringFormat(getLabel(isGroup ? "FM_GOAL_REVIEW_GROUP" : "FM_GOAL_REVIEW"), targetNumber)}
+        {(targetTypeId === CHALLENGE_TARGET_TYPE.readBook || targetTypeId === CHALLENGE_TARGET_TYPE.readBookList) &&
+          StringFormat(getLabel(isGroup ? "FM_GOAL_GROUP" : "FM_GOAL"), targetNumber)}
+        {(targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle ||
+          targetTypeId === CHALLENGE_TARGET_TYPE.writeArticleList) &&
+          StringFormat(getLabel(isGroup ? "FM_GOAL_REVIEW_GROUP" : "FM_GOAL_REVIEW"), targetNumber)}
       </Typography>
       {isGroup && joined && (
         <Box className={classes.progress}>

@@ -4,89 +4,97 @@ import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import StringFormat from "string-format";
 import { AppLink } from "components";
+import { useSelector } from "react-redux";
+import { getImageById } from "utils";
+import { getCreatedTime } from "utils/date";
+import { AppConstant, PathConstant } from "const";
 
-const ACT_DATA = {
-  name: "Duongdz",
-  time: "12 giờ trước",
-  activity: "vừa đọc xong quyển",
-  book: "Nghệ Thuật Bài Trí Của Người Nhật",
-};
-
+import PropTypes from "prop-types";
+import { CHALLENGE_ACTIVITY_TYPE } from "const/app.const";
 const Activity = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const activity = useSelector(state => state.challengeRedux.detail.activity);
   return (
     <Box className={classes.root}>
       <Typography variant={"h6"} className={classes.title}>
         {getLabel("L_ACTIVITY")}
       </Typography>
-      <Item data={ACT_DATA} className={classes.item} />
-      <Item data={ACT_DATA} className={classes.item} />
-      <Item data={ACT_DATA} className={classes.item} />
+      {activity.map((each, index) =>
+        index < 3 ? <Item activityData={each} className={classes.item} key={each.user.userId} /> : null,
+      )}
     </Box>
   );
 };
 
-const Item = ({ data }) => {
+const Item = ({ activityData }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const { user, createDate, edition, activityTypeId } = activityData;
+  const { WEBSITE_URL, CHALLENGE_ACTIVITY_TYPE } = AppConstant;
+  const bookLink = edition ? WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, edition.editionId) : "#";
+  const getFormatByTypeId = typeId => {
+    switch (typeId) {
+      case CHALLENGE_ACTIVITY_TYPE.join:
+        return "FM_ACTIVITY_JOIN";
+      case CHALLENGE_ACTIVITY_TYPE.read:
+        return "FM_ACTIVITY_READ";
+      case CHALLENGE_ACTIVITY_TYPE.share:
+        return "FM_ACTIVITY_SHARE";
+      case CHALLENGE_ACTIVITY_TYPE.write:
+        return "FM_ACTIVITY_WRITE";
+      default:
+        return "";
+    }
+  };
   return (
     <Paper className={classes.item}>
       <Box className={classes.itemTop}>
         <AppLink>
-          <Avatar src="/images/img-avatar.jpg" />
+          <Avatar src={getImageById(user.imageId)} />
         </AppLink>
         <Box className={classes.topText}>
           <AppLink>
             <Typography variant="subtitle2" color="textPrimary">
-              {data.name}
+              {user.name}
             </Typography>
           </AppLink>
 
-          <Typography variant="caption">{data.time}</Typography>
+          <Typography variant="caption">{getCreatedTime(new Date(createDate))}</Typography>
         </Box>
       </Box>
       <Box className={classes.content}>
-        {isMobile ? (
-          <Typography
-            variant="body2"
-            dangerouslySetInnerHTML={{
-              __html: StringFormat(getLabel("FM_ACTIVITY_MOBILE"), {
-                bookLink: "/",
-                book: data.book,
-              }),
-            }}
-          />
-        ) : (
-          <Typography
-            variant="subtitle1"
-            dangerouslySetInnerHTML={{
-              __html: StringFormat(getLabel("FM_ACTIVITY"), {
-                name: data.name,
-                bookLink: "/",
-                book: data.book,
-              }),
-            }}
-          />
-        )}
+        <Typography
+          variant={isMobile ? "body2" : "subtitle1"}
+          dangerouslySetInnerHTML={{
+            __html: StringFormat(
+              getLabel(getFormatByTypeId(activityTypeId)),
+              user.name,
+              bookLink,
+              edition ? edition.title : "",
+            ),
+          }}
+        />
 
-        {!isMobile && <Avatar alt="goal" src="/images/img-goal.jpg" variant="square" className={classes.img} />}
+        {!isMobile && edition && (
+          <Avatar alt="book" src={getImageById(edition.imageId)} variant="square" className={classes.img} />
+        )}
       </Box>
     </Paper>
   );
 };
-
+Item.propTypes = {
+  activityData: PropTypes.object,
+};
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
   },
   title: {
-    fontSize: "18px",
-    fontWeight: 600,
     [theme.breakpoints.down("xs")]: {
-      paddingLeft: "20px",
+      padding: "0px 0px 6px 16px",
     },
   },
   item: {

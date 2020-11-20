@@ -9,11 +9,10 @@ import { useSelector } from "react-redux";
 const ChallengeDetailCreator = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const creator = useSelector(state => state.challengeRedux.creator);
-  const { coverImageId, name } = creator;
+  const { coverImageId, name } = useSelector(state => state.challengeRedux.detail.creator);
   return (
     <Paper elevation={1} className={classes.logoContainer}>
-      <Avatar className={classes.ava} src={getImageById(coverImageId)} />
+      <Avatar className={classes.avatar} src={getImageById(coverImageId)} />
       <Typography
         variant="body2"
         color="textSecondary"
@@ -37,7 +36,7 @@ const useStyles = makeStyles(theme => ({
       marginLeft: theme.spacing(1),
     },
   },
-  ava: {
+  avatar: {
     height: "40px",
     width: "40px",
   },

@@ -14,10 +14,10 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const challengeProgress = useSelector(state => state.challengeRedux.challengeProgress);
-  const fixedTargetNumber = useSelector(state => state.challengeRedux.targetNumber);
-  const targetTypeId = useSelector(state => state.challengeRedux.targetTypeId);
-  const endDate = useSelector(state => state.challengeRedux.endDate);
+  const challengeProgress = useSelector(state => state.challengeRedux.detail.challengeProgress);
+  const fixedTargetNumber = useSelector(state => state.challengeRedux.detail.targetNumber);
+  const targetTypeId = useSelector(state => state.challengeRedux.detail.targetTypeId);
+  const endDate = useSelector(state => state.challengeRedux.detail.endDate);
   const progress = challengeProgress ? challengeProgress.progress : 0;
   const target = challengeProgress ? challengeProgress.targetNumber : fixedTargetNumber;
 
@@ -61,7 +61,6 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
               </Typography>
             </Box>
           )}
-
           <Box className={clsx(classes.icLine2, classes.gray, "ic-calendar-alt")}>
             {isEnd ? (
               <Typography variant={isMobile ? "body2" : "body1"} component="span">
@@ -100,12 +99,6 @@ ChallengeDetailFooter.propTypes = {
   isDone: PropTypes.bool,
   isEnd: PropTypes.bool,
   joined: PropTypes.bool,
-};
-
-ChallengeDetailFooter.defaultProps = {
-  isDone: false,
-  isEnd: false,
-  joined: true,
 };
 
 const useStyles = makeStyles(theme => ({

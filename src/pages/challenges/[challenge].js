@@ -15,7 +15,7 @@ import {
 } from "components/challenges";
 import CustomBreadCrumb from "components/CustomBreadcrumb";
 import PropTypes from "prop-types";
-import { getTitleNoMark, getNumberIdFromQuery, getImageById } from "utils";
+import { getTitleNoMark, getNumberIdFromQuery } from "utils";
 import { pastDueDate } from "utils/date";
 import { useDispatch } from "react-redux";
 import { ChallengeService } from "services";
@@ -30,17 +30,16 @@ const Challenge = ({ data }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
   const { WEBSITE_URL, CHALLENGE_PROGRESS_STATUS, CHALLENGE_MODE } = AppConstant;
-  const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId } = data;
+  const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId, leaderBoard } = data;
   const SHARE_URL = WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
 
   //////////////////screen variant
   let isDone = challengeProgress && challengeProgress.completeStatus === CHALLENGE_PROGRESS_STATUS.complete; //progress
   let isEnd = pastDueDate(endDate); // due date
-  let joined = challengeProgress ? true : false;
+  let joined = Boolean(challengeProgress);
   let isGroup = !(challengeModeId === CHALLENGE_MODE.personal);
   //////////////////
-
   useEffect(() => {
     dispatch(ChallengeAction.setChallengeDetail(data));
   }, []);
@@ -78,14 +77,18 @@ const Challenge = ({ data }) => {
               <Box className={classes.item}>
                 <ChallengeInfo />
                 <Goal isGroup={isGroup} />
-                {targetTypeId >= CHALLENGE_TARGET_TYPE.readBookList && <GoalList />}
+                {(targetTypeId === CHALLENGE_TARGET_TYPE.readBookList ||
+                  targetTypeId === CHALLENGE_TARGET_TYPE.writeArticleList) && <GoalList />}
               </Box>
               <Box className={classes.item}>
                 <Description />
               </Box>
-              <Box className={classes.item}>
-                <PositiveMember />
-              </Box>
+              {leaderBoard[0] && (
+                <Box className={classes.item}>
+                  <PositiveMember />
+                </Box>
+              )}
+
               {joined && (
                 <Box className={classes.item}>
                   <Activity />
@@ -102,7 +105,8 @@ const Challenge = ({ data }) => {
                 <Box className={classes.item}>
                   <ChallengeInfo />
                   <Goal isGroup={isGroup} />
-                  {targetTypeId >= CHALLENGE_TARGET_TYPE.readBookList && <GoalList />}
+                  {(targetTypeId === CHALLENGE_TARGET_TYPE.readBookList ||
+                    targetTypeId === CHALLENGE_TARGET_TYPE.writeArticleList) && <GoalList />}
                 </Box>
                 <Box className={classes.item}>
                   <Description />
@@ -113,9 +117,12 @@ const Challenge = ({ data }) => {
                 <Box className={classes.item}>
                   <InviteFriend />
                 </Box>
-                <Box className={classes.item}>
-                  <PositiveMember />
-                </Box>
+                {leaderBoard[0] && (
+                  <Box className={classes.item}>
+                    <PositiveMember />
+                  </Box>
+                )}
+
                 {joined && (
                   <Box className={classes.item}>
                     <Activity />
@@ -137,9 +144,14 @@ export async function getServerSideProps({ res, query }) {
 
   const challengeInfo = await ChallengeService.getChallengeInfo(challengeId);
   const challengeLeaderBoard = await ChallengeService.getChallengeLeaderBoard(challengeId);
+  const challengeActivity = await ChallengeService.getChallengeActivity(challengeId);
 
   if (challengeInfo.data.data) {
-    let data = { ...challengeInfo.data.data, leaderBoard: challengeLeaderBoard.data.data.pageData };
+    let data = {
+      ...challengeInfo.data.data,
+      leaderBoard: challengeLeaderBoard.data.data.pageData,
+      activity: challengeActivity.data.data.pageData,
+    };
 
     if (isOnlyNumber) {
       const challengeTitleNoMark = getTitleNoMark(data.title);
@@ -149,10 +161,6 @@ export async function getServerSideProps({ res, query }) {
         })
         .end();
     }
-
-    const coverId = data.coverId ? getImageById(data.coverId) : null;
-
-    data = { ...data, coverId };
     return { props: { data } };
   }
   return res.status(404).end();

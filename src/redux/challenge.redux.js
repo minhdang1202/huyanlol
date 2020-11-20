@@ -19,6 +19,8 @@ export default Creators;
 export const INITIAL_STATE = {
   isFetching: false,
   error: null,
+  list: {},
+  detail: {},
 };
 
 /* ------------- Reducers ------------- */
@@ -42,13 +44,13 @@ export const challengeFailure = (state = INITIAL_STATE, action) => {
   return { ...state, isFetching: false, ...data };
 };
 
-export const challengeSet = (state = INITIAL_STATE, action) => {
+export const challengeDetailSet = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
   return {
     ...state,
     isFetching: false,
     error: null,
-    ...data,
+    detail: data,
   };
 };
 
@@ -62,7 +64,7 @@ export const HANDLERS = {
   [Types.GET_CHALLENGE_LEADER_BOARD_SUCCESS]: challengeSuccess,
   [Types.GET_CHALLENGE_LEADER_BOARD_FAILURE]: challengeFailure,
 
-  [Types.SET_CHALLENGE_DETAIL]: challengeSet,
+  [Types.SET_CHALLENGE_DETAIL]: challengeDetailSet,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

@@ -14,7 +14,7 @@ const PositiveMember = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("sm"));
-  const leaderBoard = useSelector(state => state.challengeRedux.leaderBoard);
+  const leaderBoard = useSelector(state => state.challengeRedux.detail.leaderBoard);
 
   return (
     <Paper elevation={1} className={classes.root}>
@@ -31,18 +31,8 @@ const PositiveMember = () => {
       </Box>
       <Box className={clsx(classes.bottom, leaderBoard.length < 4 && classes.bottom2)}>
         {leaderBoard.map((each, index) => {
-          if (index < 4) {
+          if (index < 4 || (index === 4 && !isTablet)) {
             return (
-              <Member
-                key={each.user.userId}
-                place={index + 1}
-                name={each.user.name}
-                imgId={each.user.imageId}
-                progress={each.progress}
-              />
-            );
-          } else if (index === 4) {
-            return isTablet ? null : (
               <Member
                 key={each.user.userId}
                 place={index + 1}
@@ -61,7 +51,7 @@ const PositiveMember = () => {
 const Member = ({ place, imgId, name, progress }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const targetTypeId = useSelector(state => state.challengeRedux.targetTypeId);
+  const targetTypeId = useSelector(state => state.challengeRedux.detail.targetTypeId);
   const certificate = place => {
     switch (place) {
       case 1:
