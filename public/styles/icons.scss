@@ -18,6 +18,17 @@
   content: "\f1e0";
 }
 
+.ic-image:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f03e";
+  font-size: 30px;
+}
+
+.ic-times-circle-light:before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f057";
+}
+
 .ic-search:before {
   font-family: "FontAwesome5Pro";
   content: "\f002";
@@ -28,6 +39,7 @@
 .ic-link:before {
   font-family: "FontAwesome5Pro";
   content: "\f0c1";
+  font-size: 16px;
 }
 
 .ic-chevron-left:before {
@@ -48,6 +60,12 @@
 .ic-ellipsis-h:before {
   font-family: "FontAwesome5Pro";
   content: "\f141";
+}
+
+.ic-list:before {
+  font-family: "FontAwesome5Pro";
+  content: "\f03a";
+  font-size: 24px;
 }
 
 .ic-plus:before {

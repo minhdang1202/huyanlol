@@ -18,6 +18,8 @@ import BookIcon from "./BookIcon";
 import PersonIcon from "./PersonIcon";
 import DotIcon from "./DotIcon";
 import LocalOfferIcon from "./LocalOfferIcon";
+import QuoteIcon from "./QuoteIcon";
+import BreakIcon from "./BreakIcon";
 
 export {
   SearchIcon,
@@ -40,4 +42,6 @@ export {
   LocalOfferIcon,
   ArrowRightIcon,
   ArrowLeftIcon,
+  QuoteIcon,
+  BreakIcon,
 };

@@ -5,26 +5,39 @@ import { Toolbar, makeStyles, IconButton, Button, Box, Divider, Typography } fro
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
-import WordCountPopover from "./WordCountPopover";
+import CharCountPopover from "./CharCountPopover";
 import { UndoButton, RedoButton } from "../CustomEditor";
+import SidebarMenu from "../CustomEditor/SidebarMenu";
 
 const CreateToolbar = ({ isDisabled }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [anchorCharCount, setAnchorCharCount] = useState(null);
+  const [anchorSidebar, setAnchorSidebar] = useState(null);
+  const hasCharOpen = Boolean(anchorCharCount);
+  const hasSidebarOpen = Boolean(anchorSidebar);
+
   const onOpenPopover = event => {
-    setAnchorEl(event.currentTarget);
+    setAnchorCharCount(event.currentTarget);
   };
   const onClosePopover = () => {
-    setAnchorEl(null);
+    setAnchorCharCount(null);
+  };
+
+  const onOpenSidebar = event => {
+    setAnchorSidebar(event.currentTarget);
+  };
+
+  const onCloseSidebar = () => {
+    setAnchorSidebar(null);
   };
 
   return (
     <Toolbar className={classes.root}>
-      <IconButton edge="start">
+      <IconButton edge="start" onClick={onOpenSidebar} className={hasSidebarOpen ? classes.rotateButton : null}>
         <Box className={clsx("ic-plus", classes.icon)} />
       </IconButton>
+      <SidebarMenu anchorEl={anchorSidebar} open={hasSidebarOpen} onClose={onCloseSidebar} />
       <IconButton className={classes.undoButton} component="div">
         <UndoButton />
       </IconButton>
@@ -33,14 +46,19 @@ const CreateToolbar = ({ isDisabled }) => {
       </IconButton>
       <Divider orientation="vertical" />
       <Typography
-        id={WORDS_UPDATE_CONTAINER_ID}
-        aria-owns={open ? "mouse-over-popover" : undefined}
+        id={WORD_BOX_ID}
+        aria-owns={hasCharOpen ? "mouse-over-popover" : undefined}
         aria-haspopup="true"
         className={clsx("grey-text", classes.popoverButton)}
         onMouseEnter={onOpenPopover}
         onMouseLeave={onClosePopover}
+      ></Typography>
+      <CharCountPopover
+        id="mouse-over-popover"
+        open={hasCharOpen}
+        anchorEl={anchorCharCount}
+        onClose={onClosePopover}
       />
-      <WordCountPopover id="mouse-over-popover" open={open} anchorEl={anchorEl} onClose={onClosePopover} />
       <IconButton>
         <Box className={clsx("ic-cog", classes.icon)} />
       </IconButton>
@@ -51,11 +69,11 @@ const CreateToolbar = ({ isDisabled }) => {
   );
 };
 
-export const WORDS_UPDATE_CONTAINER_ID = "words-count";
-
 CreateToolbar.propTypes = {
   isDisabled: PropTypes.bool,
 };
+
+export const WORD_BOX_ID = "word-count";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -113,6 +131,14 @@ const useStyles = makeStyles(theme => ({
             },
           },
         },
+      },
+    },
+  },
+  rotateButton: {
+    "& .ic-plus": {
+      "&:before": {
+        display: "block",
+        transform: "rotate(45deg)",
       },
     },
   },

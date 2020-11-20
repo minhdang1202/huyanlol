@@ -20,6 +20,32 @@ body {
   line-height: normal;
 }
 
+a {
+  color: $color-primary-main;
+}
+
+h5 {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 1em 0;
+}
+
+h6 {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 1em 0;
+}
+
+blockquote {
+  padding: 0 16px;
+  margin: 0;
+  font-style: italic;
+  border-left: 3px solid $color-text-secondary;
+  & + *:not(blockquote) {
+    margin: 1em 0;
+  }
+}
+
 .center-root {
   display: flex;
   align-items: center;

@@ -67,8 +67,8 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     maxWidth: 1020,
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: 624,
+    [theme.breakpoints.down("md")]: {
+      maxWidth: 670,
     },
     "&:nth-child(2)": {
       marginTop: theme.spacing(3),

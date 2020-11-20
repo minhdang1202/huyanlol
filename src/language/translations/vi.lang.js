@@ -183,7 +183,6 @@ export default {
 
     L_CREATE_RATING: "Đánh giá cuốn sách",
     L_CHARACTERS: "Ký tự",
-    L_WORDS: "Từ",
 
     FM_CHARACTERS: "{0} ký tự",
     FM_WORDS: "{0} từ",
