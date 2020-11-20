@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { daysLeft } from "utils/date";
 import { CHALLENGE_TARGET_TYPE } from "const/app.const";
+import { ChallengeService } from "services";
 const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -20,6 +21,12 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const endDate = useSelector(state => state.challengeRedux.detail.endDate);
   const progress = challengeProgress ? challengeProgress.progress : 0;
   const target = challengeProgress ? challengeProgress.targetNumber : fixedTargetNumber;
+  const challengeId = useSelector(state => state.challengeRedux.detail.challengeId);
+
+  const onJoin = async challengeId => {
+    const response = await ChallengeService.putJoinChallenge(challengeId);
+    if (response) window.location.reload();
+  };
 
   return (
     <Paper elevation={1} className={classes.content}>
@@ -87,7 +94,13 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
           </Button>
         </Box>
       ) : (
-        <Button fullWidth size={isMobile ? "medium" : "large"} color="primary" variant="contained">
+        <Button
+          fullWidth
+          size={isMobile ? "medium" : "large"}
+          color="primary"
+          variant="contained"
+          onClick={() => onJoin(challengeId)}
+        >
           {getLabel("L_JOIN")}
         </Button>
       )}

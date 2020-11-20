@@ -144,8 +144,8 @@ export default {
     FM_GOAL_REVIEW_group: "Cùng Viết đánh giá {0} cuốn sách",
 
     FM_HAVE_DONE: "Hoàn thành: {0}/{1} ({2}%)",
-    FM_ACTIVITY_READ: `<a style="font-weight:600">{0}</a> <span style="font-weight:400">vừa đọc xong quyển<span/> <a href={1} style="color:#5aa4cc">{2}</a>`,
-    FM_ACTIVITY_WRITE: `<a style="font-weight:600">{0}</a> <span style="font-weight:400">vừa viết đánh giá quyển</span> <a href={1} style="color:#5aa4cc">{2}</a>`,
+    FM_ACTIVITY_READ: `<a style="font-weight:600">{0}</a> <span style="font-weight:400">vừa đọc xong quyển<span/> <a href={1} style="color:#5aa4cc;font-weight:600">{2}</a>`,
+    FM_ACTIVITY_WRITE: `<a style="font-weight:600">{0}</a> <span style="font-weight:400">vừa viết đánh giá quyển</span> <a href={1} style="color:#5aa4cc;font-weight:600">{2}</a>`,
     FM_ACTIVITY_SHARE: `<a style="font-weight:600">{0}</a> <span style="font-weight:400">vừa chia sẻ thử thách</span>`,
     FM_ACTIVITY_JOIN: `<a style="font-weight:600">{0}</a> <span style="font-weight:400">vừa tham gia thử thách</span>`,
     FM_DUE_TIME: "{0} đến {1}",

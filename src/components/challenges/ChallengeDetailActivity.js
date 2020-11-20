@@ -8,9 +8,7 @@ import { useSelector } from "react-redux";
 import { getImageById } from "utils";
 import { getCreatedTime } from "utils/date";
 import { AppConstant, PathConstant } from "const";
-
 import PropTypes from "prop-types";
-import { CHALLENGE_ACTIVITY_TYPE } from "const/app.const";
 const Activity = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -34,7 +32,7 @@ const Item = ({ activityData }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const { user, createDate, edition, activityTypeId } = activityData;
   const { WEBSITE_URL, CHALLENGE_ACTIVITY_TYPE } = AppConstant;
-  const bookLink = edition ? WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, edition.editionId) : "#";
+  const bookLink = edition ? WEBSITE_URL + StringFormat(PathConstant.FM_BOOK_DETAIL_ID, edition.editionId) : "#";
   const getFormatByTypeId = typeId => {
     switch (typeId) {
       case CHALLENGE_ACTIVITY_TYPE.join:
@@ -79,7 +77,9 @@ const Item = ({ activityData }) => {
         />
 
         {!isMobile && edition && (
-          <Avatar alt="book" src={getImageById(edition.imageId)} variant="square" className={classes.img} />
+          <AppLink to={StringFormat(PathConstant.FM_BOOK_DETAIL_ID, edition.editionId)}>
+            <Avatar alt="book" src={getImageById(edition.imageId)} variant="square" className={classes.img} />
+          </AppLink>
         )}
       </Box>
     </Paper>

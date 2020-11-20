@@ -12,3 +12,7 @@ export const getChallengeLeaderBoard = challengeId => {
 export const getChallengeActivity = challengeId => {
   return createApi().get(ApiConstant.GET_CHALLENGE_ACTIVITY(challengeId));
 };
+
+export const putJoinChallenge = challengeId => {
+  return createApi().put(ApiConstant.PUT_JOIN_CHALLENGE(challengeId));
+};
