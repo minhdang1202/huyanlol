@@ -35,6 +35,7 @@ export default function* root() {
   yield all([
     // authentication
     takeLatest(AuthTypes.REQUEST_LOGIN, requestLogin),
+    takeLatest(AuthTypes.REQUEST_LOGIN_BY_SOCIAL, requestLogin),
     takeLatest(AuthTypes.REQUEST_REGISTER, requestRegister),
 
     // edition

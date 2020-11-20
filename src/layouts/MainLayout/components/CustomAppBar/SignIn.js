@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { AvatarIcon } from "icons";
 import { HEIGHT_APP_BAR } from "./index";
 import AuthDialog from "components/AuthDialog";
-import { hasLogged } from "utils/auth";
+import { hasLogged, logout } from "utils/auth";
 import CookieUtil from "utils/cookie";
 import { getImageById } from "utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,6 @@ const SignIn = () => {
   const profileRedux = useSelector(({ userRedux }) => userRedux.profile);
   const isLogin = hasLogged();
 
-  const [isAuth, setIsAuth] = useState(isLogin);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenAuth, setIsOpenAuth] = useState(false);
@@ -47,18 +46,15 @@ const SignIn = () => {
   }, [profileRedux]);
 
   useEffect(() => {
-    if (isAuth && !Boolean(profileRedux && profileRedux.userId)) {
+    if (isLogin && !Boolean(profileRedux && profileRedux.userId)) {
       dispatch(UserAction.requestProfile());
     }
-  }, [isAuth]);
-
-  useEffect(() => {
-    setIsAuth(isLogin);
+    setIsOpenAuth(false);
   }, [isLogin]);
 
   return (
     <>
-      {isAuth ? (
+      {isLogin ? (
         <Box className={classes.root}>
           <Button size="large" ref={usernameBtn} variant="text" className={classes.textPrimary} onClick={onOpenMenu}>
             {profile.name}
@@ -70,6 +66,7 @@ const SignIn = () => {
             anchorEl={anchorEl}
             open={isOpenMenu}
             onClose={onCloseMenu}
+            onClick={onCloseMenu}
             classes={{ paper: classes.menuPaper, list: classes.menuList }}
           >
             <MenuItem>{getLabel("TXT_APPBAR_PROFILE")}</MenuItem>
@@ -80,7 +77,7 @@ const SignIn = () => {
               </Button>
             </MenuItem>
             <MenuItem>{getLabel("TXT_APPBAR_COMMON_QUESTIONS")}</MenuItem>
-            <MenuItem>{getLabel("TXT_APPBAR_SIGNOUT")}</MenuItem>
+            <MenuItem onClick={() => logout()}>{getLabel("TXT_APPBAR_SIGNOUT")}</MenuItem>
           </Menu>
         </Box>
       ) : (

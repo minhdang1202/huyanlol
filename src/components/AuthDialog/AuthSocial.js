@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Button, Typography, Link, Box, makeStyles } from "@material-ui/core/";
 import clsx from "clsx";
 import { GoogleIcon, FacebookIcon } from "icons";
 import { useTranslation } from "react-i18next";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import AuthAction from "redux/auth.redux";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { AppConstant } from "const/index";
-const FIXED_UUID = "f4e25588-e48f-4dd5-b7c5-812f68204be4";
 
 const AuthSocial = ({ isLogin, onChangeForm }) => {
   const { t: getText } = useTranslation();
@@ -18,7 +17,9 @@ const AuthSocial = ({ isLogin, onChangeForm }) => {
 
   const onFacebookResponse = response => {
     const { email, name, id } = response;
-    dispatch(AuthAction.requestLoginBySocial({ email, name, socialID: id, socialType: 1, uuid: FIXED_UUID }));
+    if (id) {
+      dispatch(AuthAction.requestLoginBySocial({ email, name, socialID: id, socialType: 1 }));
+    }
   };
 
   const onGoogleResponse = response => {
