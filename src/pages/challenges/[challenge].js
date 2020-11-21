@@ -17,7 +17,7 @@ import CustomBreadCrumb from "components/CustomBreadcrumb";
 import PropTypes from "prop-types";
 import { getTitleNoMark, getNumberIdFromQuery } from "utils";
 import { pastDueDate } from "utils/date";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ChallengeService } from "services";
 import ChallengeAction from "redux/challenge.redux";
 import StringFormat from "string-format";
@@ -30,7 +30,9 @@ const Challenge = ({ data }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
   const { WEBSITE_URL, CHALLENGE_PROGRESS_STATUS, CHALLENGE_MODE } = AppConstant;
-  const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId, leaderBoard, activity } = data;
+  const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId } = data;
+  const leaderBoard = useSelector(state => state.challengeRedux.detail.leaderBoard);
+  const activity = useSelector(state => state.challengeRedux.detail.activity);
   const SHARE_URL = WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
 
@@ -41,11 +43,11 @@ const Challenge = ({ data }) => {
   let isGroup = !(challengeModeId === CHALLENGE_MODE.personal);
   //////////////////
   useEffect(() => {
-    const load = async () => {
+    const load = () => {
       dispatch(ChallengeAction.setChallengeDetail(data));
-      // dispatch(ChallengeAction.requestGetChallengeActivity(challengeId));
-      // dispatch(ChallengeAction.requestGetChallengeLeaderBoard(challengeId));
-      // dispatch(ChallengeAction.requestGetChallengeFriendLeaderBoard(challengeId));
+      dispatch(ChallengeAction.requestGetChallengeActivity(challengeId));
+      dispatch(ChallengeAction.requestGetChallengeLeaderBoard(challengeId));
+      dispatch(ChallengeAction.requestGetChallengeFriendLeaderBoard(challengeId));
     };
     load();
   }, []);
@@ -147,21 +149,10 @@ export async function getServerSideProps({ res, query }) {
   let challengeId = query && query.challenge ? query.challenge : null;
   const isOnlyNumber = /^\d+$/.test(challengeId);
   challengeId = isOnlyNumber ? challengeId : getNumberIdFromQuery(challengeId);
-
   const challengeInfo = await ChallengeService.getChallengeInfo(challengeId);
-  const challengeLeaderBoard = await ChallengeService.getChallengeLeaderBoard(challengeId);
-  const challengeActivity = await ChallengeService.getChallengeActivity(
-    challengeId,
-    AppConstant.CHALLENGE_ACTIVITY_SIZE,
-  );
-  const challengeFriendLeaderBoard = await ChallengeService.getChallengeFriendLeaderBoard(challengeId);
-
   if (challengeInfo.data.data) {
-    let data = {
+    const data = {
       ...challengeInfo.data.data,
-      leaderBoard: challengeLeaderBoard.data.data.pageData,
-      activity: challengeActivity.data.data.pageData,
-      friendLeaderBoard: challengeFriendLeaderBoard.data.data.pageData,
     };
 
     if (isOnlyNumber) {

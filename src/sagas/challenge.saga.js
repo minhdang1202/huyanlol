@@ -3,8 +3,8 @@ import { ApiConstant } from "const";
 import ChallengeAction from "redux/challenge.redux";
 import { ChallengeService } from "services";
 
-export function* requestGetChallengeInfo(id) {
-  let response = yield call(ChallengeService.getChallengeInfo, id);
+export function* requestGetChallengeInfo(action) {
+  let response = yield call(ChallengeService.getChallengeInfo, action.data);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
@@ -20,12 +20,12 @@ export function* requestGetChallengeInfo(id) {
   }
 }
 
-export function* requestGetLeaderBoard(id) {
-  let response = yield call(ChallengeService.getChallengeLeaderBoard, id);
+export function* requestGetLeaderBoard(action) {
+  let response = yield call(ChallengeService.getChallengeLeaderBoard, action.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data.pageData;
-      yield put(ChallengeAction.challengeDetailLeaderBoardSuccess(responseData));
+      yield put(ChallengeAction.getChallengeLeaderBoardSuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
       console.log(response.data);
@@ -36,12 +36,12 @@ export function* requestGetLeaderBoard(id) {
   }
 }
 
-export function* requestGetFriendLeaderBoard(id) {
-  let response = yield call(ChallengeService.getChallengeFriendLeaderBoard, id);
+export function* requestGetFriendLeaderBoard(action) {
+  let response = yield call(ChallengeService.getChallengeFriendLeaderBoard, action.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data.pageData;
-      yield put(ChallengeAction.challengeDetailFriendLeaderBoardSuccesss(responseData));
+      yield put(ChallengeAction.getChallengeFriendLeaderBoardSuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
       console.log(response.data);
@@ -52,24 +52,23 @@ export function* requestGetFriendLeaderBoard(id) {
   }
 }
 
-export function* requestGetActivity(id) {
-  let response = yield call(ChallengeService.getChallengeActivity, id);
+export function* requestGetActivity(action) {
+  const response = yield call(ChallengeService.getChallengeActivity, action.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data.pageData;
-      yield put(ChallengeAction.challengeDetailActivitySuccess(responseData));
+      yield put(ChallengeAction.getChallengeActivitySuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
-      console.log(response.data);
     }
   } catch (error) {
-    console.log(error);
+    yield console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }
 
-export function* requestPutJoin(id) {
-  let response = yield call(ChallengeService.putJoinChallenge, id);
+export function* requestPutJoin(action) {
+  let response = yield call(ChallengeService.putJoinChallenge, action.data);
   console.log(response.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
