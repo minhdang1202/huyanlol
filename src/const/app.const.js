@@ -60,3 +60,5 @@ export const CHALLENGE_ACTIVITY_TYPE = {
   share: 3,
   write: 4,
 };
+
+export const CHALLENGE_ACTIVITY_SIZE = 3;

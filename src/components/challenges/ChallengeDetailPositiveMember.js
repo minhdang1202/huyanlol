@@ -1,15 +1,14 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Button, Avatar, useTheme, useMediaQuery, Badge } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Button, useTheme, useMediaQuery, Badge } from "@material-ui/core";
 import clsx from "clsx";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { getImageById } from "utils";
-import { AppLink } from "components";
+import { AppLink, Avatar } from "components";
 import StringFormat from "string-format";
 import { CHALLENGE_TARGET_TYPE } from "const/app.const";
-import { AvatarIcon } from "icons";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -76,11 +75,7 @@ const Member = ({ place, imgId, name, progress }) => {
         }
       >
         <AppLink>
-          {imgId ? (
-            <Avatar src={getImageById(imgId)} className={classes.avatar} />
-          ) : (
-            <AvatarIcon className={classes.avatar} />
-          )}
+          <Avatar src={getImageById(imgId)} className={classes.avatar} />
         </AppLink>
       </Badge>
 

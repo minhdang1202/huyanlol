@@ -9,8 +9,8 @@ export const getChallengeLeaderBoard = challengeId => {
   return createApi().get(ApiConstant.GET_CHALLENGE_LEADER_BOARD(challengeId));
 };
 
-export const getChallengeActivity = challengeId => {
-  return createApi().get(ApiConstant.GET_CHALLENGE_ACTIVITY(challengeId));
+export const getChallengeActivity = (challengeId, pageSize) => {
+  return createApi().get(ApiConstant.GET_CHALLENGE_ACTIVITY(challengeId, pageSize));
 };
 
 export const putJoinChallenge = challengeId => {

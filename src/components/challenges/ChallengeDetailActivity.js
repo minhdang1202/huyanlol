@@ -1,15 +1,15 @@
 import React from "react";
-import { makeStyles, Typography, Paper, Box, Avatar, useTheme, useMediaQuery } from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, useTheme, useMediaQuery } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import StringFormat from "string-format";
-import { AppLink } from "components";
+import { AppLink, Avatar } from "components";
 import { useSelector } from "react-redux";
 import { getImageById } from "utils";
 import { getCreatedTime } from "utils/date";
 import { AppConstant, PathConstant } from "const";
 import PropTypes from "prop-types";
-import { AvatarIcon } from "icons";
+import clsx from "clsx";
 const Activity = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -20,15 +20,11 @@ const Activity = () => {
         {getLabel("L_ACTIVITY")}
       </Typography>
       {activity.map((each, index) =>
-        index < 3 ? (
+        index < AppConstant.CHALLENGE_ACTIVITY_SIZE ? (
           <Item
             activityData={each}
             className={classes.item}
-            key={
-              each.edition
-                ? each.user.userId + each.edition.editionId + each.activityTypeId
-                : each.user.userId + each.activityTypeId
-            }
+            key={clsx(each.user.userId, each.edition && each.edition.editionId, each.activityTypeId)}
           />
         ) : null,
       )}
@@ -62,11 +58,7 @@ const Item = ({ activityData }) => {
     <Paper className={classes.item}>
       <Box className={classes.itemTop}>
         <AppLink>
-          {user.imageId ? (
-            <Avatar src={getImageById(user.imageId)} className={classes.avatar} />
-          ) : (
-            <AvatarIcon className={classes.avatar} />
-          )}
+          <Avatar src={getImageById(user.imageId)} className={classes.avatar} />
         </AppLink>
         <Box className={classes.topText}>
           <AppLink>
@@ -74,7 +66,6 @@ const Item = ({ activityData }) => {
               {user.name}
             </Typography>
           </AppLink>
-
           <Typography variant="caption">{getCreatedTime(new Date(createDate))}</Typography>
         </Box>
       </Box>
@@ -137,7 +128,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     display: "flex",
     justifyContent: "space-between",
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     [theme.breakpoints.up("sm")]: {
       "&>:nth-child(1)": {
         marginRight: theme.spacing(2),

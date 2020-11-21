@@ -150,7 +150,10 @@ export async function getServerSideProps({ res, query }) {
 
   const challengeInfo = await ChallengeService.getChallengeInfo(challengeId);
   const challengeLeaderBoard = await ChallengeService.getChallengeLeaderBoard(challengeId);
-  const challengeActivity = await ChallengeService.getChallengeActivity(challengeId);
+  const challengeActivity = await ChallengeService.getChallengeActivity(
+    challengeId,
+    AppConstant.CHALLENGE_ACTIVITY_SIZE,
+  );
   const challengeFriendLeaderBoard = await ChallengeService.getChallengeFriendLeaderBoard(challengeId);
 
   if (challengeInfo.data.data) {
