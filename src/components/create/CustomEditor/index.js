@@ -1,43 +1,53 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import clsx from "clsx";
 import StringFormat from "string-format";
-import { makeStyles, Box, Divider, Hidden, IconButton } from "@material-ui/core";
+import { makeStyles, Box, Divider, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
-import { EditorState, ContentState, RichUtils, AtomicBlockUtils } from "draft-js";
+import { EditorState, RichUtils, AtomicBlockUtils, CompositeDecorator } from "draft-js";
 import Editor from "draft-js-plugins-editor";
-import EditorUtils from "draft-js-plugins-utils";
 import { stateToHTML } from "draft-js-export-html";
 import createUndoPlugin from "draft-js-undo-plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
-import createLinkPlugin from "draft-js-anchor-plugin";
 import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
 import { ArrowRightIcon, ArrowLeftIcon } from "icons";
-import { BlockquoteButton, HeadlineFiveButton, HeadlineSixButton } from "./inlineButtons";
-import LinkInput from "./LinkInput";
-import { getCharCount, getWordCount } from "./editorUtils";
+import CustomInlineToolbar from "./CustomInlineToolbar";
+import CustomSideToolbar from "./CustomSideToolbar";
+import InsertLink from "./InsertLink";
+import {
+  getCharCount,
+  getWordCount,
+  findLinkEntities,
+  getEntityLink,
+  insertLink,
+  getContentSelection,
+} from "./editorUtils";
 import { WORD_BOX_ID } from "../CreateToolbar";
 import { CHAR_BOX_ID } from "../CreateToolbar/CharCountPopover";
 import ArticleCreateActions from "redux/articleCreate.redux";
 
 const sideToolbarPlugin = createSideToolbarPlugin();
 const inlineToolbarPlugin = createInlineToolbarPlugin();
-const linkPlugin = createLinkPlugin();
 const undoPlugin = createUndoPlugin({
   undoContent: <ArrowLeftIcon />,
   redoContent: <ArrowRightIcon />,
 });
-const plugins = [undoPlugin, inlineToolbarPlugin, linkPlugin, sideToolbarPlugin];
+const plugins = [undoPlugin, inlineToolbarPlugin, sideToolbarPlugin];
+const decorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: InsertLink,
+  },
+]);
 
 const CustomEditor = ({ onChangeContent }) => {
   const wordBox = document.getElementById(WORD_BOX_ID);
   const charBox = document.getElementById(CHAR_BOX_ID);
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
-  const classes = useStyles();
 
   const editor = useRef();
+
+  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
 
   const dispatch = useDispatch();
   const onCreateListSuccess = () => dispatch(ArticleCreateActions.createListSuccess());
@@ -47,15 +57,56 @@ const CustomEditor = ({ onChangeContent }) => {
   const hasCreateBreakLine = useSelector(state => state.articleCreateRedux.hasCreateBreakLine);
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [hasOpenLinkInput, setHasOpenLinkInput] = useState(false);
+  const [anchorLinkInput, setAnchorLinkInput] = useState(null);
+  const [inlineBtn, setInlineBtn] = useState();
+  const [urlValue, setUrlValue] = useState("");
+  const [hasHiddenPlaceholder, setHasHiddenPlaceholder] = useState(false);
+
+  const classes = useStyles({ hasUrl: getEntityLink(editorState) });
 
   const onOpenLinkInput = e => {
-    console.log(e.currentTarget);
-    setHasOpenLinkInput(true);
+    e.preventDefault();
+    setAnchorLinkInput(e.currentTarget);
+    onPromptForLink();
   };
 
   const onCloseLinkInput = () => {
-    setHasOpenLinkInput(false);
+    setAnchorLinkInput(null);
+  };
+
+  const onChangeUrlValue = e => {
+    setUrlValue(e.target.value);
+  };
+
+  const onSubmitUrlValue = e => {
+    e.preventDefault();
+    if (!urlValue) {
+      onRemoveLink();
+      setTimeout(() => {
+        editor.current.blur();
+      }, 0);
+      return;
+    }
+
+    onChange(insertLink(editorState, urlValue));
+    setUrlValue("");
+    setTimeout(() => {
+      editor.current.blur();
+    }, 0);
+  };
+
+  const onPromptForLink = () => {
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      setUrlValue(getEntityLink(editorState));
+    }
+  };
+
+  const onRemoveLink = () => {
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      onChange(RichUtils.toggleLink(editorState, selection, null));
+    }
   };
 
   const onChange = editorState => {
@@ -63,6 +114,10 @@ const CustomEditor = ({ onChangeContent }) => {
     const contentHtml = stateToHTML(editorState.getCurrentContent());
     const hasContent = editorState.getCurrentContent().hasText();
     onChangeContent(contentHtml, hasContent);
+  };
+
+  const onChangeInlineBtn = (e, newInlineBtn) => {
+    setInlineBtn(newInlineBtn);
   };
 
   const onCreateList = () => {
@@ -93,19 +148,32 @@ const CustomEditor = ({ onChangeContent }) => {
     }
   };
 
+  const onHandleKeyCommand = command => {
+    let newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      onChange(newState);
+      return "handled";
+    }
+    return "not-handled";
+  };
+
+  useEffect(() => {
+    onChange(EditorState.set(editorState, { decorator }));
+  }, []);
+
   useEffect(() => {
     if (wordBox && editorState) wordBox.innerText = StringFormat(getLabel("FM_WORDS"), getWordCount(editorState));
     if (charBox && editorState) charBox.innerText = getCharCount(editorState);
-
-    //Fix: can't delete when contentType !== "unstyled"
+    //Fix: hidden placeholder when no text in "unstyled block"
     const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
-      if (contentState.getBlockMap().first().getType() !== "unstyled")
-        onChange(EditorState.createWithContent(ContentState.createFromText("")));
+      const firstBlockType = contentState.getBlockMap().first().getType();
+      if (firstBlockType !== "unstyled") {
+        setHasHiddenPlaceholder(true);
+        return;
+      }
+      setHasHiddenPlaceholder(false);
     }
-
-    const hasLink = EditorUtils.hasEntity(editorState, "LINK");
-    // Remove all blockType
   }, [editorState, wordBox, charBox]);
 
   useEffect(() => {
@@ -116,41 +184,46 @@ const CustomEditor = ({ onChangeContent }) => {
     if (hasCreateBreakLine) onCreateBreakLine();
   }, [hasCreateBreakLine]);
 
+  useEffect(() => {
+    if (inlineBtn != "link") onRemoveLink();
+  }, [inlineBtn]);
+
   return (
     <Box className={classes.root}>
       <Editor
         ref={editor}
-        placeholder={getLabel("P_CREATE_REVIEW_CONTENT")}
+        placeholder={hasHiddenPlaceholder ? null : getLabel("P_CREATE_REVIEW_CONTENT")}
         editorState={editorState}
         onChange={onChange}
         plugins={plugins}
         blockRendererFn={onRenderBlock}
+        handleKeyCommand={onHandleKeyCommand}
       />
-      <InlineToolbar>
-        {externalProps => (
-          <>
-            <HeadlineFiveButton {...externalProps} />
-            <HeadlineSixButton {...externalProps} />
-            <Divider orientation="vertical" className={classes.divider} flexItem />
-            <BlockquoteButton {...externalProps} />
-            {/* <LinkButton {...externalProps} /> */}
-            <IconButton className={classes.linkButton} onClick={onOpenLinkInput}>
-              <Box className={clsx("ic-link", "center-root")} />
-            </IconButton>
-            <LinkInput open={hasOpenLinkInput} onClose={onCloseLinkInput} />
-          </>
-        )}
-      </InlineToolbar>
+      <CustomInlineToolbar
+        inlineBtn={inlineBtn}
+        onChangeInlineBtn={onChangeInlineBtn}
+        onOpenLinkInput={onOpenLinkInput}
+        urlValue={urlValue}
+        onChangeUrlValue={onChangeUrlValue}
+        onCloseLinkInput={onCloseLinkInput}
+        onSubmitUrlValue={onSubmitUrlValue}
+        onRemoveLink={onRemoveLink}
+        anchorLinkInput={anchorLinkInput}
+        editorState={editorState}
+      />
       <Hidden mdDown>
-        <SideToolbar>{externalProps => <></>}</SideToolbar>
+        <CustomSideToolbar
+          editorState={editorState}
+          onCreateBreakLine={onCreateBreakLine}
+          onCreateList={onCreateList}
+        />
       </Hidden>
     </Box>
   );
 };
 
-const { InlineToolbar } = inlineToolbarPlugin;
-const { SideToolbar } = sideToolbarPlugin;
-// const { LinkButton } = linkPlugin;
+export const { InlineToolbar } = inlineToolbarPlugin;
+export const { SideToolbar } = sideToolbarPlugin;
 export const { UndoButton, RedoButton } = undoPlugin;
 const DividerBlock = () => <Divider />;
 
@@ -158,8 +231,11 @@ CustomEditor.propTypes = {
   onChangeContent: PropTypes.func,
 };
 
+export default CustomEditor;
+
 const useStyles = makeStyles(theme => ({
   root: {
+    marginTop: theme.spacing(3),
     "& .DraftEditor-root": {
       fontSize: 16,
     },
@@ -169,74 +245,5 @@ const useStyles = makeStyles(theme => ({
       display: "flex",
       alignItems: "center",
     },
-    "& [class^='draftJsToolbar__toolbar']": {
-      "& [class*='separator']": {
-        margin: 0,
-        width: 2,
-      },
-      "& svg": {
-        fill: theme.palette.text.primary,
-      },
-      "& [class*='active']": {
-        color: theme.palette.primary.main,
-        "& svg": {
-          fill: theme.palette.primary.main,
-        },
-      },
-      display: "flex",
-      transform: "translate(-20%, -10%)  !important",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 2,
-      boxShadow: "none",
-      borderRadius: 6,
-      "&:after": {
-        display: "none",
-      },
-      "&:before": {
-        display: "none",
-      },
-      "& button": {
-        color: theme.palette.text.primary,
-        background: "none",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 0,
-        "&:hover": {
-          "& svg": {
-            fill: theme.palette.primary.main,
-          },
-          color: theme.palette.primary.main,
-        },
-        "& svg": {
-          width: 16,
-        },
-      },
-      "& button:last-child": {
-        padding: theme.spacing(0, 1),
-        // "& svg": {
-        //   width: 20,
-        // },
-      },
-      "& input": {
-        height: 40,
-        outline: "none",
-        border: "none",
-        width: "auto",
-        minWidth: 200,
-        padding: theme.spacing(0, 1.5),
-        maxWidth: "100%",
-        "&::placeholder": {
-          color: theme.palette.grey[500],
-        },
-      },
-    },
-  },
-  divider: {
-    width: 1,
   },
 }));
-
-export default CustomEditor;

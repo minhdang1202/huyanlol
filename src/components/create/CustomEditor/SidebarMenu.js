@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,6 @@ import ArticleCreateActions from "redux/articleCreate.redux";
 
 const SidebarMenu = props => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
   const dispatch = useDispatch();
   const onCreateList = () => dispatch(ArticleCreateActions.createList());
   const onCreateBreakLine = () => dispatch(ArticleCreateActions.createBreakLine());
@@ -37,30 +36,49 @@ const SidebarMenu = props => {
       }}
       {...props}
     >
-      <MenuItem>
-        <ListItemIcon>
-          <Box className="ic-image" />
-        </ListItemIcon>
-        <ListItemText primary={getLabel("TXT_IMAGE")} />
-      </MenuItem>
-      <MenuItem onClick={onCreateList}>
-        <ListItemIcon>
-          <Box className="ic-list" />
-        </ListItemIcon>
-        <ListItemText primary={getLabel("TXT_LIST")} />
-      </MenuItem>
-      <MenuItem onClick={onCreateBreakLine}>
-        <ListItemIcon>
-          <BreakIcon />
-        </ListItemIcon>
-        <ListItemText primary={getLabel("TXT_BREAK")} />
-      </MenuItem>
+      <ImageButton onClick={() => console.log("Coming soon :)")} />
+      <ListButton onClick={onCreateList} />
+      <BreakButton onClick={onCreateBreakLine} />
     </Menu>
   );
 };
 
-SidebarMenu.propTypes = {
-  buttonList: PropTypes.array,
+export const ImageButton = forwardRef((props, ref) => {
+  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  return (
+    <MenuItem {...props} ref={ref}>
+      <ListItemIcon>
+        <Box className="ic-image" />
+      </ListItemIcon>
+      <ListItemText primary={getLabel("TXT_IMAGE")} />
+    </MenuItem>
+  );
+});
+
+ImageButton.displayName = "ImageButton";
+
+export const ListButton = props => {
+  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  return (
+    <MenuItem {...props}>
+      <ListItemIcon>
+        <Box className="ic-list" />
+      </ListItemIcon>
+      <ListItemText primary={getLabel("TXT_LIST")} />
+    </MenuItem>
+  );
+};
+
+export const BreakButton = props => {
+  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  return (
+    <MenuItem {...props}>
+      <ListItemIcon>
+        <BreakIcon />
+      </ListItemIcon>
+      <ListItemText primary={getLabel("TXT_BREAK")} />
+    </MenuItem>
+  );
 };
 
 export default SidebarMenu;

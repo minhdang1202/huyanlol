@@ -177,13 +177,13 @@ export default {
     TXT_BREAK: "Break",
 
     P_CREATE_TITLE: "Nhập tiêu đề",
-    P_CREATE_REVIEW_TITLE: "Đánh giá cuốn sách {0}",
     P_CREATE_REVIEW_CONTENT: "Bạn đang nghĩ gì?",
-    p_CREATE_LINK: "Paste or type a link...",
+    P_CREATE_LINK: "Paste or type a link...",
 
     L_CREATE_RATING: "Đánh giá cuốn sách",
     L_CHARACTERS: "Ký tự",
 
+    FM_CREATE_REVIEW_TITLE: "Đánh giá cuốn sách {0}",
     FM_CHARACTERS: "{0} ký tự",
     FM_WORDS: "{0} từ",
   },

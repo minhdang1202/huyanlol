@@ -1,35 +1,41 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Paper, Typography, Box, Avatar, Button, Hidden, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import { convertFormat } from "utils/date";
 import { useTranslation } from "react-i18next";
 import CustomRating from "../CustomRating";
-import { LangConstant } from "const";
+import { LangConstant, PathConstant } from "const";
 import { AvatarIcon } from "icons";
-import DialogAppDownload from "components/DialogAppDownload";
-import { EditionTypes } from "redux/edition.redux";
+import { DialogAppDownload, AppLink } from "components";
+import ArticleCreateActions from "redux/articleCreate.redux";
 
-const WriteReview = ({ name, avatar, rate, review }) => {
+const WriteReview = ({ editionId, bookName }) => {
+  //Mock
+  let name, rate, avatar, review;
+
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const currentDate = convertFormat(new Date(), "dd/MM/yyyy");
 
+  const dispatch = useDispatch();
+  const dispatchStartReview = () => dispatch(ArticleCreateActions.startReviewBook(editionId, bookName, rate));
+
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
 
   const onRate = (e, newValue) => {
-    if (name) setIsDownloadOpen(true);
-  };
-
-  const onOpenDownload = () => {
     setIsDownloadOpen(true);
   };
 
   const onCloseDownload = () => {
     setIsDownloadOpen(false);
+  };
+
+  const onGoToCreateReview = () => {
+    dispatchStartReview();
   };
 
   return (
@@ -54,13 +60,15 @@ const WriteReview = ({ name, avatar, rate, review }) => {
             {currentDate}
           </Typography>
         </Box>
-        <Button
-          size={isMobile ? "small" : "large"}
-          className={clsx(classes.button, "blue-text")}
-          onClick={onOpenDownload}
-        >
-          {review ? getLabel("TXT_EDITION_EDIT_COMMENT") : getLabel("TXT_EDITION_WRITE_COMMENT")}
-        </Button>
+        <AppLink to={PathConstant.ARTICLE_CREATE}>
+          <Button
+            size={isMobile ? "small" : "large"}
+            className={clsx(classes.button, "blue-text")}
+            onClick={onGoToCreateReview}
+          >
+            {review ? getLabel("TXT_EDITION_EDIT_COMMENT") : getLabel("TXT_EDITION_WRITE_COMMENT")}
+          </Button>
+        </AppLink>
       </Paper>
     </>
   );
@@ -70,6 +78,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     [theme.breakpoints.down("xs")]: {
       borderRadius: "0 0 10px 10px !important",
+    },
+    "& a:hover": {
+      textDecoration: "none",
     },
   },
   button: {
@@ -96,27 +107,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = state => {
-  const { name, avatar, rate, review } = state.editionRedux;
-  return {
-    name,
-    avatar,
-    rate,
-    review,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onGetLendersList: editionId => dispatch({ type: EditionTypes.REQUEST_GET_SELF_REVIEW, editionId: editionId }),
-  };
-};
-
 WriteReview.propTypes = {
-  name: PropTypes.string,
-  rate: PropTypes.number,
-  review: PropTypes.string,
-  avatar: PropTypes.string,
+  editionId: PropTypes.number,
+  bookName: PropTypes.string,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WriteReview);
+export default WriteReview;

@@ -103,7 +103,7 @@ const BookDetail = ({ book, bookCover }) => {
             <Grid item sm={8}>
               <BookDescription description={book.description} />
               <BookLenders editionId={book.editionId} />
-              <WriteReview editionId={book.editionId} />
+              <WriteReview editionId={book.editionId} bookName={book.title} />
               <BookReviews editionId={book.editionId} />
             </Grid>
           </Grid>

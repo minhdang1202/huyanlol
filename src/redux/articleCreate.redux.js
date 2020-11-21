@@ -6,6 +6,8 @@ const { Types, Creators } = createActions({
   createListSuccess: null,
   createBreakLine: null,
   createBreakLineSuccess: null,
+  startReviewBook: ["editionId", "bookName", "rate"],
+  startReviewBookSuccess: null,
 });
 
 export const ArticleCreateTypes = Types;
@@ -16,6 +18,8 @@ export const INITIAL_STATE = {
   error: null,
   hasCreateList: false,
   hasCreateBreakLine: false,
+  hasStartReviewBook: false,
+  reviewInfo: null,
 };
 
 /* ------------- Reducers ------------- */
@@ -39,6 +43,18 @@ const createBreakLineSuccess = (state = INITIAL_STATE) => ({
   hasCreateBreakLine: false,
 });
 
+const startReviewBook = (state = INITIAL_STATE, action) => ({
+  ...state,
+  hasStartReviewBook: true,
+  reviewInfo: { ...action },
+});
+
+const startReviewBookSuccess = (state = INITIAL_STATE) => ({
+  ...state,
+  hasStartReviewBook: false,
+  reviewInfo: null,
+});
+
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
   [Types.CREATE_LIST]: createList,
@@ -46,6 +62,9 @@ export const HANDLERS = {
 
   [Types.CREATE_BREAK_LINE]: createBreakLine,
   [Types.CREATE_BREAK_LINE_SUCCESS]: createBreakLineSuccess,
+
+  [Types.START_REVIEW_BOOK]: startReviewBook,
+  [Types.START_REVIEW_BOOK_SUCCESS]: startReviewBookSuccess,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

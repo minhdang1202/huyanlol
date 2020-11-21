@@ -1,5 +1,5 @@
-import { EditorState, Modifier } from "draft-js";
 import punycode from "punycode";
+import { EditorState, RichUtils } from "draft-js";
 
 export const getWordCount = editorState => {
   const plainText = editorState.getCurrentContent().getPlainText("");
@@ -17,40 +17,47 @@ export const getCharCount = editorState => {
   return decodeUnicode(cleanString).length;
 };
 
-export const resetAllStyles = editorState => {
-  const selectionState = editorState.getSelection();
-  const anchorKey = selectionState.getAnchorKey();
-  //Then based on the docs for SelectionState -
-  const currentContent = editorState.getCurrentContent();
-  const currentBlock = currentContent.getBlockForKey(anchorKey);
-  const start = selectionState.getStartOffset();
-  const end = selectionState.getEndOffset();
-  // Selected Text
-  const selectedText = currentBlock.getText().slice(start, end);
-
-  const contentWithoutStyles = Modifier.replaceText(
-    editorState.getCurrentContent(),
-    selectionState,
-    selectedText,
-    null,
-  );
-
-  const newState = EditorState.push(editorState, contentWithoutStyles, "change-inline-style");
-
-  return newState;
+export const findLinkEntities = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges(character => {
+    const entityKey = character.getEntity();
+    return entityKey !== null && contentState.getEntity(entityKey).getType() === "LINK";
+  }, callback);
 };
 
-export const resetBlockType = editorState => {
-  const selection = editorState.getSelection();
+export const getEntityLink = editorState => {
   const contentState = editorState.getCurrentContent();
-  // const styles = editorState.getCurrentInlineStyle();
+  const startKey = editorState.getSelection().getStartKey();
+  const startOffset = editorState.getSelection().getStartOffset();
+  const blockWithLinkAtBeginning = contentState.getBlockForKey(startKey);
+  const linkKey = blockWithLinkAtBeginning.getEntityAt(startOffset);
+  let url = "";
+  if (linkKey) {
+    const linkInstance = contentState.getEntity(linkKey);
+    url = linkInstance.getData().url;
+  }
+  return url;
+};
 
-  // const removeStyles = styles.reduce((state, style) => {
-  //   return Modifier.removeInlineStyle(state, selection, style);
-  // }, contentState);
+export const insertLink = (editorState, urlValue) => {
+  const contentState = editorState.getCurrentContent();
+  const contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", { url: urlValue });
+  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+  const newEditorState = EditorState.set(editorState, {
+    currentContent: contentStateWithEntity,
+  });
+  return RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey);
+};
 
-  const removeBlock = Modifier.setBlockType(contentState, selection, "unstyled");
-  const newState = EditorState.push(editorState, removeBlock);
-
-  return newState;
+export const getContentSelection = editorState => {
+  const cursorData = editorState.getSelection();
+  const key = cursorData.anchorKey;
+  const contentState = editorState.getCurrentContent();
+  let result;
+  contentState.blockMap.forEach((e, i) => {
+    if (i === key) {
+      result = e.text;
+      return
+    }
+  });
+  return result;
 };
