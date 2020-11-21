@@ -31,7 +31,13 @@ import {
   requestGetHomeReviews,
 } from "./article.saga";
 
-import { requestGetChallengeInfo } from "./challenge.saga";
+import {
+  requestGetChallengeInfo,
+  requestGetLeaderBoard,
+  requestGetFriendLeaderBoard,
+  requestGetActivity,
+  requestPutJoin,
+} from "./challenge.saga";
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
   yield all([
@@ -58,5 +64,9 @@ export default function* root() {
 
     // challenge detail
     takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_INFO, requestGetChallengeInfo),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LEADER_BOARD, requestGetLeaderBoard),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_FRIEND_LEADER_BOARD, requestGetFriendLeaderBoard),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_ACTIVITY, requestGetActivity),
+    takeLatest(ChallengeTypes.REQUEST_JOIN_CHALLENGE, requestPutJoin),
   ]);
 }

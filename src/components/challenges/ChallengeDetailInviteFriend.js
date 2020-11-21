@@ -3,21 +3,32 @@ import { makeStyles, Typography, Box, Button, Avatar } from "@material-ui/core";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { getImageById } from "utils";
+import { StringFormat } from "string-format";
 const InviteFriend = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const friendLeaderBoard = useSelector(state => state.challengeRedux.detail.friendLeaderBoard);
+  const leaderBoard = useSelector(state => state.challengeRedux.detail.leaderBoard);
   return (
     <Box className={classes.root}>
-      <AvatarGroup spacing={20} className={classes.avatarGroup}>
-        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
-        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
-        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
-        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
-        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} />
-      </AvatarGroup>
+      {friendLeaderBoard && friendLeaderBoard.length > 0 && (
+        <AvatarGroup spacing={20} className={classes.avatarGroup}>
+          {friendLeaderBoard.map((each, index) =>
+            index < 5 ? <Avatar src={getImageById(each.user.imageId)} key={each.user.userId} /> : null,
+          )}
+        </AvatarGroup>
+      )}
       <Box className={classes.content}>
         <Typography variant="body2" className={classes.text}>
-          Nan, Hoa, Xe, Đạp và 122 người khác tham gia thử thách này
+          {friendLeaderBoard.length > 0
+            ? StringFormat(
+                getLabel(friendLeaderBoard.length == 1 ? "FM_INVITE_FRIEND_ONE" : "FM_INVITE_FRIEND"),
+                friendLeaderBoard[0].user.name,
+                leaderBoard.length > friendLeaderBoard && leaderBoard.length - friendLeaderBoard.length - 1,
+              )
+            : getLabel("TXT_NO_FRIEND_JOINED")}
         </Typography>
         <Button fullWidth color="secondary" variant="contained" className={classes.btn} size="large">
           {getLabel("L_INVITE")}

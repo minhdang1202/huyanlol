@@ -30,7 +30,7 @@ const Challenge = ({ data }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
   const { WEBSITE_URL, CHALLENGE_PROGRESS_STATUS, CHALLENGE_MODE } = AppConstant;
-  const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId, leaderBoard } = data;
+  const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId, leaderBoard, activity } = data;
   const SHARE_URL = WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
 
@@ -41,7 +41,13 @@ const Challenge = ({ data }) => {
   let isGroup = !(challengeModeId === CHALLENGE_MODE.personal);
   //////////////////
   useEffect(() => {
-    dispatch(ChallengeAction.setChallengeDetail(data));
+    const load = async () => {
+      dispatch(ChallengeAction.setChallengeDetail(data));
+      // dispatch(ChallengeAction.requestGetChallengeActivity(challengeId));
+      // dispatch(ChallengeAction.requestGetChallengeLeaderBoard(challengeId));
+      // dispatch(ChallengeAction.requestGetChallengeFriendLeaderBoard(challengeId));
+    };
+    load();
   }, []);
 
   return (
@@ -83,13 +89,13 @@ const Challenge = ({ data }) => {
               <Box className={classes.item}>
                 <Description />
               </Box>
-              {leaderBoard[0] && (
+              {leaderBoard && leaderBoard.length > 0 && (
                 <Box className={classes.item}>
                   <PositiveMember />
                 </Box>
               )}
 
-              {joined && (
+              {activity && activity.length > 0 && (
                 <Box className={classes.item}>
                   <Activity />
                 </Box>
@@ -117,13 +123,13 @@ const Challenge = ({ data }) => {
                 <Box className={classes.item}>
                   <InviteFriend />
                 </Box>
-                {leaderBoard[0] && (
+                {leaderBoard && leaderBoard.length > 0 && (
                   <Box className={classes.item}>
                     <PositiveMember />
                   </Box>
                 )}
 
-                {joined && (
+                {activity && activity.length > 0 && (
                   <Box className={classes.item}>
                     <Activity />
                   </Box>
@@ -145,12 +151,14 @@ export async function getServerSideProps({ res, query }) {
   const challengeInfo = await ChallengeService.getChallengeInfo(challengeId);
   const challengeLeaderBoard = await ChallengeService.getChallengeLeaderBoard(challengeId);
   const challengeActivity = await ChallengeService.getChallengeActivity(challengeId);
+  const challengeFriendLeaderBoard = await ChallengeService.getChallengeFriendLeaderBoard(challengeId);
 
   if (challengeInfo.data.data) {
     let data = {
       ...challengeInfo.data.data,
       leaderBoard: challengeLeaderBoard.data.data.pageData,
       activity: challengeActivity.data.data.pageData,
+      friendLeaderBoard: challengeFriendLeaderBoard.data.data.pageData,
     };
 
     if (isOnlyNumber) {

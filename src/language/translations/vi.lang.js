@@ -135,6 +135,7 @@ export default {
     TXT_JUST_READ: "Vừa đọc xong quyển",
     TXT_PEOPLE: "người",
     TXT_To: "đến",
+    TXT_NO_FRIEND_JOINED: "Chưa có người bạn nào tham gia thử thách",
 
     FM_PROGRESS: " Đã đọc {0}/{1} cuốn sách",
     FM_PROGRESS_REVIEW: " Đã viết {0}/{1} đánh giá",
@@ -154,6 +155,8 @@ export default {
     FM_PROGRESS_REVIEW_SHRINK: "{0} đánh giá",
     FM_DAYS_LEFT: "Còn {0} ngày nữa",
     FM_CREATOR: `<span>Tạo bởi <a class="primary-text">{0}</a></span>`,
+    FM_INVITE_FRIEND: "{0} và {1} người khác tham gia thử thách này",
+    FM_INVITE_FRIEND_ONE: "{0} tham gia thử thách này",
   },
   articleDetail: {
     TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",

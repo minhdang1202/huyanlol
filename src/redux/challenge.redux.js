@@ -10,6 +10,17 @@ const { Types, Creators } = createActions({
   requestGetChallengeLeaderBoard: ["data"],
   getChallengeLeaderBoardSuccess: ["data"],
   getChallengeLeaderBoardFailure: ["data"],
+
+  requestGetChallengeActivity: ["data"],
+  getChallengeActivitySuccess: ["data"],
+  getChallengeActivityFailure: ["data"],
+
+  requestGetChallengeFriendLeaderBoard: ["data"],
+  getChallengeFriendLeaderBoardSuccess: ["data"],
+  getChallengeFriendLeaderBoardFailure: ["data"],
+
+  requestJoinChallenge: ["data"],
+  joinChallengeSuccess: null,
 });
 
 export const ChallengeTypes = Types;
@@ -54,6 +65,40 @@ export const challengeDetailSet = (state = INITIAL_STATE, action) => {
   };
 };
 
+export const challengeDetailActivitySuccess = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return {
+    ...state,
+    isFetching: false,
+    error: null,
+    detail: { ...state.detail, activity: data },
+  };
+};
+
+export const challengeDetailLeaderBoardSuccess = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return {
+    ...state,
+    isFetching: false,
+    error: null,
+    detail: { ...state.detail, leaderBoard: data },
+  };
+};
+
+export const challengeDetailFriendLeaderBoardSuccess = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return {
+    ...state,
+    isFetching: false,
+    error: null,
+    detail: { ...state.detail, friendLeaderBoard: data },
+  };
+};
+
+export const challengeJoinSuccess = () => ({
+  ...INITIAL_STATE,
+  isFetching: false,
+});
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
   [Types.REQUEST_GET_CHALLENGE_INFO]: challengeRequest,
@@ -61,10 +106,21 @@ export const HANDLERS = {
   [Types.GET_CHALLENGE_INFO_FAILURE]: challengeFailure,
 
   [Types.REQUEST_GET_CHALLENGE_LEADER_BOARD]: challengeRequest,
-  [Types.GET_CHALLENGE_LEADER_BOARD_SUCCESS]: challengeSuccess,
+  [Types.GET_CHALLENGE_LEADER_BOARD_SUCCESS]: challengeDetailLeaderBoardSuccess,
   [Types.GET_CHALLENGE_LEADER_BOARD_FAILURE]: challengeFailure,
 
   [Types.SET_CHALLENGE_DETAIL]: challengeDetailSet,
+
+  [Types.REQUEST_GET_CHALLENGE_FRIEND_LEADER_BOARD]: challengeRequest,
+  [Types.GET_CHALLENGE_FRIEND_LEADER_BOARD_SUCCESS]: challengeDetailFriendLeaderBoardSuccess,
+  [Types.GET_CHALLENGE_FRIEND_LEADER_BOARD_FAILURE]: challengeFailure,
+
+  [Types.REQUEST_GET_CHALLENGE_ACTIVITY]: challengeRequest,
+  [Types.GET_CHALLENGE_ACTIVITY_SUCCESS]: challengeDetailActivitySuccess,
+  [Types.GET_CHALLENGE_ACTIVITY_FAILURE]: challengeFailure,
+
+  [Types.REQUEST_JOIN_CHALLENGE]: challengeRequest,
+  [Types.JOIN_CHALLENGE_SUCCESS]: challengeJoinSuccess,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

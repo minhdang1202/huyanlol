@@ -43,5 +43,6 @@ export const GET_ARTICLE_COMMENT_GIVERS = commentId => `/articles/comments/${com
 // * Challenge
 export const GET_CHALLENGE_INFO = challengeId => `/challenges/${challengeId}`;
 export const GET_CHALLENGE_LEADER_BOARD = challengeId => `/challenges/${challengeId}/leader_board`;
+export const GET_CHALLENGE_FRIEND_LEADER_BOARD = challengeId => `/challenges/${challengeId}/friend_leader_board`;
 export const GET_CHALLENGE_ACTIVITY = challengeId => `/challenges/${challengeId}/activities`;
 export const PUT_JOIN_CHALLENGE = challengeId => `/challenges/${challengeId}/_join`;
