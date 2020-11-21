@@ -9,11 +9,14 @@ import { useSelector } from "react-redux";
 import { daysLeft } from "utils/date";
 import { CHALLENGE_TARGET_TYPE } from "const/app.const";
 import { ChallengeService } from "services";
+import ChallengeAction from "redux/challenge.redux";
+import { useDispatch } from "react-redux";
 const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const dispatch = useDispatch();
 
   const challengeProgress = useSelector(state => state.challengeRedux.detail.challengeProgress);
   const fixedTargetNumber = useSelector(state => state.challengeRedux.detail.targetNumber);
@@ -26,6 +29,7 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const onJoin = async challengeId => {
     const response = await ChallengeService.putJoinChallenge(challengeId);
     if (response) window.location.reload();
+    // dispatch(ChallengeAction.requestJoinChallenge(challengeId));
   };
 
   return (
@@ -120,7 +124,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    zIndex: 2,
+    zIndex: 4,
     [theme.breakpoints.down("xs")]: {
       flexDirection: "row",
       justifyContent: "space-between",

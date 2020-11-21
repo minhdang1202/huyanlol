@@ -3,7 +3,7 @@ import { ApiConstant } from "const";
 import ChallengeAction from "redux/challenge.redux";
 import { ChallengeService } from "services";
 
-export function* requestGetChallengeInfo({ id }) {
+export function* requestGetChallengeInfo(id) {
   let response = yield call(ChallengeService.getChallengeInfo, id);
 
   try {
@@ -20,7 +20,7 @@ export function* requestGetChallengeInfo({ id }) {
   }
 }
 
-export function* requestGetLeaderBoard({ id }) {
+export function* requestGetLeaderBoard(id) {
   let response = yield call(ChallengeService.getChallengeLeaderBoard, id);
   try {
     if (response.status === ApiConstant.STT_OK) {
@@ -36,7 +36,7 @@ export function* requestGetLeaderBoard({ id }) {
   }
 }
 
-export function* requestGetFriendLeaderBoard({ id }) {
+export function* requestGetFriendLeaderBoard(id) {
   let response = yield call(ChallengeService.getChallengeFriendLeaderBoard, id);
   try {
     if (response.status === ApiConstant.STT_OK) {
@@ -52,7 +52,7 @@ export function* requestGetFriendLeaderBoard({ id }) {
   }
 }
 
-export function* requestGetActivity({ id }) {
+export function* requestGetActivity(id) {
   let response = yield call(ChallengeService.getChallengeActivity, id);
   try {
     if (response.status === ApiConstant.STT_OK) {
@@ -68,8 +68,9 @@ export function* requestGetActivity({ id }) {
   }
 }
 
-export function* requestPutJoin({ id }) {
+export function* requestPutJoin(id) {
   let response = yield call(ChallengeService.putJoinChallenge, id);
+  console.log(response.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
       window.location.reload();

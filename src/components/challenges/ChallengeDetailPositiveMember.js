@@ -9,6 +9,7 @@ import { getImageById } from "utils";
 import { AppLink } from "components";
 import StringFormat from "string-format";
 import { CHALLENGE_TARGET_TYPE } from "const/app.const";
+import { AvatarIcon } from "icons";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -75,7 +76,11 @@ const Member = ({ place, imgId, name, progress }) => {
         }
       >
         <AppLink>
-          <Avatar alt={name} src={getImageById(imgId)} className={classes.avatar} />
+          {imgId ? (
+            <Avatar src={getImageById(imgId)} className={classes.avatar} />
+          ) : (
+            <AvatarIcon className={classes.avatar} />
+          )}
         </AppLink>
       </Badge>
 

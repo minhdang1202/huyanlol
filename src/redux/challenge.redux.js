@@ -35,8 +35,8 @@ export const INITIAL_STATE = {
 };
 
 /* ------------- Reducers ------------- */
-export const challengeRequest = () => ({
-  ...INITIAL_STATE,
+export const challengeRequest = (state = INITIAL_STATE) => ({
+  ...state,
   isFetching: true,
 });
 

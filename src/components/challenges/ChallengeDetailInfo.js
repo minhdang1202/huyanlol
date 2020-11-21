@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
       borderRadius: "10px 10px 0px 0px ",
       position: "relative",
       marginTop: "-50px",
-      zIndex: 10,
+      zIndex: 3,
       padding: theme.spacing(2),
     },
   },

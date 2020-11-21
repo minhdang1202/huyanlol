@@ -9,6 +9,7 @@ import { getImageById } from "utils";
 import { getCreatedTime } from "utils/date";
 import { AppConstant, PathConstant } from "const";
 import PropTypes from "prop-types";
+import { AvatarIcon } from "icons";
 const Activity = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -19,7 +20,17 @@ const Activity = () => {
         {getLabel("L_ACTIVITY")}
       </Typography>
       {activity.map((each, index) =>
-        index < 3 ? <Item activityData={each} className={classes.item} key={each.user.userId} /> : null,
+        index < 3 ? (
+          <Item
+            activityData={each}
+            className={classes.item}
+            key={
+              each.edition
+                ? each.user.userId + each.edition.editionId + each.activityTypeId
+                : each.user.userId + each.activityTypeId
+            }
+          />
+        ) : null,
       )}
     </Box>
   );
@@ -51,7 +62,11 @@ const Item = ({ activityData }) => {
     <Paper className={classes.item}>
       <Box className={classes.itemTop}>
         <AppLink>
-          <Avatar src={getImageById(user.imageId)} />
+          {user.imageId ? (
+            <Avatar src={getImageById(user.imageId)} className={classes.avatar} />
+          ) : (
+            <AvatarIcon className={classes.avatar} />
+          )}
         </AppLink>
         <Box className={classes.topText}>
           <AppLink>
@@ -111,8 +126,8 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
   },
   avatar: {
-    width: "32px",
-    height: "32px",
+    width: "40px",
+    height: "40px",
   },
   topText: {
     marginLeft: theme.spacing(1),
