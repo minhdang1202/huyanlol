@@ -23,7 +23,13 @@ const AuthSocial = ({ isLogin, onChangeForm }) => {
   };
 
   const onGoogleResponse = response => {
-    console.log(response);
+    console.log("response", response);
+    const { user, googleId } = response;
+    if (googleId) {
+      dispatch(
+        AuthAction.requestLoginBySocial({ email: user.email, name: user.name, socialID: googleId, socialType: 1 }),
+      );
+    }
   };
 
   return (
@@ -54,6 +60,7 @@ const AuthSocial = ({ isLogin, onChangeForm }) => {
         <GoogleLogin
           clientId={AppConstant.APP_GOOGLE}
           onSuccess={onGoogleResponse}
+          onFailure={onGoogleResponse}
           cookiePolicy={"single_host_origin"}
           render={renderProps => (
             <Button
