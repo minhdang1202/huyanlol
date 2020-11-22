@@ -24,10 +24,15 @@ const AuthSocial = ({ isLogin, onChangeForm }) => {
 
   const onGoogleResponse = response => {
     console.log("response", response);
-    const { user, googleId } = response;
+    const { profileObj, googleId } = response;
     if (googleId) {
       dispatch(
-        AuthAction.requestLoginBySocial({ email: user.email, name: user.name, socialID: googleId, socialType: 1 }),
+        AuthAction.requestLoginBySocial({
+          email: profileObj.email,
+          name: profileObj.name,
+          socialID: googleId,
+          socialType: 1,
+        }),
       );
     }
   };
