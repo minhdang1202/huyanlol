@@ -26,8 +26,8 @@ export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.ga
 export const GAT_APP_STORE = "https://apps.apple.com/vn/app/gat/id1230316898";
 
 //OAuth AppId
-export const APP_GOOGLE = "658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com";
-export const APP_FACEBOOK = "298749031132657";
+export const APP_GOOGLE = "177876099439-9c4358ridetv491g2b0lokh8l0j0fmdd.apps.googleusercontent.com";
+export const APP_FACEBOOK = "1937935059771206";
 
 // Date format
 export const FM_DD_MM_YYYY = "dd/MM/yyyy";
