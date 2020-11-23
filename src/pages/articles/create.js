@@ -9,28 +9,41 @@ import { LangConstant, PathConstant } from "const";
 import { useTranslation } from "react-i18next";
 import MainLayout from "layouts/MainLayout";
 import { CustomRating, DialogAppDownload } from "components";
-import { CreateToolbar, CustomEditor } from "components/create";
+import { CreateToolbar, CustomEditor, SettingPopup } from "components/create";
 import ArticleCreateActions from "redux/articleCreate.redux";
 
 const Creator = () => {
   const MAX_LENGTH_TITLE = 250;
+  const categoryList = MOCK_CATEGORY_LIST;
+  const tagsSuggestion = MOCK_HASHTAGS_LIST;
+  const reviewCategoryList = [{ title: "Đánh giá sách", id: 0 }];
   const classes = useStyles();
   const router = useRouter();
   const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
 
   const dispatch = useDispatch();
   const dispatchStartSuccess = () => dispatch(ArticleCreateActions.startReviewBookSuccess());
-  const [hasStartReviewBook, info] = useSelector(state => [
-    state.articleCreateRedux.hasStartReviewBook,
+  const [isReviewType, reviewInfo] = useSelector(state => [
+    state.articleCreateRedux.isReviewType,
     state.articleCreateRedux.reviewInfo,
   ]);
 
   const [title, setTitle] = useState();
   const [rate, setRate] = useState(0);
-  const [content, setContent] = useState();
+  const [contentHtml, setContentHtml] = useState();
+  const [contentText, setContentText] = useState();
   const [hasContent, setHasContent] = useState();
-  const [isReviewType, setIsReviewType] = useState();
-  const [reviewInfo, setReviewInfo] = useState();
+  const [isOpenSetting, setIsOpenSetting] = useState(false);
+  const [categoryId, setCategoryId] = useState(categoryList[0].id);
+  const [tagsList, setTagsList] = useState([]);
+
+  const onChangeTagsList = tags => {
+    const newTagsList = tags.map(tag => {
+      if (typeof tag === "object") return tag.title;
+      return tag;
+    });
+    setTagsList([...new Set(newTagsList)]);
+  };
 
   const onCloseDownload = () => {
     if (isReviewType) {
@@ -40,9 +53,18 @@ const Creator = () => {
     }
   };
 
-  const onChangeContent = (contentHtml, hasContent) => {
-    setContent(contentHtml);
+  const onOpenSetting = () => {
+    setIsOpenSetting(true);
+  };
+
+  const onCloseSetting = () => {
+    setIsOpenSetting(false);
+  };
+
+  const onChangeContent = ({ contentHtml, hasContent, contentText }) => {
+    setContentHtml(contentHtml);
     setHasContent(hasContent);
+    setContentText(contentText);
   };
 
   const onChangeTitle = e => {
@@ -53,27 +75,47 @@ const Creator = () => {
     setRate(newRate);
   };
 
+  const onChangeCategoryId = e => {
+    setCategoryId(e.target.value);
+  };
+
   useEffect(() => {
-    setIsReviewType(hasStartReviewBook);
-    setReviewInfo(info);
-    dispatchStartSuccess();
+    return () => {
+      dispatchStartSuccess();
+    };
   }, []);
 
   useEffect(() => {
-    if (reviewInfo) {
-      setRate(reviewInfo.rate);
+    if (isReviewType) {
+      setRate(reviewInfo.rate ? reviewInfo.rate : 0);
+      setCategoryId(0);
     }
-  }, [reviewInfo]);
+  }, [isReviewType]);
 
   return (
     <MainLayout className={classes.root}>
       <Hidden smUp>
         <DialogAppDownload isOpen={true} onClose={onCloseDownload} />
       </Hidden>
+      <SettingPopup
+        open={isOpenSetting}
+        onClose={onCloseSetting}
+        rate={rate}
+        bookName={isReviewType ? reviewInfo.bookName : null}
+        isReviewType={isReviewType}
+        title={title}
+        content={contentText}
+        categoryId={categoryId}
+        categoryList={isReviewType ? reviewCategoryList : categoryList}
+        onChangeCategoryId={onChangeCategoryId}
+        tagsSuggestion={tagsSuggestion}
+        tagsList={tagsList}
+        onChangeTagsList={onChangeTagsList}
+      />
       <Box position="relative">
         <Box position="sticky" top={0}>
           <Container className={classes.container}>
-            <CreateToolbar isDisabled={!(hasContent && title)} />
+            <CreateToolbar isDisabled={!(hasContent && title)} onOpenSetting={onOpenSetting} onClose={onCloseSetting} />
           </Container>
           <Divider />
         </Box>
@@ -101,6 +143,21 @@ const Creator = () => {
     </MainLayout>
   );
 };
+
+const MOCK_CATEGORY_LIST = [
+  { title: "Đánh giá sách", id: 1 },
+  { title: "Tiêu điểm sách", id: 2 },
+];
+
+const MOCK_HASHTAGS_LIST = [
+  { title: "hashtag1", id: 0, quantity: 100 },
+  { title: "hashtag2", id: 1, quantity: "10K" },
+  { title: "hashtag3", id: 3, quantity: 200 },
+  { title: "hashtag4", id: 4, quantity: "12k" },
+  { title: "hashtag5", id: 5, quantity: 100 },
+  { title: "hashtag6", id: 6, quantity: 100 },
+  { title: "hashtag7", id: 7, quantity: 100 },
+];
 
 const useStyles = makeStyles(theme => ({
   root: {

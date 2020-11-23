@@ -109,3 +109,8 @@ export const convertUnitToKm = distance => {
 export const getImageById = imageId => {
   return StringFormat(AppConstant.BASE_IMAGE_URL, imageId);
 };
+
+export const getTitleByIdFromArray = (id, array) => {
+  const result = array.filter(obj => obj.id === id);
+  return result[0].title;
+};

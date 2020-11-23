@@ -1,5 +1,5 @@
 import punycode from "punycode";
-import { EditorState, RichUtils } from "draft-js";
+import { EditorState, RichUtils, convertToRaw } from "draft-js";
 
 export const getWordCount = editorState => {
   const plainText = editorState.getCurrentContent().getPlainText("");
@@ -56,8 +56,14 @@ export const getContentSelection = editorState => {
   contentState.blockMap.forEach((e, i) => {
     if (i === key) {
       result = e.text;
-      return
+      return;
     }
   });
   return result;
+};
+
+export const getPlainText = editorState => {
+  const blocks = convertToRaw(editorState.getCurrentContent()).blocks;
+  const value = blocks.map(block => (!block.text.trim() && "\n") || block.text).join("\n");
+  return value.trim();
 };

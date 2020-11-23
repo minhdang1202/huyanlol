@@ -15,14 +15,7 @@ import { ArrowRightIcon, ArrowLeftIcon } from "icons";
 import CustomInlineToolbar from "./CustomInlineToolbar";
 import CustomSideToolbar from "./CustomSideToolbar";
 import InsertLink from "./InsertLink";
-import {
-  getCharCount,
-  getWordCount,
-  findLinkEntities,
-  getEntityLink,
-  insertLink,
-  getContentSelection,
-} from "./editorUtils";
+import { getCharCount, getWordCount, findLinkEntities, getEntityLink, insertLink, getPlainText } from "./editorUtils";
 import { WORD_BOX_ID } from "../CreateToolbar";
 import { CHAR_BOX_ID } from "../CreateToolbar/CharCountPopover";
 import ArticleCreateActions from "redux/articleCreate.redux";
@@ -113,7 +106,8 @@ const CustomEditor = ({ onChangeContent }) => {
     setEditorState(editorState);
     const contentHtml = stateToHTML(editorState.getCurrentContent());
     const hasContent = editorState.getCurrentContent().hasText();
-    onChangeContent(contentHtml, hasContent);
+    const contentText = getPlainText(editorState);
+    onChangeContent({ contentHtml, hasContent, contentText });
   };
 
   const onChangeInlineBtn = (e, newInlineBtn) => {

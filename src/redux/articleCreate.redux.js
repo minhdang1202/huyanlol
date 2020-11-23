@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
   error: null,
   hasCreateList: false,
   hasCreateBreakLine: false,
-  hasStartReviewBook: false,
+  isReviewType: false,
   reviewInfo: null,
 };
 
@@ -45,13 +45,13 @@ const createBreakLineSuccess = (state = INITIAL_STATE) => ({
 
 const startReviewBook = (state = INITIAL_STATE, action) => ({
   ...state,
-  hasStartReviewBook: true,
+  isReviewType: true,
   reviewInfo: { ...action },
 });
 
 const startReviewBookSuccess = (state = INITIAL_STATE) => ({
   ...state,
-  hasStartReviewBook: false,
+  isReviewType: false,
   reviewInfo: null,
 });
 

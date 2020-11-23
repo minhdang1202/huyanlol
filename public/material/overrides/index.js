@@ -8,6 +8,7 @@ import MuiLink from "./MuiLink";
 import MuiPaper from "./MuiPaper";
 import MuiPopover from "./MuiPopover";
 import MuiRating from "./MuiRating";
+import MuiDialogActions from "./MuiDialogActions";
 
 export default {
   MuiAppBar,
@@ -20,4 +21,5 @@ export default {
   MuiPaper,
   MuiPopover,
   MuiRating,
+  MuiDialogActions,
 };
