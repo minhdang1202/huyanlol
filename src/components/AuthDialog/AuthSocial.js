@@ -23,7 +23,6 @@ const AuthSocial = ({ isLogin, onChangeForm }) => {
   };
 
   const onGoogleResponse = response => {
-    console.log("response", response);
     const { profileObj, googleId } = response;
     if (googleId) {
       dispatch(
