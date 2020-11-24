@@ -10,6 +10,7 @@ import SettingTypeTabs from "./SettingTypeTabs";
 import PreviewArticle from "./PreviewArticle";
 import CategorySelect from "./CategorySelect";
 import TagAutocomplete from "./TagAutocomplete";
+import BookAutocomplete from "./BookAutocomplete";
 import { getTitleByIdFromArray } from "utils";
 
 const SettingPopup = ({
@@ -25,6 +26,11 @@ const SettingPopup = ({
   tagsSuggestion,
   tagsList,
   onChangeTagsList,
+  booksSuggestion,
+  booksList,
+  onChangeBooksList,
+  defaultCover,
+  isDisabled,
   ...otherProps
 }) => {
   const classes = useStyles();
@@ -53,7 +59,8 @@ const SettingPopup = ({
               isReviewType={isReviewType}
               bookName={bookName}
               tagsList={tagsList}
-              categoryTitle={getTitleByIdFromArray(categoryId, categoryList)}
+              defaultCover={defaultCover}
+              categoryTitle={!isReviewType ? getTitleByIdFromArray(categoryId, categoryList) : null}
             />
           </Grid>
           <Grid item xs={12} lg={6}>
@@ -65,6 +72,12 @@ const SettingPopup = ({
             <Box mt={4} mb={3}>
               <Typography variant="subtitle1">{getLabel("TXT_SETTING_TITLE")}</Typography>
             </Box>
+            <BookAutocomplete
+              booksSuggestion={booksSuggestion}
+              booksList={booksList}
+              onChangeBooksList={onChangeBooksList}
+              isReviewType={isReviewType}
+            />
             <TagAutocomplete tagsSuggestion={tagsSuggestion} tagsList={tagsList} onChangeTagsList={onChangeTagsList} />
           </Grid>
         </Grid>
@@ -78,7 +91,12 @@ const SettingPopup = ({
         >
           {getLabel("TXT_SAVE_DRAFT")}
         </Button>
-        <Button variant="contained" size="large" className={clsx("dark-blue-button", classes.button)}>
+        <Button
+          disabled={isDisabled}
+          variant="contained"
+          size="large"
+          className={clsx("dark-blue-button", classes.button)}
+        >
           {getLabel("TXT_POST_ARTICLE")}
         </Button>
       </DialogActions>
@@ -99,6 +117,11 @@ SettingPopup.propTypes = {
   tagsList: PropTypes.array,
   onChangeCategoryId: PropTypes.func,
   onChangeTagsList: PropTypes.func,
+  booksSuggestion: PropTypes.array,
+  booksList: PropTypes.array,
+  onChangeBooksList: PropTypes.func,
+  defaultCover: PropTypes.string,
+  isDisabled: PropTypes.bool,
 };
 
 export default SettingPopup;
@@ -106,10 +129,12 @@ export default SettingPopup;
 const useStyles = makeStyles(theme => ({
   paper: {
     maxWidth: 980,
+    height: 570,
+    maxHeight: "90%",
     [theme.breakpoints.down("md")]: {
       maxWidth: 670,
       maxHeight: "90%",
-      height: 760,
+      height: 780,
     },
   },
   button: {

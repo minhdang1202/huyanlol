@@ -17,7 +17,6 @@ import CustomSideToolbar from "./CustomSideToolbar";
 import InsertLink from "./InsertLink";
 import { getCharCount, getWordCount, findLinkEntities, getEntityLink, insertLink, getPlainText } from "./editorUtils";
 import { WORD_BOX_ID } from "../CreateToolbar";
-import { CHAR_BOX_ID } from "../CreateToolbar/CharCountPopover";
 import ArticleCreateActions from "redux/articleCreate.redux";
 
 const sideToolbarPlugin = createSideToolbarPlugin();
@@ -36,7 +35,6 @@ const decorator = new CompositeDecorator([
 
 const CustomEditor = ({ onChangeContent }) => {
   const wordBox = document.getElementById(WORD_BOX_ID);
-  const charBox = document.getElementById(CHAR_BOX_ID);
 
   const editor = useRef();
 
@@ -157,7 +155,8 @@ const CustomEditor = ({ onChangeContent }) => {
 
   useEffect(() => {
     if (wordBox && editorState) wordBox.innerText = StringFormat(getLabel("FM_WORDS"), getWordCount(editorState));
-    if (charBox && editorState) charBox.innerText = getCharCount(editorState);
+    if (editorState) localStorage.setItem("charCount", getCharCount(editorState));
+
     //Fix: hidden placeholder when no text in "unstyled block"
     const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
@@ -168,7 +167,7 @@ const CustomEditor = ({ onChangeContent }) => {
       }
       setHasHiddenPlaceholder(false);
     }
-  }, [editorState, wordBox, charBox]);
+  }, [editorState, wordBox]);
 
   useEffect(() => {
     if (hasCreateList) onCreateList();
@@ -230,6 +229,7 @@ export default CustomEditor;
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(10),
     "& .DraftEditor-root": {
       fontSize: 16,
     },

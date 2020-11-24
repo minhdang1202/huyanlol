@@ -25,7 +25,9 @@ const CharCountPopover = props => {
       {...props}
     >
       <Typography className="grey-text">{getLabel("L_CHARACTERS")}</Typography>
-      <Typography id={CHAR_BOX_ID} variant="h5">0</Typography>
+      <Typography id={CHAR_BOX_ID} variant="h5">
+        {localStorage.getItem("charCount") || 0}
+      </Typography>
     </Popover>
   );
 };

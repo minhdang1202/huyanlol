@@ -182,6 +182,7 @@ export default {
     TXT_SAVE_DRAFT: "Lưu nháp",
     TXT_POST_ARTICLE: "Đăng bài",
     TXT_REVIEW_TYPE_CATEGORY: "Đánh giá sách",
+    TXT_NO_BOOK: "Sách hiện chưa có trong thư viện",
 
     P_CREATE_TITLE: "Nhập tiêu đề",
     P_CREATE_REVIEW_CONTENT: "Bạn đang nghĩ gì?",

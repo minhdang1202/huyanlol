@@ -5,7 +5,12 @@ import { TextField as MuiTextField, makeStyles } from "@material-ui/core";
 
 const TextField = ({ className, ...otherProps }) => {
   const classes = useStyles();
-  return <MuiTextField className={clsx(classes.root, className)} {...otherProps} />;
+  return (
+    <MuiTextField
+      className={clsx(classes.root, className)}
+      {...otherProps}
+    />
+  );
 };
 
 TextField.propTypes = {
@@ -17,10 +22,6 @@ export default TextField;
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    "& label": {
-      fontSize: 14,
-      fontWeight: 600,
-    },
     "& .MuiInput-underline": {
       "&:after": {
         borderBottom: "none",

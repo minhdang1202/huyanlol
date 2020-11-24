@@ -1,6 +1,5 @@
 import React, { forwardRef } from "react";
 import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import {
@@ -98,12 +97,16 @@ const MenuItem = withStyles(theme => ({
   },
 }))(MuiMenuItem);
 
-const ListItemIcon = withStyles(() => ({
+const ListItemIcon = withStyles(theme => ({
   root: {
     justifyContent: "center",
     alignItems: "center",
     padding: 0,
     height: 30,
+    color: theme.palette.text.primary,
+    "& svg": {
+      fill: theme.palette.text.primary,
+    },
   },
 }))(MuiListItemIcon);
 

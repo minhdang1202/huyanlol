@@ -9,6 +9,7 @@ import MuiPaper from "./MuiPaper";
 import MuiPopover from "./MuiPopover";
 import MuiRating from "./MuiRating";
 import MuiDialogActions from "./MuiDialogActions";
+import MuiFormLabel from "./MuiFormLabel";
 
 export default {
   MuiAppBar,
@@ -22,4 +23,5 @@ export default {
   MuiPopover,
   MuiRating,
   MuiDialogActions,
+  MuiFormLabel,
 };

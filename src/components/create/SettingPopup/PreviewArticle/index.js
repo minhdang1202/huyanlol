@@ -8,7 +8,17 @@ import { Grid, Badge, Avatar, Typography, Box, makeStyles } from "@material-ui/c
 import UploadImgButton from "./UploadImgButton";
 import { CustomRating } from "components";
 
-const PreviewArticle = ({ rate, isReviewType, type, title, content, bookName, tagsList, categoryTitle }) => {
+const PreviewArticle = ({
+  rate,
+  isReviewType,
+  type,
+  title,
+  content,
+  bookName,
+  tagsList,
+  categoryTitle,
+  defaultCover,
+}) => {
   const classes = useStyles({ type });
   const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
   return (
@@ -26,8 +36,8 @@ const PreviewArticle = ({ rate, isReviewType, type, title, content, bookName, ta
           {content ? content : getLabel("P_CREATE_REVIEW_CONTENT")}
         </Typography>
         <Box mt={1.5} className="blue-text">
-          {isReviewType && bookName ? (
-            <IconSpan icClassName="ic-book">{bookName}</IconSpan>
+          {isReviewType ? (
+            bookName && <IconSpan icClassName="ic-book">{bookName}</IconSpan>
           ) : (
             <>
               <Box className="eclipse" component="span" mb={1.5}>
@@ -55,7 +65,7 @@ const PreviewArticle = ({ rate, isReviewType, type, title, content, bookName, ta
             horizontal: "right",
           }}
         >
-          <Avatar variant="square" src="/images/img-demo-avatar.jpg" className={classes.thumbnail} />
+          <Avatar variant="square" src={defaultCover} className={classes.thumbnail} />
         </Badge>
       </Grid>
     </Grid>
@@ -84,6 +94,7 @@ PreviewArticle.propTypes = {
   bookName: PropTypes.string,
   tagsList: PropTypes.array,
   categoryTitle: PropTypes.string,
+  defaultCover: PropTypes.string,
 };
 
 export default PreviewArticle;

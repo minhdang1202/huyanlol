@@ -11,11 +11,14 @@ import MainLayout from "layouts/MainLayout";
 import { CustomRating, DialogAppDownload } from "components";
 import { CreateToolbar, CustomEditor, SettingPopup } from "components/create";
 import ArticleCreateActions from "redux/articleCreate.redux";
+import { getRandomDefaultArticleCover } from "utils";
 
 const Creator = () => {
   const MAX_LENGTH_TITLE = 250;
   const categoryList = MOCK_CATEGORY_LIST;
   const tagsSuggestion = MOCK_HASHTAGS_LIST;
+  const booksSuggestion = MOCK_BOOKS_LIST;
+
   const reviewCategoryList = [{ title: "Đánh giá sách", id: 0 }];
   const classes = useStyles();
   const router = useRouter();
@@ -35,7 +38,9 @@ const Creator = () => {
   const [hasContent, setHasContent] = useState();
   const [isOpenSetting, setIsOpenSetting] = useState(false);
   const [categoryId, setCategoryId] = useState(categoryList[0].id);
+  const [defaultCover, setDefaultCover] = useState(getRandomDefaultArticleCover());
   const [tagsList, setTagsList] = useState([]);
+  const [booksList, setBooksList] = useState(isReviewType ? [booksSuggestion[0]] : []);
 
   const onChangeTagsList = tags => {
     const newTagsList = tags.map(tag => {
@@ -43,6 +48,10 @@ const Creator = () => {
       return tag;
     });
     setTagsList([...new Set(newTagsList)]);
+  };
+
+  const onChangeBooksList = books => {
+    setBooksList(books);
   };
 
   const onCloseDownload = () => {
@@ -111,9 +120,14 @@ const Creator = () => {
         tagsSuggestion={tagsSuggestion}
         tagsList={tagsList}
         onChangeTagsList={onChangeTagsList}
+        booksSuggestion={booksSuggestion}
+        booksList={booksList}
+        onChangeBooksList={onChangeBooksList}
+        defaultCover={defaultCover}
+        isDisabled={!(hasContent && title)}
       />
       <Box position="relative">
-        <Box position="sticky" top={0}>
+        <Box position="sticky" top={0} zIndex={1000} bgcolor="white">
           <Container className={classes.container}>
             <CreateToolbar isDisabled={!(hasContent && title)} onOpenSetting={onOpenSetting} onClose={onCloseSetting} />
           </Container>
@@ -157,6 +171,15 @@ const MOCK_HASHTAGS_LIST = [
   { title: "hashtag5", id: 5, quantity: 100 },
   { title: "hashtag6", id: 6, quantity: 100 },
   { title: "hashtag7", id: 7, quantity: 100 },
+];
+
+const MOCK_BOOKS_LIST = [
+  { title: "Sự im lặng của bầy cừu1", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 0 },
+  { title: "Sự im lặng của bầy cừu2", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 1 },
+  { title: "Sự im lặng của bầy cừu3", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 2 },
+  { title: "Sự im lặng của bầy cừu4", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 3 },
+  { title: "Sự im lặng của bầy cừu5", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 4 },
+  { title: "Sự im lặng của bầy cừu6", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 5 },
 ];
 
 const useStyles = makeStyles(theme => ({

@@ -9,6 +9,7 @@ const Autocomplete = ({ classes, ...otherProps }) => {
   return (
     <MuiAutocomplete
       classes={{
+        ...classes,
         input: clsx(defaultClasses.input, classes && classes.input),
         popper: clsx(defaultClasses.popper, classes && classes.popper),
         paper: clsx(defaultClasses.paper, classes && classes.paper),
@@ -29,7 +30,6 @@ export default Autocomplete;
 
 const useStyles = makeStyles(theme => ({
   popper: {
-    maxWidth: 290,
     height: "fit-content",
     zIndex: 3000,
     padding: 0,

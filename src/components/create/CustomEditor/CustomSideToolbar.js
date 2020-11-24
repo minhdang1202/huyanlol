@@ -47,6 +47,8 @@ const useStyles = makeStyles(theme => ({
       },
     },
     "& [class^='draftJsToolbar__popup']": {
+      borderRadius: 6,
+      border: `1px solid ${theme.palette.grey[500]}`,
       "&:before": {
         display: "none",
       },

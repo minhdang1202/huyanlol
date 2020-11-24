@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
@@ -9,13 +9,15 @@ import ChipsList from "./ChipsList";
 const TagAutocomplete = ({ tagsSuggestion, tagsList, onChangeTagsList }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const [inputValue, setInputValue] = useState("");
   const onChange = (e, newValue) => {
+    setInputValue("");
     onChangeTagsList(newValue);
   };
 
-  const onKeyDown = e => {
-    const k = e.which || e.keyCode;
-    if (k == 32 || k == 51) return false;
+  const onChangeInputValue = (e, newValue) => {
+    const value = newValue.replace(/[^a-zA-Z0-9]/g, "").trim();
+    setInputValue(value);
   };
 
   return (
@@ -24,11 +26,14 @@ const TagAutocomplete = ({ tagsSuggestion, tagsList, onChangeTagsList }) => {
         multiple
         freeSolo
         value={tagsList}
+        inputValue={inputValue}
         onChange={onChange}
+        onInputChange={onChangeInputValue}
         renderTags={() => {}}
         filterSelectedOptions
         classes={{
           paper: classes.paper,
+          focused: classes.focused,
         }}
         options={tagsSuggestion}
         renderOption={hashTag => `#${hashTag.title} (${hashTag.quantity})`}
@@ -38,7 +43,6 @@ const TagAutocomplete = ({ tagsSuggestion, tagsList, onChangeTagsList }) => {
         renderInput={params => (
           <TextField
             {...params}
-            onKeyDown={onKeyDown}
             label={getLabel("L_ARTICLE_TAGS")}
             InputProps={{
               ...params.InputProps,
@@ -64,8 +68,14 @@ TagAutocomplete.propTypes = {
 
 export default TagAutocomplete;
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
+  focused: {
+    "& p": {
+      color: theme.palette.text.primary,
+    },
+  },
   paper: {
     maxHeight: 215,
+    maxWidth: 290,
   },
 }));
