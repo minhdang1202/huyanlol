@@ -3,6 +3,7 @@ import { createReducer, createActions } from "reduxsauce";
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
   requestTopWriter: ["data"],
+  requestProfile: ["data"],
 
   userFailure: ["data"],
   userSuccess: ["data"],
@@ -17,6 +18,7 @@ export const INITIAL_STATE = {
   error: null,
 
   topWriter: {},
+  profile: {},
 };
 
 /* ------------- Reducers ------------- */
@@ -39,6 +41,7 @@ export const finish = (state = INITIAL_STATE, action) => {
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
   [Types.REQUEST_TOP_WRITER]: request,
+  [Types.REQUEST_PROFILE]: request,
 
   [Types.USER_SUCCESS]: finish,
   [Types.USER_FAILURE]: finish,

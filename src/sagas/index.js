@@ -11,7 +11,7 @@ import { ArticleTypes } from "redux/article.redux";
 import { UserTypes } from "redux/user.redux";
 
 /* ------------- Sagas ------------- */
-import { requestLogin } from "./auth.saga";
+import { requestLogin, requestRegister } from "./auth.saga";
 import {
   requestGetLendersList,
   requestGetReviews,
@@ -20,7 +20,7 @@ import {
   requestGetNearestLenders,
   requestGetBookSuggestion,
 } from "./edition.saga";
-import { requestGetTopWriter } from "./user.saga";
+import { requestGetTopWriter, requestGetUserProfile } from "./user.saga";
 
 import {
   requestGetGiversList,
@@ -35,6 +35,8 @@ export default function* root() {
   yield all([
     // authentication
     takeLatest(AuthTypes.REQUEST_LOGIN, requestLogin),
+    takeLatest(AuthTypes.REQUEST_LOGIN_BY_SOCIAL, requestLogin),
+    takeLatest(AuthTypes.REQUEST_REGISTER, requestRegister),
 
     // edition
     takeLatest(EditionTypes.REQUEST_GET_LENDERS_LIST, requestGetLendersList),
@@ -53,5 +55,6 @@ export default function* root() {
 
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
+    takeLatest(UserTypes.REQUEST_PROFILE, requestGetUserProfile),
   ]);
 }

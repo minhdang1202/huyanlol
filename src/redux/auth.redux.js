@@ -1,8 +1,11 @@
 import { createReducer, createActions } from "reduxsauce";
-
+import Cookie from "js-cookie";
+import { AppConstant } from "const";
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
   requestLogin: ["data"],
+  requestLoginBySocial: ["data"],
+  requestRegister: ["data"],
 
   authSuccess: ["data"],
   authFailure: ["data"],
@@ -15,9 +18,10 @@ export default Creators;
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = {
   isFetching: false,
-  isLogin: false,
+  isAuth: Boolean(Cookie.get(AppConstant.KEY_TOKEN)),
+  isRegister: false,
 
-  error: null,
+  errors: null,
   status: null,
 };
 
@@ -32,7 +36,7 @@ export const success = (state = INITIAL_STATE, action) => {
   return {
     ...state,
     isFetching: false,
-    error: null,
+    errors: null,
     status: null,
     ...data,
   };
@@ -40,7 +44,7 @@ export const success = (state = INITIAL_STATE, action) => {
 
 export const failure = (state = INITIAL_STATE, action) => {
   const data = action.data ? action.data : {};
-  return { ...state, isFetching: false, ...data };
+  return { ...state, isFetching: false, isAuth: false, ...data };
 };
 
 export const reset = () => INITIAL_STATE;
@@ -48,6 +52,8 @@ export const reset = () => INITIAL_STATE;
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
   [Types.REQUEST_LOGIN]: request,
+  [Types.REQUEST_LOGIN_BY_SOCIAL]: request,
+  [Types.REQUEST_REGISTER]: request,
 
   [Types.AUTH_SUCCESS]: success,
   [Types.AUTH_FAILURE]: failure,

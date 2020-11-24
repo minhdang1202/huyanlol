@@ -116,7 +116,7 @@ export const getTitleByIdFromArray = (id, array) => {
 };
 
 export const getRandomDefaultArticleCover = () => {
-  const coverList = Array(10)
+  const coverList = Array(9)
     .fill(1)
     .map((_, index) => `/images/img-article-cover-${index + 1}.jpg`);
   const randomNumber = Math.floor(Math.random() * 9);
