@@ -11,7 +11,7 @@ import SidebarMenu from "../CustomEditor/SidebarMenu";
 
 const CreateToolbar = ({ isDisabled, onOpenSetting }) => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const [anchorCharCount, setAnchorCharCount] = useState(null);
   const [anchorSidebar, setAnchorSidebar] = useState(null);
   const hasCharOpen = Boolean(anchorCharCount);

@@ -5,7 +5,7 @@ import { Popover, Typography, makeStyles } from "@material-ui/core";
 
 const CharCountPopover = props => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
 
   return (
     <Popover

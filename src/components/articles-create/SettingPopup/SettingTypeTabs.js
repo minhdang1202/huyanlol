@@ -5,7 +5,7 @@ import { withStyles, makeStyles, Tabs, Tab as MuiTab, Divider } from "@material-
 
 const SettingTypeTabs = props => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <Tabs classes={{ indicator: classes.indicator }} {...props}>
       <Tab disableRipple label={getLabel("TXT_TYPE_1")} />

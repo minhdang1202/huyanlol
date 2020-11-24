@@ -8,7 +8,7 @@ import ChipsList from "./ChipsList";
 
 const TagAutocomplete = ({ tagsSuggestion, tagsList, onChangeTagsList }) => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const [inputValue, setInputValue] = useState("");
   const onChange = (e, newValue) => {
     setInputValue("");

@@ -5,10 +5,9 @@ import { Paper, Typography, Box, Avatar, Button, Hidden, makeStyles, useTheme, u
 import clsx from "clsx";
 import { convertFormat } from "utils/date";
 import { useTranslation } from "react-i18next";
-import CustomRating from "../CustomRating";
-import { LangConstant, PathConstant } from "const";
+import { LangConstant, PathConstant, AppConstant } from "const";
 import { AvatarIcon } from "icons";
-import { DialogAppDownload, AppLink } from "components";
+import { DialogAppDownload, AppLink, CustomRating } from "components";
 import ArticleCreateActions from "redux/articleCreate.redux";
 
 const WriteReview = ({ editionId, bookName }) => {
@@ -19,10 +18,9 @@ const WriteReview = ({ editionId, bookName }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
-  const currentDate = convertFormat(new Date(), "dd/MM/yyyy");
+  const currentDate = convertFormat(new Date(), AppConstant.FM_DD_MM_YYYY);
 
   const dispatch = useDispatch();
-  const dispatchStartReview = () => dispatch(ArticleCreateActions.startReviewBook(editionId, bookName, rate));
 
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
 
@@ -35,7 +33,7 @@ const WriteReview = ({ editionId, bookName }) => {
   };
 
   const onGoToCreateReview = () => {
-    dispatchStartReview();
+    dispatch(ArticleCreateActions.startReviewBook(editionId, bookName, rate));
   };
 
   return (

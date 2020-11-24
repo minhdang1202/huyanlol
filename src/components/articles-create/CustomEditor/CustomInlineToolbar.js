@@ -7,7 +7,7 @@ import { QuoteIcon } from "icons";
 import ToggleButton from "./StyledToggleButton";
 import { InlineToolbar } from "./index";
 import LinkInput, { LINK_INPUT_ID } from "./LinkInput";
-import { getEntityLink } from "./editorUtils";
+import { getEntityLink } from "../../../utils/editor";
 
 const CustomInlineToolbar = ({
   editorState,

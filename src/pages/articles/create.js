@@ -9,7 +9,7 @@ import { LangConstant, PathConstant } from "const";
 import { useTranslation } from "react-i18next";
 import MainLayout from "layouts/MainLayout";
 import { CustomRating, DialogAppDownload } from "components";
-import { CreateToolbar, CustomEditor, SettingPopup } from "components/create";
+import { CreateToolbar, CustomEditor, SettingPopup } from "components/articles-create";
 import ArticleCreateActions from "redux/articleCreate.redux";
 import { getRandomDefaultArticleCover } from "utils";
 
@@ -22,7 +22,7 @@ const Creator = () => {
   const reviewCategoryList = [{ title: "Đánh giá sách", id: 0 }];
   const classes = useStyles();
   const router = useRouter();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
 
   const dispatch = useDispatch();
   const dispatchStartSuccess = () => dispatch(ArticleCreateActions.startReviewBookSuccess());

@@ -15,7 +15,7 @@ import { ArrowRightIcon, ArrowLeftIcon } from "icons";
 import CustomInlineToolbar from "./CustomInlineToolbar";
 import CustomSideToolbar from "./CustomSideToolbar";
 import InsertLink from "./InsertLink";
-import { getCharCount, getWordCount, findLinkEntities, getEntityLink, insertLink, getPlainText } from "./editorUtils";
+import { getCharCount, getWordCount, findLinkEntities, getEntityLink, insertLink, getPlainText } from "utils/editor";
 import { WORD_BOX_ID } from "../CreateToolbar";
 import ArticleCreateActions from "redux/articleCreate.redux";
 
@@ -38,11 +38,9 @@ const CustomEditor = ({ onChangeContent }) => {
 
   const editor = useRef();
 
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
 
   const dispatch = useDispatch();
-  const onCreateListSuccess = () => dispatch(ArticleCreateActions.createListSuccess());
-  const onCreateBreakLineSuccess = () => dispatch(ArticleCreateActions.createBreakLineSuccess());
 
   const hasCreateList = useSelector(state => state.articleCreateRedux.hasCreateList);
   const hasCreateBreakLine = useSelector(state => state.articleCreateRedux.hasCreateBreakLine);
@@ -114,7 +112,7 @@ const CustomEditor = ({ onChangeContent }) => {
 
   const onCreateList = () => {
     onChange(RichUtils.toggleBlockType(editorState, "unordered-list-item"));
-    onCreateListSuccess();
+    dispatch(ArticleCreateActions.createListSuccess());
   };
 
   const onCreateBreakLine = () => {
@@ -126,7 +124,7 @@ const CustomEditor = ({ onChangeContent }) => {
       currentContent: contentStateWithEntity,
     });
     onChange(AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " "));
-    onCreateBreakLineSuccess();
+    dispatch(ArticleCreateActions.createBreakLineSuccess());
   };
 
   const onRenderBlock = contentBlock => {
@@ -157,7 +155,6 @@ const CustomEditor = ({ onChangeContent }) => {
     if (wordBox && editorState) wordBox.innerText = StringFormat(getLabel("FM_WORDS"), getWordCount(editorState));
     if (editorState) localStorage.setItem("charCount", getCharCount(editorState));
 
-    //Fix: hidden placeholder when no text in "unstyled block"
     const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       const firstBlockType = contentState.getBlockMap().first().getType();

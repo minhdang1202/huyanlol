@@ -43,7 +43,7 @@ const SidebarMenu = props => {
 };
 
 export const ImageButton = forwardRef((props, ref) => {
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <MenuItem {...props} ref={ref}>
       <ListItemIcon>
@@ -57,7 +57,7 @@ export const ImageButton = forwardRef((props, ref) => {
 ImageButton.displayName = "ImageButton";
 
 export const ListButton = props => {
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <MenuItem {...props}>
       <ListItemIcon>
@@ -69,7 +69,7 @@ export const ListButton = props => {
 };
 
 export const BreakButton = props => {
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <MenuItem {...props}>
       <ListItemIcon>

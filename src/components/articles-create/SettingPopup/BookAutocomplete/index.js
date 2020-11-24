@@ -10,7 +10,7 @@ import BookItem from "./BookItem";
 
 const BookAutocomplete = ({ booksSuggestion, booksList, onChangeBooksList, isReviewType }) => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const onChange = (e, newValue) => {
     onChangeBooksList(newValue);
   };

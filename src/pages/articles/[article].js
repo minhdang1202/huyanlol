@@ -16,7 +16,7 @@ import {
   ArticleReactButtons,
   ArticleBookMentioned,
   ArticleComments,
-} from "components/articles";
+} from "components/articles-detail";
 import { getTitleNoMark, getNumberIdFromQuery, getImageById } from "utils";
 import { convertDistanceDate } from "utils/date";
 import { ArticleService } from "services";

@@ -34,7 +34,7 @@ const SettingPopup = ({
   ...otherProps
 }) => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const [type, setType] = useState(0);
 
   const onChangeType = (e, newType) => {

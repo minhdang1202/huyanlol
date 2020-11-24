@@ -20,7 +20,7 @@ const PreviewArticle = ({
   defaultCover,
 }) => {
   const classes = useStyles({ type });
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <Grid container className={classes.root}>
       <Grid item xs={type == 0 ? 6 : 12} className={type == 0 ? null : "mt-12"}>

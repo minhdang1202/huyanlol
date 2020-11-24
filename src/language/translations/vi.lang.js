@@ -176,7 +176,7 @@ export default {
     TXT_LIST_REVIEWS: "Danh sách review",
     TXT_LIST_WRITERS: "Danh sách nhà văn",
   },
-  create: {
+  articleCreate: {
     TXT_CREATE_POST: "Đăng bài",
     TXT_IMAGE: "Image",
     TXT_LIST: "List",

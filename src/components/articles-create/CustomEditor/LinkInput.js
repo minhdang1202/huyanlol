@@ -6,7 +6,7 @@ import { Menu, Box, IconButton, makeStyles } from "@material-ui/core";
 
 const LinkInput = ({ urlValue, onSubmitUrlValue, onChangeUrlValue, onRemoveLink, ...otherProps }) => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const onClick = e => {
     e.preventDefault();
     onRemoveLink();

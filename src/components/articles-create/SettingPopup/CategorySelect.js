@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { TextFieldSelect } from "components";
 
 const CategorySelect = ({ categoryId, categoryList, onChangeCategoryId }) => {
-  const { t: getLabel } = useTranslation(LangConstant.NS_CREATE);
+  const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <TextFieldSelect
       disabled={categoryId == 0}
