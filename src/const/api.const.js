@@ -22,7 +22,12 @@ export const STT_FORBIDDEN = 403;
 export const STT_INTERNAL_SERVER = 500;
 
 // Api
-export const POST_LOGIN = "/auth/cons/login";
+// * User
+export const POST_LOGIN = "/user/login_by_email";
+export const POST_LOGIN_BY_SOCIAL = "/user/login_by_social";
+export const POST_REGISTER = "/user/register_by_email";
+export const GET_USER_PROFILE = "/user/self/info";
+export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
 
 // * Book
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;
@@ -32,7 +37,6 @@ export const GET_SELF_REVIEW = editionId => `/articles/self/review/${editionId}`
 
 // * Article
 export const GET_ARTICLES = "/articles";
-export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
 export const GET_BOOK_REVIEWS = "/articles";
 export const GET_ARTICLE_DETAIL = articleId => `/articles/${articleId}`;
 export const GET_ARTICLE_GIVERS = articleId => `/articles/${articleId}/reaction`;

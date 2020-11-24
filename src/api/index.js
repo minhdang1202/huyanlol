@@ -20,7 +20,7 @@ export const createApiWithToken = (initConfig = defaultConfigV2, token) => {
     "eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbklkIjoyOTk0NiwidXNlcklkIjo5NjUxMTMsInV1aWQiOiI5NjI3NjhiOC0wZDE1LTQxYTYtYWU2MS0xYmYyNjZhZmQ3YjgifQ.b4-bXoAK0vsKqNG7XbeGoa8-91R2FIamiK725YV4Fqo";
 
   if (token) {
-    if (ApiConstant.BASE_URL === initConfig.baseURL) {
+    if (ApiConstant.BASE_API === initConfig.baseURL) {
       initConfig.headers.Authorization = `Bearer ${token}`;
     } else {
       initConfig.headers.Authorization = token;

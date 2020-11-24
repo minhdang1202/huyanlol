@@ -25,6 +25,11 @@ export const BASE_IMAGE_URL = "https://fordev.gatbook.org/rest/api/common/get_im
 export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat";
 export const GAT_APP_STORE = "https://apps.apple.com/vn/app/gat/id1230316898";
 
+//OAuth AppId
+export const APP_GOOGLE = "177876099439-9c4358ridetv491g2b0lokh8l0j0fmdd.apps.googleusercontent.com";
+export const APP_FACEBOOK = "1937935059771206";
+
+// Date format
 export const FM_DD_MM_YYYY = "dd/MM/yyyy";
 export const FM_DD_MM = "dd/MM";
 
