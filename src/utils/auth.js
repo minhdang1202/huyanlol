@@ -30,7 +30,6 @@ export const login = data => {
 
 export const logout = () => {
   Cookie.remove(AppConstant.KEY_TOKEN);
-  Router.replace(PathConstant.LOGIN);
 };
 
 // Gets the display name of a JSX component for dev tools
