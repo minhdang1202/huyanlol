@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles, Typography, Paper, useTheme, useMediaQuery, Box } from "@material-ui/core";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
@@ -11,6 +11,8 @@ const Description = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [isFull, setIsFull] = useState(false);
   const description = useSelector(state => state.challengeRedux.detail.description);
+  const isLongDescription = Boolean(description.length > AppConstant.CHALLENGE_DESCRIPTION_DEFAULT_LENGTH);
+  console.log(isLongDescription);
   const onChangeContent = () => {
     setIsFull(!isFull);
   };
@@ -20,13 +22,18 @@ const Description = () => {
       <Box className={classes.content}>
         {!isMobile && <Typography variant="h6">{getLabel("L_DESCRIPTION")}</Typography>}
         {isMobile && <Box className={clsx("ic-chat", classes.gray)} />}
-        <Typography variant={isMobile ? "body2" : "body1"} className={clsx(!isFull && "eclipse-3")}>
+        <Typography
+          variant={isMobile ? "body2" : "body1"}
+          className={isLongDescription && !isFull ? "eclipse-3" : null}
+        >
           {description}
         </Typography>
       </Box>
-      <Typography variant="subtitle2" className={classes.btn} onClick={onChangeContent}>
-        {isFull ? getLabel("L_LESS") : getLabel("L_MORE")}
-      </Typography>
+      {isLongDescription && (
+        <Typography variant="subtitle2" className={classes.btn} onClick={onChangeContent}>
+          {isFull ? getLabel("L_LESS") : getLabel("L_MORE")}
+        </Typography>
+      )}
     </Paper>
   );
 };

@@ -24,9 +24,7 @@ const InviteFriend = () => {
           )}
         </AvatarGroup>
       )}
-      <Box
-        className={clsx(friendLeaderBoard && friendLeaderBoard.length > 0 ? classes.content : classes.contentNoAvatar)}
-      >
+      <Box className={friendLeaderBoard && friendLeaderBoard.length > 0 ? classes.content : classes.contentNoAvatar}>
         <Typography
           variant="body2"
           className={clsx(friendLeaderBoard && friendLeaderBoard.length > 0 ? classes.text : classes.textNoAvatar)}
