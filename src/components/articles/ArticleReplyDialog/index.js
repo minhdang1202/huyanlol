@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { DialogLayout } from "components";
 import { DialogContent, DialogTitle, makeStyles } from "@material-ui/core";
 import ReplyItem from "./ReplyItem";
+import AddingReply from "./AddingReply";
 
 const ArticleReplyDialog = props => {
   const classes = useStyles();
@@ -10,9 +11,9 @@ const ArticleReplyDialog = props => {
   return (
     <DialogLayout className={classes.root} maxWidth="md" {...props}>
       <DialogTitle disableTypography>
-        <h2>this is title</h2>
+        <AddingReply />
       </DialogTitle>
-      <DialogContent>
+      <DialogContent dividers>
         <ReplyItem />
         <ReplyItem />
         <ReplyItem />

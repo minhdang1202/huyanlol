@@ -155,6 +155,7 @@ export default {
     TXT_ARTICLE_RELATED: "Bài viết liên quan",
     TXT_ARTICLE_FIRST_COMMENT: "Hãy trở thành người bình luận đầu tiên",
     TXT_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",
+    TXT_ARTICLE_SEND_COMMENT: "Gửi bình luận",
 
     //P
     P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",

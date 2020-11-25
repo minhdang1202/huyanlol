@@ -82,6 +82,8 @@ export default memo(ReplyItem);
 const useStyles = makeStyles(theme => ({
   root: {
     boxShadow: "unset",
+    overflow: "unset",
+
     "&, & > *": {
       padding: 0,
     },
@@ -107,5 +109,6 @@ const useStyles = makeStyles(theme => ({
   replyBtn: {
     color: theme.palette.grey[500],
     marginLeft: -8,
+    marginBottom: 4,
   },
 }));
