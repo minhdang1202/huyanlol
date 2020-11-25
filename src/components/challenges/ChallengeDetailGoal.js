@@ -12,9 +12,9 @@ const Goal = ({ isGroup, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
 
-  const data = useSelector(state => state.challengeRedux.detail.challengeProgress);
-  const targetTypeId = useSelector(state => state.challengeRedux.detail.targetTypeId);
-  const fixedTargetNumber = useSelector(state => state.challengeRedux.detail.targetNumber);
+  const data = useSelector(state => state.challengeRedux.detail.detailInfo.challengeProgress);
+  const targetTypeId = useSelector(state => state.challengeRedux.detail.detailInfo.targetTypeId);
+  const fixedTargetNumber = useSelector(state => state.challengeRedux.detail.detailInfo.targetNumber);
   const progress = data ? data.progress : 0;
   const targetNumber = data && data.progress ? data.targetNumber : fixedTargetNumber;
   const progressPercent = (progress / targetNumber) * 100;

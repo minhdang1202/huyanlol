@@ -9,7 +9,7 @@ import { AvatarIcon } from "icons";
 const ChallengeDetailCreator = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const { imageId, name } = useSelector(state => state.challengeRedux.detail.creator);
+  const { imageId, name } = useSelector(state => state.challengeRedux.detail.detailInfo.creator);
   return (
     <Paper elevation={1} className={classes.logoContainer}>
       {imageId ? (

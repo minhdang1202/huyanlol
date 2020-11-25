@@ -18,13 +18,13 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
 
-  const challengeProgress = useSelector(state => state.challengeRedux.detail.challengeProgress);
-  const fixedTargetNumber = useSelector(state => state.challengeRedux.detail.targetNumber);
-  const targetTypeId = useSelector(state => state.challengeRedux.detail.targetTypeId);
-  const endDate = useSelector(state => state.challengeRedux.detail.endDate);
+  const challengeProgress = useSelector(state => state.challengeRedux.detail.detailInfo.challengeProgress);
+  const fixedTargetNumber = useSelector(state => state.challengeRedux.detail.detailInfo.targetNumber);
+  const targetTypeId = useSelector(state => state.challengeRedux.detail.detailInfo.targetTypeId);
+  const endDate = useSelector(state => state.challengeRedux.detail.detailInfo.endDate);
   const progress = challengeProgress ? challengeProgress.progress : 0;
   const target = challengeProgress ? challengeProgress.targetNumber : fixedTargetNumber;
-  const challengeId = useSelector(state => state.challengeRedux.detail.challengeId);
+  const challengeId = useSelector(state => state.challengeRedux.detail.detailInfo.challengeId);
 
   const onJoin = async challengeId => {
     const response = await ChallengeService.putJoinChallenge(challengeId);
