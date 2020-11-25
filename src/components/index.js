@@ -18,6 +18,7 @@ import CategoryTag from "./CategoryTag";
 import ReviewSummary from "./ReviewSummary";
 import TabPanel from "./TabPanel";
 import FBShareButton from "./FBShareButton";
+import DialogLayout from "./DialogLayout";
 
 export {
   AppHead,
@@ -40,4 +41,5 @@ export {
   ReviewSummary,
   TabPanel,
   FBShareButton,
+  DialogLayout,
 };
