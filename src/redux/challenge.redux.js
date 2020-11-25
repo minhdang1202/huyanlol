@@ -31,12 +31,10 @@ export const INITIAL_STATE = {
   isFetching: false,
   error: null,
   list: {},
-  detail: {
-    detailInfo: {},
-    detailListActivity: [],
-    detailLeaderBoard: [],
-    detailFriendLeaderBoard: [],
-  },
+  detailInfo: {},
+  detailListActivity: [],
+  detailLeaderBoard: [],
+  detailFriendLeaderBoard: [],
 };
 
 /* ------------- Reducers ------------- */
@@ -66,7 +64,7 @@ export const challengeDetailSet = (state = INITIAL_STATE, action) => {
     ...state,
     isFetching: false,
     error: null,
-    detail: { ...state.detail, detailInfo: data },
+    detailInfo: data,
   };
 };
 
@@ -76,7 +74,7 @@ export const challengeDetailActivitySuccess = (state = INITIAL_STATE, action) =>
     ...state,
     isFetching: false,
     error: null,
-    detail: { ...state.detail, detailListActivity: data },
+    detailListActivity: data,
   };
 };
 
@@ -86,7 +84,7 @@ export const challengeDetailLeaderBoardSuccess = (state = INITIAL_STATE, action)
     ...state,
     isFetching: false,
     error: null,
-    detail: { ...state.detail, detailLeaderBoard: data },
+    detailLeaderBoard: data,
   };
 };
 
@@ -96,7 +94,7 @@ export const challengeDetailFriendLeaderBoardSuccess = (state = INITIAL_STATE, a
     ...state,
     isFetching: false,
     error: null,
-    detail: { ...state.detail, detailFriendLeaderBoard: data },
+    detailFriendLeaderBoard: data,
   };
 };
 

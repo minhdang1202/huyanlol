@@ -13,7 +13,7 @@ import clsx from "clsx";
 const Activity = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const activity = useSelector(state => state.challengeRedux.detail.detailActivity);
+  const activity = useSelector(state => state.challengeRedux.detailActivity);
   return (
     <Box className={classes.root}>
       <Typography variant={"h6"} className={classes.title}>

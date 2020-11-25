@@ -31,8 +31,8 @@ const Challenge = ({ data }) => {
   const dispatch = useDispatch();
   const { WEBSITE_URL, CHALLENGE_PROGRESS_STATUS, CHALLENGE_MODE } = AppConstant;
   const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId } = data;
-  const leaderBoard = useSelector(state => state.challengeRedux.detail.detailLeaderBoard);
-  const activity = useSelector(state => state.challengeRedux.detail.detailActivity);
+  const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
+  const activity = useSelector(state => state.challengeRedux.detailActivity);
   const SHARE_URL = WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
 

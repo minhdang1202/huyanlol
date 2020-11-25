@@ -14,7 +14,7 @@ const PositiveMember = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("sm"));
-  const leaderBoard = useSelector(state => state.challengeRedux.detail.detailLeaderBoard);
+  const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
 
   return (
     <Paper elevation={1} className={classes.root}>
@@ -51,7 +51,7 @@ const PositiveMember = () => {
 const Member = ({ place, imgId, name, progress }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const targetTypeId = useSelector(state => state.challengeRedux.detail.detailInfo.targetTypeId);
+  const targetTypeId = useSelector(state => state.challengeRedux.detailInfo.targetTypeId);
   const certificate = place => {
     switch (place) {
       case 1:

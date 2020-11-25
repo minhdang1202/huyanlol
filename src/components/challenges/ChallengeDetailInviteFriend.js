@@ -11,8 +11,8 @@ import clsx from "clsx";
 const InviteFriend = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const friendLeaderBoard = useSelector(state => state.challengeRedux.detail.detailFriendLeaderBoard);
-  const leaderBoard = useSelector(state => state.challengeRedux.detail.detailLeaderBoard);
+  const friendLeaderBoard = useSelector(state => state.challengeRedux.detailFriendLeaderBoard);
+  const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
   return (
     <Box className={clsx(classes.root, friendLeaderBoard && friendLeaderBoard.length > 0 && classes.rootNoAvatar)}>
       {friendLeaderBoard && friendLeaderBoard.length > 0 && (

@@ -10,7 +10,7 @@ const Description = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [isFull, setIsFull] = useState(false);
-  const description = useSelector(state => state.challengeRedux.detail.detailInfo.description);
+  const description = useSelector(state => state.challengeRedux.detailInfo.description);
   const isLongDescription = Boolean(description.length > AppConstant.CHALLENGE_DESCRIPTION_DEFAULT_LENGTH);
   console.log(isLongDescription);
   const onChangeContent = () => {

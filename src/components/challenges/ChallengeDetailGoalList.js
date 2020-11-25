@@ -14,7 +14,7 @@ const GoalList = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const editions = useSelector(state => state.challengeRedux.detail.detailInfo.editions);
+  const editions = useSelector(state => state.challengeRedux.detailInfo.editions);
   const data = editions.map(edition => {
     return { id: edition.editionId, img: edition.imageId, title: edition.title };
   });
