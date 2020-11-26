@@ -18,6 +18,12 @@ import CategoryTag from "./CategoryTag";
 import ReviewSummary from "./ReviewSummary";
 import TabPanel from "./TabPanel";
 import FBShareButton from "./FBShareButton";
+import Avatar from "./Avatar";
+import TextFieldSelect from "./TextFieldSelect";
+import TextField from "./TextField";
+import Autocomplete from "./Autocomplete";
+import Chip from "./Chip";
+import SliderButton from "./SliderButton";
 
 export {
   AppHead,
@@ -40,4 +46,10 @@ export {
   ReviewSummary,
   TabPanel,
   FBShareButton,
+  Avatar,
+  TextFieldSelect,
+  TextField,
+  Autocomplete,
+  Chip,
+  SliderButton,
 };
