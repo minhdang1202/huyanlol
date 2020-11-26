@@ -7,6 +7,7 @@ import * as EditionRedux from "./edition.redux";
 import * as ArticleRedux from "./article.redux";
 import * as UserRedux from "./user.redux";
 import * as ChallengeRedux from "./challenge.redux";
+import * as ArticleCreate from "./articleCreate.redux";
 
 /* ------------- Assemble The Reducers ------------- */
 export const appReducer = combineReducers({
@@ -14,7 +15,11 @@ export const appReducer = combineReducers({
   editionRedux: EditionRedux.reducer,
   articleRedux: ArticleRedux.reducer,
   userRedux: UserRedux.reducer,
+<<<<<<< HEAD
   challengeRedux: ChallengeRedux.reducer,
+=======
+  articleCreateRedux: ArticleCreate.reducer,
+>>>>>>> develop
 });
 
 export const rootReducer = (state, action) => {

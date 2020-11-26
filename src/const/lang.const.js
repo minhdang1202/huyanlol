@@ -13,5 +13,6 @@ export const NS_BOOK_DETAIL = "bookDetail";
 export const NS_CHALLENGE_DETAIL = "challengeDetail";
 export const NS_ARTICLE_DETAIL = "articleDetail";
 export const NS_HOME = "home";
+export const NS_ARTICLE_CREATE = "articleCreate";
 
 export const getCommonKey = key => `${NS_COMMON}:${key}`;

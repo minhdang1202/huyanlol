@@ -1,5 +1,7 @@
 import SearchIcon from "./SearchIcon";
 import ArrowDownIcon from "./ArrowDownIcon";
+import ArrowRightIcon from "./ArrowRightIcon";
+import ArrowLeftIcon from "./ArrowLeftIcon";
 import AvatarIcon from "./AvatarIcon";
 import DownloadIcon from "./DownloadIcon";
 import ShareIcon from "./ShareIcon";
@@ -16,6 +18,8 @@ import BookIcon from "./BookIcon";
 import PersonIcon from "./PersonIcon";
 import DotIcon from "./DotIcon";
 import LocalOfferIcon from "./LocalOfferIcon";
+import QuoteIcon from "./QuoteIcon";
+import BreakIcon from "./BreakIcon";
 
 export {
   SearchIcon,
@@ -36,4 +40,8 @@ export {
   PersonIcon,
   DotIcon,
   LocalOfferIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon,
+  QuoteIcon,
+  BreakIcon,
 };

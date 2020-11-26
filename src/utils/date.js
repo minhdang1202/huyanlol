@@ -48,7 +48,7 @@ export const convertDistanceDate = (date, baseDate, lang) => {
     includeSeconds: true,
     locale: getDateLang(lang),
   });
-  const displayDate = isSameDay ? displayDateInSameDay : convertFormat(baseDate, "dd/MM/yyyy");
+  const displayDate = isSameDay ? displayDateInSameDay : convertFormat(baseDate, AppConstant.FM_DD_MM_YYYY);
   return displayDate;
 };
 
