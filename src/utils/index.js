@@ -106,4 +106,19 @@ export const convertUnitToKm = distance => {
   return distance;
 };
 
-export const getImageById = imageId => (imageId ? StringFormat(AppConstant.BASE_IMAGE_URL, imageId) : "");
+export const getImageById = imageId => {
+  return StringFormat(AppConstant.BASE_IMAGE_URL, imageId);
+};
+
+export const getTitleByIdFromArray = (id, array) => {
+  const result = array.filter(obj => obj.id === id);
+  return result[0].title;
+};
+
+export const getRandomDefaultArticleCover = () => {
+  const coverList = Array(9)
+    .fill(1)
+    .map((_, index) => `/images/img-article-cover-${index + 1}.jpg`);
+  const randomNumber = Math.floor(Math.random() * 9);
+  return coverList[randomNumber];
+};

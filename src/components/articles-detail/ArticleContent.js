@@ -33,19 +33,15 @@ ArticleContent.propTypes = {
 const useStyles = makeStyles(theme => ({
   body: {
     "& *": {
-      fontSize: 18,
+      fontSize: 16,
       lineHeight: 1.56,
-      [theme.breakpoints.down("xs")]: {
-        fontSize: 16,
-        lineHeight: 1.38,
-      },
     },
     "& img": {
       maxWidth: "100%",
       display: "block",
       margin: "0 auto",
     },
-    "& p:first-child": {
+    "&>*:first-child": {
       marginTop: 0,
     },
   },
