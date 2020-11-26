@@ -155,6 +155,11 @@ export default {
     TXT_ARTICLE_RELATED: "Bài viết liên quan",
     TXT_ARTICLE_FIRST_COMMENT: "Hãy trở thành người bình luận đầu tiên",
     TXT_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",
+    TXT_ARTICLE_SEND_COMMENT: "Gửi bình luận",
+    TXT_ARTICLE_LIST_COMMENTS: "Bình luận của thành viên",
+    TXT_ARTICLE_REPLY_BUTTON: "Phản hồi",
+    TXT_ARTICLE_CANCEL: "Huỷ",
+    TXT_ARTICLE_WRITE_REPLY: "Phản hồi của bạn...",
 
     //P
     P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",
@@ -164,6 +169,7 @@ export default {
     FM_ARTICLE_SEE_ALL_COMMENTS: "Xem tất cả {0} bình luận",
     FM_ARTICLE_SEE_MORE_REPLIES: "Xem thêm {0} trả lời",
     FM_ARTICLE_REPLY_COMMENT: "Trả lời bình luận của {0}",
+    FM_ARTICLE_SHOW_NUMBER_COMMENTS: "Hiển thị {0} trả lời",
   },
   home: {
     TXT_BOOK_SHELVES: "Book shelves",

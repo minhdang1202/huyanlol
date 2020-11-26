@@ -18,6 +18,7 @@ import CategoryTag from "./CategoryTag";
 import ReviewSummary from "./ReviewSummary";
 import TabPanel from "./TabPanel";
 import FBShareButton from "./FBShareButton";
+import DialogLayout from "./DialogLayout";
 import Avatar from "./Avatar";
 import TextFieldSelect from "./TextFieldSelect";
 import TextField from "./TextField";
@@ -46,6 +47,7 @@ export {
   ReviewSummary,
   TabPanel,
   FBShareButton,
+  DialogLayout,
   Avatar,
   TextFieldSelect,
   TextField,
