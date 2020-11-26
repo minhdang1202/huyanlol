@@ -15,7 +15,9 @@ export const defaultConfigV1 = {
 };
 
 export const createApiWithToken = (initConfig = defaultConfigV2, token) => {
-  if (!token) token = Cookie.get(AppConstant.KEY_TOKEN);
+  // if (!token) token = Cookie.get(AppConstant.KEY_TOKEN);
+  token =
+    "eyJhbGciOiJIUzI1NiJ9.eyJsb2dpbklkIjoyOTk3MSwidXNlcklkIjo5NjUxMTMsInV1aWQiOiI5NjI3NjhiOC0wZDE1LTQxYTYtYWU2MS0xYmYyNjZhZmQ3YjgifQ.Y7ZVjZ-HRPGpwFuQ3qG6cv-tXrh614tpkduBv0f0AvU";
   if (token) {
     if (ApiConstant.BASE_API === initConfig.baseURL) {
       initConfig.headers.Authorization = `Bearer ${token}`;

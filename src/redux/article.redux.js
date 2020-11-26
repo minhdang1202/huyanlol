@@ -5,6 +5,8 @@ const { Types, Creators } = createActions({
   requestHomeArticles: ["data"],
   requestHomeReviews: ["data"],
 
+  requestChallengeArticles: ["data"],
+
   requestGetGiversList: ["id", "params", "isComment"],
   getGiversListSuccess: ["data"],
   getGiversListFailure: ["data"],
@@ -37,6 +39,7 @@ export const INITIAL_STATE = {
 
   homeArticles: {},
   homeReviews: {},
+  challengeArticles: [],
   isTypingReply: false,
   replyInfo: null,
 };
@@ -84,6 +87,8 @@ export const finish = (state = INITIAL_STATE, action) => {
 export const HANDLERS = {
   [Types.REQUEST_HOME_ARTICLES]: request,
   [Types.REQUEST_HOME_REVIEWS]: request,
+
+  [Types.REQUEST_CHALLENGE_ARTICLES]: request,
 
   [Types.GET_GIVERS_LIST_SUCCESS]: requestArticleSuccess,
   [Types.GET_GIVERS_LIST_FAILURE]: requestArticleFailure,

@@ -134,6 +134,7 @@ export default {
     L_BY: "Tạo bởi",
     L_COMPANY_NAME: "GAT",
     L_LESS: "Rút gọn",
+    L_ARTICLE: "Bài viết",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",

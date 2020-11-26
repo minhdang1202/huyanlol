@@ -26,7 +26,7 @@ import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { useRouter } from "next/router";
 
-const ArticleSummary = ({ data, isHiddenAction }) => {
+const ArticleSummary = ({ data, isHiddenAction, className }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const router = useRouter();
@@ -81,7 +81,7 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
 
   let isHeart = Boolean(article.reactCount && article.reactCount > 0);
   return (
-    <Card className={defaultClasses.root} onClick={onGoToDetail}>
+    <Card className={clsx(defaultClasses.root, className)} onClick={onGoToDetail}>
       <CardHeader
         classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
@@ -174,6 +174,7 @@ const ArticleSummary = ({ data, isHiddenAction }) => {
 ArticleSummary.propTypes = {
   data: PropTypes.object,
   isHiddenAction: PropTypes.bool,
+  className: PropTypes.string,
 };
 ArticleSummary.defaultProps = { isHiddenAction: false };
 

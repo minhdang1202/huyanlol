@@ -1,33 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Typography, Paper, Box, useTheme, useMediaQuery } from "@material-ui/core";
-import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import StringFormat from "string-format";
-import { AppLink, Avatar } from "components";
+import { AppLink, Avatar, ArticleSummary } from "components";
 import { useSelector } from "react-redux";
 import { getImageById } from "utils";
 import { getCreatedTime } from "utils/date";
-import { AppConstant, PathConstant } from "const";
+import { AppConstant, PathConstant, LangConstant } from "const";
 import PropTypes from "prop-types";
-import clsx from "clsx";
 const Activity = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
-  const activity = useSelector(state => state.challengeRedux.detailActivity);
+  const activities = useSelector(state => state.challengeRedux.detailListActivity);
+  const articles = useSelector(state => state.articleRedux.challengeArticles);
+  const targetTypeId = useSelector(state => state.challengeRedux.detailInfo.targetTypeId);
+  const [isArticle, setIsArticle] = useState(
+    Boolean(
+      targetTypeId === AppConstant.CHALLENGE_TARGET_TYPE.writeArticle ||
+        targetTypeId === AppConstant.CHALLENGE_ACTIVITY_TYPE.writeArticleList,
+    ),
+  );
+  console.log(articles);
   return (
     <Box className={classes.root}>
-      <Typography variant={"h6"} className={classes.title}>
+      {(targetTypeId === AppConstant.CHALLENGE_TARGET_TYPE.writeArticle ||
+        targetTypeId === AppConstant.CHALLENGE_ACTIVITY_TYPE.writeArticleList) && (
+        <Typography
+          variant={"h6"}
+          className={classes.title}
+          component="span"
+          color={isArticle ? "textPrimary" : "textSecondary"}
+          onClick={() => setIsArticle(true)}
+        >
+          {getLabel("L_ARTICLE")}
+        </Typography>
+      )}
+      <Typography
+        variant={"h6"}
+        className={classes.title}
+        component="span"
+        color={!isArticle ? "textPrimary" : "textSecondary"}
+        onClick={() => setIsArticle(false)}
+      >
         {getLabel("L_ACTIVITY")}
       </Typography>
-      {activity.map((each, index) =>
-        index < AppConstant.CHALLENGE_ACTIVITY_SIZE ? (
-          <Item
-            activityData={each}
-            className={classes.item}
-            key={clsx(each.user.userId, each.edition && each.edition.editionId, each.activityTypeId)}
-          />
-        ) : null,
-      )}
+
+      {!isArticle
+        ? activities.map(
+            (each, index) =>
+              index < AppConstant.CHALLENGE_ACTIVITY_SIZE && (
+                <Item activityData={each} className={classes.item} key={each.activityId} />
+              ),
+          )
+        : articles.map(
+            (each, index) =>
+              index < AppConstant.CHALLENGE_ACTIVITY_SIZE && (
+                <ArticleSummary key={each.articleId} data={each} className={classes.article} />
+              ),
+          )}
     </Box>
   );
 };
@@ -99,8 +129,16 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
   },
   title: {
+    cursor: "pointer",
     [theme.breakpoints.down("xs")]: {
-      padding: "0px 0px 6px 16px",
+      padding: 0,
+      margin: "4px 0px 10px 16px",
+      "&:first-of-type": {
+        marginTop: 4,
+      },
+    },
+    "&:first-of-type": {
+      marginRight: theme.spacing(2),
     },
   },
   item: {
@@ -110,6 +148,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       margin: "2px 0px 2px 0px",
       borderRadius: "0px",
+      "&:first-of-type": {
+        marginTop: theme.spacing(1),
+      },
     },
   },
 
@@ -144,6 +185,15 @@ const useStyles = makeStyles(theme => ({
   text: {
     "&>:nth-child(3)": {
       color: theme.palette.primary.main,
+    },
+  },
+  article: {
+    marginTop: "16px",
+    [theme.breakpoints.down("xs")]: {
+      "&:first-of-type": {
+        marginTop: theme.spacing(1),
+      },
+      marginTop: "1px",
     },
   },
 }));

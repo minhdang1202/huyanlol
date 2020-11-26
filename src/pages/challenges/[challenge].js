@@ -20,19 +20,19 @@ import { pastDueDate } from "utils/date";
 import { useDispatch, useSelector } from "react-redux";
 import { ChallengeService } from "services";
 import ChallengeAction from "redux/challenge.redux";
+import ArticleAction from "redux/article.redux";
 import StringFormat from "string-format";
 import { AppConstant, PathConstant } from "const";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
-import { CHALLENGE_TARGET_TYPE } from "const/app.const";
 const Challenge = ({ data }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
-  const { WEBSITE_URL, CHALLENGE_PROGRESS_STATUS, CHALLENGE_MODE } = AppConstant;
+  const { WEBSITE_URL, CHALLENGE_PROGRESS_STATUS, CHALLENGE_MODE, CHALLENGE_TARGET_TYPE } = AppConstant;
   const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId } = data;
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
-  const activity = useSelector(state => state.challengeRedux.detailActivity);
+  const activity = useSelector(state => state.challengeRedux.detailListActivity);
   const SHARE_URL = WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
   const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
 
@@ -48,6 +48,12 @@ const Challenge = ({ data }) => {
       dispatch(ChallengeAction.requestGetChallengeActivity(challengeId));
       dispatch(ChallengeAction.requestGetChallengeLeaderBoard(challengeId));
       dispatch(ChallengeAction.requestGetChallengeFriendLeaderBoard(challengeId));
+      if (
+        targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle ||
+        targetTypeId === CHALLENGE_TARGET_TYPE.writeArticleList
+      ) {
+        dispatch(ArticleAction.requestChallengeArticles(challengeId));
+      }
     };
     load();
   }, []);

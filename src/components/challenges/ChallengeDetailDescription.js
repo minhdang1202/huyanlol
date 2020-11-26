@@ -12,7 +12,6 @@ const Description = () => {
   const [isFull, setIsFull] = useState(false);
   const description = useSelector(state => state.challengeRedux.detailInfo.description);
   const isLongDescription = Boolean(description.length > AppConstant.CHALLENGE_DESCRIPTION_DEFAULT_LENGTH);
-  console.log(isLongDescription);
   const onChangeContent = () => {
     setIsFull(!isFull);
   };

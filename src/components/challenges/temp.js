@@ -15,10 +15,10 @@ const InviteFriend = () => {
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
   const friendJoined = Boolean(friendLeaderBoard.length > 0);
   return (
-    <Box className={clsx(classes.root, !friendJoined && classes.rootNoAvatar)}>
-      {friendJoined && (
+    <Box className={classes.root}>
+      {leaderBoard.length > 0 && (
         <AvatarGroup spacing={20} className={classes.avatarGroup}>
-          {friendLeaderBoard.map(
+          {leaderBoard.map(
             (each, index) =>
               index < 5 && (
                 <Avatar src={getImageById(each.user.imageId)} key={each.user.userId} className={classes.avatar} />
@@ -26,17 +26,15 @@ const InviteFriend = () => {
           )}
         </AvatarGroup>
       )}
-      <Box className={friendJoined ? classes.content : classes.contentNoAvatar}>
-        <Typography variant="body2" className={clsx(friendJoined ? classes.text : classes.textNoAvatar)}>
-          {friendJoined
-            ? StringFormat(
-                getLabel(friendLeaderBoard.length == 1 ? "FM_INVITE_FRIEND_ONE" : "FM_INVITE_FRIEND"),
-                friendLeaderBoard[0].user.name,
-                leaderBoard.length > friendLeaderBoard.length
-                  ? leaderBoard.length - friendLeaderBoard.length - 1
-                  : friendLeaderBoard.length - 1,
-              )
-            : getLabel("TXT_NO_FRIEND_JOINED")}
+      <Box className={classes.content}>
+        <Typography variant="body2" className={classes.text}>
+          {leaderBoard.length > 0 &&
+            StringFormat(
+              getLabel("FM_INVITE_FRIEND"),
+              leaderBoard[0].user.name,
+              leaderBoard.length - friendLeaderBoard.length - 1,
+            )}
+          {/* {getLabel("TXT_NO_FRIEND_JOINED")} */}
         </Typography>
         <Button fullWidth color="secondary" variant="contained" className={classes.btn} size="large">
           {getLabel("L_INVITE")}
@@ -58,9 +56,6 @@ const useStyles = makeStyles(theme => ({
       paddingTop: theme.spacing(2),
     },
   },
-  rootNoAvatar: {
-    paddingTop: 0,
-  },
   avatarGroup: {
     margin: "0px",
     width: "100%",
@@ -73,6 +68,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       borderRadius: "0px",
       background: theme.palette.white,
+      marginBottom: "-19.5px",
     },
   },
   avatar: {
