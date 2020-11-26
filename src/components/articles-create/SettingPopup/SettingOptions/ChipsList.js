@@ -16,13 +16,9 @@ const ChipsList = ({ chipsList, onChangeChipsList, isDisabled }) => {
             key={index}
             className={clsx("mb-8", !isLastChip && "mr-12")}
             label={`#${label}`}
-            onDelete={
-              isDisabled
-                ? null
-                : () => {
-                    onChangeChipsList(chipsList.filter(entry => entry !== chip));
-                  }
-            }
+            onDelete={() => {
+              if (!isDisabled) onChangeChipsList(chipsList.filter(entry => entry !== chip));
+            }}
           />
         );
       })}

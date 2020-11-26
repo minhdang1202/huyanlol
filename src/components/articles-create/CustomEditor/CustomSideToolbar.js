@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { SideToolbar } from "./index";
-import { getContentSelection } from "../../../utils/editor";
+import { getContentSelection } from "utils/editor";
 import { ImageButton, ListButton, BreakButton } from "./SidebarMenu";
 
 const CustomSideToolbar = ({ editorState, onCreateBreakLine, onCreateList }) => {
