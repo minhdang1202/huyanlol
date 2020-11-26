@@ -156,6 +156,10 @@ export default {
     TXT_ARTICLE_FIRST_COMMENT: "Hãy trở thành người bình luận đầu tiên",
     TXT_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",
     TXT_ARTICLE_SEND_COMMENT: "Gửi bình luận",
+    TXT_ARTICLE_LIST_COMMENTS: "Bình luận của thành viên",
+    TXT_ARTICLE_REPLY_BUTTON: "Phản hồi",
+    TXT_ARTICLE_CANCEL: "Huỷ",
+    TXT_ARTICLE_WRITE_REPLY: "Phản hồi của bạn...",
 
     //P
     P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",

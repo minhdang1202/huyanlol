@@ -17,7 +17,7 @@ import { AppConstant } from "const";
 import clsx from "clsx";
 import PreviewBook from "./PreviewBook";
 
-const ReplyItem = ({ data }) => {
+const ReplyItem = ({ data, onReply }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
 
@@ -65,7 +65,7 @@ const ReplyItem = ({ data }) => {
         </Box>
         {isPreviewBook && <PreviewBook />}
       </CardContent>
-      <Button variant="text" className={classes.replyBtn}>
+      <Button variant="text" className={classes.replyBtn} onClick={onReply}>
         {getLabel("TXT_REPLY")}
       </Button>
     </Card>
@@ -74,6 +74,7 @@ const ReplyItem = ({ data }) => {
 
 ReplyItem.propTypes = {
   data: PropTypes.object,
+  onReply: PropTypes.func,
 };
 ReplyItem.defaultProps = { isHiddenAction: false };
 
