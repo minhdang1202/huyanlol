@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { Avatar, Box, Button, Divider, makeStyles, OutlinedInput } from "@material-ui/core";
+import { Avatar, Box, Button, Divider, makeStyles, OutlinedInput, Typography } from "@material-ui/core";
 import ReplyItem from "./ReplyItem";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { uuid } from "utils";
+import StringFormat from "string-format";
 
 const ReplyLayout = props => {
   const classes = useStyles();
@@ -19,8 +20,11 @@ const ReplyLayout = props => {
     <Box className={classes.root}>
       <ReplyItem onReply={onReply} />
       <Box className={classes.listReplies}>
+        <Typography variant="subtitle1" color="inherit" component="p">
+          {StringFormat(getLabel("FM_ARTICLE_SHOW_NUMBER_COMMENTS"), 10)}
+        </Typography>
         {[...Array(3)].map(_ => (
-          <Box key={uuid()} className={classes.replyItem}>
+          <Box key={uuid()}>
             <ReplyItem onReply={onReply} />
           </Box>
         ))}
@@ -61,6 +65,11 @@ const useStyles = makeStyles(theme => ({
   listReplies: {
     position: "relative",
     paddingLeft: 18,
+    color: theme.palette.primary.main,
+    "& > *:not($listRepliesBorderLeft)": { paddingLeft: 14 },
+    "& > p:first-child": {
+      marginBottom: 16,
+    },
   },
   listRepliesBorderLeft: {
     position: "absolute",
@@ -68,9 +77,6 @@ const useStyles = makeStyles(theme => ({
     width: 2,
     height: "calc(100% - 50px)",
     background: theme.palette.grey[300],
-  },
-  replyItem: {
-    paddingLeft: 14,
   },
   typing: {
     display: "flex",
