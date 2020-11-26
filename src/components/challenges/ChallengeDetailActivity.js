@@ -20,30 +20,29 @@ const Activity = () => {
         targetTypeId === AppConstant.CHALLENGE_ACTIVITY_TYPE.writeArticleList,
     ),
   );
-  console.log(articles);
   return (
     <Box className={classes.root}>
-      {(targetTypeId === AppConstant.CHALLENGE_TARGET_TYPE.writeArticle ||
-        targetTypeId === AppConstant.CHALLENGE_ACTIVITY_TYPE.writeArticleList) && (
+      <Box className={classes.titleContainer}>
+        {(targetTypeId === AppConstant.CHALLENGE_TARGET_TYPE.writeArticle ||
+          targetTypeId === AppConstant.CHALLENGE_ACTIVITY_TYPE.writeArticleList) && (
+          <Typography
+            variant={"h6"}
+            className={classes.title}
+            color={isArticle ? "textPrimary" : "textSecondary"}
+            onClick={() => setIsArticle(true)}
+          >
+            {getLabel("L_ARTICLE")}
+          </Typography>
+        )}
         <Typography
           variant={"h6"}
           className={classes.title}
-          component="span"
-          color={isArticle ? "textPrimary" : "textSecondary"}
-          onClick={() => setIsArticle(true)}
+          color={!isArticle ? "textPrimary" : "textSecondary"}
+          onClick={() => setIsArticle(false)}
         >
-          {getLabel("L_ARTICLE")}
+          {getLabel("L_ACTIVITY")}
         </Typography>
-      )}
-      <Typography
-        variant={"h6"}
-        className={classes.title}
-        component="span"
-        color={!isArticle ? "textPrimary" : "textSecondary"}
-        onClick={() => setIsArticle(false)}
-      >
-        {getLabel("L_ACTIVITY")}
-      </Typography>
+      </Box>
 
       {!isArticle
         ? activities.map(
@@ -127,18 +126,26 @@ Item.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      paddingBottom: theme.spacing(10),
+    },
+  },
+  titleContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "start",
   },
   title: {
     cursor: "pointer",
-    [theme.breakpoints.down("xs")]: {
-      padding: 0,
-      margin: "4px 0px 10px 16px",
-      "&:first-of-type": {
-        marginTop: 4,
-      },
-    },
     "&:first-of-type": {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(3),
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: "12px 0px 16px 0px",
+      "&:first-of-type": {
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+      },
     },
   },
   item: {

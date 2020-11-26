@@ -222,7 +222,7 @@ const useStyles = makeStyles(theme => ({
   mobileContainer: {
     width: "100%",
     height: "100%",
-    paddingBottom: "85px",
+    paddingBottom: "86px",
   },
 }));
 export default Challenge;
