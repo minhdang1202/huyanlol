@@ -23,6 +23,7 @@ import TextFieldSelect from "./TextFieldSelect";
 import TextField from "./TextField";
 import Autocomplete from "./Autocomplete";
 import Chip from "./Chip";
+import SliderButton from "./SliderButton";
 
 export {
   AppHead,
@@ -50,4 +51,5 @@ export {
   TextField,
   Autocomplete,
   Chip,
+  SliderButton,
 };

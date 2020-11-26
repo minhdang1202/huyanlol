@@ -52,6 +52,12 @@ blockquote {
   justify-content: center;
 }
 
+.space-between-root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 ::selection {
   background: $color-primary-100;
 }

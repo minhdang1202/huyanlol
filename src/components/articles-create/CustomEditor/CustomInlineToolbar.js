@@ -90,7 +90,10 @@ const HeadlineFiveButton = createBlockStyleButton({
   blockType: "header-five",
   children: (
     <Box fontSize={26} fontWeight="bold">
-      T
+      H
+      <Box component="span" fontSize={10}>
+        1
+      </Box>
     </Box>
   ),
 });
@@ -99,7 +102,10 @@ const HeadlineSixButton = createBlockStyleButton({
   blockType: "header-six",
   children: (
     <Box fontSize={18} fontWeight="bold">
-      T
+      H
+      <Box component="span" fontSize={10}>
+        2
+      </Box>
     </Box>
   ),
 });

@@ -7,7 +7,7 @@ const SettingTypeTabs = props => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
-    <Tabs classes={{ indicator: classes.indicator }} {...props}>
+    <Tabs className={classes.root} classes={{ indicator: classes.indicator }} {...props}>
       <Tab disableRipple label={getLabel("TXT_TYPE_1")} />
       <Tab label="" icon={<Divider orientation="vertical" flexItem className={classes.divider} />} disabled />
       <Tab disableRipple label={getLabel("TXT_TYPE_2")} />
@@ -18,6 +18,9 @@ const SettingTypeTabs = props => {
 export default SettingTypeTabs;
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    minHeight: "fit-content",
+  },
   indicator: {
     display: "none",
   },

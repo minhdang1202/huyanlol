@@ -67,3 +67,16 @@ export const getPlainText = editorState => {
   const value = blocks.map(block => (!block.text.trim() && "\n") || block.text).join("\n");
   return value.trim();
 };
+
+export const checkIfUnOrderList = editorState => {
+  const cursorData = editorState.getSelection();
+  const key = cursorData.anchorKey;
+  const contentState = editorState.getCurrentContent();
+  let result = false;
+  contentState.blockMap.forEach((e, i) => {
+    if (i === key) {
+      if (e.getType() === "unordered-list-item") result = true;
+    }
+  });
+  return result;
+};

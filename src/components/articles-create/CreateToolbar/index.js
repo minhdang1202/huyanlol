@@ -9,7 +9,7 @@ import CharCountPopover from "./CharCountPopover";
 import { UndoButton, RedoButton } from "../CustomEditor";
 import SidebarMenu from "../CustomEditor/SidebarMenu";
 
-const CreateToolbar = ({ isDisabled, onOpenSetting }) => {
+const CreateToolbar = ({ onOpenSetting }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const [anchorCharCount, setAnchorCharCount] = useState(null);
@@ -59,18 +59,18 @@ const CreateToolbar = ({ isDisabled, onOpenSetting }) => {
         anchorEl={anchorCharCount}
         onClose={onClosePopover}
       />
-      <IconButton onClick={() => onOpenSetting()}>
-        <Box className={clsx("ic-cog", classes.icon)} />
-      </IconButton>
-      <Button disabled={isDisabled} variant="contained" className={clsx(classes.postButton, "dark-blue-button")}>
-        {getLabel("TXT_CREATE_POST")}
+      <Button
+        onClick={() => onOpenSetting()}
+        variant="contained"
+        className={clsx(classes.postButton, "dark-blue-button")}
+      >
+        {getLabel("TXT_PREVIEW")}
       </Button>
     </Toolbar>
   );
 };
 
 CreateToolbar.propTypes = {
-  isDisabled: PropTypes.bool,
   onOpenSetting: PropTypes.func,
 };
 

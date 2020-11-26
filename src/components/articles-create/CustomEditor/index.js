@@ -15,7 +15,15 @@ import { ArrowRightIcon, ArrowLeftIcon } from "icons";
 import CustomInlineToolbar from "./CustomInlineToolbar";
 import CustomSideToolbar from "./CustomSideToolbar";
 import InsertLink from "./InsertLink";
-import { getCharCount, getWordCount, findLinkEntities, getEntityLink, insertLink, getPlainText } from "utils/editor";
+import {
+  getCharCount,
+  getWordCount,
+  findLinkEntities,
+  getEntityLink,
+  insertLink,
+  getPlainText,
+  checkIfUnOrderList,
+} from "utils/editor";
 import { WORD_BOX_ID } from "../CreateToolbar";
 import ArticleCreateActions from "redux/articleCreate.redux";
 
@@ -154,6 +162,7 @@ const CustomEditor = ({ onChangeContent }) => {
   useEffect(() => {
     if (wordBox && editorState) wordBox.innerText = StringFormat(getLabel("FM_WORDS"), getWordCount(editorState));
     if (editorState) localStorage.setItem("charCount", getCharCount(editorState));
+    if (editorState) localStorage.setItem("isUnOrderList", checkIfUnOrderList(editorState));
 
     const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {

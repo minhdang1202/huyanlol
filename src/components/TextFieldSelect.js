@@ -76,10 +76,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   disabled: {
-    color: theme.palette.grey[300],
-    "& .ic-chevron-down": {
-      color: `${theme.palette.grey[300]} !important`,
-    },
+    color: `${theme.palette.grey[300]} !important`,
   },
   list: {
     paddingTop: 0,

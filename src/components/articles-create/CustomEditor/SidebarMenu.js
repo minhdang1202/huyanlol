@@ -1,4 +1,6 @@
 import React, { forwardRef } from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
@@ -56,16 +58,22 @@ export const ImageButton = forwardRef((props, ref) => {
 
 ImageButton.displayName = "ImageButton";
 
-export const ListButton = props => {
+export const ListButton = ({ className, ...otherProps }) => {
+  const isActive = localStorage.getItem("isUnOrderList") === "true";
+  const classes = useStyles({ isActive });
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
-    <MenuItem {...props}>
+    <MenuItem className={clsx(classes.listButton, className)} {...otherProps}>
       <ListItemIcon>
         <Box className="ic-list" />
       </ListItemIcon>
       <ListItemText primary={getLabel("TXT_LIST")} />
     </MenuItem>
   );
+};
+
+ListButton.propTypes = {
+  className: PropTypes.string,
 };
 
 export const BreakButton = props => {
@@ -91,8 +99,7 @@ const MenuItem = withStyles(theme => ({
     height: 92,
     padding: 0,
     "&:hover": {
-      background: "none",
-      border: `1px solid ${theme.palette.primary.main}`,
+      background: theme.palette.grey[100],
     },
   },
 }))(MuiMenuItem);
@@ -128,5 +135,8 @@ const useStyles = makeStyles(theme => ({
   },
   listItemText: {
     flex: 0,
+  },
+  listButton: {
+    border: ({ isActive }) => (isActive ? `1px solid ${theme.palette.primary.main}` : "none"),
   },
 }));

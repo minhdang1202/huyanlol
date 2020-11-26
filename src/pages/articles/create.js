@@ -41,6 +41,28 @@ const Creator = () => {
   const [defaultCover, setDefaultCover] = useState(getRandomDefaultArticleCover());
   const [tagsList, setTagsList] = useState([]);
   const [booksList, setBooksList] = useState(isReviewType ? [booksSuggestion[0]] : []);
+  const [thumbnailList, setThumbnailList] = useState([
+    { src: defaultCover },
+    { src: "/images/img-article-cover-2.jpg" },
+    { src: "/images/img-article-cover-3.jpg" },
+    { src: "/images/img-article-cover-4.jpg" },
+    { src: "/images/img-article-cover-5.jpg" },
+    { src: "/images/img-article-cover-6.jpg" },
+    { src: "/images/img-article-cover-7.jpg" },
+    { src: "/images/img-article-cover-8.jpg" },
+  ]);
+  const [coverList, setCoverList] = useState([
+    { src: defaultCover },
+    { src: "/images/img-article-cover-2.jpg" },
+    { src: "/images/img-article-cover-3.jpg" },
+    { src: "/images/img-article-cover-4.jpg" },
+    { src: "/images/img-article-cover-5.jpg" },
+    { src: "/images/img-article-cover-6.jpg" },
+    { src: "/images/img-article-cover-7.jpg" },
+    { src: "/images/img-article-cover-8.jpg" },
+  ]);
+  const [currentThumbnail, setCurrentThumbnail] = useState({ src: defaultCover });
+  const [currentCover, setCurrentCover] = useState({ src: defaultCover });
 
   const onChangeTagsList = tags => {
     const newTagsList = tags.map(tag => {
@@ -48,6 +70,14 @@ const Creator = () => {
       return tag;
     });
     setTagsList([...new Set(newTagsList)]);
+  };
+
+  const onChangeCurrentCover = newCover => {
+    setCurrentCover(newCover);
+  };
+
+  const onChangeCurrentThumbnail = newThumbnail => {
+    setCurrentThumbnail(newThumbnail);
   };
 
   const onChangeBooksList = books => {
@@ -125,11 +155,17 @@ const Creator = () => {
         onChangeBooksList={onChangeBooksList}
         defaultCover={defaultCover}
         isDisabled={!(hasContent && title)}
+        currentCover={currentCover}
+        currentThumbnail={currentThumbnail}
+        coverList={coverList}
+        thumbnailList={thumbnailList}
+        onChangeCurrentCover={onChangeCurrentCover}
+        onChangeCurrentThumbnail={onChangeCurrentThumbnail}
       />
       <Box position="relative">
         <Box position="sticky" top={0} zIndex={1000} bgcolor="white">
           <Container className={classes.container}>
-            <CreateToolbar isDisabled={!(hasContent && title)} onOpenSetting={onOpenSetting} onClose={onCloseSetting} />
+            <CreateToolbar onOpenSetting={onOpenSetting} />
           </Container>
           <Divider />
         </Box>

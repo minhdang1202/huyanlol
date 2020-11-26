@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { IconButton, Box, makeStyles, Hidden } from "@material-ui/core";
+import { makeStyles, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import SliderButton, { WIDTH_BUTTON } from "components/SliderButton";
 
 const SliderButtons = ({ onPrevSlide, onNextSlide, slideIndex, totalSlides }) => {
   const classes = useStyles();
@@ -10,25 +11,14 @@ const SliderButtons = ({ onPrevSlide, onNextSlide, slideIndex, totalSlides }) =>
   return (
     <Hidden xsDown>
       {slideIndex === 0 ? null : (
-        <CustomSliderButton className={clsx(classes.button, classes.prevButton)} onClick={onPrevSlide} />
+        <SliderButton className={clsx(classes.button, classes.prevButton)} onClick={onPrevSlide} />
       )}
       {slideIndex === lastSlide || totalSlides <= 2 ? null : (
-        <CustomSliderButton isNext={true} className={clsx(classes.button, classes.nextButton)} onClick={onNextSlide} />
+        <SliderButton isNext={true} className={clsx(classes.button, classes.nextButton)} onClick={onNextSlide} />
       )}
     </Hidden>
   );
 };
-
-const CustomSliderButton = ({ isNext, className, ...otherProps }) => {
-  const classes = useStyles({ isNext });
-  return (
-    <IconButton className={clsx(classes.root, className)} {...otherProps}>
-      <Box className={isNext ? "ic-chevron-right" : "ic-chevron-left"}></Box>
-    </IconButton>
-  );
-};
-
-const WIDTH_BUTTON = "41px";
 
 SliderButtons.propTypes = {
   onNextSlide: PropTypes.func,
@@ -37,25 +27,7 @@ SliderButtons.propTypes = {
   totalSlides: PropTypes.number,
 };
 
-CustomSliderButton.propTypes = {
-  isNext: PropTypes.bool,
-  className: PropTypes.string,
-};
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: WIDTH_BUTTON,
-    height: WIDTH_BUTTON,
-    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.08)",
-    border: `solid 1px ${theme.palette.grey[100]}`,
-    background: theme.palette.white,
-    fontSize: 16,
-    color: theme.palette.text.secondary,
-    padding: 0,
-    "&:hover": {
-      background: theme.palette.grey[100],
-    },
-  },
+const useStyles = makeStyles(() => ({
   button: {
     position: "absolute",
     top: `calc(50% + ${WIDTH_BUTTON} / 2)`,
