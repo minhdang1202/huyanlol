@@ -15,11 +15,8 @@ export const appReducer = combineReducers({
   editionRedux: EditionRedux.reducer,
   articleRedux: ArticleRedux.reducer,
   userRedux: UserRedux.reducer,
-<<<<<<< HEAD
   challengeRedux: ChallengeRedux.reducer,
-=======
   articleCreateRedux: ArticleCreate.reducer,
->>>>>>> develop
 });
 
 export const rootReducer = (state, action) => {
