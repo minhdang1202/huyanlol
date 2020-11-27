@@ -1,25 +1,21 @@
 import React from "react";
-import {
-  makeStyles,
-  Typography,
-  Paper,
-  Box,
-  Button,
-  Avatar,
-  useTheme,
-  useMediaQuery,
-  Badge,
-  Link,
-} from "@material-ui/core";
+import { makeStyles, Typography, Paper, Box, Button, useTheme, useMediaQuery, Badge } from "@material-ui/core";
 import clsx from "clsx";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
-import Router from "next/router";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { getImageById } from "utils";
+import { AppLink, Avatar } from "components";
+import StringFormat from "string-format";
+import { CHALLENGE_TARGET_TYPE } from "const/app.const";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("sm"));
+  const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
+
   return (
     <Paper elevation={1} className={classes.root}>
       <Box className={classes.top}>
@@ -33,19 +29,29 @@ const PositiveMember = () => {
           {getLabel("L_MORE")}
         </Button>
       </Box>
-      <Box className={classes.bottom}>
-        <Member place={1} />
-        <Member place={2} />
-        <Member place={3} />
-        <Member place={4} />
-        {!isTablet && <Member place={5} />}
+      <Box className={clsx(classes.bottom, leaderBoard.length < 4 && classes.bottom2)}>
+        {leaderBoard.map((each, index) => {
+          if (index < 4 || (index === 4 && !isTablet)) {
+            return (
+              <Member
+                key={each.user.userId}
+                place={index + 1}
+                name={each.user.name}
+                imgId={each.user.imageId}
+                progress={each.progress}
+              />
+            );
+          } else return null;
+        })}
       </Box>
     </Paper>
   );
 };
 
-const Member = ({ place }) => {
+const Member = ({ place, imgId, name, progress }) => {
   const classes = useStyles();
+  const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const targetTypeId = useSelector(state => state.challengeRedux.detailInfo.targetTypeId);
   const certificate = place => {
     switch (place) {
       case 1:
@@ -58,9 +64,6 @@ const Member = ({ place }) => {
         return classes.fourth;
     }
   };
-  const onClickAvatar = () => {
-    Router.push("/#");
-  };
   return (
     <Box className={classes.member}>
       <Badge
@@ -71,17 +74,34 @@ const Member = ({ place }) => {
           </Box>
         }
       >
-        <Avatar alt="Trump" src="/images/img-avatar.jpg" className={classes.avatar} onClick={onClickAvatar} />
+        <AppLink>
+          <Avatar src={getImageById(imgId)} className={classes.avatar} />
+        </AppLink>
       </Badge>
 
-      <Typography variant="subtitle1" className={classes.name}>
-        <Link href="#">name</Link>
+      <Typography variant="subtitle1" className={clsx(classes.name, "eclipse")}>
+        <AppLink>{name}</AppLink>
       </Typography>
-      <Typography variant="body2">xxx</Typography>
+      <Typography variant="body2">
+        {StringFormat(
+          getLabel(
+            targetTypeId === CHALLENGE_TARGET_TYPE.readBook || targetTypeId === CHALLENGE_TARGET_TYPE.readBookList
+              ? "FM_PROGRESS_SHRINK"
+              : "FM_PROGRESS_REVIEW_SHRINK",
+          ),
+          progress,
+        )}
+      </Typography>
     </Box>
   );
 };
 
+Member.propTypes = {
+  place: PropTypes.number,
+  imgId: PropTypes.string,
+  name: PropTypes.string,
+  progress: PropTypes.number,
+};
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -106,6 +126,13 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
+  },
+  bottom2: {
+    justifyContent: "center",
+    "&>*": {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+    },
   },
   member: {
     width: "105px",
@@ -140,7 +167,7 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.text.primary,
     },
     [theme.breakpoints.down("md")]: {
-      marginBottom: "-8px",
+      marginBottom: "-4px",
     },
   },
   badgeContainer: {

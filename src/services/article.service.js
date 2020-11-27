@@ -6,6 +6,11 @@ export const getListArticles = data => {
   return createApi().get(ApiConstant.GET_ARTICLES, params);
 };
 
+export const getChallengeListArticles = challengeId => {
+  let params = getQueryPrams();
+  return createApi().get(ApiConstant.GET_CHALLENGE_ARTICLES(challengeId), params);
+};
+
 export const getArticleDetail = articleId => {
   return createApi().get(ApiConstant.GET_ARTICLE_DETAIL(articleId));
 };

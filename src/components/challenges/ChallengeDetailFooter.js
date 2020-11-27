@@ -5,12 +5,33 @@ import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import StringFormat from "string-format";
 import PropTypes from "prop-types";
-
+import { useSelector } from "react-redux";
+import { daysLeft } from "utils/date";
+import { CHALLENGE_TARGET_TYPE } from "const/app.const";
+import { ChallengeService } from "services";
+import ChallengeAction from "redux/challenge.redux";
+import { useDispatch } from "react-redux";
 const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const dispatch = useDispatch();
+
+  const challengeProgress = useSelector(state => state.challengeRedux.detailInfo.challengeProgress);
+  const fixedTargetNumber = useSelector(state => state.challengeRedux.detailInfo.targetNumber);
+  const targetTypeId = useSelector(state => state.challengeRedux.detailInfo.targetTypeId);
+  const endDate = useSelector(state => state.challengeRedux.detailInfo.endDate);
+  const progress = challengeProgress ? challengeProgress.progress : 0;
+  const target = challengeProgress ? challengeProgress.targetNumber : fixedTargetNumber;
+  const challengeId = useSelector(state => state.challengeRedux.detailInfo.challengeId);
+
+  const onJoin = async challengeId => {
+    const response = await ChallengeService.putJoinChallenge(challengeId);
+    if (response) window.location.reload();
+    // dispatch(ChallengeAction.requestJoinChallenge(challengeId));
+  };
+
   return (
     <Paper elevation={1} className={classes.content}>
       {joined && (
@@ -23,17 +44,34 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
           {isDone ? (
             <Box className={clsx(!isMobile && [classes.icLine1, "ic-check"], isDone && classes.isDone)}>
               <Typography variant="body1" component="span">
-                {StringFormat(getLabel("FM_PROGRESS"), 0, 69)}
+                {StringFormat(
+                  getLabel(
+                    targetTypeId === CHALLENGE_TARGET_TYPE.readBook ||
+                      targetTypeId === CHALLENGE_TARGET_TYPE.readBookList
+                      ? "FM_PROGRESS"
+                      : "FM_PROGRESS_REVIEW",
+                  ),
+                  progress,
+                  target,
+                )}
               </Typography>
             </Box>
           ) : (
             <Box className={!isMobile ? clsx(classes.icLine1, "ic-bullseye") : null}>
               <Typography variant="body1" component="span">
-                {StringFormat(getLabel("FM_PROGRESS"), 0, 69)}
+                {StringFormat(
+                  getLabel(
+                    targetTypeId === CHALLENGE_TARGET_TYPE.readBook ||
+                      targetTypeId === CHALLENGE_TARGET_TYPE.readBookList
+                      ? "FM_PROGRESS"
+                      : "FM_PROGRESS_REVIEW",
+                  ),
+                  progress,
+                  target,
+                )}
               </Typography>
             </Box>
           )}
-
           <Box className={clsx(classes.icLine2, classes.gray, "ic-calendar-alt")}>
             {isEnd ? (
               <Typography variant={isMobile ? "body2" : "body1"} component="span">
@@ -41,7 +79,7 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
               </Typography>
             ) : (
               <Typography variant={isMobile ? "body2" : "body1"} component="span">
-                {"Còn 30 ngày nữa"}
+                {StringFormat(getLabel("FM_DAYS_LEFT"), daysLeft(endDate))}
               </Typography>
             )}
           </Box>
@@ -60,7 +98,13 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
           </Button>
         </Box>
       ) : (
-        <Button fullWidth size={isMobile ? "medium" : "large"} color="primary" variant="contained">
+        <Button
+          fullWidth
+          size={isMobile ? "medium" : "large"}
+          color="primary"
+          variant="contained"
+          onClick={() => onJoin(challengeId)}
+        >
           {getLabel("L_JOIN")}
         </Button>
       )}
@@ -74,27 +118,21 @@ ChallengeDetailFooter.propTypes = {
   joined: PropTypes.bool,
 };
 
-ChallengeDetailFooter.defaultProps = {
-  isDone: false,
-  isEnd: false,
-  joined: true,
-};
-
 const useStyles = makeStyles(theme => ({
   content: {
     borderRadius: "0px 0px 10px 10px",
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    zIndex: 2,
+    zIndex: 4,
     [theme.breakpoints.down("xs")]: {
       flexDirection: "row",
       justifyContent: "space-between",
       position: "absolute",
       bottom: "0",
+      left: 0,
       alignItems: "center",
-      height: "75px",
-      marginTop: "75px",
+      height: "72px",
       padding: theme.spacing(2),
     },
   },

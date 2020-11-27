@@ -34,3 +34,38 @@ export const FM_DD_MM_YYYY = "dd/MM/yyyy";
 export const FM_DD_MM = "dd/MM";
 
 export const CATEGORY_REVIEW = 0;
+
+//challenge
+export const CHALLENGE_TARGET_TYPE = {
+  readBook: 1,
+  writeArticle: 2,
+  readBookList: 3,
+  writeArticleList: 4,
+};
+
+export const CHALLENGE_TARGET_MODE = {
+  fixedValue: 1,
+  setByUser: 2,
+};
+
+export const CHALLENGE_PROGRESS_STATUS = {
+  notComplete: 1,
+  complete: 2,
+};
+
+export const CHALLENGE_MODE = {
+  personal: 1,
+  publicGroup: 2,
+  privateGroup: 3,
+};
+
+export const CHALLENGE_ACTIVITY_TYPE = {
+  join: 1,
+  read: 2,
+  share: 3,
+  write: 4,
+};
+
+export const CHALLENGE_ACTIVITY_SIZE = 3;
+
+export const CHALLENGE_DESCRIPTION_DEFAULT_LENGTH = 200;

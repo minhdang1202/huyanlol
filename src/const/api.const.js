@@ -1,7 +1,6 @@
 // Base Api
 export const BASE_API = "https://fordevv2.gatbook.org/api/v1";
 export const BASE_API_V1 = "https://fordev.gatbook.org/rest/api/";
-
 export const HEADER_DEFAULT = {
   Accept: "application/json",
   "Content-Type": "application/json",
@@ -43,3 +42,11 @@ export const GET_ARTICLE_GIVERS = articleId => `/articles/${articleId}/reaction`
 export const GET_ARTICLE_COMMENTS = articleId => `/articles/${articleId}/comments`;
 export const GET_ARTICLE_REPLIES = commentId => `/articles/comments/${commentId}/replies`;
 export const GET_ARTICLE_COMMENT_GIVERS = commentId => `/articles/comments/${commentId}/reaction`;
+export const GET_CHALLENGE_ARTICLES = challengeId => `/articles/challenge/${challengeId}`;
+
+// * Challenge
+export const GET_CHALLENGE_INFO = challengeId => `/challenges/${challengeId}`;
+export const GET_CHALLENGE_LEADER_BOARD = challengeId => `/challenges/${challengeId}/leader_board`;
+export const GET_CHALLENGE_FRIEND_LEADER_BOARD = challengeId => `/challenges/${challengeId}/friend_leader_board`;
+export const GET_CHALLENGE_ACTIVITY = challengeId => `/challenges/${challengeId}/activities`;
+export const PUT_JOIN_CHALLENGE = challengeId => `/challenges/${challengeId}/_join`;

@@ -36,6 +36,21 @@ export function* requestGetHomeReviews(action) {
   }
 }
 
+export function* requestGetChallengeArticles(action) {
+  let response = yield call(ArticleService.getChallengeListArticles, action.data);
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data.pageData;
+      yield put(ArticleAction.articleSuccess({ challengeArticles: responseData }));
+    } else {
+      yield put(ArticleAction.articleFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(ArticleAction.articleFailure(error));
+  }
+}
+
 export function* requestGetGiversList(action) {
   const { id, params, isComment } = action;
   let response = isComment

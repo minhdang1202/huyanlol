@@ -13,20 +13,10 @@ const Company = () => {
       <Box className={classes.logoOutline}>
         {isMobile ? <LogoIcon width={30} height={15} /> : <LogoIcon width={50} height={25} />}
       </Box>
-      {isMobile ? (
-        <Typography>
-          <Typography variant="body2" component="span" color="textSecondary">
-            {`${getLabel("L_BY")} `}
-          </Typography>
-          <Typography variant="subtitle2" component="span">
-            {getLabel("L_COMPANY_NAME")}
-          </Typography>
-        </Typography>
-      ) : (
-        <Typography variant="subtitle1" className={classes.coName}>
-          {getLabel("L_COMPANY")}
-        </Typography>
-      )}
+
+      <Typography variant="subtitle1" className={classes.coName}>
+        {getLabel("L_COMPANY")}
+      </Typography>
     </Paper>
   );
 };

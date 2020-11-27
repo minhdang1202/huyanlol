@@ -9,6 +9,7 @@ import { AuthTypes } from "../redux/auth.redux";
 import { EditionTypes } from "redux/edition.redux";
 import { ArticleTypes } from "redux/article.redux";
 import { UserTypes } from "redux/user.redux";
+import { ChallengeTypes } from "redux/challenge.redux";
 
 /* ------------- Sagas ------------- */
 import { requestLogin, requestRegister } from "./auth.saga";
@@ -28,8 +29,16 @@ import {
   requestGetRepliesList,
   requestGetHomeArticles,
   requestGetHomeReviews,
+  requestGetChallengeArticles,
 } from "./article.saga";
 
+import {
+  requestGetChallengeInfo,
+  requestGetLeaderBoard,
+  requestGetFriendLeaderBoard,
+  requestGetActivity,
+  requestPutJoin,
+} from "./challenge.saga";
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
   yield all([
@@ -52,9 +61,17 @@ export default function* root() {
     takeLatest(ArticleTypes.REQUEST_GET_GIVERS_LIST, requestGetGiversList),
     takeLatest(ArticleTypes.REQUEST_GET_COMMENTS_LIST, requestGetCommentsList),
     takeLatest(ArticleTypes.REQUEST_GET_REPLIES_LIST, requestGetRepliesList),
+    takeLatest(ArticleTypes.REQUEST_CHALLENGE_ARTICLES, requestGetChallengeArticles),
 
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
     takeLatest(UserTypes.REQUEST_PROFILE, requestGetUserProfile),
+
+    // challenge detail
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_INFO, requestGetChallengeInfo),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LEADER_BOARD, requestGetLeaderBoard),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_FRIEND_LEADER_BOARD, requestGetFriendLeaderBoard),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_ACTIVITY, requestGetActivity),
+    takeLatest(ChallengeTypes.REQUEST_JOIN_CHALLENGE, requestPutJoin),
   ]);
 }

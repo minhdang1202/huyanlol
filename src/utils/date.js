@@ -10,6 +10,8 @@ import {
   differenceInMinutes,
   differenceInHours,
   differenceInDays,
+  compareAsc,
+  parseISO,
 } from "date-fns";
 import StringFormat from "string-format";
 import { getLabel } from "language";
@@ -74,4 +76,12 @@ export const getCreatedTime = created => {
     }
   }
   return result;
+};
+
+export const pastDueDate = dueDate => {
+  return Boolean(compareAsc(new Date(parseISO(dueDate)), new Date()) <= 0);
+};
+
+export const daysLeft = dueDate => {
+  return differenceInCalendarDays(new Date(parseISO(dueDate)), new Date());
 };
