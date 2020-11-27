@@ -1,8 +1,8 @@
 import { ApiConstant } from "const";
 import { createApi } from "api";
 
-export const getChallengeInfo = challengeId => {
-  return createApi().get(ApiConstant.GET_CHALLENGE_INFO(challengeId));
+export const getChallengeInfo = (challengeId, token) => {
+  return createApi(token).get(ApiConstant.GET_CHALLENGE_INFO(challengeId));
 };
 
 export const getChallengeLeaderBoard = challengeId => {

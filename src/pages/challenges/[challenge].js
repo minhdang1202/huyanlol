@@ -23,7 +23,6 @@ import ChallengeAction from "redux/challenge.redux";
 import ArticleAction from "redux/article.redux";
 import StringFormat from "string-format";
 import { AppConstant, PathConstant } from "const";
-import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 const Challenge = ({ data }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -34,7 +33,7 @@ const Challenge = ({ data }) => {
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
   const activity = useSelector(state => state.challengeRedux.detailListActivity);
   const SHARE_URL = WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
-  const appBarProps = { isDetail: true, className: classes.appBarMobile, appBarTitle: title, shareUrl: SHARE_URL };
+  const appBarProps = { isDetail: true, appBarTitle: title, shareUrl: SHARE_URL };
 
   //////////////////screen variant
   let isDone = challengeProgress && challengeProgress.completeStatus === CHALLENGE_PROGRESS_STATUS.complete; //progress
@@ -59,7 +58,7 @@ const Challenge = ({ data }) => {
   }, []);
 
   return (
-    <MainLayout appBarProps={appBarProps}>
+    <MainLayout appBarProps={appBarProps} isChallengeDetail>
       <Container maxWidth="lg" className={classes.root}>
         {!isMobile && <CustomBreadCrumb challengeName={title} className={classes.breadcrumb} />}
 
@@ -151,11 +150,12 @@ const Challenge = ({ data }) => {
   );
 };
 
-export async function getServerSideProps({ res, query }) {
+export async function getServerSideProps({ req, res, query }) {
   let challengeId = query && query.challenge ? query.challenge : null;
   const isOnlyNumber = /^\d+$/.test(challengeId);
+  const token = req.cookies[AppConstant.KEY_TOKEN];
   challengeId = isOnlyNumber ? challengeId : getNumberIdFromQuery(challengeId);
-  const challengeInfo = await ChallengeService.getChallengeInfo(challengeId);
+  const challengeInfo = await ChallengeService.getChallengeInfo(challengeId, token);
   if (challengeInfo.data.data) {
     const data = {
       ...challengeInfo.data.data,
@@ -208,15 +208,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
       padding: "0px",
-    },
-  },
-  appBarMobile: {
-    color: theme.palette.text.primary,
-    background: theme.palette.white,
-    [theme.breakpoints.down("xs")]: {
-      position: "static !important",
-      boxShadow: "none !important",
-      marginTop: `-${HEIGHT_APP_BAR} !important`,
     },
   },
   mobileContainer: {

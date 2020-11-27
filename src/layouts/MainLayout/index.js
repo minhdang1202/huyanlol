@@ -6,10 +6,10 @@ import clsx from "clsx";
 import MobileAppDownload, { HEIGHT_MOBILE_APP_DOWNLOAD } from "./components/MobileAppDownload";
 import CustomAppBar, { HEIGHT_APP_BAR } from "./components/CustomAppBar";
 
-const MainLayout = ({ headProps, className, classes, children, appBarProps }) => {
+const MainLayout = ({ headProps, className, classes, children, appBarProps, isChallengeDetail }) => {
   const primaryHead = headProps || {};
   const [isClose, setIsClose] = useState(false);
-  const defaultClasses = useStyles({ isClose: isClose });
+  const defaultClasses = useStyles({ isClose: isClose, isChallengeDetail });
 
   const onClose = () => {
     setIsClose(true);
@@ -38,6 +38,7 @@ MainLayout.propTypes = {
   className: PropTypes.string,
   appBarProps: PropTypes.object,
   classes: PropTypes.object,
+  isChallengeDetail: PropTypes.bool,
 };
 
 MainLayout.defaultProps = {
@@ -67,7 +68,8 @@ const useStyles = makeStyles(theme => ({
   },
   main: {
     [theme.breakpoints.down("xs")]: {
-      marginBottom: props => (props.isClose ? 0 : `calc(${HEIGHT_MOBILE_APP_DOWNLOAD} + 8px)`),
+      marginBottom: ({ isClose, isChallengeDetail }) =>
+        isClose || isChallengeDetail ? 0 : `calc(${HEIGHT_MOBILE_APP_DOWNLOAD} + 8px)`,
     },
   },
 }));
