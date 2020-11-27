@@ -14,9 +14,8 @@ export const defaultConfigV1 = {
   timeout: ApiConstant.TIMEOUT,
 };
 
-export const createApiWithToken = (token, initConfig = defaultConfigV2) => {
+export const createApiWithToken = (initConfig = defaultConfigV2, token) => {
   if (!token) token = Cookie.get(AppConstant.KEY_TOKEN);
-
   if (token) {
     if (ApiConstant.BASE_API === initConfig.baseURL) {
       initConfig.headers.Authorization = `Bearer ${token}`;
