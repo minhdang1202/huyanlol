@@ -135,6 +135,9 @@ export default {
     L_COMPANY_NAME: "GAT",
     L_LESS: "Rút gọn",
     L_ARTICLE: "Bài viết",
+    L_ALL: "Tất cả",
+    L_FOLLOWED: "Đang theo dõi",
+    L_FOLLOW: "+ Theo dõi",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
@@ -164,6 +167,8 @@ export default {
     FM_CREATOR: `<span>Tạo bởi <a class="primary-text">{0}</a></span>`,
     FM_INVITE_FRIEND: "{0} và {1} người khác tham gia thử thách này",
     FM_INVITE_FRIEND_ONE: "{0} tham gia thử thách này",
+    FM_PROGRESS_LEADER_BOARD: "Đã đọc {0}/{1}",
+    FM_PROGRESS_REVIEW_LEADER_BOARD: "Đã viết {0}/{1}",
   },
   articleDetail: {
     TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",
