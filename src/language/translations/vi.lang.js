@@ -15,6 +15,8 @@ export default {
     TXT_APPDOWNLOAD_BUTTON: "Tải ngay",
     TXT_APPDOWNLOAD_SUGGEST: "Cài đặt ứng dụng GAT để sử dụng chức năng này",
     TXT_APPDOWNLOAD_SUGGEST_BUTTON: "Tải ứng dụng",
+    TXT_APPDOWNLOAD_CHALLENGE: "Tải GAT và Tham gia thử thách",
+    TXT_APPDOWNLOAD_STORE: "Ứng dụng đã có mặt trên Appstore & Google Play",
     TXT_HOMEPAGE: "Trang chủ",
     TXT_LOGIN: "Đăng nhập",
     TXT_LOGOUT: "Đăng xuất",
@@ -233,5 +235,9 @@ export default {
     FM_CHARACTERS: "{0} ký tự",
     FM_WORDS: "{0} từ",
     FM_ADD_NEW_HASHTAG: "Thêm tag {0}",
+  },
+  challengeList: {
+    L_CHALLENGE: "Thử thách",
+    L_WITH_GAT: "cùng GAT",
   },
 };
