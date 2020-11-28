@@ -1,25 +1,64 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Dialog, makeStyles, Typography, Box, useTheme, useMediaQuery, Avatar, Button } from "@material-ui/core";
+import {
+  Dialog,
+  makeStyles,
+  Typography,
+  Box,
+  useTheme,
+  useMediaQuery,
+  Avatar,
+  Button,
+  IconButton,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import { getImageById } from "utils";
-import { getLabel } from "language";
 import { AppConstant } from "const";
 const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const [isFollowedTab, setIsFollowedTab] = useState(false);
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
-  const friendLeaderBoard = useSelector(state => state.challengeRedux.detailFriendLeaderBoard);
-  const list = isFollowedTab ? friendLeaderBoard : leaderBoard;
+  const user = useSelector(state => state.userRedux.profile);
+  const detailInfo = useSelector(state => state.challengeRedux.detailInfo);
+  const { targetType, challengeProgress } = detailInfo;
+  const list = isFollowedTab ? leaderBoard.filter(each => each.following === true) : leaderBoard;
+  const isRead = Boolean(
+    targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
+      targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
+  );
+
   return (
-    <Dialog open={isOpen} fullWidth={true} maxWidth="sm">
+    <Dialog open={isOpen} fullScreen={isMobile} fullWidth={true} maxWidth="sm">
       <Box className={classes.root}>
-        <Box>top part</Box>
+        <Box className={classes.top}>
+          <Box className={classes.head}>
+            {!isMobile && (
+              <Box className={classes.topLeft}>
+                <Avatar src={getImageById(user.imageId)} className={classes.userAvatar} />
+                <Box>
+                  <Typography variant="body2">
+                    {StringFormat(
+                      getLabel(isRead ? "FM_PROGRESS_LEADER_BOARD" : "FM_PROGRESS_REVIEW_LEADER_BOARD"),
+                      challengeProgress.progress,
+                      challengeProgress.targetNumber,
+                    )}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            <IconButton className={classes.closeIcon}>
+              <CloseIcon fontSize={isMobile ? "small" : "large"} />
+            </IconButton>
+          </Box>
+        </Box>
         <Box className={classes.tab}>
           <Typography
             component="div"
@@ -51,10 +90,11 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
 const Item = ({ data, isFollowedTab, place }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const classes = useStyles();
-  const { user } = data;
-  const detailInfo = useSelector(state => state.challengeRedux.detailInfo);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const { user, following } = data;
+  const targetType = useSelector(state => state.challengeRedux.detailInfo.targetType);
   const target = useSelector(state => state.challengeRedux.detailInfo.challengeProgress.targetNumber);
-  const { targetType, following } = detailInfo;
 
   const isRead = Boolean(
     targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
@@ -98,7 +138,7 @@ const Item = ({ data, isFollowedTab, place }) => {
             </Typography>
           </Box>
         </Box>
-        {!isFollowedTab && (
+        {!isFollowedTab && !isMobile && (
           <Button variant="contained" color="primary" size="small" className={following ? classes.followingBtn : null}>
             {getLabel(following ? "L_FOLLOWED" : "L_FOLLOW")}
           </Button>
@@ -122,6 +162,7 @@ Item.propTypes = {
 };
 const useStyles = makeStyles(theme => ({
   root: {
+    overflow: "hidden",
     "&>*": {
       padding: theme.spacing(2),
     },
@@ -131,7 +172,57 @@ const useStyles = makeStyles(theme => ({
     "&>:nth-child(3)": {
       height: 380,
       overflow: "scroll",
+      [theme.breakpoints.down("xs")]: {
+        height: "auto",
+      },
     },
+  },
+  top: {
+    backgroundImage: `url("/images/img-leader-board-bg.png")`,
+    height: "268px",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+  },
+  head: {
+    display: "flex",
+    flexDirection: "row",
+    height: "54px",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  closeIcon: {
+    color: "rgba(255, 255, 255, 0.7)",
+    width: "40px",
+    height: "40px",
+  },
+  topLeft: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    "&>:nth-child(2)": {
+      width: "125px",
+      height: "54px",
+      color: theme.palette.white,
+      background: "rgba(255, 255, 255,0.25)",
+      borderRadius: "10px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      position: "relative",
+      marginLeft: "-24px",
+      "&>:first-child": {
+        marginLeft: theme.spacing(2),
+      },
+    },
+  },
+
+  userAvatar: {
+    width: "42px",
+    height: "42px",
+    border: "1px solid white",
+    zIndex: 3,
   },
   tab: {
     "&>*": {
