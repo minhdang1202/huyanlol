@@ -19,6 +19,7 @@ import StringFormat from "string-format";
 import clsx from "clsx";
 import { getImageById } from "utils";
 import { AppConstant } from "const";
+import { CrownIcon } from "icons";
 const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -29,7 +30,9 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
   const user = useSelector(state => state.userRedux.profile);
   const detailInfo = useSelector(state => state.challengeRedux.detailInfo);
   const { targetType, challengeProgress } = detailInfo;
-  const list = isFollowedTab ? leaderBoard.filter(each => each.following === true) : leaderBoard;
+  const list = isFollowedTab
+    ? leaderBoard.filter(each => each.following === true || each.user.userId === user.userId)
+    : leaderBoard;
   const isRead = Boolean(
     targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
       targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
@@ -44,7 +47,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
               <Box className={classes.topLeft}>
                 <Avatar src={getImageById(user.imageId)} className={classes.userAvatar} />
                 <Box>
-                  <Typography variant="body2">
+                  <Typography variant="subtitle2">
                     {StringFormat(
                       getLabel(isRead ? "FM_PROGRESS_LEADER_BOARD" : "FM_PROGRESS_REVIEW_LEADER_BOARD"),
                       challengeProgress.progress,
@@ -57,6 +60,39 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
             <IconButton className={classes.closeIcon}>
               <CloseIcon fontSize={isMobile ? "small" : "large"} />
             </IconButton>
+          </Box>
+          <Box className={clsx(classes.stage, list.length < 3 && classes.lessStage)}>
+            {list[1] && (
+              <Box className={classes.secondStage}>
+                <Avatar src={getImageById(list[1].user.imageId)} />
+                <Box className={classes.badgeContainerSmall}>
+                  <Typography variant="subtitle2">2</Typography>
+                  <Box className={clsx(classes.badgeSmall, classes.second, "ic-certificate-small")} />
+                </Box>
+                <Typography variant="subtitle2">{list[1].user.name}</Typography>
+              </Box>
+            )}
+            {list[0] && (
+              <Box className={classes.firstStage}>
+                <CrownIcon />
+                <Avatar src={getImageById(list[0].user.imageId)} />
+                <Box className={classes.badgeContainer}>
+                  <Typography variant="subtitle2">1</Typography>
+                  <Box className={clsx(classes.badge, classes.first, "ic-certificate")} />
+                </Box>
+                <Typography variant="h6">{list[0].user.name}</Typography>
+              </Box>
+            )}
+            {list[2] && (
+              <Box className={classes.thirdStage}>
+                <Avatar src={getImageById(list[2].user.imageId)} />
+                <Box className={classes.badgeContainerSmall}>
+                  <Typography variant="subtitle2">3</Typography>
+                  <Box className={clsx(classes.badgeSmall, classes.third, "ic-certificate-small")} />
+                </Box>
+                <Typography variant="subtitle2">{list[2].user.name}</Typography>
+              </Box>
+            )}
           </Box>
         </Box>
         <Box className={classes.tab}>
@@ -170,7 +206,7 @@ const useStyles = makeStyles(theme => ({
       padding: 0,
     },
     "&>:nth-child(3)": {
-      height: 380,
+      height: "300px",
       overflow: "scroll",
       [theme.breakpoints.down("xs")]: {
         height: "auto",
@@ -190,7 +226,9 @@ const useStyles = makeStyles(theme => ({
     height: "54px",
     justifyContent: "space-between",
     alignItems: "center",
+    position: "relative",
   },
+
   closeIcon: {
     color: "rgba(255, 255, 255, 0.7)",
     width: "40px",
@@ -215,6 +253,58 @@ const useStyles = makeStyles(theme => ({
       "&>:first-child": {
         marginLeft: theme.spacing(2),
       },
+    },
+  },
+  stage: {
+    display: "flex",
+    flexDirection: "row",
+    color: theme.palette.white,
+    width: "100%",
+    justifyContent: "space-around",
+    position: "relative",
+    marginTop: "-24px",
+    "&>*": {
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "column",
+    },
+  },
+  lessStage: {
+    justifyContent: "center",
+    "&>*": {
+      margin: "0 24px 0 24px",
+    },
+  },
+  firstStage: {
+    "&>:first-child": {
+      width: "39px",
+      height: "33px",
+      border: "none",
+      marginBottom: theme.spacing(1),
+    },
+    "&>:nth-child(2)": {
+      width: "105px",
+      height: "105px",
+      border: "3px solid #ffbb00",
+    },
+    "&>:nth-child(3)": {
+      margin: "-12.5px 0 24px 20px ",
+    },
+  },
+  secondStage: {
+    marginTop: "68px",
+    "&>:first-child": {
+      width: "73px",
+      height: "73px",
+      border: "3px solid #01dacd",
+    },
+  },
+  thirdStage: {
+    marginTop: "84px",
+    "&>:first-child": {
+      width: "73px",
+      height: "73px",
+      border: "3px solid #c88400",
     },
   },
 
@@ -248,6 +338,11 @@ const useStyles = makeStyles(theme => ({
   infoGroup: {
     display: "flex",
     alignItems: "center",
+    "&>:nth-child(2)": {
+      "&>:nth-child(2)": {
+        color: theme.palette.grey[500],
+      },
+    },
   },
   item: {
     boxShadow: `0 1px 0 0 ${theme.palette.grey[100]}`,
@@ -284,6 +379,21 @@ const useStyles = makeStyles(theme => ({
     margin: "0 0 -20px -20px",
     "-webkit-background-clip": "text",
     "-webkit-text-fill-color": "transparent",
+  },
+  badgeContainerSmall: {
+    color: theme.palette.white,
+    "&>*:nth-child(1)": {
+      position: "relative",
+      margin: "-8px 0 0 7px ",
+      zIndex: 2,
+      fontSize: 10,
+    },
+  },
+  badgeSmall: {
+    position: "relative",
+    "-webkit-background-clip": "text",
+    "-webkit-text-fill-color": "transparent",
+    margin: "-22.5px 0 0 0 ",
   },
   first: {
     backgroundImage: "linear-gradient(to top, #ffdf00, #ffbb00)",
