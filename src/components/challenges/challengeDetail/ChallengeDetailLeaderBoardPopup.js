@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Dialog,
@@ -20,12 +20,13 @@ import clsx from "clsx";
 import { getImageById } from "utils";
 import { AppConstant } from "const";
 import { CrownIcon } from "icons";
-const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
+const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const [isFollowedTab, setIsFollowedTab] = useState(false);
+  const [myPlace, setMyPlace] = useState(0);
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
   const user = useSelector(state => state.userRedux.profile);
   const detailInfo = useSelector(state => state.challengeRedux.detailInfo);
@@ -37,9 +38,20 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
     targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
       targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
   );
-
+  useEffect(() => {
+    const getMyPlace = async () => {
+      let place = 0;
+      await list.forEach((each, index) => {
+        if (each.user.userId === user.userId) {
+          place = index + 1;
+        }
+      });
+      setMyPlace(place);
+    };
+    getMyPlace();
+  }, [isFollowedTab]);
   return (
-    <Dialog open={isOpen} fullScreen={isMobile} fullWidth={true} maxWidth="sm">
+    <Dialog open={isOpen} fullScreen={isMobile} fullWidth={true} maxWidth="sm" onClose={onClose}>
       <Box className={classes.root}>
         <Box className={classes.top}>
           <Box className={classes.head}>
@@ -57,7 +69,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
                 </Box>
               </Box>
             )}
-            <IconButton className={classes.closeIcon}>
+            <IconButton className={classes.closeIcon} onClick={onClose}>
               <CloseIcon fontSize={isMobile ? "small" : "large"} />
             </IconButton>
           </Box>
@@ -98,7 +110,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
         <Box className={classes.tab}>
           <Typography
             component="div"
-            className={!isFollowedTab && classes.activeTab}
+            className={!isFollowedTab ? classes.activeTab : null}
             onClick={() => setIsFollowedTab(false)}
             variant={!isFollowedTab ? "subtitle1" : "body1"}
           >
@@ -106,7 +118,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
           </Typography>
           <Typography
             component="div"
-            className={isFollowedTab && classes.activeTab}
+            className={isFollowedTab ? classes.activeTab : null}
             onClick={() => setIsFollowedTab(true)}
             variant={isFollowedTab ? "subtitle1" : "body1"}
           >
@@ -119,11 +131,19 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen }) => {
           ))}
         </Box>
       </Box>
+      {isMobile && (
+        <Item
+          className={classes.footer}
+          data={leaderBoard.filter(each => each.user.userId === user.userId)[0]}
+          isFollowedTab={false}
+          place={myPlace}
+        />
+      )}
     </Dialog>
   );
 };
 
-const Item = ({ data, isFollowedTab, place }) => {
+const Item = ({ data, isFollowedTab, place, className }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const classes = useStyles();
   const theme = useTheme();
@@ -131,7 +151,7 @@ const Item = ({ data, isFollowedTab, place }) => {
   const { user, following } = data;
   const targetType = useSelector(state => state.challengeRedux.detailInfo.targetType);
   const target = useSelector(state => state.challengeRedux.detailInfo.challengeProgress.targetNumber);
-
+  const profile = useSelector(state => state.userRedux.profile);
   const isRead = Boolean(
     targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
       targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
@@ -149,7 +169,7 @@ const Item = ({ data, isFollowedTab, place }) => {
     }
   };
   return (
-    <Box className={classes.item}>
+    <Box className={clsx(classes.item, className)}>
       {place < 10 ? (
         <Box className={classes.badgeContainer}>
           <Typography variant="subtitle2">{place}</Typography>
@@ -174,7 +194,7 @@ const Item = ({ data, isFollowedTab, place }) => {
             </Typography>
           </Box>
         </Box>
-        {!isFollowedTab && !isMobile && (
+        {!isFollowedTab && !isMobile && user.userId !== profile.userId && (
           <Button variant="contained" color="primary" size="small" className={following ? classes.followingBtn : null}>
             {getLabel(following ? "L_FOLLOWED" : "L_FOLLOW")}
           </Button>
@@ -186,19 +206,17 @@ const Item = ({ data, isFollowedTab, place }) => {
 
 ChallengeDetailLeaderBoardPopup.propTypes = {
   isOpen: PropTypes.bool,
-};
-ChallengeDetailLeaderBoardPopup.defaultProps = {
-  isOpen: true,
+  onClose: PropTypes.func,
 };
 
 Item.propTypes = {
   data: PropTypes.object,
   isFollowedTab: PropTypes.bool,
   place: PropTypes.number,
+  className: PropTypes.any,
 };
 const useStyles = makeStyles(theme => ({
   root: {
-    overflow: "hidden",
     "&>*": {
       padding: theme.spacing(2),
     },
@@ -210,8 +228,19 @@ const useStyles = makeStyles(theme => ({
       overflow: "scroll",
       [theme.breakpoints.down("xs")]: {
         height: "auto",
+        maxHeight: "55%",
       },
     },
+  },
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    background: theme.palette.white,
+    borderTop: `1px solid ${theme.palette.grey[100]}`,
+    paddingLeft: theme.spacing(2),
+    zIndex: 10,
   },
   top: {
     backgroundImage: `url("/images/img-leader-board-bg.png")`,
@@ -345,7 +374,6 @@ const useStyles = makeStyles(theme => ({
     },
   },
   item: {
-    boxShadow: `0 1px 0 0 ${theme.palette.grey[100]}`,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -355,6 +383,10 @@ const useStyles = makeStyles(theme => ({
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
+      boxShadow: `0 1px 0 0 ${theme.palette.grey[100]}`,
+      [theme.breakpoints.down("xs")]: {
+        boxShadow: "none",
+      },
       "&>:nth-child(2)": {
         height: "43px",
         width: "150px",
