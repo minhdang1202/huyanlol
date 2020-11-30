@@ -131,7 +131,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
           ))}
         </Box>
       </Box>
-      {isMobile && (
+      {isMobile && user.userId !== null && (
         <Item
           className={classes.footer}
           data={leaderBoard.filter(each => each.user.userId === user.userId)[0]}
