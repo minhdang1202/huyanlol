@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainLayout from "layouts/MainLayout";
-import { DownloadApp } from "components/challenges";
-import { Box, Grid, makeStyles, Avatar, Typography, useTheme, useMediaQuery } from "@material-ui/core";
+import { DownloadApp, ListJoined, ListRecommend, ListAll, DetailCard } from "components/challenges";
+import { Box, makeStyles, Typography, useTheme, useMediaQuery } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
+import { useDispatch } from "react-redux";
+import ChallengeAction from "redux/challenge.redux";
 const Challenge = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
@@ -12,6 +14,11 @@ const Challenge = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const SHARE_URL = getLabel("L_CHALLENGE_ADDRESS");
   const appBarProps = { shareUrl: SHARE_URL, className: classes.appBar };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(ChallengeAction.requestGetChallengeList());
+  }, []);
+
   return (
     <MainLayout appBarProps={appBarProps}>
       <Box className={classes.root}>
@@ -27,6 +34,9 @@ const Challenge = () => {
             <DownloadApp />
           </Box>
         )}
+        <ListJoined />
+        <ListRecommend />
+        <ListAll />
       </Box>
     </MainLayout>
   );

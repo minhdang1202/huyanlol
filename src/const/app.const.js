@@ -15,6 +15,7 @@ export const SORT_ORDER = {
 export const DATA_SIZES = {
   books: 9,
   articles: 10,
+  challenges: 9,
 };
 
 // Base url
@@ -69,3 +70,9 @@ export const CHALLENGE_ACTIVITY_TYPE = {
 export const CHALLENGE_ACTIVITY_SIZE = 3;
 
 export const CHALLENGE_DESCRIPTION_DEFAULT_LENGTH = 200;
+
+export const CHALLENGE_LIST_TYPE = {
+  all: 0,
+  notJoined: 1,
+  joined: 2,
+};

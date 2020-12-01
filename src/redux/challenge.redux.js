@@ -19,8 +19,17 @@ const { Types, Creators } = createActions({
   getChallengeFriendLeaderBoardSuccess: ["data"],
   getChallengeFriendLeaderBoardFailure: ["data"],
 
-  requestJoinChallenge: ["data"],
-  joinChallengeSuccess: null,
+  requestGetChallengeList: ["data"],
+  getChallengeListSuccess: ["data"],
+  getChallengeListFailure: ["data"],
+
+  requestGetChallengeListJoined: ["data"],
+  getChallengeListJoinedSuccess: ["data"],
+  getChallengeListJoinedFailure: ["data"],
+
+  requestGetChallengeListRecommend: ["data"],
+  getChallengeListRecommendSuccess: ["data"],
+  getChallengeListRecommendFailure: ["data"],
 });
 
 export const ChallengeTypes = Types;
@@ -30,11 +39,13 @@ export default Creators;
 export const INITIAL_STATE = {
   isFetching: false,
   error: null,
-  list: {},
   detailInfo: {},
   detailListActivity: [],
   detailLeaderBoard: [],
   detailFriendLeaderBoard: [],
+  listAll: [],
+  listJoined: [],
+  listRecommend: [],
 };
 
 /* ------------- Reducers ------------- */
@@ -98,6 +109,35 @@ export const challengeDetailFriendLeaderBoardSuccess = (state = INITIAL_STATE, a
   };
 };
 
+export const challengeListSuccess = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return {
+    ...state,
+    isFetching: false,
+    error: null,
+    listAll: data,
+  };
+};
+export const challengeJoinedListSuccess = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return {
+    ...state,
+    isFetching: false,
+    error: null,
+    listJoined: data,
+  };
+};
+
+export const challengeRecommendListSuccess = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return {
+    ...state,
+    isFetching: false,
+    error: null,
+    listRecommend: data,
+  };
+};
+
 export const challengeJoinSuccess = () => ({
   ...INITIAL_STATE,
   isFetching: false,
@@ -122,8 +162,17 @@ export const HANDLERS = {
   [Types.GET_CHALLENGE_ACTIVITY_SUCCESS]: challengeDetailActivitySuccess,
   [Types.GET_CHALLENGE_ACTIVITY_FAILURE]: challengeFailure,
 
-  [Types.REQUEST_JOIN_CHALLENGE]: challengeRequest,
-  [Types.JOIN_CHALLENGE_SUCCESS]: challengeJoinSuccess,
+  [Types.REQUEST_GET_CHALLENGE_LIST]: challengeRequest,
+  [Types.GET_CHALLENGE_LIST_SUCCESS]: challengeListSuccess,
+  [Types.GET_CHALLENGE_LIST_FAILURE]: challengeFailure,
+
+  [Types.REQUEST_GET_CHALLENGE_LIST_JOINED]: challengeRequest,
+  [Types.GET_CHALLENGE_LIST_JOINED_SUCCESS]: challengeListSuccess,
+  [Types.GET_CHALLENGE_LIST_JOINED_FAILURE]: challengeFailure,
+
+  [Types.REQUEST_GET_CHALLENGE_LIST_RECOMMEND]: challengeRequest,
+  [Types.GET_CHALLENGE_LIST_RECOMMEND_SUCCESS]: challengeListSuccess,
+  [Types.GET_CHALLENGE_LIST_RECOMMEND_FAILURE]: challengeFailure,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */
