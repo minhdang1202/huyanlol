@@ -212,3 +212,10 @@
   color: #ebf4f9;
   font-size: 100px;
 }
+
+.ic-check-circle :before {
+  font-family: "FontAwesome5Pro";
+  content: "\f058";
+  font-size: 14px;
+  margin-right: 4px;
+}

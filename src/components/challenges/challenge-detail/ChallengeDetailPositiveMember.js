@@ -9,7 +9,7 @@ import { getImageById } from "utils";
 import { AppLink, Avatar } from "components";
 import StringFormat from "string-format";
 import { CHALLENGE_TARGET_TYPE } from "const/app.const";
-import { LeaderBoard } from "components/challenges/challenge-detail";
+import { LeaderBoard } from "components/challenges/";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);

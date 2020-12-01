@@ -24,6 +24,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const [isFollowedTab, setIsFollowedTab] = useState(false);
   const [myPlace, setMyPlace] = useState(0);
@@ -55,7 +56,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
       <Box className={classes.root}>
         <Box className={classes.top}>
           <Box className={classes.head}>
-            {!isMobile && (
+            {!isTablet && challengeProgress && (
               <Box className={classes.topLeft}>
                 <Avatar src={getImageById(user.imageId)} className={classes.userAvatar} />
                 <Box>
@@ -131,7 +132,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
           ))}
         </Box>
       </Box>
-      {isMobile && user.userId !== null && (
+      {isTablet && user.userId && (
         <Item
           className={classes.footer}
           data={leaderBoard.filter(each => each.user.userId === user.userId)[0]}
@@ -150,7 +151,9 @@ const Item = ({ data, isFollowedTab, place, className }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { user, following } = data;
   const targetType = useSelector(state => state.challengeRedux.detailInfo.targetType);
-  const target = useSelector(state => state.challengeRedux.detailInfo.challengeProgress.targetNumber);
+  const challengeProgress = useSelector(state => state.challengeRedux.detailInfo.challengeProgress);
+  const fixedTarget = useSelector(state => state.challengeRedux.detailInfo.targetNumber);
+  const target = challengeProgress ? challengeProgress.targetNumber : fixedTarget;
   const profile = useSelector(state => state.userRedux.profile);
   const isRead = Boolean(
     targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
@@ -185,16 +188,18 @@ const Item = ({ data, isFollowedTab, place, className }) => {
           <Avatar src={getImageById(user.imageId)} className={classes.avatar} />
           <Box>
             <Typography variant="h6">{user.name}</Typography>
-            <Typography variant="body2">
-              {StringFormat(
-                getLabel(isRead ? "FM_PROGRESS_LEADER_BOARD" : "FM_PROGRESS_REVIEW_LEADER_BOARD"),
-                data.progress,
-                target,
-              )}
-            </Typography>
+            <Box className={data.progress >= target ? clsx("ic-check-circle", classes.done) : null}>
+              <Typography variant="body2" component="span">
+                {StringFormat(
+                  getLabel(isRead ? "FM_PROGRESS_LEADER_BOARD" : "FM_PROGRESS_REVIEW_LEADER_BOARD"),
+                  data.progress,
+                  target,
+                )}
+              </Typography>
+            </Box>
           </Box>
         </Box>
-        {!isFollowedTab && !isMobile && user.userId !== profile.userId && (
+        {!isFollowedTab && !isMobile && user.userId !== profile.userId && profile.userId !== null && (
           <Button variant="contained" color="primary" size="small" className={following ? classes.followingBtn : null}>
             {getLabel(following ? "L_FOLLOWED" : "L_FOLLOW")}
           </Button>
@@ -217,6 +222,9 @@ Item.propTypes = {
 };
 const useStyles = makeStyles(theme => ({
   root: {
+    height: "100%",
+    width: "100%",
+    overflow: "hidden",
     "&>*": {
       padding: theme.spacing(2),
     },
@@ -225,10 +233,14 @@ const useStyles = makeStyles(theme => ({
     },
     "&>:nth-child(3)": {
       height: "300px",
-      overflow: "scroll",
+      overflow: "auto",
+      [theme.breakpoints.down("md")]: {
+        height: "60vh",
+        paddingBottom: "200px",
+      },
       [theme.breakpoints.down("xs")]: {
         height: "auto",
-        maxHeight: "55%",
+        maxHeight: "55vh",
       },
     },
   },
@@ -367,11 +379,6 @@ const useStyles = makeStyles(theme => ({
   infoGroup: {
     display: "flex",
     alignItems: "center",
-    "&>:nth-child(2)": {
-      "&>:nth-child(2)": {
-        color: theme.palette.grey[500],
-      },
-    },
   },
   item: {
     display: "flex",
@@ -444,6 +451,15 @@ const useStyles = makeStyles(theme => ({
     margin: "0px 16px 0px 8px",
     width: "32px",
     textAlign: "start",
+  },
+  done: {
+    color: theme.palette.text.link,
+    "&>:first-child": {
+      margin: "4px",
+    },
+  },
+  unDone: {
+    color: theme.palette.grey[500],
   },
 }));
 export default ChallengeDetailLeaderBoardPopup;
