@@ -115,6 +115,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "space-between",
     width: "100%",
+    minHeight: "fit-content",
   },
   sclBtn: {
     width: "48%",
