@@ -1,15 +1,15 @@
-import ChallengeCover from "./challengeDetail/ChallengeDetailCover";
-import Activity from "./challengeDetail/ChallengeDetailActivity";
-import InviteFriend from "./challengeDetail/ChallengeDetailInviteFriend";
-import PositiveMember from "./challengeDetail/ChallengeDetailPositiveMember";
-import ChallengeInfo from "./challengeDetail/ChallengeDetailInfo";
-import Goal from "./challengeDetail/ChallengeDetailGoal";
-import Company from "./challengeDetail/ChallengeDetailCompany";
-import GoalList from "./challengeDetail/ChallengeDetailGoalList";
-import Description from "./challengeDetail/ChallengeDetailDescription";
-import Footer from "./challengeDetail/ChallengeDetailFooter";
-import Creator from "./challengeDetail/ChallengeDetailCreator";
-import LeaderBoard from "./challengeDetail/ChallengeDetailLeaderBoardPopup";
+import ChallengeCover from "./challenge-detail/ChallengeDetailCover";
+import Activity from "./challenge-detail/ChallengeDetailActivity";
+import InviteFriend from "./challenge-detail/ChallengeDetailInviteFriend";
+import PositiveMember from "./challenge-detail/ChallengeDetailPositiveMember";
+import ChallengeInfo from "./challenge-detail/ChallengeDetailInfo";
+import Goal from "./challenge-detail/ChallengeDetailGoal";
+import Company from "./challenge-detail/ChallengeDetailCompany";
+import GoalList from "./challenge-detail/ChallengeDetailGoalList";
+import Description from "./challenge-detail/ChallengeDetailDescription";
+import Footer from "./challenge-detail/ChallengeDetailFooter";
+import Creator from "./challenge-detail/ChallengeDetailCreator";
+import LeaderBoard from "./challenge-detail/ChallengeDetailLeaderBoardPopup";
 export {
   ChallengeCover,
   Activity,

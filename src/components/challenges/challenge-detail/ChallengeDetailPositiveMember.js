@@ -9,7 +9,7 @@ import { getImageById } from "utils";
 import { AppLink, Avatar } from "components";
 import StringFormat from "string-format";
 import { CHALLENGE_TARGET_TYPE } from "const/app.const";
-import { LeaderBoard } from "../";
+import { LeaderBoard } from "components/challenges/challenge-detail";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
@@ -51,7 +51,7 @@ const PositiveMember = () => {
           } else return null;
         })}
       </Box>
-      {isLeaderBoard && <LeaderBoard onClose={oncloseLeaderBoard} isOpen={isLeaderBoard} />}
+      <LeaderBoard onClose={oncloseLeaderBoard} isOpen={isLeaderBoard} />
     </Paper>
   );
 };
