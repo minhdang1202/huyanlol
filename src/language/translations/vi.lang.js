@@ -239,5 +239,6 @@ export default {
   challengeList: {
     L_CHALLENGE: "Thử thách",
     L_WITH_GAT: "cùng GAT",
+    L_CHALLENGE_ADDRESS: "/challenges",
   },
 };
