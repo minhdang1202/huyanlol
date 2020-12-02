@@ -2,7 +2,8 @@ import React from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, makeStyles, Container, Hidden } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { CollectionTitle } from "components";
+import { CollectionTitle, ListCategory } from "components";
+import { PopularArticles } from "components/editions-collection";
 
 const CollectionBooks = () => {
   const classes = useStyles();
@@ -20,7 +21,10 @@ const CollectionBooks = () => {
           </Grid>
           <Grid item md={4} className={classes.rightContainer}>
             <Hidden smDown>
-              <Box className={classes.fixedPosition}>Fix position</Box>
+              <Box className={classes.fixedPosition}>
+                <PopularArticles />
+                <ListCategory />
+              </Box>
             </Hidden>
           </Grid>
         </Grid>

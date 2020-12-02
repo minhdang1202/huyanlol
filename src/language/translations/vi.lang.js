@@ -238,4 +238,7 @@ export default {
     FM_WORDS: "{0} từ",
     FM_ADD_NEW_HASHTAG: "Thêm tag {0}",
   },
+  collectionBooks: {
+    TXT_POPULAR_ARTICLE: "Đánh giá phổ biến",
+  },
 };
