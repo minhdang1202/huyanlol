@@ -44,6 +44,10 @@ export default {
     TXT_REPLY: "Trả lời",
     TXT_ARRANGE: "Sắp xếp",
     TXT_NO_GIVER: "Bài viết chưa có giver",
+    TXT_MOST_BORROWING_BOOK: "Sách được mượn nhiều",
+    TXT_LIST_ARTICLES: "Danh sách đánh giá",
+    TXT_LIST_REVIEWS: "Danh sách review",
+    TXT_LIST_WRITERS: "Danh sách nhà văn",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",

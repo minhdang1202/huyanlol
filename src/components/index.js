@@ -25,6 +25,7 @@ import TextField from "./TextField";
 import Autocomplete from "./Autocomplete";
 import Chip from "./Chip";
 import SliderButton from "./SliderButton";
+import CollectionTitle from "./CollectionTitle";
 
 export {
   AppHead,
@@ -54,4 +55,5 @@ export {
   Autocomplete,
   Chip,
   SliderButton,
+  CollectionTitle,
 };

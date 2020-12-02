@@ -8,3 +8,4 @@ export const FM_ARTICLE_DETAIL_ID = "/articles/{0}";
 export const FM_CHALLENGE_DETAIL = "/challenges/{0}-b{1}";
 export const FM_CHALLENGE_DETAIL_ID = "/challenges/{0}";
 export const ARTICLE_CREATE = "/articles/create";
+export const COLLECTION_BOOKS = "/editions";
