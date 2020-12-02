@@ -1,3 +1,4 @@
 import PopularArticles from "./PopularArticles";
+import CollectionBooks from "./CollectionBooks";
 
-export { PopularArticles };
+export { PopularArticles, CollectionBooks };
