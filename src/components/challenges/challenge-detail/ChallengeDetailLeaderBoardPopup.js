@@ -18,8 +18,9 @@ import { useSelector } from "react-redux";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import { getImageById } from "utils";
-import { AppConstant } from "const";
+import { AppConstant, ApiConstant } from "const";
 import { CrownIcon } from "icons";
+import { UserService } from "services";
 const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -155,10 +156,12 @@ const Item = ({ data, isFollowedTab, place, className }) => {
   const fixedTarget = useSelector(state => state.challengeRedux.detailInfo.targetNumber);
   const target = challengeProgress ? challengeProgress.targetNumber : fixedTarget;
   const profile = useSelector(state => state.userRedux.profile);
+  const [isFollowing, setIsFollowing] = useState(following);
   const isRead = Boolean(
     targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
       targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
   );
+
   const certificate = place => {
     switch (place) {
       case 1:
@@ -169,6 +172,18 @@ const Item = ({ data, isFollowedTab, place, className }) => {
         return classes.third;
       default:
         return classes.fourth;
+    }
+  };
+  const onFollow = async targetUserID => {
+    const res = await UserService.postFollowUser(targetUserID);
+    if (res.status === ApiConstant.STT_OK) {
+      setIsFollowing(true);
+    }
+  };
+  const onUnFollow = async targetUserID => {
+    const res = await UserService.deleteUnFollowUser(targetUserID);
+    if (res.status === ApiConstant.STT_OK) {
+      setIsFollowing(false);
     }
   };
   return (
@@ -200,8 +215,19 @@ const Item = ({ data, isFollowedTab, place, className }) => {
           </Box>
         </Box>
         {!isFollowedTab && !isMobile && user.userId !== profile.userId && profile.userId !== null && (
-          <Button variant="contained" color="primary" size="small" className={following ? classes.followingBtn : null}>
-            {getLabel(following ? "L_FOLLOWED" : "L_FOLLOW")}
+          <Button
+            variant="contained"
+            color={isFollowing ? "default" : "primary"}
+            size="small"
+            className={isFollowing ? classes.followingBtn : null}
+            onClick={() => {
+              if (isFollowing) {
+                return onUnFollow(user.userId);
+              }
+              return onFollow(user.userId);
+            }}
+          >
+            {getLabel(isFollowing ? "L_FOLLOWED" : "L_FOLLOW")}
           </Button>
         )}
       </Box>

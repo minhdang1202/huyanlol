@@ -28,6 +28,7 @@ export const POST_REGISTER = "/user/register_by_email";
 export const GET_USER_PROFILE = "/user/self/info";
 export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
 export const POST_FOLLOW_USER = "/users/self/follows";
+export const DELETE_UN_FOLLOW_USER = targetUserID => `/users/self/follows/${targetUserID}`;
 
 // * Book
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;
