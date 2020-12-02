@@ -214,7 +214,7 @@ const Item = ({ data, isFollowedTab, place, className }) => {
             </Box>
           </Box>
         </Box>
-        {!isFollowedTab && !isMobile && user.userId !== profile.userId && profile.userId !== null && (
+        {!isFollowedTab && !isMobile && user.userId !== profile.userId && profile.userId && (
           <Button
             variant="contained"
             color={isFollowing ? "default" : "primary"}
