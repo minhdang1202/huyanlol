@@ -30,16 +30,16 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
   const [isFollowedTab, setIsFollowedTab] = useState(false);
   const [myPlace, setMyPlace] = useState(0);
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
+  const friendLeaderBoard = useSelector(state => state.challengeRedux.detailFriendLeaderBoard);
   const user = useSelector(state => state.userRedux.profile);
   const detailInfo = useSelector(state => state.challengeRedux.detailInfo);
   const { targetType, challengeProgress } = detailInfo;
-  const list = isFollowedTab
-    ? leaderBoard.filter(each => each.following === true || each.user.userId === user.userId)
-    : leaderBoard;
+  const list = isFollowedTab ? friendLeaderBoard : leaderBoard;
   const isRead = Boolean(
     targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
       targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
   );
+  const userOnLeaderBoard = leaderBoard.filter(each => each.user.userId === user.userId)[0];
   useEffect(() => {
     const getMyPlace = async () => {
       let place = 0;
@@ -57,7 +57,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
       <Box className={classes.root}>
         <Box className={classes.top}>
           <Box className={classes.head}>
-            {!isTablet && challengeProgress && (
+            {!isTablet && challengeProgress && user.userId && userOnLeaderBoard && (
               <Box className={classes.topLeft}>
                 <Avatar src={getImageById(user.imageId)} className={classes.userAvatar} />
                 <Box>
@@ -83,7 +83,9 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
                   <Typography variant="subtitle2">2</Typography>
                   <Box className={clsx(classes.badgeSmall, classes.second, "ic-certificate-small")} />
                 </Box>
-                <Typography variant="subtitle2">{list[1].user.name}</Typography>
+                <Typography variant="subtitle2" className="eclipse">
+                  {list[1].user.name}
+                </Typography>
               </Box>
             )}
             {list[0] && (
@@ -94,7 +96,9 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
                   <Typography variant="subtitle2">1</Typography>
                   <Box className={clsx(classes.badge, classes.first, "ic-certificate")} />
                 </Box>
-                <Typography variant="h6">{list[0].user.name}</Typography>
+                <Typography variant="h6" className="eclipse">
+                  {list[0].user.name}
+                </Typography>
               </Box>
             )}
             {list[2] && (
@@ -104,7 +108,9 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
                   <Typography variant="subtitle2">3</Typography>
                   <Box className={clsx(classes.badgeSmall, classes.third, "ic-certificate-small")} />
                 </Box>
-                <Typography variant="subtitle2">{list[2].user.name}</Typography>
+                <Typography variant="subtitle2" className="eclipse">
+                  {list[2].user.name}
+                </Typography>
               </Box>
             )}
           </Box>
@@ -133,13 +139,8 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
           ))}
         </Box>
       </Box>
-      {isTablet && user.userId && (
-        <Item
-          className={classes.footer}
-          data={leaderBoard.filter(each => each.user.userId === user.userId)[0]}
-          isFollowedTab={false}
-          place={myPlace}
-        />
+      {isTablet && user.userId && challengeProgress && userOnLeaderBoard && (
+        <Item className={classes.footer} data={userOnLeaderBoard} isFollowedTab={false} place={myPlace} />
       )}
     </Dialog>
   );
@@ -151,7 +152,7 @@ const Item = ({ data, isFollowedTab, place, className }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { user, following } = data;
-  const targetType = useSelector(state => state.challengeRedux.detailInfo.targetType);
+  const targetType = useSelector(state => state.challengeRedux.detailInfo.targetTypeId);
   const challengeProgress = useSelector(state => state.challengeRedux.detailInfo.challengeProgress);
   const fixedTarget = useSelector(state => state.challengeRedux.detailInfo.targetNumber);
   const target = challengeProgress ? challengeProgress.targetNumber : fixedTarget;
@@ -161,7 +162,6 @@ const Item = ({ data, isFollowedTab, place, className }) => {
     targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
       targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
   );
-
   const certificate = place => {
     switch (place) {
       case 1:
@@ -227,7 +227,9 @@ const Item = ({ data, isFollowedTab, place, className }) => {
               return onFollow(user.userId);
             }}
           >
-            {getLabel(isFollowing ? "L_FOLLOWED" : "L_FOLLOW")}
+            <Box className={!isFollowing ? "ic-plus-light" : null}>
+              <Typography className={classes.btnText}>{getLabel(isFollowing ? "L_FOLLOWED" : "L_FOLLOW")}</Typography>
+            </Box>
           </Button>
         )}
       </Box>
@@ -259,15 +261,13 @@ const useStyles = makeStyles(theme => ({
     },
     "&>:nth-child(3)": {
       height: "300px",
-      overflow: "auto",
-      [theme.breakpoints.down("md")]: {
-        height: "60vh",
-        paddingBottom: "200px",
-      },
+      overflow: "scroll",
       [theme.breakpoints.down("xs")]: {
-        height: "auto",
-        maxHeight: "55vh",
+        height: `${window.innerHeight - 404}px`,
       },
+    },
+    [theme.breakpoints.down("md")]: {
+      paddingBottom: "104px",
     },
   },
   footer: {
@@ -334,6 +334,7 @@ const useStyles = makeStyles(theme => ({
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
+      maxWidth: "75px",
     },
   },
   lessStage: {
@@ -357,6 +358,7 @@ const useStyles = makeStyles(theme => ({
     "&>:nth-child(3)": {
       margin: "-12.5px 0 24px 20px ",
     },
+    maxWidth: "200px",
   },
   secondStage: {
     marginTop: "68px",
@@ -422,7 +424,7 @@ const useStyles = makeStyles(theme => ({
       },
       "&>:nth-child(2)": {
         height: "43px",
-        width: "150px",
+        width: "155px",
       },
     },
   },
@@ -486,6 +488,9 @@ const useStyles = makeStyles(theme => ({
   },
   unDone: {
     color: theme.palette.grey[500],
+  },
+  btnText: {
+    fontWeight: 500,
   },
 }));
 export default ChallengeDetailLeaderBoardPopup;

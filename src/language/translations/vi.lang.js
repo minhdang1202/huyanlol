@@ -137,7 +137,7 @@ export default {
     L_ARTICLE: "Bài viết",
     L_ALL: "Tất cả",
     L_FOLLOWED: "Đang theo dõi",
-    L_FOLLOW: "+ Theo dõi",
+    L_FOLLOW: "Theo dõi",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
