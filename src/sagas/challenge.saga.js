@@ -1,5 +1,5 @@
 import { call, put } from "redux-saga/effects";
-import { ApiConstant } from "const";
+import { ApiConstant, AppConstant } from "const";
 import ChallengeAction from "redux/challenge.redux";
 import { ChallengeService } from "services";
 

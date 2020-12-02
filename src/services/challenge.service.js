@@ -1,6 +1,7 @@
 import { ApiConstant, AppConstant } from "const";
 import { createApi, defaultConfigV2 } from "api";
 import { defaults } from "js-cookie";
+import { join } from "redux-saga/effects";
 
 export const getChallengeInfo = (challengeId, token) => {
   return createApi(defaultConfigV2, token).get(ApiConstant.GET_CHALLENGE_INFO(challengeId));
@@ -22,30 +23,18 @@ export const getChallengeFriendLeaderBoard = challengeId => {
   return createApi().get(ApiConstant.GET_CHALLENGE_FRIEND_LEADER_BOARD(challengeId));
 };
 
-export const getChallengeListAll = (data, listType) =>
-  createApi().get(ApiConstant.GET_CHALLENGE_LIST_ALL, getChallengeListParams(data, listType));
+export const getChallengeListAll = data =>
+  createApi().get(ApiConstant.GET_CHALLENGE_LIST_ALL, getChallengeListParams(data));
 
-const getChallengeListParams = (data, listType) => {
+const getChallengeListParams = data => {
   let defaultData = data || {};
   const { pageNum, pageSize, sorts, joinStatusFilter, ...otherParams } = defaultData;
   let queryParams = {
     pageNum: pageNum ? pageNum : 1,
     pageSize: pageSize ? pageSize : AppConstant.DATA_SIZES.challenges,
     sorts: sorts ? sorts.join(",") : "createDate,DESC",
+    joinStatusFilter: joinStatusFilter ? joinStatusFilter : AppConstant.CHALLENGE_LIST_TYPE.all,
     ...otherParams,
   };
-  if (!joinStatusFilter) {
-    switch (listType) {
-      case AppConstant.CHALLENGE_LIST_TYPE.all:
-        return (queryParams.joinStatusFilter = AppConstant.CHALLENGE_LIST_TYPE.all);
-      case AppConstant.CHALLENGE_ACTIVITY_TYPE.notJoined:
-        return (queryParams.joinStatusFilter = AppConstant.CHALLENGE_LIST_TYPE.notJoined);
-      case AppConstant.CHALLENGE_ACTIVITY_TYPE.joined:
-        return (queryParams.joinStatusFilter = AppConstant.CHALLENGE_LIST_TYPE.joined);
-      default:
-        return (queryParams.joinStatusFilter = AppConstant.CHALLENGE_LIST_TYPE.all);
-    }
-  }
-
   return queryParams;
 };

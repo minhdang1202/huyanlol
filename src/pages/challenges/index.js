@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import MainLayout from "layouts/MainLayout";
-import { DownloadApp, ListJoined, ListRecommend, ListAll, DetailCard } from "components/challenges";
+import { DownloadApp, ListJoined, ListRecommend, ListAll } from "components/challenges";
 import { Box, makeStyles, Typography, useTheme, useMediaQuery } from "@material-ui/core";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import { useDispatch } from "react-redux";
@@ -17,82 +17,162 @@ const Challenge = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(ChallengeAction.requestGetChallengeList());
+    dispatch(
+      ChallengeAction.requestGetChallengeListJoined({ joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.joined }),
+    );
+    dispatch(
+      ChallengeAction.requestGetChallengeListRecommend({ joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.notJoined }),
+    );
   }, []);
 
   return (
     <MainLayout appBarProps={appBarProps}>
       <Box className={classes.root}>
-        <Box>
+        <Box className={classes.background}></Box>
+        <Box className={classes.mainContent}>
           <Box className={classes.topContent}>
             <Typography>{getLabel("L_CHALLENGE")}</Typography>
             <Typography variant="h5">{getLabel("L_WITH_GAT")}</Typography>
           </Box>
-        </Box>
+          {!isMobile && <DownloadApp />}
 
-        {!isMobile && (
-          <Box>
-            <DownloadApp />
-          </Box>
-        )}
-        <ListJoined />
-        <ListRecommend />
-        <ListAll />
+          <ListJoined />
+          <ListRecommend />
+          <ListAll />
+        </Box>
       </Box>
     </MainLayout>
   );
 };
 const useStyles = makeStyles(theme => ({
+  // root: {
+  //   width: "100%",
+  //   paddingTop: `-${HEIGHT_APP_BAR}`,
+  //   "&>*:first-child": {
+  //     height: "570px",
+  //     width: "100%",
+  //     backgroundImage: `url("images/img-challenge-bg.png")`,
+  //     backgroundPosition: "center",
+  //     backgroundSize: "cover",
+  //     display: "flex",
+  //     alignItem: "center",
+  //     borderRadius: "0 0 20px 20px",
+  //     justifyContent: "center",
+  //     [theme.breakpoints.down("md")]: {
+  //       height: "443px",
+  //     },
+  //     [theme.breakpoints.down("sm")]: {
+  //       height: "311px",
+  //     },
+  //     [theme.breakpoints.down("xs")]: {
+  //       padding: theme.spacing(3),
+  //     },
+  //   },
+  //   "&>*:nth-child(2)": {
+  //     [theme.breakpoints.up("xs")]: {
+  //       position: "relative",
+  //       marginTop: "-64px",
+  //       width: "100%",
+  //       display: "flex",
+  //       justifyContent: "center",
+  //     },
+  //   },
+  // },
+  // appBar: {
+  //   [theme.breakpoints.up("xs")]: {
+  //     background: "none !important",
+  //     "& *": {
+  //       color: `${theme.palette.white} !important`,
+  //     },
+  //   },
+  // },
+  // topContent: {
+  //   width: "1020px",
+  //   height: "150px",
+  //   marginTop: "12.5%",
+  //   [theme.breakpoints.down("md")]: {
+  //     width: "720px",
+  //   },
+  //   [theme.breakpoints.down("xs")]: {
+  //     width: "100%",
+  //     color: theme.palette.white,
+  //     height: "100px",
+  //     marginTop: "195px",
+  //   },
+  //   "&>*:first-child": {
+  //     fontSize: "60px",
+  //     fontWeight: 500,
+  //     [theme.breakpoints.down("xs")]: {
+  //       fontSize: "38px",
+  //     },
+  //   },
+  // },
+  // mainContent: {
+  //   width: "1020px",
+  //   [theme.breakpoints.down("md")]: {
+  //     width: "720px",
+  //   },
+  //   [theme.breakpoints.down("xs")]: {
+  //     width: "100%",
+  //     padding: "0 16px 0 16px",
+  //     "&>*": {
+  //       marginBottom: theme.spacing(10),
+  //     },
+  //   },
+  //   background: "tomato",
+  // },
   root: {
     width: "100%",
-    paddingTop: `-${HEIGHT_APP_BAR}`,
-    "&>*:first-child": {
-      height: "570px",
-      width: "100%",
-      backgroundImage: `url("images/img-challenge-bg.png")`,
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-      display: "flex",
-      alignItem: "center",
-      borderRadius: "0 0 20px 20px",
-      justifyContent: "center",
-      [theme.breakpoints.down("md")]: {
-        height: "443px",
-      },
-      [theme.breakpoints.down("sm")]: {
-        height: "311px",
-      },
-      [theme.breakpoints.down("xs")]: {
-        padding: theme.spacing(3),
-      },
+  },
+  background: {
+    height: "570px",
+    width: "100%",
+    backgroundImage: `url("images/img-challenge-bg.png")`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    borderRadius: "0 0 20px 20px",
+    [theme.breakpoints.down("md")]: {
+      height: "443px",
     },
-    "&>*:nth-child(2)": {
-      position: "relative",
-      marginTop: "-64px",
-      width: "100%",
-      display: "flex",
-      justifyContent: "center",
+    [theme.breakpoints.down("xs")]: {
+      height: "311px",
+      padding: theme.spacing(3),
     },
   },
-  appBar: {
-    [theme.breakpoints.up("xs")]: {
-      background: "none !important",
-      "& *": {
-        color: `${theme.palette.white} !important`,
+  mainContent: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    marginTop: "-350px",
+    [theme.breakpoints.down("md")]: {
+      marginTop: "-300px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "-120px",
+    },
+    "&>*": {
+      marginBottom: theme.spacing(10),
+      width: "1020px",
+      [theme.breakpoints.down("md")]: {
+        width: "720px",
+      },
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+      },
+    },
+    "&>*:first-child": {
+      marginBottom: "160px",
+      [theme.breakpoints.down("md")]: {
+        marginBottom: "100px",
       },
     },
   },
   topContent: {
-    width: "1020px",
-    height: "150px",
-    marginTop: "12.5%",
-    [theme.breakpoints.down("md")]: {
-      width: "720px",
-    },
     [theme.breakpoints.down("xs")]: {
-      width: "100%",
       color: theme.palette.white,
-      height: "100px",
-      marginTop: "195px",
     },
     "&>*:first-child": {
       fontSize: "60px",

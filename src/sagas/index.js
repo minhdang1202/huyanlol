@@ -75,7 +75,7 @@ export default function* root() {
     takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_FRIEND_LEADER_BOARD, requestGetFriendLeaderBoard),
     takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_ACTIVITY, requestGetActivity),
     takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LIST, requestGetChallengeList),
-    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_JOINED_LIST, requestGetChallengeJoinedList),
-    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_RECOMMEND_LIST, requestGetChallengeRecommendList),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LIST_JOINED, requestGetChallengeJoinedList),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LIST_RECOMMEND, requestGetChallengeRecommendList),
   ]);
 }

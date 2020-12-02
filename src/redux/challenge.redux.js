@@ -167,11 +167,11 @@ export const HANDLERS = {
   [Types.GET_CHALLENGE_LIST_FAILURE]: challengeFailure,
 
   [Types.REQUEST_GET_CHALLENGE_LIST_JOINED]: challengeRequest,
-  [Types.GET_CHALLENGE_LIST_JOINED_SUCCESS]: challengeListSuccess,
+  [Types.GET_CHALLENGE_LIST_JOINED_SUCCESS]: challengeJoinedListSuccess,
   [Types.GET_CHALLENGE_LIST_JOINED_FAILURE]: challengeFailure,
 
   [Types.REQUEST_GET_CHALLENGE_LIST_RECOMMEND]: challengeRequest,
-  [Types.GET_CHALLENGE_LIST_RECOMMEND_SUCCESS]: challengeListSuccess,
+  [Types.GET_CHALLENGE_LIST_RECOMMEND_SUCCESS]: challengeRecommendListSuccess,
   [Types.GET_CHALLENGE_LIST_RECOMMEND_FAILURE]: challengeFailure,
 };
 
