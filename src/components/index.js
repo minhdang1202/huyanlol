@@ -26,6 +26,7 @@ import Autocomplete from "./Autocomplete";
 import Chip from "./Chip";
 import SliderButton from "./SliderButton";
 import CollectionTitle from "./CollectionTitle";
+import CommonPagination from "./CommonPagination";
 
 export {
   AppHead,
@@ -56,4 +57,5 @@ export {
   Chip,
   SliderButton,
   CollectionTitle,
+  CommonPagination,
 };

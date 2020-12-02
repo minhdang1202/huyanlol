@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, makeStyles, Paper } from "@material-ui/core";
-import { BookSummary } from "components";
+import { BookSummary, CommonPagination } from "components";
 import { uuid } from "utils";
 import { useDispatch, useSelector } from "react-redux";
 import EditionAction from "redux/edition.redux";
@@ -24,11 +24,14 @@ const ListBooks = () => {
 
   return (
     <Paper className={classes.root}>
-      {list.map(book => (
-        <Box key={uuid()} className={classes.item}>
-          <BookSummary data={book} />
-        </Box>
-      ))}
+      <Box className={classes.list}>
+        {list.map(book => (
+          <Box key={uuid()} className={classes.item}>
+            <BookSummary data={book} />
+          </Box>
+        ))}
+      </Box>
+      <CommonPagination count={5} className={classes.pagination} />
     </Paper>
   );
 };
@@ -44,12 +47,20 @@ const DEFAULT_PARAMS = {
 
 const useStyles = makeStyles(theme => ({
   root: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2, 3),
+    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.08)",
+    borderRadius: 10,
+  },
+  list: {
     display: "grid",
     gridGap: 8,
     gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-    padding: theme.spacing(2),
   },
   item: {
     paddingRight: 8,
+  },
+  pagination: {
+    marginBottom: 8,
   },
 }));
