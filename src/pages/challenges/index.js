@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.down("xs")]: {
       height: "311px",
-      padding: theme.spacing(3),
+      backgroundPosition: "right",
     },
   },
   mainContent: {
@@ -75,7 +75,8 @@ const useStyles = makeStyles(theme => ({
       marginTop: "-300px",
     },
     [theme.breakpoints.down("xs")]: {
-      marginTop: "-120px",
+      marginTop: "-144px",
+      padding: theme.spacing(2),
     },
     "&>*": {
       marginBottom: theme.spacing(10),
@@ -91,6 +92,10 @@ const useStyles = makeStyles(theme => ({
       marginBottom: "160px",
       [theme.breakpoints.down("md")]: {
         marginBottom: "100px",
+      },
+      [theme.breakpoints.down("xs")]: {
+        padding: theme.spacing(3),
+        marginBottom: theme.spacing(4),
       },
     },
   },
