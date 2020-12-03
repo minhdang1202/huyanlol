@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box, CardContent, CardMedia, makeStyles, Typography } from "@material-ui/core";
 import { AppLink, CustomRating } from "components";
 import clsx from "clsx";
-import { getImageById } from "utils";
+import { getImageById, getTitleNoMark } from "utils";
 import StringFormat from "string-format";
 import { PathConstant } from "const";
 
@@ -13,15 +13,19 @@ const BookSummary = ({ data, classes }) => {
 
   useEffect(() => {
     if (data) {
-      setBook(data);
+      let newBook = { ...data };
+      if (newBook.title) {
+        const bookTitleNoMark = getTitleNoMark(newBook.title);
+        newBook.link = StringFormat(PathConstant.FM_BOOK_DETAIL, bookTitleNoMark, newBook.editionId);
+      } else if (newBook.editionId) {
+        newBook.link = StringFormat(PathConstant.FM_BOOK_DETAIL_ID, newBook.articleId);
+      }
+      setBook(newBook);
     }
   }, [data]);
 
   return (
-    <AppLink
-      className={defaultClasses.link}
-      to={book.editionId && StringFormat(PathConstant.FM_BOOK_DETAIL_ID, book.editionId)}
-    >
+    <AppLink className={defaultClasses.link} to={book.link}>
       <Box className={clsx(defaultClasses.root, classes.root)}>
         {book && (
           <>
