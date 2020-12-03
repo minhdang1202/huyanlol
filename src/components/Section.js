@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import { AppLink } from "components";
 import { useTranslation } from "react-i18next";
 import { getCommonKey } from "const/lang.const";
@@ -22,13 +22,13 @@ const Section = props => {
 
   return (
     <Grid container className={clsx(defaultClasses.root, classes.root)}>
-      <Grid item xs={6}>
-        {primaryTitle}
-      </Grid>
-      <Grid item xs={6} className={defaultClasses.seeMore}>
-        <AppLink to={href}>
-          <Typography variant="subtitle2">{getLabel(getCommonKey("TXT_SEE_MORE"))}</Typography>
-        </AppLink>
+      <Grid item xs={12}>
+        <Box className={defaultClasses.titleRoot}>
+          <Box>{primaryTitle}</Box>
+          <AppLink to={href}>
+            <Typography variant="subtitle2">{getLabel(getCommonKey("TXT_SEE_MORE"))}</Typography>
+          </AppLink>
+        </Box>
       </Grid>
       <Grid item xs={12} className={clsx(defaultClasses.main, classes.main)}>
         {children}
@@ -54,6 +54,12 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
+  },
+  titleRoot: {
+    display: "flex",
+    "& > *:first-child": {
+      flexGrow: 1,
+    },
   },
   main: {
     paddingTop: theme.spacing(2),
