@@ -10,6 +10,8 @@ export const SORT_ORDER = {
   asc: "ASC",
   desc: "DESC",
 };
+export const SORT_POPULAR = 0;
+export const SORT_FRIEND = 1;
 
 //Size to infinite scroll
 export const DATA_SIZES = {

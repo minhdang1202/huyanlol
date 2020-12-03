@@ -22,6 +22,8 @@ import Comment from "./Comment";
 import Replies from "./Replies";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 import { AvatarIcon } from "icons";
+import ArticleReplyDialog from "./ArticleReplyDialog";
+import { getLabel } from "language";
 
 const ArticleComments = ({ articleId, commentCount }) => {
   const classes = useStyles();
@@ -29,18 +31,6 @@ const ArticleComments = ({ articleId, commentCount }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
-  const RADIO_LIST = [
-    {
-      value: 0,
-      label: getLabel(getCommonKey("TXT_POPULAR_COMMENT_RANGE")),
-      displayLabel: getLabel(getCommonKey("TXT_POPULAR_COMMENT")),
-    },
-    {
-      value: 1,
-      label: getLabel(getCommonKey("TXT_FRIEND_COMMENT_RANGE")),
-      displayLabel: getLabel(getCommonKey("TXT_FRIEND_COMMENT")),
-    },
-  ];
 
   const dispatch = useDispatch();
   const dispatchGetComments = params => {
@@ -73,11 +63,11 @@ const ArticleComments = ({ articleId, commentCount }) => {
     }
   };
 
-  const onGetParams = (pageNum, isFriend = false) => ({
+  const onGetParams = pageNum => ({
     article_id: articleId,
     pageNum: pageNum,
     pageSize: AppConstant.DATA_SIZES.articles,
-    isFriend: isFriend,
+    isFriend: sortValue == AppConstant.SORT_FRIEND,
   });
 
   const onOpenSort = () => {
@@ -94,7 +84,7 @@ const ArticleComments = ({ articleId, commentCount }) => {
   const onFetchWithSort = pageNum => {
     switch (sortValue) {
       case 1:
-        dispatchGetComments(onGetParams(pageNum, true));
+        dispatchGetComments(onGetParams(pageNum));
         break;
       default:
         dispatchGetComments(onGetParams(pageNum));
@@ -141,6 +131,7 @@ const ArticleComments = ({ articleId, commentCount }) => {
 
   return (
     <Box width="100%">
+      <ArticleReplyDialog sortValue={sortValue} open={true} onChangeSort={onChangeSort} />
       <SortPopup
         sortValue={sortValue}
         radioList={RADIO_LIST}
@@ -157,6 +148,11 @@ const ArticleComments = ({ articleId, commentCount }) => {
         </Box>
       </Hidden>
       <Box position="relative">
+        <Hidden xsDown>
+          <Button variant="outlined" className={clsx("grey-text", classes.commentButton)} startIcon={<AvatarIcon />}>
+            <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
+          </Button>
+        </Hidden>
         {totalComments === 0 ? (
           <Box py={{ xs: 10, sm: 8 }} className="center-root" flexDirection="column">
             <Box className="ic-comment-alt-dots" />
@@ -166,15 +162,6 @@ const ArticleComments = ({ articleId, commentCount }) => {
           </Box>
         ) : (
           <Box mb={{ xs: 4, sm: 5 }} mt={3} className={classes.commentWrapper}>
-            <Hidden xsDown>
-              <Button
-                variant="outlined"
-                className={clsx("grey-text", classes.commentButton)}
-                startIcon={<AvatarIcon />}
-              >
-                <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
-              </Button>
-            </Hidden>
             {!hasChangeSort &&
               commentsList &&
               commentsList.map((comment, index) => {
@@ -209,6 +196,21 @@ const ArticleComments = ({ articleId, commentCount }) => {
     </Box>
   );
 };
+
+export const RADIO_LIST = [
+  {
+    value: AppConstant.SORT_POPULAR,
+    label: getLabel("TXT_POPULAR_COMMENT_RANGE"),
+    displayLabel: getLabel("TXT_POPULAR_COMMENT"),
+    title: getLabel("TXT_POPULAR_COMMENT"),
+  },
+  {
+    value: AppConstant.SORT_FRIEND,
+    label: getLabel("TXT_FRIEND_COMMENT_RANGE"),
+    displayLabel: getLabel("TXT_FRIEND_COMMENT"),
+    title: getLabel("TXT_FRIEND_COMMENT"),
+  },
+];
 
 ArticleComments.propTypes = {
   articleId: PropTypes.number,
