@@ -126,3 +126,10 @@ p,
     margin-bottom: 16px;
   }
 }
+
+.no-style-link {
+  color: inherit !important;
+  &:hover {
+    text-decoration: none !important;
+  }
+}

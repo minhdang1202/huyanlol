@@ -60,6 +60,7 @@ const useStyles = makeStyles(theme => ({
     minWidth: "max-content",
     padding: 6,
     marginBottom: 8,
+    opacity: 1,
   },
   tabSelected: {
     "& $avatar": {
