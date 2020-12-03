@@ -240,5 +240,17 @@ export default {
     L_CHALLENGE: "Thử thách",
     L_WITH_GAT: "cùng GAT",
     L_CHALLENGE_ADDRESS: "/challenges",
+    L_YOUR_CHALLENGE: "Thử thách của bạn",
+    L_RECOMMENDED_CHALLENGE: "Gợi ý cho bạn",
+    L_ALL_CHALLENGE: "Thử thách dành cho bạn",
+    L_PERSONAL: "Cá nhân: ",
+    L_GROUP: "Tập thể: ",
+
+    FM_TARGET_READ: "đọc {0} quyển sách",
+    FM_TARGET_WRITE: "viết {0} đánh giá",
+    FM_PROGRESS_READ: "Đã hoàn thành {0} quyển",
+    FM_PROGRESS_WRITE: "Đã hoàn thành {0} bài",
+    FM_PROGRESS_PERCENT: "{0}%",
+    FM_DAYS_LEFT: "Còn {0} ngày",
   },
 };

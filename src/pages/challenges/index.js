@@ -35,7 +35,6 @@ const Challenge = () => {
             <Typography variant="h5">{getLabel("L_WITH_GAT")}</Typography>
           </Box>
           {!isMobile && <DownloadApp />}
-
           <ListJoined />
           <ListRecommend />
           <ListAll />
@@ -79,7 +78,7 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(2),
     },
     "&>*": {
-      marginBottom: theme.spacing(10),
+      marginBottom: theme.spacing(5),
       width: "1020px",
       [theme.breakpoints.down("md")]: {
         width: "720px",
