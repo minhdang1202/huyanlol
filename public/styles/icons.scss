@@ -185,6 +185,12 @@
   font-size: 32px;
 }
 
+.ic-certificate-small:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f0a3";
+  font-size: 20px;
+}
+
 .ic-times-circle:before {
   font-family: "FontAwesome5Pro-Solid";
   content: "\f057";
@@ -205,4 +211,18 @@
   content: "\f4a3";
   color: #ebf4f9;
   font-size: 100px;
+}
+
+.ic-check-circle :before {
+  font-family: "FontAwesome5Pro";
+  content: "\f058";
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.ic-plus-light :before {
+  font-family: "FontAwesome5Pro-Light";
+  content: "\f067";
+  font-size: 12px;
+  margin-right: 4px;
 }

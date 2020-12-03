@@ -1,6 +1,6 @@
 // Base Api
 export const BASE_API = "https://fordevv2.gatbook.org/api/v1";
-export const BASE_API_V1 = "https://fordev.gatbook.org/rest/api/";
+export const BASE_API_V1 = "https://fordev.gatbook.org/rest/api";
 export const HEADER_DEFAULT = {
   Accept: "application/json",
   "Content-Type": "application/json",
@@ -27,6 +27,8 @@ export const POST_LOGIN_BY_SOCIAL = "/user/login_by_social";
 export const POST_REGISTER = "/user/register_by_email";
 export const GET_USER_PROFILE = "/user/self/info";
 export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
+export const POST_FOLLOW_USER = "/users/self/follows";
+export const DELETE_UN_FOLLOW_USER = targetUserID => `/users/self/follows/${targetUserID}`;
 
 // * Book
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;
