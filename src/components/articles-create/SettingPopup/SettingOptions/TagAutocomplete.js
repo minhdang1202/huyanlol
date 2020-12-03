@@ -1,15 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import { Autocomplete, TextField } from "components";
-import { makeStyles, InputAdornment } from "@material-ui/core";
+import { makeStyles, InputAdornment, Paper } from "@material-ui/core";
 import ChipsList from "./ChipsList";
+import ArticleCreateActions from "redux/articleCreate.redux";
+import { debounce } from "debounce";
+import { checkIfLastPage } from "utils";
 
-const TagAutocomplete = ({ tagsSuggestion, tagsList, onChangeTagsList }) => {
+const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const [inputValue, setInputValue] = useState("");
+  const [value, setValue] = useState("");
+  const [suggestion, setSuggestion] = useState([]);
+
+  const dispatch = useDispatch();
+  const onGetHashTagsList = data => {
+    dispatch(
+      ArticleCreateActions.requestHashTagsList({
+        pageSize: AppConstant.DATA_SIZES.hashTags,
+        ...data,
+      }),
+    );
+  };
+  const [hashTagsList, isFetching] = useSelector(state => [
+    state.articleCreateRedux.hashTagsList,
+    state.articleCreateRedux.isFetching,
+  ]);
+
+  const onSetValue = useCallback(
+    debounce(value => {
+      setValue(value);
+    }, 500),
+    [],
+  );
+
   const onChange = (e, newValue) => {
     setInputValue("");
     onChangeTagsList(newValue);
@@ -18,27 +46,60 @@ const TagAutocomplete = ({ tagsSuggestion, tagsList, onChangeTagsList }) => {
   const onChangeInputValue = (e, newValue) => {
     const value = newValue.replace(/[^a-zA-Z0-9]/g, "").trim();
     setInputValue(value);
+    onSetValue(value);
   };
+
+  const onScroll = e => {
+    const { scrollHeight, scrollTop, clientHeight } = e.target;
+    const { total, pageSize, pageNo } = hashTagsList;
+    if (checkIfLastPage({ total, pageNo, pageSize })) return;
+    if (scrollTop + clientHeight === scrollHeight) {
+      onFetchData(pageNo + 1);
+    }
+  };
+
+  const onFetchData = pageNum => {
+    if (value) {
+      onGetHashTagsList({ tagName: value, pageNum: pageNum });
+    } else {
+      onGetHashTagsList({ pageNum: pageNum });
+    }
+  };
+
+  useEffect(() => {
+    onFetchData();
+  }, [value]);
+
+  useEffect(() => {
+    if (hashTagsList.pageData && hashTagsList.pageNo > 1) {
+      setSuggestion(suggestion.concat(hashTagsList.pageData));
+    } else {
+      setSuggestion(hashTagsList.pageData);
+    }
+  }, [hashTagsList]);
 
   return (
     <>
       <Autocomplete
         multiple
         freeSolo
+        loading={isFetching}
+        loadingText={getLabel("TXT_FINDING_HASHTAGS")}
         value={tagsList}
         inputValue={inputValue}
         onChange={onChange}
         onInputChange={onChangeInputValue}
-        renderTags={() => {}}
         filterSelectedOptions
+        PaperComponent={props => <Paper {...props} onScroll={onScroll} />}
         classes={{
           paper: classes.paper,
           focused: classes.focused,
         }}
-        options={tagsSuggestion}
-        renderOption={hashTag => `#${hashTag.title} (${hashTag.quantity})`}
-        getOptionSelected={(option, value) => option.title === value}
-        getOptionLabel={hashTag => hashTag.title}
+        options={suggestion || []}
+        filterOptions={options => options.filter(option => option !== "")}
+        renderOption={hashTag => `#${hashTag.tagName} (${hashTag.taggedCount})`}
+        getOptionSelected={(option, value) => option.tagName == value}
+        getOptionLabel={hashTag => hashTag.tagName}
         closeIcon={null}
         renderInput={params => (
           <TextField
@@ -55,13 +116,12 @@ const TagAutocomplete = ({ tagsSuggestion, tagsList, onChangeTagsList }) => {
           />
         )}
       />
-      <ChipsList chipsList={tagsList} onChangeChipsList={onChangeTagsList} />
+      <ChipsList isTag chipsList={tagsList} onChangeChipsList={onChangeTagsList} />
     </>
   );
 };
 
 TagAutocomplete.propTypes = {
-  tagsSuggestion: PropTypes.array,
   tagsList: PropTypes.array,
   onChangeTagsList: PropTypes.func,
 };
@@ -75,7 +135,6 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
-    maxHeight: 215,
-    maxWidth: 290,
+    width: 290,
   },
 }));

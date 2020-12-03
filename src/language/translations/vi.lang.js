@@ -135,9 +135,6 @@ export default {
     L_COMPANY_NAME: "GAT",
     L_LESS: "Rút gọn",
     L_ARTICLE: "Bài viết",
-    L_ALL: "Tất cả",
-    L_FOLLOWED: "Đang theo dõi",
-    L_FOLLOW: "Theo dõi",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
@@ -167,8 +164,6 @@ export default {
     FM_CREATOR: `<span>Tạo bởi <a class="primary-text">{0}</a></span>`,
     FM_INVITE_FRIEND: "{0} và {1} người khác tham gia thử thách này",
     FM_INVITE_FRIEND_ONE: "{0} tham gia thử thách này",
-    FM_PROGRESS_LEADER_BOARD: "Đã đọc {0}/{1}",
-    FM_PROGRESS_REVIEW_LEADER_BOARD: "Đã viết {0}/{1}",
   },
   articleDetail: {
     TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",
@@ -222,6 +217,9 @@ export default {
     TXT_POST_ARTICLE: "Đăng bài",
     TXT_REVIEW_TYPE_CATEGORY: "Đánh giá sách",
     TXT_NO_BOOK: "Sách hiện chưa có trong thư viện",
+    TXT_FINDING_BOOK: "Đang tìm sách...",
+    TXT_TYPE_BOOK_TITLE: "Nhập tên sách để tìm kiếm",
+    TXT_FINDING_HASHTAGS: "Đang tìm hashtag...",
 
     P_CREATE_TITLE: "Nhập tiêu đề",
     P_CREATE_REVIEW_CONTENT: "Bạn đang nghĩ gì?",
@@ -238,5 +236,11 @@ export default {
     FM_CHARACTERS: "{0} ký tự",
     FM_WORDS: "{0} từ",
     FM_ADD_NEW_HASHTAG: "Thêm tag {0}",
+
+    ERR_SAVE_ARTICLE: "Có lỗi xảy ra, bài viết chưa được lưu vào nháp",
+    ERR_POST_ARTICLE: "Có lỗi xảy ra, bài viết chưa được đăng",
+
+    MSG_POST_ARTICLE_SUCCESS: "Bài viết đã được đăng",
+    MSG_SAVE_ARTICLE_SUCCESS: "Bài viết đã lưu vào nháp",
   },
 };

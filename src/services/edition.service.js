@@ -20,3 +20,11 @@ export const getBookReviews = params => {
 export const getBookSuggestion = bodyReq => {
   return createApi(defaultConfigV1).get(ApiConstant.GET_BOOK_SUGGESTION, bodyReq);
 };
+
+export const getEditionSuggestion = params => {
+  return createApi().get(ApiConstant.GET_EDITION_SUGGESTION, params);
+};
+
+export const postEditionRate = params => {
+  return createApi(defaultConfigV1).post(ApiConstant.POST_EDITION_RATE, null, { params: params });
+};

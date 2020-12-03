@@ -4,16 +4,18 @@ import StringFormat from "string-format";
 import { debounce } from "debounce";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles, Container, Divider, Typography, Box, Hidden } from "@material-ui/core";
+import PropTypes from "prop-types";
 import clsx from "clsx";
-import { LangConstant, PathConstant, AppConstant } from "const";
+import { LangConstant, PathConstant, AppConstant, ApiConstant } from "const";
 import { useTranslation } from "react-i18next";
 import MainLayout from "layouts/MainLayout";
-import { CustomRating, DialogAppDownload, AuthDialog, Snackbar, Processing } from "components";
+import { CustomRating, DialogAppDownload, Snackbar, Processing } from "components";
 import { CreateToolbar, CustomEditor, SettingPopup, TitleInput } from "components/articles-create";
 import ArticleCreateActions from "redux/articleCreate.redux";
-import { getRandomDefaultArticleCoverId } from "utils";
+import { ArticleService } from "services";
+import { getNumberIdFromCreateQuery, getTitleNoMark } from "utils";
 
-const ArticleCreate = () => {
+const ArticleEdit = ({ article }) => {
   const MAX_LENGTH_TITLE = 250;
   const classes = useStyles();
   const router = useRouter();
@@ -22,51 +24,41 @@ const ArticleCreate = () => {
 
   const dispatch = useDispatch();
   const [
-    isAuth,
-    isReviewType,
-    reviewInfo,
     categoriesList,
-    article,
+    isFetching,
     isSaveSuccess,
     isSaveFailure,
     isPostSuccess,
     isPostFailure,
-    isFetching,
-  ] = useSelector(({ authRedux, articleCreateRedux }) => [
-    authRedux.isAuth,
-    articleCreateRedux.isReviewType,
-    articleCreateRedux.reviewInfo,
+  ] = useSelector(({ articleCreateRedux }) => [
     articleCreateRedux.categoriesList,
-    articleCreateRedux.article,
+    articleCreateRedux.isFetching,
     articleCreateRedux.isSaveSuccess,
     articleCreateRedux.isSaveFailure,
     articleCreateRedux.isPostSuccess,
     articleCreateRedux.isPostFailure,
-    articleCreateRedux.isFetching,
   ]);
 
   const articleId = article.articleId;
-
-  const [title, setTitle] = useState();
-  const [rate, setRate] = useState(0);
+  const [title, setTitle] = useState(article.title || "");
+  const [rate, setRate] = useState(article.editions[0].userRelation.evaluation.rate);
   const [contentHtml, setContentHtml] = useState();
   const [intro, setIntro] = useState();
   const [hasContent, setHasContent] = useState();
   const [isOpenSetting, setIsOpenSetting] = useState(false);
-  const [categoryId, setCategoryId] = useState();
-  const [defaultCoverId, setDefaultCoverId] = useState(getRandomDefaultArticleCoverId());
-  const [tagsList, setTagsList] = useState([]);
-  const [booksList, setBooksList] = useState(isReviewType ? [reviewInfo] : []);
-  const [thumbnailList, setThumbnailList] = useState([defaultCoverId]);
-  const [thumbnailId, setThumbnailId] = useState(defaultCoverId);
-  const [coverId, setCoverId] = useState(defaultCoverId);
+  const [categoryId, setCategoryId] = useState(article.categories[0].categoryId);
+  const [tagsList, setTagsList] = useState(article.hashtags);
+  const [booksList, setBooksList] = useState(article.editions);
+  const [thumbnailList, setThumbnailList] = useState(article.bodyImageIds);
+  const [thumbnailId, setThumbnailId] = useState(article.thumbnailId);
+  const [coverId, setCoverId] = useState(article.coverId);
   const [tagIds, setTagIds] = useState([]);
   const [tagNames, setTagNames] = useState([]);
   const [hasAutoSave, setHasAutoSave] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasSnackbar, setHasSnackbar] = useState(false);
-  const [hasArticleId, setHasArticleId] = useState(false);
   const [message, setMessage] = useState();
+  const isReviewType = !Boolean(categoryId);
 
   const onAutoSave = debounce(() => {
     setIsSaving(true);
@@ -132,7 +124,7 @@ const ArticleCreate = () => {
 
   const onCloseDownload = () => {
     if (isReviewType) {
-      router.push(StringFormat(PathConstant.FM_BOOK_DETAIL_ID, reviewInfo.editionId));
+      router.push(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId));
     } else {
       router.push(PathConstant.ROOT);
     }
@@ -150,12 +142,10 @@ const ArticleCreate = () => {
     setContentHtml(contentHtml);
     setHasContent(hasContent);
     setIntro(intro);
-    onCreateArticle();
   };
 
   const onChangeTitle = e => {
     setTitle(e.target.value);
-    onCreateArticle();
   };
 
   const onChangeRate = (e, newRate) => {
@@ -164,13 +154,6 @@ const ArticleCreate = () => {
 
   const onChangeCategoryId = e => {
     setCategoryId(e.target.value);
-  };
-
-  const onCreateArticle = () => {
-    if (hasContent && title && !hasArticleId) {
-      setHasArticleId(true);
-      dispatch(ArticleCreateActions.requestPostArticle(onGetBodyReq()));
-    }
   };
 
   const onClickPostArticle = () => {
@@ -189,26 +172,16 @@ const ArticleCreate = () => {
   }, AppConstant.SNACKBAR_DURATION);
 
   useEffect(() => {
-    return () => {
-      if (isReviewType) dispatch(ArticleCreateActions.finishReviewBook());
-    };
+    dispatch(ArticleCreateActions.editArticle(article));
+    if (categoryId) dispatch(ArticleCreateActions.requestCategoriesList());
   }, []);
-
-  useEffect(() => {
-    if (isReviewType) {
-      setRate(reviewInfo.rate ? reviewInfo.rate : 0);
-      setCategoryId(0);
-      return;
-    }
-    dispatch(ArticleCreateActions.requestCategoriesList());
-  }, [isReviewType]);
 
   useEffect(() => {
     if (categoriesList.length && !isReviewType) setCategoryId(categoriesList[0].categoryId);
   }, [categoriesList]);
 
   useEffect(() => {
-    if (articleId && !hasAutoSave && contentHtml && title) {
+    if (!hasAutoSave && contentHtml && title) {
       setHasAutoSave(true);
       onAutoSave();
     }
@@ -223,27 +196,13 @@ const ArticleCreate = () => {
 
   useEffect(() => {
     if (isPostSuccess || isPostFailure || isSaveFailure || isSaveSuccess) {
-      if (!articleId) {
-        setHasArticleId(false);
-      }
       if (hasSnackbar) {
+        setMessage("");
         onHiddenSnackbar();
         if (isPostSuccess) {
           dispatch(ArticleCreateActions.saveArticleSuccess());
           dispatch(ArticleCreateActions.postArticleSuccess());
-          dispatch(ArticleCreateActions.finishReviewBook());
-          setMessage(getLabel("MSG_POST_ARTICLE_SUCCESS"));
-
-          const newDefaultThumbnailId = getRandomDefaultArticleCoverId();
-          setThumbnailId(newDefaultThumbnailId);
-          setCoverId(newDefaultThumbnailId);
-          setBooksList([]);
-          setThumbnailList([newDefaultThumbnailId]);
-          setTagsList([]);
-          setCategoryId();
-          setHasArticleId(false);
-          setIsOpenSetting(false);
-          setTitle("");
+          router.push(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId));
           return;
         } else if (isPostFailure) {
           setMessage(getLabel("ERR_POST_ARTICLE"));
@@ -266,17 +225,16 @@ const ArticleCreate = () => {
       <Hidden smUp>
         <DialogAppDownload isOpen={true} onClose={onCloseDownload} />
       </Hidden>
-      <AuthDialog isOpen={!isAuth} />
       <SettingPopup
         open={isOpenSetting}
         onClose={onCloseSetting}
         rate={rate}
-        bookName={isReviewType ? reviewInfo.bookName : null}
+        bookName={null}
         isReviewType={isReviewType}
         title={title}
         content={intro}
         categoryId={categoryId}
-        categoriesList={isReviewType ? reviewCategoryList : categoriesList}
+        categoriesList={categoryId ? categoriesList : reviewCategoryList}
         onChangeCategoryId={onChangeCategoryId}
         tagsList={tagsList}
         onChangeTagsList={onChangeTagsList}
@@ -289,8 +247,8 @@ const ArticleCreate = () => {
         onChangeCoverId={onChangeCoverId}
         onChangeThumbnailId={onChangeThumbnailId}
         onChangeThumbnailList={onChangeThumbnailList}
-        onClickPostArticle={onClickPostArticle}
         onClickSaveDraft={onClickSaveDraft}
+        onClickPostArticle={onClickPostArticle}
       />
       <Box position="relative">
         <Box position="sticky" top={0} zIndex={1000} bgcolor="white">
@@ -307,14 +265,63 @@ const ArticleCreate = () => {
               <CustomRating value={rate} onChange={onChangeRate} />
             </Box>
           )}
-          <CustomEditor onChangeContent={onChangeContent} onChangeThumbnailList={onChangeThumbnailList} />
+          <CustomEditor
+            initialHtml={article.body}
+            onChangeContent={onChangeContent}
+            onChangeThumbnailList={onChangeThumbnailList}
+          />
         </Container>
       </Box>
     </MainLayout>
   );
 };
 
-export default ArticleCreate;
+export const getServerSideProps = async ({ res, req, query }) => {
+  let articleId = query && query.article ? query.article : null;
+  const isOnlyNumber = /^\d+$/.test(articleId);
+  articleId = isOnlyNumber ? articleId : getNumberIdFromCreateQuery(articleId);
+  const token = req.cookies[AppConstant.KEY_TOKEN];
+  const cookiesInfo = JSON.parse(req.cookies[AppConstant.KEY_STORED_APP]);
+  const userId = cookiesInfo.userId;
+  const articleDetailResponse = await ArticleService.getArticleDetail(articleId, token);
+  const article = articleDetailResponse.data;
+
+  if (article.data) {
+    const articleData = article.data;
+    let { title, creator } = articleData;
+    const creatorId = creator.userId;
+    if (userId !== creatorId)
+      return {
+        redirect: {
+          permanent: true,
+          destination: StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId),
+        },
+      };
+
+    if (isOnlyNumber) {
+      const articleTitleNoMark = getTitleNoMark(title);
+      return {
+        redirect: {
+          permanent: true,
+          destination: StringFormat(PathConstant.FM_ARTICLE_EDIT, articleTitleNoMark, articleId),
+        },
+      };
+    }
+    return {
+      props: {
+        article: articleData,
+      },
+    };
+  }
+  res.status(ApiConstant.STT_NOT_FOUND).end();
+  return { props: {} };
+};
+
+ArticleEdit.propTypes = {
+  article: PropTypes.object,
+};
+
+export default ArticleEdit;
 
 const useStyles = makeStyles(theme => ({
   root: {

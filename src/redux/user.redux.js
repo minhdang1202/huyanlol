@@ -4,6 +4,8 @@ import { createReducer, createActions } from "reduxsauce";
 const { Types, Creators } = createActions({
   requestTopWriter: ["data"],
   requestProfile: ["data"],
+  requestImage: ["data"],
+  requestImageDone: null,
 
   userFailure: ["data"],
   userSuccess: ["data"],
@@ -16,7 +18,7 @@ export default Creators;
 export const INITIAL_STATE = {
   isFetching: false,
   error: null,
-
+  imageId: null,
   topWriter: {},
   profile: {},
 };
@@ -33,6 +35,7 @@ export const finish = (state = INITIAL_STATE, action) => {
   return {
     ...state,
     error: null,
+    imageId: null,
     isFetching: false,
     ...data,
   };
@@ -42,6 +45,8 @@ export const finish = (state = INITIAL_STATE, action) => {
 export const HANDLERS = {
   [Types.REQUEST_TOP_WRITER]: request,
   [Types.REQUEST_PROFILE]: request,
+  [Types.REQUEST_IMAGE]: request,
+  [Types.REQUEST_IMAGE_DONE]: finish,
 
   [Types.USER_SUCCESS]: finish,
   [Types.USER_FAILURE]: finish,

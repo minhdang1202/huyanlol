@@ -4,21 +4,23 @@ import clsx from "clsx";
 import Chip from "components/Chip";
 import { Box, makeStyles } from "@material-ui/core";
 
-const ChipsList = ({ chipsList, onChangeChipsList, isDisabled }) => {
+const ChipsList = ({ chipsList, onChangeChipsList, isDisabled, isTag }) => {
   const classes = useStyles();
+
   return (
     <Box className={classes.root}>
       {chipsList.map((chip, index) => {
-        const label = chip.title || chip;
+        const label = isTag ? chip.tagName || chip : chip.title;
         const isLastChip = index === chipsList.length - 1;
+        const onDelete = () => {
+          onChangeChipsList(chipsList.filter(entry => entry !== chip));
+        };
         return (
           <Chip
             key={index}
             className={clsx("mb-8", !isLastChip && "mr-12")}
-            label={`#${label}`}
-            onDelete={() => {
-              if (!isDisabled) onChangeChipsList(chipsList.filter(entry => entry !== chip));
-            }}
+            label={isTag ? `#${label}` : `&${label}`}
+            onDelete={!isDisabled ? onDelete : null}
           />
         );
       })}
@@ -30,6 +32,7 @@ ChipsList.propTypes = {
   chipsList: PropTypes.array,
   onChangeChipsList: PropTypes.func,
   isDisabled: PropTypes.bool,
+  isTag: PropTypes.bool,
 };
 
 export default ChipsList;

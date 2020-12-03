@@ -33,7 +33,7 @@ const WriteReview = ({ editionId, bookName }) => {
   };
 
   const onGoToCreateReview = () => {
-    dispatch(ArticleCreateActions.startReviewBook(editionId, bookName, rate));
+    dispatch(ArticleCreateActions.startReviewBook({ editionId, title: bookName, rate }));
   };
 
   return (

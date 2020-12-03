@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import { Toolbar, makeStyles, IconButton, Button, Box, Divider, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import CharCountPopover from "./CharCountPopover";
 import { UndoButton, RedoButton } from "../CustomEditor";
 import SidebarMenu from "../CustomEditor/SidebarMenu";
+import { debounce } from "debounce";
+import ArticleCreateActions from "redux/articleCreate.redux";
 
 const CreateToolbar = ({ onOpenSetting }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const [anchorCharCount, setAnchorCharCount] = useState(null);
   const [anchorSidebar, setAnchorSidebar] = useState(null);
   const hasCharOpen = Boolean(anchorCharCount);
   const hasSidebarOpen = Boolean(anchorSidebar);
+
+  const [isSaveSuccess, isSaveFailure] = useSelector(({ articleCreateRedux }) => [
+    articleCreateRedux.isSaveSuccess,
+    articleCreateRedux.isSaveFailure,
+  ]);
 
   const onOpenPopover = event => {
     setAnchorCharCount(event.currentTarget);
@@ -31,6 +40,16 @@ const CreateToolbar = ({ onOpenSetting }) => {
   const onCloseSidebar = () => {
     setAnchorSidebar(null);
   };
+
+  const onFinishSave = debounce(() => {
+    dispatch(ArticleCreateActions.saveArticleSuccess());
+  }, AppConstant.SNACKBAR_DURATION);
+
+  useEffect(() => {
+    if (isSaveSuccess || isSaveFailure) {
+      onFinishSave();
+    }
+  }, [isSaveSuccess, isSaveFailure]);
 
   return (
     <Toolbar className={classes.root}>
@@ -59,10 +78,12 @@ const CreateToolbar = ({ onOpenSetting }) => {
         anchorEl={anchorCharCount}
         onClose={onClosePopover}
       />
+      {isSaveSuccess && <Typography className={classes.success}>{getLabel("MSG_SAVE_ARTICLE_SUCCESS")}</Typography>}
+      {isSaveFailure && <Typography className={classes.failure}>{getLabel("ERR_SAVE_ARTICLE")}</Typography>}
       <Button
         onClick={() => onOpenSetting()}
         variant="contained"
-        className={clsx(classes.postButton, "dark-blue-button")}
+        className={clsx(classes.previewButton, "dark-blue-button")}
       >
         {getLabel("TXT_PREVIEW")}
       </Button>
@@ -95,8 +116,9 @@ const useStyles = makeStyles(theme => ({
       width: 2,
     },
   },
-  postButton: {
+  previewButton: {
     padding: theme.spacing(0, 1.5),
+    marginLeft: theme.spacing(3),
   },
   icon: {
     fontSize: 20,
@@ -108,6 +130,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     marginLeft: theme.spacing(1.5),
     height: "100%",
+  },
+  success: {
+    color: theme.palette.success.dark,
+  },
+  failure: {
+    color: theme.palette.error.main,
   },
   undoButton: {
     padding: 0,

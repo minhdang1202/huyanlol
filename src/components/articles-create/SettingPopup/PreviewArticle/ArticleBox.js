@@ -6,24 +6,15 @@ import { LangConstant } from "const";
 import PropTypes from "prop-types";
 import { Grid, Avatar, Typography, Box, makeStyles } from "@material-ui/core";
 import { CustomRating } from "components";
+import { getImageById } from "utils";
 
-const ArticleBox = ({
-  rate,
-  isReviewType,
-  type,
-  title,
-  content,
-  bookName,
-  tagsList,
-  categoryTitle,
-  currentThumbnail,
-}) => {
+const ArticleBox = ({ rate, isReviewType, type, title, content, bookName, tagsList, categoryTitle, thumbnailId }) => {
   const classes = useStyles({ type });
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <Grid container className={classes.root}>
       <Grid item xs={type == 0 ? 6 : 12} className={type == 0 ? null : "mt-12"}>
-        <Typography variant="subtitle1" className={clsx("eclipse-2", "mb-8")}>
+        <Typography variant="subtitle1" className={clsx("eclipse-2", "mb-8", !type && "mt-8" )}>
           {title
             ? title
             : isReviewType
@@ -54,7 +45,7 @@ const ArticleBox = ({
         </Box>
       </Grid>
       <Grid item xs={type == 0 ? 6 : 12}>
-        <Avatar variant="square" src={currentThumbnail.src} className={classes.thumbnail} />
+        <Avatar variant="square" src={getImageById(thumbnailId)} className={classes.thumbnail} />
       </Grid>
     </Grid>
   );
@@ -82,7 +73,7 @@ ArticleBox.propTypes = {
   bookName: PropTypes.string,
   tagsList: PropTypes.array,
   categoryTitle: PropTypes.string,
-  currentThumbnail: PropTypes.object,
+  thumbnailId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default ArticleBox;
