@@ -24,7 +24,7 @@ const ChallengeListJoined = () => {
 
   useEffect(() => {
     const load = async () => {
-      if (slideIndex >= AppConstant.DATA_SIZES.challenges - 1) {
+      if (slideIndex >= AppConstant.DATA_SIZES.challenges - 1 && listJoined.length < total) {
         const res = await ChallengeService.getChallengeListAll({
           joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.joined,
           pageSize: total,
@@ -32,7 +32,6 @@ const ChallengeListJoined = () => {
         setListJoined(res.data.data.pageData);
         setInitialSlide(AppConstant.DATA_SIZES.challenges);
       }
-      console.log(slideIndex);
     };
 
     load();

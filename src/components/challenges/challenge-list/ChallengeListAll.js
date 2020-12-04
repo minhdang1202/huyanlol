@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { LangConstant, AppConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { Box, makeStyles, Typography, Grid } from "@material-ui/core";
@@ -13,6 +13,7 @@ const ChallengeListAll = () => {
   const listRecommendData = useSelector(state => state.challengeRedux.listRecommend);
   const { pageData, total } = listRecommendData;
   const [pageNum, setPageNum] = useState(1);
+  const titleRef = useRef();
 
   useEffect(() => {
     dispatch(
@@ -25,13 +26,16 @@ const ChallengeListAll = () => {
 
   const onChangePage = (event, value) => {
     setPageNum(value);
+    titleRef.current.scrollIntoView();
   };
   const getTotalPage = (total, pageSize) => {
     return Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1);
   };
   return (
     <Box className={classes.root}>
-      <Typography variant="h6">{getLabel("L_RECOMMENDED_CHALLENGE")}</Typography>
+      <Typography variant="h6" ref={titleRef}>
+        {getLabel("L_RECOMMENDED_CHALLENGE")}
+      </Typography>
       <Grid container spacing={3} direction="row" justify="flex-start" alignItems="center">
         {pageData.map(item => (
           <Grid item key={item.challengeId} xs={12} sm={6} md={6} lg={4}>
