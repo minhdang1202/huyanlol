@@ -81,12 +81,12 @@ CustomInlineToolbar.propTypes = {
   editorState: PropTypes.object,
 };
 
-const BlockquoteButton = createBlockStyleButton({
+export const BlockquoteButton = createBlockStyleButton({
   blockType: "blockquote",
   children: <QuoteIcon />,
 });
 
-const HeadlineFiveButton = createBlockStyleButton({
+export const HeadlineFiveButton = createBlockStyleButton({
   blockType: "header-five",
   children: (
     <Box fontSize={26} fontWeight="bold">
@@ -98,7 +98,7 @@ const HeadlineFiveButton = createBlockStyleButton({
   ),
 });
 
-const HeadlineSixButton = createBlockStyleButton({
+export const HeadlineSixButton = createBlockStyleButton({
   blockType: "header-six",
   children: (
     <Box fontSize={18} fontWeight="bold">
@@ -110,7 +110,7 @@ const HeadlineSixButton = createBlockStyleButton({
   ),
 });
 
-const LinkButton = createBlockStyleButton({
+export const LinkButton = createBlockStyleButton({
   blockType: null,
   children: <Box className="ic-link" fontSize={16} />,
 });

@@ -1,24 +1,31 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import PropTypes from "prop-types";
-import { TextFieldSelect } from "components";
+import TextFieldSelect, { MenuItem } from "components/TextFieldSelect";
 
-const CategorySelect = ({ categoryId, categoryList, onChangeCategoryId }) => {
+const CategorySelect = ({ categoryId, categoriesList, onChangeCategoryId }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
-    <TextFieldSelect
-      disabled={categoryId == 0}
-      label={getLabel("L_ARTICLE_CATEGORY")}
-      value={categoryId}
-      selectList={categoryList}
-      onChange={e => onChangeCategoryId(e)}
-    />
+    categoryId >= 0 && (
+      <TextFieldSelect
+        disabled={categoryId === AppConstant.CATEGORY_REVIEW}
+        label={getLabel("L_ARTICLE_CATEGORY")}
+        value={categoryId}
+        onChange={e => onChangeCategoryId(e)}
+      >
+        {categoriesList.map(category => (
+          <MenuItem key={category.categoryId} value={category.categoryId}>
+            {category.title}
+          </MenuItem>
+        ))}
+      </TextFieldSelect>
+    )
   );
 };
 
 CategorySelect.propTypes = {
-  categoryList: PropTypes.array,
+  categoriesList: PropTypes.array,
   categoryId: PropTypes.number,
   onChangeCategoryId: PropTypes.func,
 };

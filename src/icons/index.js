@@ -20,7 +20,6 @@ import DotIcon from "./DotIcon";
 import LocalOfferIcon from "./LocalOfferIcon";
 import QuoteIcon from "./QuoteIcon";
 import BreakIcon from "./BreakIcon";
-import CrownIcon from "./CrownIcon";
 
 export {
   SearchIcon,
@@ -45,5 +44,4 @@ export {
   ArrowLeftIcon,
   QuoteIcon,
   BreakIcon,
-  CrownIcon,
 };

@@ -1,5 +1,7 @@
 import punycode from "punycode";
-import { EditorState, RichUtils, convertToRaw } from "draft-js";
+import { AppConstant } from "const";
+import { EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from "draft-js";
+import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 
 export const getWordCount = editorState => {
   const plainText = editorState.getCurrentContent().getPlainText("");
@@ -20,7 +22,7 @@ export const getCharCount = editorState => {
 export const findLinkEntities = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges(character => {
     const entityKey = character.getEntity();
-    return entityKey !== null && contentState.getEntity(entityKey).getType() === "LINK";
+    return entityKey !== null && contentState.getEntity(entityKey).getType() === AppConstant.DRAFT_TYPE.link;
   }, callback);
 };
 
@@ -40,12 +42,23 @@ export const getEntityLink = editorState => {
 
 export const insertLink = (editorState, urlValue) => {
   const contentState = editorState.getCurrentContent();
-  const contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", { url: urlValue });
+  const contentStateWithEntity = contentState.createEntity(AppConstant.DRAFT_TYPE.link, "MUTABLE", { url: urlValue });
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const newEditorState = EditorState.set(editorState, {
     currentContent: contentStateWithEntity,
   });
   return RichUtils.toggleLink(newEditorState, newEditorState.getSelection(), entityKey);
+};
+
+export const insertBreakLine = editorState => {
+  const contentState = editorState.getCurrentContent();
+  const contentStateWithEntity = contentState.createEntity(AppConstant.DRAFT_TYPE.divider, "MUTABLE", { a: "b" });
+
+  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+  const newEditorState = EditorState.set(editorState, {
+    currentContent: contentStateWithEntity,
+  });
+  return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
 };
 
 export const getContentSelection = editorState => {
@@ -75,8 +88,56 @@ export const checkIfUnOrderList = editorState => {
   let result = false;
   contentState.blockMap.forEach((e, i) => {
     if (i === key) {
-      if (e.getType() === "unordered-list-item") result = true;
+      if (e.getType() === AppConstant.DRAFT_TYPE.unorderedList) result = true;
     }
   });
   return result;
+};
+
+export const removeLastBlankBlocks = editorState => {
+  const contentState = editorState.getCurrentContent();
+  let isLastBlankBlock = true;
+  let newBlockMap = contentState.blockMap.reverse().filter((e, i) => {
+    if (isLastBlankBlock) {
+      if (e.text || e.getType() == AppConstant.DRAFT_TYPE.atomic) {
+        isLastBlankBlock = false;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  });
+  const newContentState = contentState.set("blockMap", newBlockMap.reverse());
+  return EditorState.push(editorState, newContentState);
+};
+
+export const getCurrentEl = editorState => {
+  const startKey = editorState.getSelection().getStartKey();
+  const currentEl = document.querySelector(`[data-offset-key="${startKey}-0-0"]`);
+  return currentEl;
+};
+
+export const scrollWithSpecificSpace = editorState => {
+  const contentState = editorState.getCurrentContent();
+  const lastBlockKey = contentState.getBlockMap().last().getKey();
+  const anchorKey = editorState.getSelection().anchorKey;
+  const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
+  const currentEl = getCurrentEl(editorState);
+
+  const currentTop = currentEl.offsetTop;
+  const clientHeight = mainLayout.clientHeight;
+  const currentScrollTop = mainLayout.scrollTop;
+
+  if (lastBlockKey === anchorKey) {
+    mainLayout.scrollTo({
+      top: mainLayout.scrollHeight,
+      behavior: "smooth",
+    });
+  } else {
+    if (currentTop >= currentScrollTop + clientHeight - 420)
+      mainLayout.scrollTo({
+        top: currentScrollTop + 50,
+        behavior: "smooth",
+      });
+  }
 };

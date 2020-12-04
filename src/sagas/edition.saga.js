@@ -197,3 +197,41 @@ export function* requestGetBookSuggestion(action) {
     yield put(EditionAction.requestEditionFailure(error));
   }
 }
+
+export function* requestGetEditionSuggestion(action) {
+  let response = yield call(EditionService.getEditionSuggestion, action.data);
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      yield put(EditionAction.requestEditionSuccess({ suggestions: responseData }));
+    } else {
+      yield put(EditionAction.requestEditionFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(EditionAction.requestEditionFailure(error));
+  }
+}
+
+export function* requestPostEditionRate(action) {
+  let response = yield call(EditionService.postEditionRate, getRateParams(action.data));
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      yield put(EditionAction.requestEditionSuccess({}));
+    } else {
+      yield put(EditionAction.requestEditionFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(EditionAction.requestEditionFailure(error));
+  }
+}
+
+export const getRateParams = params => ({
+  ...params,
+  draftFlag: false,
+  spoiler: false,
+  bookId: 0,
+  reviewType: 2,
+});

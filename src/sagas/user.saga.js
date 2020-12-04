@@ -35,3 +35,19 @@ export function* requestGetUserProfile() {
     yield put(UserAction.userFailure(error));
   }
 }
+
+export function* requestImage(action) {
+  let response = yield call(UserService.postImage, action.data);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      yield put(UserAction.userSuccess({ imageId: responseData.imageId }));
+    } else {
+      yield put(UserAction.userFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(UserAction.userFailure(error));
+  }
+}

@@ -20,13 +20,14 @@ import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
 import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
-import { getImageById, uuid } from "utils";
+import { getImageById, getTitleNoMark, uuid } from "utils";
 import clsx from "clsx";
 import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { useRouter } from "next/router";
+import AppLink from "./AppLink";
 
-const ArticleSummary = ({ data, isHiddenAction, className }) => {
+const ArticleSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const router = useRouter();
@@ -72,22 +73,29 @@ const ArticleSummary = ({ data, isHiddenAction, className }) => {
           newArticle.createTime = getCreatedTime(parseISO(createTime));
         }
         setArticle(newArticle);
-        if (newArticle.articleId) {
-          setLinkToDetail(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, newArticle.articleId));
+        let linkToArticle;
+        if (newArticle.title) {
+          const articleTitleNoMark = getTitleNoMark(newArticle.title);
+          linkToArticle = StringFormat(PathConstant.FM_ARTICLE_DETAIL, articleTitleNoMark, newArticle.articleId);
+        } else if (newArticle.articleId) {
+          linkToArticle = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, newArticle.articleId);
         }
+        setLinkToDetail(linkToArticle);
       }
     }
   }, [data]);
 
   let isHeart = Boolean(article.reactCount && article.reactCount > 0);
   return (
-    <Card className={clsx(defaultClasses.root, className)} onClick={onGoToDetail}>
+    <Card className={clsx(defaultClasses.root, classes && classes.root)}>
       <CardHeader
         classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
-          <Avatar aria-label="recipe" src={getImageById(creator.imageId)} className={defaultClasses.headerAvatar}>
-            {(creator.name || AppConstant.APP_NAME).charAt(0)}
-          </Avatar>
+          <AppLink className="no-style-link">
+            <Avatar aria-label="recipe" src={getImageById(creator.imageId)} className={defaultClasses.headerAvatar}>
+              {(creator.name || AppConstant.APP_NAME).charAt(0)}
+            </Avatar>
+          </AppLink>
         }
         action={
           <>
@@ -100,9 +108,11 @@ const ArticleSummary = ({ data, isHiddenAction, className }) => {
           </>
         }
         title={
-          <Typography variant="subtitle2" component="p">
-            {creator.name}
-          </Typography>
+          <AppLink className="no-style-link">
+            <Typography variant="subtitle2" component="p">
+              {creator.name}
+            </Typography>
+          </AppLink>
         }
         subheader={
           <Typography variant="caption" color="textSecondary" component="p">
@@ -112,45 +122,47 @@ const ArticleSummary = ({ data, isHiddenAction, className }) => {
       />
 
       <CardContent className={defaultClasses.main}>
-        <Grid container>
-          <Grid item xs={8} md={9}>
-            <Typography variant="subtitle1" component="p">
-              {article.title}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
-              {article.intro}
-            </Typography>
-            {article.hashtags && (
-              <Box>
-                {article.hashtags.map(hashtag => (
-                  <Hashtag content={hashtag.tagName} key={uuid()} />
-                ))}
-              </Box>
-            )}
-            {article.categories && (
-              <Box ml="-6px">
-                {article.categories.map(category => (
-                  <CategoryTag content={category.title} key={uuid()} />
-                ))}
-              </Box>
-            )}
-          </Grid>
-          <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-            <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
-          </Grid>
+        <AppLink className="no-style-link" to={linkToDetail}>
+          <Grid container>
+            <Grid item xs={8} md={9}>
+              <Typography variant="subtitle1" component="p">
+                {article.title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
+                {article.intro}
+              </Typography>
+              {article.hashtags && (
+                <Box>
+                  {article.hashtags.map(hashtag => (
+                    <Hashtag content={hashtag.tagName} key={uuid()} />
+                  ))}
+                </Box>
+              )}
+              {article.categories && (
+                <Box ml="-6px">
+                  {article.categories.map(category => (
+                    <CategoryTag content={category.title} key={uuid()} />
+                  ))}
+                </Box>
+              )}
+            </Grid>
+            <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
+              <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
+            </Grid>
 
-          <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
-            <HeartIcon isActive={isHeart} width={12} height={12} />
-            <Typography variant="body2" color="textSecondary" component="p">
-              {article.reactCount}
-            </Typography>
+            <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
+              <HeartIcon isActive={isHeart} width={12} height={12} />
+              <Typography variant="body2" color="textSecondary" component="p">
+                {article.reactCount}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} md={3}>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={4} md={3}>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
-            </Typography>
-          </Grid>
-        </Grid>
+        </AppLink>
       </CardContent>
 
       {!isHiddenAction && <Divider />}
@@ -174,9 +186,9 @@ const ArticleSummary = ({ data, isHiddenAction, className }) => {
 ArticleSummary.propTypes = {
   data: PropTypes.object,
   isHiddenAction: PropTypes.bool,
-  className: PropTypes.string,
+  classes: PropTypes.object,
 };
-ArticleSummary.defaultProps = { isHiddenAction: false };
+ArticleSummary.defaultProps = { isHiddenAction: false, classes: {} };
 
 export default memo(ArticleSummary);
 

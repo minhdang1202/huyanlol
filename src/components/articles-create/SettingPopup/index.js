@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import Dialog, { PADDING_X_DIALOG } from "components/DialogLayout";
 import DialogTitle from "components/DialogLayout/DialogTitle";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import PreviewArticle from "./PreviewArticle";
 import SettingDialogActions from "./SettingDialogActions";
 import SettingOptions from "./SettingOptions";
 import SettingThumbnails from "./SettingThumbnails";
-import { getTitleByIdFromArray } from "utils";
 
 const SettingPopup = ({
   onClose,
@@ -19,22 +18,21 @@ const SettingPopup = ({
   content,
   bookName,
   categoryId,
-  categoryList,
+  categoriesList,
   onChangeCategoryId,
-  tagsSuggestion,
   tagsList,
   onChangeTagsList,
-  booksSuggestion,
   booksList,
   onChangeBooksList,
-  defaultCover,
   isDisabled,
-  currentCover,
-  currentThumbnail,
-  coverList,
+  coverId,
+  thumbnailId,
   thumbnailList,
-  onChangeCurrentCover,
-  onChangeCurrentThumbnail,
+  onChangeCoverId,
+  onChangeThumbnailId,
+  onChangeThumbnailList,
+  onClickPostArticle,
+  onClickSaveDraft,
   ...otherProps
 }) => {
   const classes = useStyles();
@@ -53,22 +51,21 @@ const SettingPopup = ({
           <Grid item xs={12} lg={6}>
             <SettingOptions
               categoryId={categoryId}
-              categoryList={categoryList}
+              categoriesList={categoriesList}
               onChangeCategoryId={onChangeCategoryId}
-              booksSuggestion={booksSuggestion}
               booksList={booksList}
               onChangeBooksList={onChangeBooksList}
-              isReviewType={isReviewType}
-              tagsSuggestion={tagsSuggestion}
               tagsList={tagsList}
+              isReviewType={isReviewType}
               onChangeTagsList={onChangeTagsList}
             />
           </Grid>
           <Grid item xs={12} lg={6}>
             <SettingThumbnails
-              currentThumbnail={type == 0 ? currentThumbnail : currentCover}
-              thumbnailList={type == 0 ? thumbnailList : coverList}
-              onChangeCurrentThumbnail={type == 0 ? onChangeCurrentThumbnail : onChangeCurrentCover}
+              thumbnailId={type == AppConstant.THUMBNAIL_TYPE ? thumbnailId : coverId}
+              thumbnailList={thumbnailList}
+              onChangeThumbnailId={type == AppConstant.THUMBNAIL_TYPE ? onChangeThumbnailId : onChangeCoverId}
+              onChangeThumbnailList={onChangeThumbnailList}
             />
             <PreviewArticle
               type={type}
@@ -78,16 +75,28 @@ const SettingPopup = ({
               isReviewType={isReviewType}
               bookName={bookName}
               tagsList={tagsList}
-              currentThumbnail={type == 0 ? currentThumbnail : currentCover}
+              thumbnailId={type == AppConstant.THUMBNAIL_TYPE ? thumbnailId : coverId}
               onChangeType={onChangeType}
-              categoryTitle={!isReviewType ? getTitleByIdFromArray(categoryId, categoryList) : null}
+              categoryTitle={!isReviewType ? getTitleByIdFromArray(categoryId, categoriesList) : null}
             />
           </Grid>
         </Grid>
       </DialogContent>
-      <SettingDialogActions isDisabled={isDisabled} onClose={onClose} />
+      <SettingDialogActions
+        isDisabled={isDisabled}
+        onClose={onClose}
+        onClickPostArticle={onClickPostArticle}
+        onClickSaveDraft={onClickSaveDraft}
+      />
     </Dialog>
   );
+};
+
+const getTitleByIdFromArray = (id, array) => {
+  if (array.length) {
+    const result = array.filter(obj => obj.categoryId === id);
+    if (result.length) return result[0].title;
+  }
 };
 
 SettingPopup.propTypes = {
@@ -98,22 +107,21 @@ SettingPopup.propTypes = {
   content: PropTypes.string,
   bookName: PropTypes.string,
   categoryId: PropTypes.number,
-  categoryList: PropTypes.array,
-  tagsSuggestion: PropTypes.array,
+  categoriesList: PropTypes.array,
   tagsList: PropTypes.array,
   onChangeCategoryId: PropTypes.func,
   onChangeTagsList: PropTypes.func,
-  booksSuggestion: PropTypes.array,
   booksList: PropTypes.array,
   onChangeBooksList: PropTypes.func,
-  defaultCover: PropTypes.string,
   isDisabled: PropTypes.bool,
-  currentCover: PropTypes.object,
-  currentThumbnail: PropTypes.object,
-  coverList: PropTypes.array,
+  coverId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  thumbnailId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   thumbnailList: PropTypes.array,
-  onChangeCurrentCover: PropTypes.func,
-  onChangeCurrentThumbnail: PropTypes.func,
+  onChangeCoverId: PropTypes.func,
+  onChangeThumbnailId: PropTypes.func,
+  onChangeThumbnailList: PropTypes.func,
+  onClickPostArticle: PropTypes.func,
+  onClickSaveDraft: PropTypes.func,
 };
 
 export default SettingPopup;

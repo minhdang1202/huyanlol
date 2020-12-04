@@ -2,12 +2,22 @@ import { createReducer, createActions } from "reduxsauce";
 
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
+  requestHashTagsList: ["data"],
+  requestCategoriesList: ["data"],
+  requestPostArticle: ["data"],
+  requestPatchArticle: ["data"],
+
+  editArticle: ["data"],
+  postArticleSuccess: null,
+  saveArticleSuccess: null,
   createList: null,
-  createListSuccess: null,
   createBreakLine: null,
-  createBreakLineSuccess: null,
-  startReviewBook: ["editionId", "bookName", "rate"],
-  startReviewBookSuccess: null,
+  insertImage: null,
+  startReviewBook: ["data"],
+  finishReviewBook: null,
+
+  articleCreateSuccess: ["data"],
+  articleCreateFailure: ["data"],
 });
 
 export const ArticleCreateTypes = Types;
@@ -16,55 +26,105 @@ export default Creators;
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = {
   error: null,
-  hasCreateList: false,
-  hasCreateBreakLine: false,
+  isSaveSuccess: false,
+  isSaveFailure: false,
+  isPostSuccess: false,
+  isPostFailure: false,
+  isFetching: false,
   isReviewType: false,
-  reviewInfo: null,
+  hashTagsList: {},
+  categoriesList: [],
+  reviewInfo: {},
+  article: {},
+
+  screen_hasCreateList: false,
+  screen_hasCreateBreakLine: false,
+  screen_hasInsertImage: false,
 };
 
 /* ------------- Reducers ------------- */
-const createList = (state = INITIAL_STATE) => ({
+export const request = (state = INITIAL_STATE) => ({
   ...state,
-  hasCreateList: true,
+  error: null,
+  isFetching: true,
 });
 
-const createListSuccess = (state = INITIAL_STATE) => ({
+export const editArticle = (state = INITIAL_STATE, action) => ({
   ...state,
-  hasCreateList: false,
+  article: action.data,
 });
 
-const createBreakLine = (state = INITIAL_STATE) => ({
+export const saveArticleSuccess = (state = INITIAL_STATE) => ({
   ...state,
-  hasCreateBreakLine: true,
+  isSaveSuccess: false,
+  isSaveFailure: false,
+  isPostSuccess: false,
+  isPostFailure: false,
 });
 
-const createBreakLineSuccess = (state = INITIAL_STATE) => ({
+export const postArticleSuccess = (state = INITIAL_STATE) => ({
   ...state,
-  hasCreateBreakLine: false,
+  article: {},
 });
 
-const startReviewBook = (state = INITIAL_STATE, action) => ({
+export const createList = (state = INITIAL_STATE) => ({
+  ...state,
+  screen_hasCreateList: true,
+});
+
+export const createBreakLine = (state = INITIAL_STATE) => ({
+  ...state,
+  screen_hasCreateBreakLine: true,
+});
+
+export const insertImage = (state = INITIAL_STATE) => ({
+  ...state,
+  screen_hasInsertImage: true,
+});
+
+export const startReviewBook = (state = INITIAL_STATE, action) => ({
   ...state,
   isReviewType: true,
-  reviewInfo: { ...action },
+  reviewInfo: { ...action.data },
 });
 
-const startReviewBookSuccess = (state = INITIAL_STATE) => ({
+export const finishReviewBook = (state = INITIAL_STATE) => ({
   ...state,
   isReviewType: false,
-  reviewInfo: null,
+  reviewInfo: {},
 });
+
+export const finish = (state = INITIAL_STATE, action) => {
+  let data = action.data ? action.data : {};
+  return {
+    ...state,
+    isFetching: false,
+    screen_hasCreateList: false,
+    screen_hasCreateBreakLine: false,
+    screen_hasInsertImage: false,
+    error: null,
+    ...data,
+  };
+};
 
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
+  [Types.REQUEST_HASH_TAGS_LIST]: request,
+  [Types.REQUEST_CATEGORIES_LIST]: request,
+  [Types.REQUEST_POST_ARTICLE]: request,
+  [Types.REQUEST_PATCH_ARTICLE]: request,
+
+  [Types.EDIT_ARTICLE]: editArticle,
+  [Types.SAVE_ARTICLE_SUCCESS]: saveArticleSuccess,
+  [Types.POST_ARTICLE_SUCCESS]: postArticleSuccess,
   [Types.CREATE_LIST]: createList,
-  [Types.CREATE_LIST_SUCCESS]: createListSuccess,
-
   [Types.CREATE_BREAK_LINE]: createBreakLine,
-  [Types.CREATE_BREAK_LINE_SUCCESS]: createBreakLineSuccess,
-
+  [Types.INSERT_IMAGE]: insertImage,
   [Types.START_REVIEW_BOOK]: startReviewBook,
-  [Types.START_REVIEW_BOOK_SUCCESS]: startReviewBookSuccess,
+  [Types.FINISH_REVIEW_BOOK]: finishReviewBook,
+
+  [Types.ARTICLE_CREATE_SUCCESS]: finish,
+  [Types.ARTICLE_CREATE_FAILURE]: finish,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

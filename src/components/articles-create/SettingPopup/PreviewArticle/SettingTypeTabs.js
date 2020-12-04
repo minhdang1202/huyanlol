@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import { withStyles, makeStyles, Tabs, Tab as MuiTab, Divider } from "@material-ui/core";
 
 const SettingTypeTabs = props => {
@@ -8,9 +8,9 @@ const SettingTypeTabs = props => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <Tabs className={classes.root} classes={{ indicator: classes.indicator }} {...props}>
-      <Tab disableRipple label={getLabel("TXT_TYPE_1")} />
+      <Tab disableRipple label={getLabel("TXT_TYPE_THUMBNAIL")} value={AppConstant.THUMBNAIL_TYPE} />
       <Tab label="" icon={<Divider orientation="vertical" flexItem className={classes.divider} />} disabled />
-      <Tab disableRipple label={getLabel("TXT_TYPE_2")} />
+      <Tab disableRipple label={getLabel("TXT_TYPE_COVER")} value={AppConstant.COVER_TYPE} />
     </Tabs>
   );
 };

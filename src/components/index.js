@@ -25,6 +25,8 @@ import TextField from "./TextField";
 import Autocomplete from "./Autocomplete";
 import Chip from "./Chip";
 import SliderButton from "./SliderButton";
+import AuthDialog from "./AuthDialog";
+import Snackbar from "./Snackbar";
 
 export {
   AppHead,
@@ -54,4 +56,6 @@ export {
   Autocomplete,
   Chip,
   SliderButton,
+  AuthDialog,
+  Snackbar,
 };
