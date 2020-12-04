@@ -1,18 +1,18 @@
 import { ApiConstant, AppConstant } from "const";
-import { createApi } from "api";
+import { createApi, defaultConfigV2 } from "api";
 
 export const getListArticles = data => {
   let params = getQueryPrams(data);
   return createApi().get(ApiConstant.GET_ARTICLES, params);
 };
 
+export const getArticleDetail = (articleId, token) => {
+  return createApi(defaultConfigV2, token).get(ApiConstant.GET_ARTICLE_DETAIL(articleId));
+};
+
 export const getChallengeListArticles = challengeId => {
   let params = getQueryPrams();
   return createApi().get(ApiConstant.GET_CHALLENGE_ARTICLES(challengeId), params);
-};
-
-export const getArticleDetail = articleId => {
-  return createApi().get(ApiConstant.GET_ARTICLE_DETAIL(articleId));
 };
 
 export const getArticleGivers = (articleId, params) => {

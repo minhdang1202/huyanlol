@@ -3,11 +3,12 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
-import { Box, Typography, Button, makeStyles } from "@material-ui/core";
+import { Box, Typography, makeStyles } from "@material-ui/core";
 import { SliderButton } from "components";
 import ThumbnailSlider from "./ThumbnailSlider";
+import UploadButton from "./UploadButton";
 
-const SettingThumbnails = ({ currentThumbnail, thumbnailList, onChangeCurrentThumbnail }) => {
+const SettingThumbnails = ({ thumbnailId, thumbnailList, onChangeThumbnailId, onChangeThumbnailList }) => {
   const settings = {
     dots: false,
     infinite: false,
@@ -21,10 +22,9 @@ const SettingThumbnails = ({ currentThumbnail, thumbnailList, onChangeCurrentThu
     },
   };
   const classes = useStyles();
-  const fileUploadRef = useRef();
   const sliderRef = useRef();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
-  const totalSlides = thumbnailList.length - 1;
+  const totalSlides = thumbnailList.length ? thumbnailList.length : 0;
   const [slideIndex, setSlideIndex] = useState(0);
 
   const onPrevSlide = () => {
@@ -45,54 +45,38 @@ const SettingThumbnails = ({ currentThumbnail, thumbnailList, onChangeCurrentThu
         <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_THUMBNAIL")}</Typography>
         <Box display="flex">
           <SliderButton disabled={slideIndex === 0} className="mr-12" onClick={onPrevSlide} />
-          <SliderButton disabled={slideIndex === totalSlides} isNext onClick={onNextSlide} />
+          <SliderButton disabled={slideIndex === totalSlides || totalSlides <= 1} isNext onClick={onNextSlide} />
         </Box>
       </Box>
       <Box display="flex" flexGrow={1} overflow="hidden">
-        <Button
-          className={classes.button}
-          classes={{ label: classes.labelButton }}
-          onClick={() => fileUploadRef.current.click()}
-        >
-          <Box className="ic-plus" fontSize={24} mb="2px" />
-          <Typography variant="subtitle2">{getLabel("TXT_ADD")}</Typography>
-          <input type="file" ref={fileUploadRef} hidden />
-        </Button>
-        <ThumbnailSlider
-          ref={sliderRef}
-          thumbnailList={thumbnailList}
-          currentThumbnail={currentThumbnail}
-          onChangeCurrentThumbnail={onChangeCurrentThumbnail}
-          onGoToSlide={onGoToSlide}
-          settings={settings}
-        />
+        <UploadButton onChangeThumbnailId={onChangeThumbnailId} onChangeThumbnailList={onChangeThumbnailList} />
+        {totalSlides && (
+          <ThumbnailSlider
+            ref={sliderRef}
+            thumbnailList={thumbnailList}
+            thumbnailId={thumbnailId}
+            onChangeThumbnailId={onChangeThumbnailId}
+            onGoToSlide={onGoToSlide}
+            settings={settings}
+          />
+        )}
       </Box>
     </>
   );
 };
 
 SettingThumbnails.propTypes = {
-  currentThumbnail: PropTypes.object,
+  thumbnailId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   thumbnailList: PropTypes.array,
-  onChangeCurrentThumbnail: PropTypes.func,
+  onChangeThumbnailId: PropTypes.func,
+  onChangeThumbnailList: PropTypes.func,
 };
 
 export default SettingThumbnails;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   titleWrapper: {
     position: "relative",
     zIndex: 2,
-  },
-  button: {
-    minWidth: 74,
-    width: 74,
-    height: 74,
-    border: `1px dashed ${theme.palette.primary.main}`,
-    marginRight: theme.spacing(1.25),
-  },
-  labelButton: {
-    flexFlow: "column",
-    color: theme.palette.primary.main,
   },
 }));

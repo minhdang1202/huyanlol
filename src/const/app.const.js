@@ -5,6 +5,8 @@ export const APP_NAME = "GAT";
 
 export const EXPIRES_TOKEN = 1;
 
+export const BOOK_SUGGESTION = 10;
+
 //Sort
 export const SORT_ORDER = {
   asc: "ASC",
@@ -16,6 +18,8 @@ export const DATA_SIZES = {
   books: 9,
   articles: 10,
   challenges: 6,
+  hashTags: 10,
+  categories: 10,
 };
 
 // Base url
@@ -34,8 +38,15 @@ export const APP_FACEBOOK = "1937935059771206";
 export const FM_DD_MM_YYYY = "dd/MM/yyyy";
 export const FM_DD_MM = "dd/MM";
 
+// Article categories id
 export const CATEGORY_REVIEW = 0;
 
+// Article state
+export const DRAFT = 0;
+export const NOT_PUBLISHED = 1;
+export const PUBLISHED = 2;
+
+export const SNACKBAR_DURATION = 3000;
 //challenge
 export const CHALLENGE_TARGET_TYPE = {
   readBook: 1,
@@ -76,3 +87,14 @@ export const CHALLENGE_LIST_TYPE = {
   notJoined: 1,
   joined: 2,
 };
+export const DRAFT_TYPE = {
+  divider: "DIVIDER",
+  image: "IMAGE",
+  link: "LINK",
+  unstyled: "unstyled",
+  atomic: "atomic",
+  unorderedList: "unordered-list-item",
+};
+
+export const THUMBNAIL_TYPE = 0;
+export const COVER_TYPE = 1;

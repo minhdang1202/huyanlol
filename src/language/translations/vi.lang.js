@@ -213,12 +213,15 @@ export default {
     TXT_BACK_TO_ARTICLE: "Quay lại bài viết",
     TXT_PREVIEW: "Xem trước",
     TXT_ADD: "Thêm",
-    TXT_TYPE_1: "Kiểu 1",
-    TXT_TYPE_2: "Kiểu 2",
+    TXT_TYPE_THUMBNAIL: "Kiểu 1",
+    TXT_TYPE_COVER: "Kiểu 2",
     TXT_SAVE_DRAFT: "Lưu nháp",
     TXT_POST_ARTICLE: "Đăng bài",
     TXT_REVIEW_TYPE_CATEGORY: "Đánh giá sách",
     TXT_NO_BOOK: "Sách hiện chưa có trong thư viện",
+    TXT_FINDING_BOOK: "Đang tìm sách...",
+    TXT_TYPE_BOOK_TITLE: "Nhập tên sách để tìm kiếm",
+    TXT_FINDING_HASHTAGS: "Đang tìm hashtag...",
 
     P_CREATE_TITLE: "Nhập tiêu đề",
     P_CREATE_REVIEW_CONTENT: "Bạn đang nghĩ gì?",
@@ -235,6 +238,12 @@ export default {
     FM_CHARACTERS: "{0} ký tự",
     FM_WORDS: "{0} từ",
     FM_ADD_NEW_HASHTAG: "Thêm tag {0}",
+
+    ERR_SAVE_ARTICLE: "Có lỗi xảy ra, bài viết chưa được lưu vào nháp",
+    ERR_POST_ARTICLE: "Có lỗi xảy ra, bài viết chưa được đăng",
+
+    MSG_POST_ARTICLE_SUCCESS: "Bài viết đã được đăng",
+    MSG_SAVE_ARTICLE_SUCCESS: "Bài viết đã lưu vào nháp",
   },
   challengeList: {
     L_CHALLENGE: "Thử thách",

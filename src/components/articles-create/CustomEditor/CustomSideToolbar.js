@@ -1,87 +1,72 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Box, makeStyles } from "@material-ui/core";
-import { SideToolbar } from "./index";
-import { getContentSelection } from "utils/editor";
-import { ImageButton, ListButton, BreakButton } from "./SidebarMenu";
+import React, { useState } from "react";
+import clsx from "clsx";
+import { Box, Popper, IconButton, makeStyles } from "@material-ui/core";
+import SidebarMenu from "./SidebarMenu";
 
-const CustomSideToolbar = ({ editorState, onCreateBreakLine, onCreateList }) => {
-  const classes = useStyles({ hasHidden: getContentSelection(editorState) });
+const CustomSideToolbar = props => {
+  const classes = useStyles();
+  const [anchorSidebar, setAnchorSidebar] = useState(null);
+  const isOpenSidebar = Boolean(anchorSidebar);
+
+  const onOpenSidebar = e => {
+    setAnchorSidebar(e.currentTarget);
+  };
+
+  const onCloseSidebar = () => {
+    setAnchorSidebar(null);
+  };
 
   return (
-    <Box className={classes.root}>
-      <SideToolbar>
-        {() => (
-          <>
-            <ImageButton />
-            <ListButton onClick={() => onCreateList()} />
-            <BreakButton onClick={() => onCreateBreakLine()} />
-          </>
-        )}
-      </SideToolbar>
-    </Box>
+    <>
+      <Popper placement="left-start" className={classes.root} {...props}>
+        <IconButton className={clsx(classes.sideButton, isOpenSidebar && classes.open)} onClick={onOpenSidebar}>
+          <Box className="ic-plus" fontSize={18} />
+        </IconButton>
+      </Popper>
+      <SidebarMenu
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        open={isOpenSidebar}
+        anchorEl={anchorSidebar}
+        onClose={onCloseSidebar}
+        className={classes.sidebar}
+      />
+    </>
   );
-};
-
-CustomSideToolbar.propTypes = {
-  onCreateBreakLine: PropTypes.func,
-  onCreateList: PropTypes.func,
-  editorState: PropTypes.object,
 };
 
 export default CustomSideToolbar;
 
 const WIDTH_SIDEBAR_BUTTON = "40px";
-const WIDTH_SIDEBAR = "308px";
+const HEIGHT_SIDEBAR = "124px";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: ({ hasHidden }) => (hasHidden ? "none" : "block"),
-    "& [class^='draftJsToolbar__wrapper']": {
-      zIndex: 20,
-      marginLeft: theme.spacing(2),
-      "&:hover": {
-        "& [class^='draftJsToolbar__blockType']": {
-          transform: "rotate(-45deg)",
-        },
-      },
+    width: "fit-content",
+    height: "fit-content",
+    left: `${theme.spacing(-3)}px !important`,
+    top: `${theme.spacing(-1)}px !important`,
+  },
+  sideButton: {
+    width: WIDTH_SIDEBAR_BUTTON,
+    height: WIDTH_SIDEBAR_BUTTON,
+    background: theme.palette.white,
+    border: `1px solid ${theme.palette.grey[300]}`,
+    color: theme.palette.grey[300],
+  },
+  sidebar: {
+    "& .MuiPaper-root": {
+      marginLeft: `calc(${WIDTH_SIDEBAR_BUTTON} + ${theme.spacing(4)}px)`,
+      marginTop: `calc((${WIDTH_SIDEBAR_BUTTON} + ${HEIGHT_SIDEBAR}) / -4 + ${theme.spacing(0.5)}px)`,
     },
-    "& [class^='draftJsToolbar__popup']": {
-      borderRadius: 6,
-      border: `1px solid ${theme.palette.grey[500]}`,
-      "&:before": {
-        display: "none",
-      },
-      "&:after": {
-        display: "none",
-      },
-      height: 124,
-      width: "fit-content",
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0, 2),
-      top: `calc(${WIDTH_SIDEBAR} * -0.15)`,
-      left: `calc(${WIDTH_SIDEBAR_BUTTON} + ${WIDTH_SIDEBAR} / 2 + 5px)`,
-    },
-    "& [class^='draftJsToolbar__blockType']": {
-      border: `1px solid ${theme.palette.grey[300]}`,
-      width: WIDTH_SIDEBAR_BUTTON,
-      height: WIDTH_SIDEBAR_BUTTON,
-      borderRadius: "50%",
-      "&:before": {
-        content: '"+"',
-        fontSize: 25,
-        fontWeight: 500,
-        position: "absolute",
-        top: -1,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        color: theme.palette.grey[300],
-      },
-      "& svg": {
-        display: "none",
-      },
-    },
+  },
+  open: {
+    transform: "rotate(45deg)",
   },
 }));
