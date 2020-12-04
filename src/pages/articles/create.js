@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import StringFormat from "string-format";
 import { debounce } from "debounce";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles, Container, Divider, Typography, Box, Hidden } from "@material-ui/core";
@@ -11,7 +10,7 @@ import MainLayout from "layouts/MainLayout";
 import { CustomRating, DialogAppDownload, AuthDialog, Snackbar, Processing } from "components";
 import { CreateToolbar, CustomEditor, SettingPopup, TitleInput } from "components/articles-create";
 import ArticleCreateActions from "redux/articleCreate.redux";
-import { getRandomDefaultArticleCoverId } from "utils";
+import { getRandomDefaultArticleCoverId, getRedirectPath } from "utils";
 
 const ArticleCreate = () => {
   const MAX_LENGTH_TITLE = 250;
@@ -21,8 +20,7 @@ const ArticleCreate = () => {
   const reviewCategoryList = [{ title: getLabel("TXT_REVIEW_TYPE_CATEGORY"), categoryId: AppConstant.CATEGORY_REVIEW }];
 
   const dispatch = useDispatch();
-  const [
-    isAuth,
+  const {
     isReviewType,
     reviewInfo,
     categoriesList,
@@ -32,18 +30,8 @@ const ArticleCreate = () => {
     isPostSuccess,
     isPostFailure,
     isFetching,
-  ] = useSelector(({ authRedux, articleCreateRedux }) => [
-    authRedux.isAuth,
-    articleCreateRedux.isReviewType,
-    articleCreateRedux.reviewInfo,
-    articleCreateRedux.categoriesList,
-    articleCreateRedux.article,
-    articleCreateRedux.isSaveSuccess,
-    articleCreateRedux.isSaveFailure,
-    articleCreateRedux.isPostSuccess,
-    articleCreateRedux.isPostFailure,
-    articleCreateRedux.isFetching,
-  ]);
+  } = useSelector(({ articleCreateRedux }) => articleCreateRedux);
+  const { isAuth } = useSelector(({ authRedux }) => authRedux);
 
   const articleId = article.articleId;
 
@@ -132,7 +120,7 @@ const ArticleCreate = () => {
 
   const onCloseDownload = () => {
     if (isReviewType) {
-      router.push(StringFormat(PathConstant.FM_BOOK_DETAIL_ID, reviewInfo.editionId));
+      router.push(getRedirectPath(PathConstant.FM_BOOK_DETAIL, reviewInfo.editionId, reviewInfo.title));
     } else {
       router.push(PathConstant.ROOT);
     }
@@ -191,6 +179,7 @@ const ArticleCreate = () => {
   useEffect(() => {
     return () => {
       if (isReviewType) dispatch(ArticleCreateActions.finishReviewBook());
+      dispatch(ArticleCreateActions.postArticleSuccess());
     };
   }, []);
 
@@ -228,32 +217,32 @@ const ArticleCreate = () => {
       }
       if (hasSnackbar) {
         onHiddenSnackbar();
-        if (isPostSuccess) {
-          dispatch(ArticleCreateActions.saveArticleSuccess());
-          dispatch(ArticleCreateActions.postArticleSuccess());
-          dispatch(ArticleCreateActions.finishReviewBook());
-          setMessage(getLabel("MSG_POST_ARTICLE_SUCCESS"));
+        const newDefaultThumbnailId = getRandomDefaultArticleCoverId();
+        switch (true) {
+          case isPostSuccess:
+            dispatch(ArticleCreateActions.saveArticleSuccess());
+            dispatch(ArticleCreateActions.postArticleSuccess());
+            dispatch(ArticleCreateActions.finishReviewBook());
+            setMessage(getLabel("MSG_POST_ARTICLE_SUCCESS"));
 
-          const newDefaultThumbnailId = getRandomDefaultArticleCoverId();
-          setThumbnailId(newDefaultThumbnailId);
-          setCoverId(newDefaultThumbnailId);
-          setBooksList([]);
-          setThumbnailList([newDefaultThumbnailId]);
-          setTagsList([]);
-          setCategoryId();
-          setHasArticleId(false);
-          setIsOpenSetting(false);
-          setTitle("");
-          return;
-        } else if (isPostFailure) {
-          setMessage(getLabel("ERR_POST_ARTICLE"));
-          return;
-        } else if (isSaveFailure) {
-          setMessage(getLabel("ERR_SAVE_ARTICLE"));
-          return;
-        } else if (isSaveSuccess) {
-          setMessage(getLabel("MSG_SAVE_ARTICLE_SUCCESS"));
-          return;
+            setThumbnailId(newDefaultThumbnailId);
+            setCoverId(newDefaultThumbnailId);
+            setBooksList([]);
+            setThumbnailList([newDefaultThumbnailId]);
+            setTagsList([]);
+            setCategoryId();
+            setHasArticleId(false);
+            setIsOpenSetting(false);
+            setTitle("");
+            break;
+          case isPostFailure:
+            setMessage(getLabel("ERR_POST_ARTICLE"));
+            break;
+          case isSaveSuccess:
+            setMessage(getLabel("MSG_SAVE_ARTICLE_SUCCESS"));
+            break;
+          case isSaveFailure:
+            setMessage(getLabel("ERR_SAVE_ARTICLE"));
         }
       }
     }

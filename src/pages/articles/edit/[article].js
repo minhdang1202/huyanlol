@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import StringFormat from "string-format";
 import { debounce } from "debounce";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles, Container, Divider, Typography, Box, Hidden } from "@material-ui/core";
@@ -13,7 +12,7 @@ import { CustomRating, DialogAppDownload, Snackbar, Processing } from "component
 import { CreateToolbar, CustomEditor, SettingPopup, TitleInput } from "components/articles-create";
 import ArticleCreateActions from "redux/articleCreate.redux";
 import { ArticleService } from "services";
-import { getNumberIdFromCreateQuery, getTitleNoMark } from "utils";
+import { getNumberIdFromCreateQuery, getRedirectPath } from "utils";
 
 const ArticleEdit = ({ article }) => {
   const MAX_LENGTH_TITLE = 250;
@@ -23,21 +22,9 @@ const ArticleEdit = ({ article }) => {
   const reviewCategoryList = [{ title: getLabel("TXT_REVIEW_TYPE_CATEGORY"), categoryId: AppConstant.CATEGORY_REVIEW }];
 
   const dispatch = useDispatch();
-  const [
-    categoriesList,
-    isFetching,
-    isSaveSuccess,
-    isSaveFailure,
-    isPostSuccess,
-    isPostFailure,
-  ] = useSelector(({ articleCreateRedux }) => [
-    articleCreateRedux.categoriesList,
-    articleCreateRedux.isFetching,
-    articleCreateRedux.isSaveSuccess,
-    articleCreateRedux.isSaveFailure,
-    articleCreateRedux.isPostSuccess,
-    articleCreateRedux.isPostFailure,
-  ]);
+  const { categoriesList, isFetching, isSaveSuccess, isSaveFailure, isPostSuccess, isPostFailure } = useSelector(
+    ({ articleCreateRedux }) => articleCreateRedux,
+  );
 
   const articleId = article.articleId;
   const [title, setTitle] = useState(article.title || "");
@@ -124,7 +111,7 @@ const ArticleEdit = ({ article }) => {
 
   const onCloseDownload = () => {
     if (isReviewType) {
-      router.push(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId));
+      router.back();
     } else {
       router.push(PathConstant.ROOT);
     }
@@ -198,21 +185,21 @@ const ArticleEdit = ({ article }) => {
     if (isPostSuccess || isPostFailure || isSaveFailure || isSaveSuccess) {
       if (hasSnackbar) {
         setMessage("");
-        onHiddenSnackbar();
-        if (isPostSuccess) {
-          dispatch(ArticleCreateActions.saveArticleSuccess());
-          dispatch(ArticleCreateActions.postArticleSuccess());
-          router.push(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId));
-          return;
-        } else if (isPostFailure) {
-          setMessage(getLabel("ERR_POST_ARTICLE"));
-          return;
-        } else if (isSaveFailure) {
-          setMessage(getLabel("ERR_SAVE_ARTICLE"));
-          return;
-        } else if (isSaveSuccess) {
-          setMessage(getLabel("MSG_SAVE_ARTICLE_SUCCESS"));
-          return;
+        if (!isPostSuccess) onHiddenSnackbar();
+        switch (true) {
+          case isPostSuccess:
+            dispatch(ArticleCreateActions.saveArticleSuccess());
+            dispatch(ArticleCreateActions.postArticleSuccess());
+            router.push(getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title));
+            break;
+          case isPostFailure:
+            setMessage(getLabel("ERR_POST_ARTICLE"));
+            break;
+          case isSaveSuccess:
+            setMessage(getLabel("MSG_SAVE_ARTICLE_SUCCESS"));
+            break;
+          case isSaveFailure:
+            setMessage(getLabel("ERR_SAVE_ARTICLE"));
         }
       }
     }
@@ -294,16 +281,15 @@ export const getServerSideProps = async ({ res, req, query }) => {
       return {
         redirect: {
           permanent: true,
-          destination: StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId),
+          destination: getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title),
         },
       };
 
     if (isOnlyNumber) {
-      const articleTitleNoMark = getTitleNoMark(title);
       return {
         redirect: {
           permanent: true,
-          destination: StringFormat(PathConstant.FM_ARTICLE_EDIT, articleTitleNoMark, articleId),
+          destination: getRedirectPath(PathConstant.FM_ARTICLE_EDIT, articleId, title),
         },
       };
     }

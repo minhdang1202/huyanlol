@@ -1,4 +1,4 @@
-import { AppConstant } from "const";
+import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
 
 export const uuid = () => {
@@ -144,4 +144,9 @@ export const getBase64 = file =>
 
 export const checkIfLastPage = ({ pageSize, pageNo, total }) => {
   return Math.ceil(total / pageSize) === pageNo;
+};
+
+export const getRedirectPath = (path, id, title) => {
+  const articleTitleNoMark = title ? getTitleNoMark(title) : null;
+  return articleTitleNoMark ? StringFormat(path, articleTitleNoMark, id) : StringFormat(path, "_", id);
 };
