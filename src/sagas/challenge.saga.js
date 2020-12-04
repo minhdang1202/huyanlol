@@ -71,7 +71,7 @@ export function* requestGetChallengeList(action) {
   const response = yield call(ChallengeService.getChallengeListAll, action.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
-      let responseData = response.data.data.pageData;
+      let responseData = response.data.data;
       yield put(ChallengeAction.getChallengeListSuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
@@ -86,7 +86,7 @@ export function* requestGetChallengeJoinedList(action) {
   const response = yield call(ChallengeService.getChallengeListAll, action.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
-      let responseData = response.data.data.pageData;
+      let responseData = response.data.data;
       yield put(ChallengeAction.getChallengeListJoinedSuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
@@ -101,7 +101,7 @@ export function* requestGetChallengeRecommendList(action) {
   const response = yield call(ChallengeService.getChallengeListAll, action.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
-      let responseData = response.data.data.pageData;
+      let responseData = response.data.data;
       yield put(ChallengeAction.getChallengeListRecommendSuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());

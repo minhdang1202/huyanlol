@@ -5,7 +5,7 @@ import { Box, makeStyles, Typography, useTheme, useMediaQuery } from "@material-
 import { LangConstant, AppConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ChallengeAction from "redux/challenge.redux";
 const Challenge = () => {
   const classes = useStyles();
@@ -14,6 +14,8 @@ const Challenge = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const SHARE_URL = getLabel("L_CHALLENGE_ADDRESS");
   const appBarProps = { shareUrl: SHARE_URL, className: classes.appBar };
+  const listJoined = useSelector(state => state.challengeRedux.listJoined.pageData);
+  const listRecommend = useSelector(state => state.challengeRedux.listRecommend.pageData);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(ChallengeAction.requestGetChallengeList());
@@ -35,8 +37,8 @@ const Challenge = () => {
             <Typography variant="h5">{getLabel("L_WITH_GAT")}</Typography>
           </Box>
           {!isMobile && <DownloadApp />}
-          <ListJoined />
-          <ListAll />
+          {listJoined && <ListJoined />}
+          {listRecommend && <ListAll />}
         </Box>
       </Box>
     </MainLayout>

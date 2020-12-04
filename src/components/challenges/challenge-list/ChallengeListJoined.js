@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { LangConstant, AppConstant } from "const";
+import { LangConstant, AppConstant, PathConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { Box, makeStyles, Typography, useTheme, useMediaQuery, LinearProgress, withStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
@@ -8,13 +8,13 @@ import StringFormat from "string-format";
 import clsx from "clsx";
 import { daysLeft } from "utils/date";
 import Slider from "react-slick";
-import { SliderButton } from "components";
+import { SliderButton, AppLink } from "components";
 const ChallengeListJoined = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const listJoined = useSelector(state => state.challengeRedux.listJoined);
+  const listJoined = useSelector(state => state.challengeRedux.listJoined.pageData);
   const [slideIndex, setSlideIndex] = useState(0);
   const sliderRef = useRef();
   const sequenceBackground = position => {
@@ -77,32 +77,35 @@ const Item = ({ data, className }) => {
       targetTypeId === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
   );
   const isPersonal = Boolean(challengeModeId === AppConstant.CHALLENGE_MODE.personal);
+  const LINK = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, data.challengeId);
   return (
-    <Box className={clsx(classes.itemCard, className)}>
-      <Typography variant="subtitle1" className="eclipse">
-        {title}
-      </Typography>
-      <Box className={clsx("ic-trophy-alt", classes.icLine)}>
-        <Typography variant="subtitle2" component="span">
-          {isPersonal ? getLabel("L_PERSONAL") : getLabel("L_GROUP")}
-          <Typography variant="body2" component="span">
-            {StringFormat(getLabel(isRead ? "FM_TARGET_READ" : "FM_TARGET_WRITE"), targetNumber)}
+    <AppLink to={LINK}>
+      <Box className={clsx(classes.itemCard, className)}>
+        <Typography variant="subtitle1" className="eclipse">
+          {title}
+        </Typography>
+        <Box className={clsx("ic-trophy-alt", classes.icLine)}>
+          <Typography variant="subtitle2" component="span">
+            {isPersonal ? getLabel("L_PERSONAL") : getLabel("L_GROUP")}
+            <Typography variant="body2" component="span">
+              {StringFormat(getLabel(isRead ? "FM_TARGET_READ" : "FM_TARGET_WRITE"), targetNumber)}
+            </Typography>
           </Typography>
-        </Typography>
+        </Box>
+        <Box className={clsx("ic-bullseye-arrow", classes.icLine2)}>
+          <Typography variant="body2" component="span">
+            {StringFormat(getLabel(isRead ? "FM_PROGRESS_READ" : "FM_PROGRESS_WRITE"), progress)}
+          </Typography>
+        </Box>
+        <Box className={classes.progressText}>
+          <Typography variant="body2">{StringFormat(getLabel("FM_DAYS_LEFT"), daysLeft(endDate))}</Typography>
+          <Typography variant="body2">
+            {StringFormat(getLabel("FM_PROGRESS_PERCENT"), Math.round(userProgress))}
+          </Typography>
+        </Box>
+        <RoundLinearProgress variant="determinate" value={userProgress} className={classes.progressBar} />
       </Box>
-      <Box className={clsx("ic-bullseye-arrow", classes.icLine2)}>
-        <Typography variant="body2" component="span">
-          {StringFormat(getLabel(isRead ? "FM_PROGRESS_READ" : "FM_PROGRESS_WRITE"), progress)}
-        </Typography>
-      </Box>
-      <Box className={classes.progressText}>
-        <Typography variant="body2">{StringFormat(getLabel("FM_DAYS_LEFT"), daysLeft(endDate))}</Typography>
-        <Typography variant="body2">
-          {StringFormat(getLabel("FM_PROGRESS_PERCENT"), Math.round(userProgress))}
-        </Typography>
-      </Box>
-      <RoundLinearProgress variant="determinate" value={userProgress} className={classes.progressBar} />
-    </Box>
+    </AppLink>
   );
 };
 
@@ -131,7 +134,11 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     justifyContent: "flex-start",
     overflowX: "scroll",
-    "& .slick-slide >div>div": {},
+    "& a, a:visited, a:hover, a:active, a:focus": {
+      color: `${theme.palette.text.primary} !important`,
+      textDecoration: "none !important",
+      outline: "none !important",
+    },
   },
   itemCard: {
     minWidth: "324px",

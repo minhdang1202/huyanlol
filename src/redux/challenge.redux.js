@@ -43,9 +43,9 @@ export const INITIAL_STATE = {
   detailListActivity: [],
   detailLeaderBoard: [],
   detailFriendLeaderBoard: [],
-  listAll: [],
-  listJoined: [],
-  listRecommend: [],
+  listAll: {},
+  listJoined: {},
+  listRecommend: {},
 };
 
 /* ------------- Reducers ------------- */
