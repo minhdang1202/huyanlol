@@ -24,7 +24,7 @@ const ChallengeListJoined = () => {
 
   useEffect(() => {
     const load = async () => {
-      if (slideIndex >= AppConstant.DATA_SIZES.challenges - 1 && listJoined.length < total) {
+      if (slideIndex === AppConstant.DATA_SIZES.challenges - 2 && listJoined.length < total) {
         const res = await ChallengeService.getChallengeListAll({
           joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.joined,
           pageSize: total,
@@ -75,7 +75,7 @@ const ChallengeListJoined = () => {
           <SliderButton className={classes.prevBtn} disabled={slideIndex === 0} onClick={() => onClickPrev()} />
           <SliderButton
             className={classes.nextBtn}
-            disabled={slideIndex >= listJoined.length - 1}
+            disabled={slideIndex >= total - 3}
             isNext
             onClick={() => onClickNext()}
           />

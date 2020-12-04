@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Typography, Box, Avatar } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
+import { DownloadButtons } from "components";
 const ChallengeListDownloadApp = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
@@ -16,8 +17,7 @@ const ChallengeListDownloadApp = () => {
         </Box>
       </Box>
       <Box className={classes.right}>
-        <Avatar src="/images/img-app-store.png" variant="square" className={classes.store} />
-        <Avatar src="/images/img-gg-play.png" variant="square" className={classes.store} />
+        <DownloadButtons />
       </Box>
     </Box>
   );
@@ -52,12 +52,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   right: {
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
-    "&>*:first-child": {
-      marginRight: theme.spacing(1),
-    },
+    width: "320px",
+    height: "45px",
   },
   store: {
     width: "121px",

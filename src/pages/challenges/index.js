@@ -102,8 +102,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
-    padding: "0 16px",
-    marginTop: "-350px",
+
+    marginTop: "-360px",
     [theme.breakpoints.down("md")]: {
       marginTop: "-300px",
     },
@@ -118,16 +118,22 @@ const useStyles = makeStyles(theme => ({
       },
       [theme.breakpoints.down("xs")]: {
         width: "100%",
+        padding: "0 16px",
       },
     },
     "&>*:first-child": {
-      marginBottom: "160px",
+      marginBottom: "170px",
       [theme.breakpoints.down("md")]: {
         marginBottom: "100px",
       },
       [theme.breakpoints.down("xs")]: {
         padding: theme.spacing(1),
         marginBottom: theme.spacing(7),
+      },
+    },
+    "&>:nth-child(2)": {
+      [theme.breakpoints.down("xs")]: {
+        paddingRight: 0,
       },
     },
   },
