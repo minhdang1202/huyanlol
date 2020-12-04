@@ -49,15 +49,17 @@ const ChallengeListJoined = () => {
           <Item key={item.challengeId} data={item} className={sequenceBackground(index + 1)} />
         ))}
       </Slider>
-      <Box className={classes.positionButton}>
-        <SliderButton className={classes.prevBtn} disabled={slideIndex === 0} onClick={() => onClickPrev()} />
-        <SliderButton
-          className={classes.nextBtn}
-          disabled={slideIndex === listJoined.length - 1}
-          isNext
-          onClick={() => onClickNext()}
-        />
-      </Box>
+      {!isMobile && (
+        <Box className={classes.positionButton}>
+          <SliderButton className={classes.prevBtn} disabled={slideIndex === 0} onClick={() => onClickPrev()} />
+          <SliderButton
+            className={classes.nextBtn}
+            disabled={slideIndex === listJoined.length - 1}
+            isNext
+            onClick={() => onClickNext()}
+          />
+        </Box>
+      )}
     </Box>
   );
 };
@@ -99,7 +101,7 @@ const Item = ({ data, className }) => {
           {StringFormat(getLabel("FM_PROGRESS_PERCENT"), Math.round(userProgress))}
         </Typography>
       </Box>
-      <RoundLinearProgress variant="determinate" value={50} className={classes.progressBar} />
+      <RoundLinearProgress variant="determinate" value={userProgress} className={classes.progressBar} />
     </Box>
   );
 };
@@ -187,6 +189,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: "71px",
   },
 }));
 export default ChallengeListJoined;

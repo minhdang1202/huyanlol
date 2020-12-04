@@ -15,7 +15,7 @@ export const SORT_ORDER = {
 export const DATA_SIZES = {
   books: 9,
   articles: 10,
-  challenges: 9,
+  challenges: 6,
 };
 
 // Base url

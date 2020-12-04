@@ -36,7 +36,6 @@ const Challenge = () => {
           </Box>
           {!isMobile && <DownloadApp />}
           <ListJoined />
-          <ListRecommend />
           <ListAll />
         </Box>
       </Box>
@@ -94,7 +93,7 @@ const useStyles = makeStyles(theme => ({
       },
       [theme.breakpoints.down("xs")]: {
         padding: theme.spacing(3),
-        marginBottom: theme.spacing(4),
+        marginBottom: theme.spacing(5),
       },
     },
   },
