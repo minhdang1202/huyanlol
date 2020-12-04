@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { debounce } from "debounce";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles, Container, Divider, Typography, Box, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
@@ -12,7 +11,7 @@ import { CustomRating, DialogAppDownload, Snackbar, Processing } from "component
 import { CreateToolbar, CustomEditor, SettingPopup, TitleInput } from "components/articles-create";
 import ArticleCreateActions from "redux/articleCreate.redux";
 import { ArticleService } from "services";
-import { getNumberIdFromCreateQuery, getRedirectPath } from "utils";
+import { getNumberIdFromCreateQuery, getRedirectPath, debounce } from "utils";
 
 const ArticleEdit = ({ article }) => {
   const MAX_LENGTH_TITLE = 250;

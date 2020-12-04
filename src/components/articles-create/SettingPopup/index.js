@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import Dialog, { PADDING_X_DIALOG } from "components/DialogLayout";
 import DialogTitle from "components/DialogLayout/DialogTitle";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import PreviewArticle from "./PreviewArticle";
 import SettingDialogActions from "./SettingDialogActions";
 import SettingOptions from "./SettingOptions";
@@ -62,9 +62,9 @@ const SettingPopup = ({
           </Grid>
           <Grid item xs={12} lg={6}>
             <SettingThumbnails
-              thumbnailId={type == 0 ? thumbnailId : coverId}
+              thumbnailId={type == AppConstant.THUMBNAIL_TYPE ? thumbnailId : coverId}
               thumbnailList={thumbnailList}
-              onChangeThumbnailId={type == 0 ? onChangeThumbnailId : onChangeCoverId}
+              onChangeThumbnailId={type == AppConstant.THUMBNAIL_TYPE ? onChangeThumbnailId : onChangeCoverId}
               onChangeThumbnailList={onChangeThumbnailList}
             />
             <PreviewArticle
@@ -75,7 +75,7 @@ const SettingPopup = ({
               isReviewType={isReviewType}
               bookName={bookName}
               tagsList={tagsList}
-              thumbnailId={type == 0 ? thumbnailId : coverId}
+              thumbnailId={type == AppConstant.THUMBNAIL_TYPE ? thumbnailId : coverId}
               onChangeType={onChangeType}
               categoryTitle={!isReviewType ? getTitleByIdFromArray(categoryId, categoriesList) : null}
             />

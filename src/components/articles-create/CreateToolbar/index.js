@@ -9,8 +9,8 @@ import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import CharCountPopover from "./CharCountPopover";
 import { UndoButton, RedoButton } from "../CustomEditor";
 import SidebarMenu from "../CustomEditor/SidebarMenu";
-import { debounce } from "debounce";
 import ArticleCreateActions from "redux/articleCreate.redux";
+import { debounce } from "utils";
 
 const CreateToolbar = ({ onOpenSetting }) => {
   const classes = useStyles();

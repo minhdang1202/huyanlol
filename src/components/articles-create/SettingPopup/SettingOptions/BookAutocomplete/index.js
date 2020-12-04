@@ -9,7 +9,7 @@ import { makeStyles, InputAdornment } from "@material-ui/core";
 import ChipsList from "../ChipsList";
 import BookItem from "./BookItem";
 import EditionActions from "redux/edition.redux";
-import { debounce } from "debounce";
+import { debounce } from "utils";
 
 const BookAutocomplete = ({ booksList, onChangeBooksList, isReviewType }) => {
   const classes = useStyles();

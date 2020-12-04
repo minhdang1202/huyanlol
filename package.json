@@ -19,7 +19,6 @@
     "clsx": "^1.1.1",
     "cookie-parser": "^1.4.5",
     "date-fns": "^2.15.0",
-    "debounce": "^1.2.0",
     "draft-js": "^0.10.5",
     "draft-js-buttons": "^2.0.2",
     "draft-js-export-html": "^1.4.1",

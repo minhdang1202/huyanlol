@@ -1,6 +1,6 @@
 // Base Api
 export const BASE_API = "https://fordevv2.gatbook.org/api/v1";
-export const BASE_API_V1 = "https://fordev.gatbook.org/rest/api/";
+export const BASE_API_V1 = "https://fordev.gatbook.org/rest/api";
 export const HEADER_DEFAULT = {
   Accept: "application/json",
   "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export const PUT_BOOK_LENDERS = "/book_edition/_find_sharing_users";
 export const GET_BOOK_SUGGESTION = "/suggestion/book_suggestion";
 export const GET_SELF_REVIEW = editionId => `/articles/self/review/${editionId}`;
 export const GET_EDITION_SUGGESTION = "/book_edition/suggestion";
-export const POST_EDITION_RATE = "book/selfupdate_book_evaluation";
+export const POST_EDITION_RATE = "/book/selfupdate_book_evaluation";
 
 // * Article
 export const GET_ARTICLES = "/articles";

@@ -7,8 +7,7 @@ import { Autocomplete, TextField } from "components";
 import { makeStyles, InputAdornment, Paper } from "@material-ui/core";
 import ChipsList from "./ChipsList";
 import ArticleCreateActions from "redux/articleCreate.redux";
-import { debounce } from "debounce";
-import { checkIfLastPage } from "utils";
+import { checkIfLastPage, debounce } from "utils";
 
 const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
   const classes = useStyles();
@@ -16,6 +15,7 @@ const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState("");
   const [suggestion, setSuggestion] = useState([]);
+  const [isFocus, setIsFocus] = useState(false);
 
   const dispatch = useDispatch();
   const onGetHashTagsList = data => {
@@ -67,8 +67,8 @@ const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
   };
 
   useEffect(() => {
-    onFetchData();
-  }, [value]);
+    if (isFocus || isFocus) onFetchData();
+  }, [value, isFocus]);
 
   useEffect(() => {
     if (hashTagsList.pageData && hashTagsList.pageNo > 1) {
@@ -105,6 +105,8 @@ const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
           <TextField
             {...params}
             label={getLabel("L_ARTICLE_TAGS")}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
             InputProps={{
               ...params.InputProps,
               startAdornment: (

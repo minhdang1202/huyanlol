@@ -29,7 +29,6 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const onJoin = async challengeId => {
     const response = await ChallengeService.putJoinChallenge(challengeId);
     if (response) window.location.reload();
-    // dispatch(ChallengeAction.requestJoinChallenge(challengeId));
   };
 
   return (

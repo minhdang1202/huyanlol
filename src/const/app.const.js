@@ -80,3 +80,15 @@ export const CHALLENGE_ACTIVITY_TYPE = {
 export const CHALLENGE_ACTIVITY_SIZE = 3;
 
 export const CHALLENGE_DESCRIPTION_DEFAULT_LENGTH = 200;
+
+export const DRAFT_TYPE = {
+  divider: "DIVIDER",
+  image: "IMAGE",
+  link: "LINK",
+  unstyled: "unstyled",
+  atomic: "atomic",
+  unorderedList: "unordered-list-item",
+};
+
+export const THUMBNAIL_TYPE = 0;
+export const COVER_TYPE = 1;

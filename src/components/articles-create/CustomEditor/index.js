@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeStyles, Box, Divider, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import { EditorState, RichUtils, CompositeDecorator } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import { stateToHTML } from "draft-js-export-html";
@@ -133,7 +133,7 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
   };
 
   const onCreateList = () => {
-    onChange(RichUtils.toggleBlockType(editorState, "unordered-list-item"));
+    onChange(RichUtils.toggleBlockType(editorState, AppConstant.DRAFT_TYPE.unorderedList));
     dispatch(ArticleCreateActions.articleCreateSuccess());
   };
 
@@ -151,10 +151,10 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
   const onRenderBlock = contentBlock => {
     const type = contentBlock.getType();
     const content = editorState.getCurrentContent();
-    if (type === "atomic") {
+    if (type === AppConstant.DRAFT_TYPE.atomic) {
       const entityKey = contentBlock.getEntityAt(0);
       const entity = content.getEntity(entityKey);
-      if (entity != null && entity.getType() === "DIVIDER")
+      if (entity != null && entity.getType() === AppConstant.DRAFT_TYPE.divider)
         return {
           component: DividerBlock,
           editable: true,
@@ -187,7 +187,7 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
     if (editorState) localStorage.setItem("isUnOrderList", checkIfUnOrderList(editorState));
     if (!contentState.hasText()) {
       const firstBlockType = contentState.getBlockMap().first().getType();
-      if (firstBlockType !== "unstyled") {
+      if (firstBlockType !== AppConstant.DRAFT_TYPE.unstyled) {
         setHasHiddenPlaceholder(true);
         return;
       }

@@ -1,4 +1,5 @@
 import punycode from "punycode";
+import { AppConstant } from "const";
 import { EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from "draft-js";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 
@@ -21,7 +22,7 @@ export const getCharCount = editorState => {
 export const findLinkEntities = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges(character => {
     const entityKey = character.getEntity();
-    return entityKey !== null && contentState.getEntity(entityKey).getType() === "LINK";
+    return entityKey !== null && contentState.getEntity(entityKey).getType() === AppConstant.DRAFT_TYPE.link;
   }, callback);
 };
 
@@ -41,7 +42,7 @@ export const getEntityLink = editorState => {
 
 export const insertLink = (editorState, urlValue) => {
   const contentState = editorState.getCurrentContent();
-  const contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", { url: urlValue });
+  const contentStateWithEntity = contentState.createEntity(AppConstant.DRAFT_TYPE.link, "MUTABLE", { url: urlValue });
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const newEditorState = EditorState.set(editorState, {
     currentContent: contentStateWithEntity,
@@ -51,7 +52,7 @@ export const insertLink = (editorState, urlValue) => {
 
 export const insertBreakLine = editorState => {
   const contentState = editorState.getCurrentContent();
-  const contentStateWithEntity = contentState.createEntity("DIVIDER", "MUTABLE", { a: "b" });
+  const contentStateWithEntity = contentState.createEntity(AppConstant.DRAFT_TYPE.divider, "MUTABLE", { a: "b" });
 
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const newEditorState = EditorState.set(editorState, {
@@ -87,7 +88,7 @@ export const checkIfUnOrderList = editorState => {
   let result = false;
   contentState.blockMap.forEach((e, i) => {
     if (i === key) {
-      if (e.getType() === "unordered-list-item") result = true;
+      if (e.getType() === AppConstant.DRAFT_TYPE.unorderedList) result = true;
     }
   });
   return result;
@@ -98,7 +99,7 @@ export const removeLastBlankBlocks = editorState => {
   let isLastBlankBlock = true;
   let newBlockMap = contentState.blockMap.reverse().filter((e, i) => {
     if (isLastBlankBlock) {
-      if (e.text || e.getType() == "atomic") {
+      if (e.text || e.getType() == AppConstant.DRAFT_TYPE.atomic) {
         isLastBlankBlock = false;
       } else {
         return false;
