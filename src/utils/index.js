@@ -1,4 +1,4 @@
-import { AppConstant } from "const";
+import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
 
 export const uuid = () => {
@@ -73,19 +73,27 @@ export const getNumberIdFromQuery = query => {
   return id;
 };
 
+export const getNumberIdFromCreateQuery = query => {
+  const id = query.slice(query.lastIndexOf("-") + 1);
+  return id;
+};
+
 export const getTitleNoMark = title => {
-  title = title.toLowerCase();
-  title = title.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-  title = title.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-  title = title.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-  title = title.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-  title = title.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-  title = title.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-  title = title.replace(/đ/g, "d");
-  title = title.replace(/[^a-zA-Z0-9]/g, "_");
-  const regex = /\s/gi;
-  const titleNoMark = title.replace(regex, "-");
-  return titleNoMark;
+  if (title) {
+    title = title.toLowerCase();
+    title = title.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    title = title.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    title = title.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    title = title.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    title = title.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    title = title.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    title = title.replace(/đ/g, "d");
+    title = title.replace(/[^a-zA-Z0-9]/g, "_");
+    const regex = /\s/gi;
+    const titleNoMark = title.replace(regex, "-");
+    return titleNoMark;
+  }
+  return title;
 };
 
 export const getCurrentPosition = () => {
@@ -110,15 +118,51 @@ export const getImageById = imageId => {
   return StringFormat(AppConstant.BASE_IMAGE_URL, imageId);
 };
 
-export const getTitleByIdFromArray = (id, array) => {
-  const result = array.filter(obj => obj.id === id);
-  return result[0].title;
+export const getRandomDefaultArticleCoverId = () => {
+  const coverIdList = [
+    50663879767,
+    50663884897,
+    50663081883,
+    50663824301,
+    50663900562,
+    50663077308,
+    50663896287,
+    50663817706,
+    50663816156,
+  ];
+  const randomNumber = Math.floor(Math.random() * 9);
+  return coverIdList[randomNumber];
 };
 
-export const getRandomDefaultArticleCover = () => {
-  const coverList = Array(9)
-    .fill(1)
-    .map((_, index) => `/images/img-article-cover-${index + 1}.jpg`);
-  const randomNumber = Math.floor(Math.random() * 9);
-  return coverList[randomNumber];
+export const getBase64 = file =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = error => reject(error);
+  });
+
+export const checkIfLastPage = ({ pageSize, pageNo, total }) => {
+  return Math.ceil(total / pageSize) === pageNo;
+};
+
+export const getRedirectPath = (path, id, title) => {
+  const articleTitleNoMark = title ? getTitleNoMark(title) : null;
+  return articleTitleNoMark ? StringFormat(path, articleTitleNoMark, id) : StringFormat(path, "_", id);
+};
+
+export const debounce = (func, wait, immediate) => {
+  let timeout;
+  return function () {
+    let context = this,
+      args = arguments;
+    let later = function () {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    let callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
 };

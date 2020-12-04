@@ -9,45 +9,36 @@ import BookAutocomplete from "./BookAutocomplete";
 
 const SettingOptions = ({
   categoryId,
-  categoryList,
+  categoriesList,
   onChangeCategoryId,
-  booksSuggestion,
   booksList,
   onChangeBooksList,
-  isReviewType,
-  tagsSuggestion,
   tagsList,
   onChangeTagsList,
+  isReviewType,
 }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   return (
     <>
-      <CategorySelect categoryId={categoryId} categoryList={categoryList} onChangeCategoryId={onChangeCategoryId} />
+      <CategorySelect categoryId={categoryId} categoriesList={categoriesList} onChangeCategoryId={onChangeCategoryId} />
       <Box mt={4} mb={3}>
         <Typography variant="subtitle1">{getLabel("TXT_SETTING_TITLE")}</Typography>
       </Box>
-      <BookAutocomplete
-        booksSuggestion={booksSuggestion}
-        booksList={booksList}
-        onChangeBooksList={onChangeBooksList}
-        isReviewType={isReviewType}
-      />
-      <TagAutocomplete tagsSuggestion={tagsSuggestion} tagsList={tagsList} onChangeTagsList={onChangeTagsList} />
+      <BookAutocomplete booksList={booksList} onChangeBooksList={onChangeBooksList} isReviewType={isReviewType} />
+      <TagAutocomplete tagsList={tagsList} onChangeTagsList={onChangeTagsList} />
     </>
   );
 };
 
 SettingOptions.propTypes = {
   categoryId: PropTypes.number,
-  categoryList: PropTypes.array,
+  categoriesList: PropTypes.array,
   onChangeCategoryId: PropTypes.func,
-  booksSuggestion: PropTypes.array,
   booksList: PropTypes.array,
   onChangeBooksList: PropTypes.func,
-  isReviewType: PropTypes.bool,
-  tagsSuggestion: PropTypes.array,
   tagsList: PropTypes.array,
   onChangeTagsList: PropTypes.func,
+  isReviewType: PropTypes.bool,
 };
 
 export default SettingOptions;

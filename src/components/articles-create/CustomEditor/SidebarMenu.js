@@ -15,12 +15,12 @@ import {
 } from "@material-ui/core";
 import { BreakIcon } from "icons";
 import ArticleCreateActions from "redux/articleCreate.redux";
+import UserActions from "redux/user.redux";
+import { getBase64 } from "utils";
 
 const SidebarMenu = props => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const onCreateList = () => dispatch(ArticleCreateActions.createList());
-  const onCreateBreakLine = () => dispatch(ArticleCreateActions.createBreakLine());
 
   return (
     <Menu
@@ -37,22 +37,33 @@ const SidebarMenu = props => {
       }}
       {...props}
     >
-      <ImageButton onClick={() => console.log("Coming soon :)")} />
-      <ListButton onClick={onCreateList} />
-      <BreakButton onClick={onCreateBreakLine} />
+      <ImageButton />
+      <ListButton onClick={() => dispatch(ArticleCreateActions.createList())} />
+      <BreakButton onClick={() => dispatch(ArticleCreateActions.createBreakLine())} />
     </Menu>
   );
 };
 
 export const ImageButton = forwardRef((props, ref) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
+  const dispatch = useDispatch();
+  const onUploadImage = async e => {
+    const file = e.target.files[0];
+    if (file && file.type.indexOf("image/") === 0) {
+      dispatch(ArticleCreateActions.insertImage());
+      dispatch(UserActions.requestImage(await getBase64(file)));
+    }
+  };
   return (
-    <MenuItem {...props} ref={ref}>
-      <ListItemIcon>
-        <Box className="ic-image" />
-      </ListItemIcon>
-      <ListItemText primary={getLabel("TXT_IMAGE")} />
-    </MenuItem>
+    <label htmlFor="editor-upload-photo" ref={ref}>
+      <input hidden id="editor-upload-photo" name="editor-upload-photo" type="file" onChange={onUploadImage} />
+      <MenuItem {...props}>
+        <ListItemIcon>
+          <Box className="ic-image" />
+        </ListItemIcon>
+        <ListItemText primary={getLabel("TXT_IMAGE")} />
+      </MenuItem>
+    </label>
   );
 });
 

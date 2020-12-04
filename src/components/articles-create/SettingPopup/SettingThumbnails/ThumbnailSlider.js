@@ -3,26 +3,24 @@ import Slider from "react-slick";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { makeStyles, Avatar } from "@material-ui/core";
+import { getImageById } from "utils";
 
 const ThumbnailSlider = forwardRef(
-  (
-    { thumbnailList, settings, currentThumbnail, onChangeCurrentThumbnail, onGoToSlide, className, ...otherProps },
-    ref,
-  ) => {
+  ({ thumbnailList, settings, thumbnailId, onChangeThumbnailId, onGoToSlide, className, ...otherProps }, ref) => {
     const classes = useStyles();
 
     return (
       <Slider ref={ref} {...settings} {...otherProps} className={clsx(classes.root, className)}>
-        {thumbnailList.map((thumbnail, index) => {
-          const isCurrentThumbnail = thumbnail.src === currentThumbnail.src;
+        {thumbnailList.map((id, index) => {
+          const isCurrentThumbnailId = id === thumbnailId;
           return (
             <Avatar
               key={index}
-              className={clsx(classes.slide, isCurrentThumbnail && classes.isCurrentThumbnail)}
+              className={clsx(classes.slide, isCurrentThumbnailId && classes.border)}
               variant="square"
-              src={thumbnail.src}
+              src={getImageById(id)}
               onClick={() => {
-                onChangeCurrentThumbnail(thumbnail);
+                onChangeThumbnailId(id);
                 onGoToSlide(index);
               }}
             />
@@ -38,10 +36,10 @@ ThumbnailSlider.displayName = "ThumbnailSlider";
 ThumbnailSlider.propTypes = {
   thumbnailList: PropTypes.array,
   className: PropTypes.string,
-  currentThumbnail: PropTypes.object,
-  onChangeCurrentThumbnail: PropTypes.func,
+  thumbnailId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onChangeThumbnailId: PropTypes.func,
   settings: PropTypes.object,
-  onGoToSlide: PropTypes.fuc,
+  onGoToSlide: PropTypes.func,
 };
 
 export default ThumbnailSlider;
@@ -66,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     },
     cursor: "pointer",
   },
-  isCurrentThumbnail: {
-    border: `solid 2px ${theme.palette.primary.main}`,
+  border: {
+    border: `2px solid ${theme.palette.primary.main}`,
   },
 }));

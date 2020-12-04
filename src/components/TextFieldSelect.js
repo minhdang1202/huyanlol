@@ -1,10 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { MenuItem, Box, makeStyles } from "@material-ui/core";
+import { MenuItem as MuiMenuItem, Box, makeStyles } from "@material-ui/core";
 import TextField from "./TextField";
 
-const TextFieldSelect = ({ selectList, className, ...otherProps }) => {
+const TextFieldSelect = ({ className, children, ...otherProps }) => {
   const classes = useStyles();
   return (
     <TextField
@@ -27,14 +27,27 @@ const TextFieldSelect = ({ selectList, className, ...otherProps }) => {
       }}
       {...otherProps}
     >
-      {selectList.map((select, index) => (
-        <MenuItem classes={{ selected: classes.selected }} key={index} value={select.id}>
-          {select.title}
-        </MenuItem>
-      ))}
+      {children}
     </TextField>
   );
 };
+
+TextFieldSelect.propTypes = {
+  className: PropTypes.string,
+};
+
+export default TextFieldSelect;
+
+export const MenuItem = forwardRef(({ children, ...otherProps }, ref) => {
+  const classes = useStyles();
+  return (
+    <MuiMenuItem ref={ref} classes={{ selected: classes.selected }} {...otherProps}>
+      {children}
+    </MuiMenuItem>
+  );
+});
+
+MenuItem.displayName = "MenuItem";
 
 const ArrowIcon = ({ className, ...otherProps }) => (
   <Box fontSize={18} className={clsx("ic-chevron-down", className)} {...otherProps} />
@@ -45,13 +58,6 @@ ArrowIcon.displayName = "ArrowIcon";
 ArrowIcon.propTypes = {
   className: PropTypes.string,
 };
-
-TextFieldSelect.propTypes = {
-  selectList: PropTypes.array,
-  className: PropTypes.string,
-};
-
-export default TextFieldSelect;
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, Typography, Paper, Box, Button, useTheme, useMediaQuery, Badge } from "@material-ui/core";
 import clsx from "clsx";
 import { LangConstant } from "const";
@@ -9,20 +9,13 @@ import { getImageById } from "utils";
 import { AppLink, Avatar } from "components";
 import StringFormat from "string-format";
 import { CHALLENGE_TARGET_TYPE } from "const/app.const";
-import { LeaderBoard } from "components/challenges/";
 const PositiveMember = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("sm"));
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
-  const [isLeaderBoard, setIsLeaderBoard] = useState(false);
-  const onOpenLeaderBoard = () => {
-    setIsLeaderBoard(true);
-  };
-  const oncloseLeaderBoard = () => {
-    setIsLeaderBoard(false);
-  };
+
   return (
     <Paper elevation={1} className={classes.root}>
       <Box className={classes.top}>
@@ -32,7 +25,7 @@ const PositiveMember = () => {
           </Typography>
         </Box>
 
-        <Button size="small" variant="text" onClick={onOpenLeaderBoard}>
+        <Button size="small" variant="text">
           {getLabel("L_MORE")}
         </Button>
       </Box>
@@ -51,7 +44,6 @@ const PositiveMember = () => {
           } else return null;
         })}
       </Box>
-      <LeaderBoard onClose={oncloseLeaderBoard} isOpen={isLeaderBoard} />
     </Paper>
   );
 };

@@ -22,6 +22,7 @@ export default {
     dark: "#D34753",
     main: "#F66262",
     light: "#FAB1A3",
+    100: "#FDEAE0",
   },
   warning: {
     contrastText: "#001A39",
@@ -34,6 +35,7 @@ export default {
     dark: "#4BBD77",
     main: "#64DB88",
     light: "#A4F3AC",
+    100: "#E4FCE1",
   },
   grey: {
     100: "#F0F3F6",
