@@ -65,7 +65,7 @@ const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
 
   useEffect(() => {
     if (isFocus) onFetchData();
-  }, [value]);
+  }, [value, isFocus]);
 
   useEffect(() => {
     if (hashTagsList.pageData && hashTagsList.pageNo > 1) {
