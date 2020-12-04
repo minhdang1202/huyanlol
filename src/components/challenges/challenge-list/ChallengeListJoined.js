@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { LangConstant, AppConstant, PathConstant } from "const";
 import { useTranslation } from "react-i18next";
 import { Box, makeStyles, Typography, useTheme, useMediaQuery, LinearProgress, withStyles } from "@material-ui/core";
@@ -9,14 +9,35 @@ import clsx from "clsx";
 import { daysLeft } from "utils/date";
 import Slider from "react-slick";
 import { SliderButton, AppLink } from "components";
+import { ChallengeService } from "services";
 const ChallengeListJoined = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const listJoined = useSelector(state => state.challengeRedux.listJoined.pageData);
+  const listJoinedData = useSelector(state => state.challengeRedux.listJoined);
+  const { pageData, total } = listJoinedData;
+  const [listJoined, setListJoined] = useState(pageData);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [initialSlide, setInitialSlide] = useState(0);
   const sliderRef = useRef();
+
+  useEffect(() => {
+    const load = async () => {
+      if (slideIndex >= AppConstant.DATA_SIZES.challenges - 1) {
+        const res = await ChallengeService.getChallengeListAll({
+          joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.joined,
+          pageSize: total,
+        });
+        setListJoined(res.data.data.pageData);
+        setInitialSlide(AppConstant.DATA_SIZES.challenges);
+      }
+      console.log(slideIndex);
+    };
+
+    load();
+  }, [slideIndex]);
+
   const sequenceBackground = position => {
     switch (position % 4) {
       case 1:
@@ -38,8 +59,9 @@ const ChallengeListJoined = () => {
     infinite: false,
     speed: 200,
     variableWidth: true,
-    swipeToSlide: isMobile,
     afterChange: index => setSlideIndex(index),
+    arrows: false,
+    initialSlide: initialSlide,
   };
   return (
     <Box className={classes.root}>
@@ -54,7 +76,7 @@ const ChallengeListJoined = () => {
           <SliderButton className={classes.prevBtn} disabled={slideIndex === 0} onClick={() => onClickPrev()} />
           <SliderButton
             className={classes.nextBtn}
-            disabled={slideIndex === listJoined.length - 1}
+            disabled={slideIndex >= listJoined.length - 1}
             isNext
             onClick={() => onClickNext()}
           />
@@ -66,8 +88,6 @@ const ChallengeListJoined = () => {
 
 const Item = ({ data, className }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
   const { title, endDate, targetTypeId, challengeProgress, challengeModeId } = data;
   const { targetNumber, progress } = challengeProgress;
@@ -129,27 +149,28 @@ Item.propTypes = {
 const useStyles = makeStyles(theme => ({
   list: {
     marginTop: theme.spacing(2),
-    display: "flex",
-    flexDirection: "row",
     width: "100%",
-    justifyContent: "flex-start",
-    overflowX: "scroll",
     "& a, a:visited, a:hover, a:active, a:focus": {
       color: `${theme.palette.text.primary} !important`,
       textDecoration: "none !important",
       outline: "none !important",
     },
+    "&.slick-slide": {
+      margin: "0 20px",
+    },
   },
   itemCard: {
-    minWidth: "324px",
-    minHeight: "182px",
-    marginRight: theme.spacing(3),
     padding: "24px 16px 24px 16px",
-    [theme.breakpoints.down("xs")]: {
-      minWidth: "250px",
-      minHeight: "151px",
-    },
+    width: "324px",
+    height: "182px",
 
+    [theme.breakpoints.down("md")]: {
+      width: "348px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "250px",
+    },
+    marginRight: theme.spacing(3),
     backgroundPosition: "center",
     backgroundSize: "cover",
     borderRadius: "10px",

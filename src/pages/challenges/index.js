@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import { useDispatch, useSelector } from "react-redux";
 import ChallengeAction from "redux/challenge.redux";
+import Cookie from "js-cookie";
 const Challenge = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
@@ -16,6 +17,7 @@ const Challenge = () => {
   const appBarProps = { shareUrl: SHARE_URL, className: classes.appBar };
   const listJoined = useSelector(state => state.challengeRedux.listJoined.pageData);
   const listRecommend = useSelector(state => state.challengeRedux.listRecommend.pageData);
+  const isLoggedIn = Boolean(Cookie.get(AppConstant.KEY_TOKEN));
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(ChallengeAction.requestGetChallengeList());
@@ -37,7 +39,7 @@ const Challenge = () => {
             <Typography variant="h5">{getLabel("L_WITH_GAT")}</Typography>
           </Box>
           {!isMobile && <DownloadApp />}
-          {listJoined && <ListJoined />}
+          {isLoggedIn && listJoined && <ListJoined />}
           {listRecommend && <ListAll />}
         </Box>
       </Box>

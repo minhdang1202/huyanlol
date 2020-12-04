@@ -1,17 +1,31 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { LangConstant, AppConstant } from "const";
 import { useTranslation } from "react-i18next";
-import { Box, makeStyles, Typography, useTheme, useMediaQuery, Grid } from "@material-ui/core";
+import { Box, makeStyles, Typography, Grid } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ChallengeDetailCard from "./ChallengeListDetailCard";
+import ChallengeAction from "redux/challenge.redux";
 const ChallengeListAll = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const dispatch = useDispatch();
   const listRecommendData = useSelector(state => state.challengeRedux.listRecommend);
   const { pageData, total } = listRecommendData;
+  const [pageNum, setPageNum] = useState(1);
+
+  useEffect(() => {
+    dispatch(
+      ChallengeAction.requestGetChallengeListRecommend({
+        joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.notJoined,
+        pageNum: pageNum,
+      }),
+    );
+  }, [pageNum]);
+
+  const onChangePage = (event, value) => {
+    setPageNum(value);
+  };
   const getTotalPage = (total, pageSize) => {
     return Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1);
   };
@@ -39,6 +53,7 @@ const ChallengeListAll = () => {
         hidePrevButton
         hideNextButton
         variant="outlined"
+        onChange={onChangePage}
       />
     </Box>
   );
