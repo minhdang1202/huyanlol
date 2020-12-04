@@ -8,17 +8,12 @@ import { useTranslation } from "react-i18next";
 const TitleInput = props => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
-  const [isReviewType, reviewInfo] = useSelector(state => [
-    state.articleCreateRedux.isReviewType,
-    state.articleCreateRedux.reviewInfo,
-  ]);
+  const { isReviewType, reviewInfo } = useSelector(({ articleCreateRedux }) => articleCreateRedux);
   return (
     <TextareaAutosize
       className={classes.root}
       placeholder={
-        isReviewType
-          ? StringFormat(getLabel("FM_CREATE_REVIEW_TITLE"), reviewInfo.title)
-          : getLabel("P_CREATE_TITLE")
+        isReviewType ? StringFormat(getLabel("FM_CREATE_REVIEW_TITLE"), reviewInfo.title) : getLabel("P_CREATE_TITLE")
       }
       {...props}
     />

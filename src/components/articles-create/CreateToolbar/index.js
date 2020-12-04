@@ -21,10 +21,7 @@ const CreateToolbar = ({ onOpenSetting }) => {
   const hasCharOpen = Boolean(anchorCharCount);
   const hasSidebarOpen = Boolean(anchorSidebar);
 
-  const [isSaveSuccess, isSaveFailure] = useSelector(({ articleCreateRedux }) => [
-    articleCreateRedux.isSaveSuccess,
-    articleCreateRedux.isSaveFailure,
-  ]);
+  const { isSaveSuccess, isSaveFailure } = useSelector(({ articleCreateRedux }) => articleCreateRedux);
 
   const onOpenPopover = event => {
     setAnchorCharCount(event.currentTarget);

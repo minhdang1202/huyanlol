@@ -13,7 +13,7 @@ const UploadButton = ({ onChangeThumbnailId, onChangeThumbnailList }) => {
   const inputRef = useRef();
 
   const dispatch = useDispatch();
-  const [imageId, error] = useSelector(state => [state.userRedux.imageId, state.userRedux.error]);
+  const { imageId, error } = useSelector(({ userRedux }) => userRedux);
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
 
   const onUploadImage = async e => {

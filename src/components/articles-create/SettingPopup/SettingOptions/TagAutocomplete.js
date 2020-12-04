@@ -26,10 +26,7 @@ const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
       }),
     );
   };
-  const [hashTagsList, isFetching] = useSelector(state => [
-    state.articleCreateRedux.hashTagsList,
-    state.articleCreateRedux.isFetching,
-  ]);
+  const { hashTagsList, isFetching } = useSelector(({ articleCreateRedux }) => articleCreateRedux);
 
   const onSetValue = useCallback(
     debounce(value => {
@@ -67,8 +64,8 @@ const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
   };
 
   useEffect(() => {
-    if (isFocus || isFocus) onFetchData();
-  }, [value, isFocus]);
+    if (isFocus) onFetchData();
+  }, [value]);
 
   useEffect(() => {
     if (hashTagsList.pageData && hashTagsList.pageNo > 1) {

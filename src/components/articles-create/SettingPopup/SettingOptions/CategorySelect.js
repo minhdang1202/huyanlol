@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import PropTypes from "prop-types";
 import TextFieldSelect, { MenuItem } from "components/TextFieldSelect";
 
@@ -9,7 +9,7 @@ const CategorySelect = ({ categoryId, categoriesList, onChangeCategoryId }) => {
   return (
     categoryId >= 0 && (
       <TextFieldSelect
-        disabled={categoryId == 0}
+        disabled={categoryId === AppConstant.CATEGORY_REVIEW}
         label={getLabel("L_ARTICLE_CATEGORY")}
         value={categoryId}
         onChange={e => onChangeCategoryId(e)}

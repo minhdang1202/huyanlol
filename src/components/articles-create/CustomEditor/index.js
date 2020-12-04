@@ -42,21 +42,10 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const dispatch = useDispatch();
 
-  const [
-    hasCreateList,
-    hasCreateBreakLine,
-    hasInsertImage,
-    imageId,
-    error,
-    article,
-  ] = useSelector(({ articleCreateRedux, userRedux }) => [
-    articleCreateRedux.screen_hasCreateList,
-    articleCreateRedux.screen_hasCreateBreakLine,
-    articleCreateRedux.screen_hasInsertImage,
-    userRedux.imageId,
-    userRedux.error,
-    articleCreateRedux.article,
-  ]);
+  const { hasCreateList, hasCreateBreakLine, hasInsertImage, article } = useSelector(
+    ({ articleCreateRedux }) => articleCreateRedux,
+  );
+  const { imageId, error } = useSelector(({ userRedux }) => userRedux);
 
   const [hasFocus, setHasFocus] = useState(false);
   const [editorState, setEditorState] = useState(

@@ -16,10 +16,7 @@ const BookAutocomplete = ({ booksList, onChangeBooksList, isReviewType }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const [inputValue, setInputValue] = useState();
   const dispatch = useDispatch();
-  const [suggestions, isFetching] = useSelector(state => [
-    state.editionRedux.suggestions,
-    state.editionRedux.isFetching,
-  ]);
+  const { suggestions, isFetching } = useSelector(({ editionRedux }) => editionRedux);
 
   const onChange = (e, newValue) => {
     onChangeBooksList(newValue);
