@@ -3,16 +3,16 @@ import clsx from "clsx";
 import { Box, Button, IconButton, Hidden, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
+import { AppConstant } from "const";
 import BookBox from "../../BookBox";
 import { cutString, getImageById } from "utils";
 
 const CommentContent = ({ content, commentToEditions }) => {
-  const LIMIT_COMMENT_LENGTH = 250;
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
-  const shortComment = cutString(LIMIT_COMMENT_LENGTH, content);
-  const hasSeeMoreBtn = content.length > LIMIT_COMMENT_LENGTH;
-  const { imageId, rateAvg, title, authorName, editionId } = commentToEditions[0];
+  const shortComment = cutString(AppConstant.COMMENT_DEFAULT_LENGTH, content);
+  const hasSeeMoreBtn = content.length > AppConstant.COMMENT_DEFAULT_LENGTH;
+  const { imageId, rateAvg, title, authorName, editionId } = commentToEditions[0] || {};
   const [isFullComment, setIsFullComment] = useState(false);
   const [displayContent, setDisplayContent] = useState(shortComment);
   const onShowComment = () => {

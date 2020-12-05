@@ -21,6 +21,8 @@ export const DATA_SIZES = {
   articles: 10,
   hashTags: 10,
   categories: 10,
+  replies: 3,
+  comments: 10,
 };
 
 // Base url
@@ -94,3 +96,4 @@ export const DRAFT_TYPE = {
 
 export const THUMBNAIL_TYPE = 0;
 export const COVER_TYPE = 1;
+export const COMMENT_DEFAULT_LENGTH = 250;

@@ -31,18 +31,16 @@ const ArticleComments = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
-
-  const { comments, article, isFetchingComments } = useSelector(({ articleRedux }) => articleRedux);
+  const { comments, article, isFetchingComments, replies } = useSelector(({ articleRedux }) => articleRedux);
   const { articleId, commentCount } = article;
   const dispatch = useDispatch();
-  const dispatchGetComments = pageNo => {
-    dispatch(ArticleActions.requestGetComments(onGetParams(pageNo)));
+  const dispatchGetComments = pageNum => {
+    dispatch(ArticleActions.requestGetComments(onGetParams(pageNum)));
   };
 
   const [isOpenSort, setIsOpenSort] = useState(false);
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
-  const [isLoading, setIsLoading] = useState(true);
   const [isOpenReplyDialog, setIsOpenReplyDialog] = useState(false);
 
   const onOpenReplyDialog = () => {
@@ -54,12 +52,11 @@ const ArticleComments = () => {
   };
 
   const onScroll = e => {
-    if (isLoading || !comments.length) return;
+    if (isFetchingComments || !comments.length) return;
     const { pageNo, pageSize, total } = comments;
     if (checkIfLastPage({ pageNo, pageSize, total })) return;
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     if (scrollHeight <= scrollTop + clientHeight) {
-      setIsLoading(true);
       dispatchGetComments(pageNo + 1);
     }
   };
@@ -67,7 +64,7 @@ const ArticleComments = () => {
   const onGetParams = pageNum => ({
     articleId: articleId,
     pageNum: pageNum,
-    pageSize: AppConstant.DATA_SIZES.articles,
+    pageSize: AppConstant.DATA_SIZES.comments,
     isFriend: sortValue === AppConstant.SORT_FRIEND,
   });
 
@@ -95,10 +92,6 @@ const ArticleComments = () => {
   useEffect(() => {
     dispatchGetComments(1);
   }, [sortValue]);
-
-  useEffect(() => {
-    setIsLoading(isFetchingComments);
-  }, [isFetchingComments]);
 
   return (
     <Box width="100%">
@@ -146,19 +139,19 @@ const ArticleComments = () => {
             {comments.pageData &&
               comments.pageData.map((comment, index) => {
                 if (!isMobile && index >= 2) return;
-                const { replies, replyCount, commentId } = comment;
+                const { replyCount, commentId } = comment;
                 return (
                   <Box key={index}>
                     <Comment comment={comment} />
-                    {replies && (
+                    {replies[commentId] && (
                       <Hidden smUp>
-                        <Replies initialReplies={replies} replyCount={replyCount} commentId={commentId} />
+                        <Replies replyCount={replyCount} commentId={commentId} />
                       </Hidden>
                     )}
                   </Box>
                 );
               })}
-            {isLoading && <CircularProgress className={classes.loading} />}
+            {isFetchingComments && <CircularProgress className={classes.loading} />}
             {comments.pageData?.length < commentCount && (
               <Hidden xsDown>
                 <Button
@@ -225,6 +218,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(5, "auto"),
     textAlign: "center",
     display: "inherit",
+    color: theme.palette.primary.main,
   },
 }));
 

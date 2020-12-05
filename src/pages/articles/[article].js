@@ -40,13 +40,14 @@ const ArticleDetail = ({ article }) => {
     commentCount,
     body,
     hashtags,
+    saved,
   } = article;
   const isReviewType = categories[0].categoryId === AppConstant.CATEGORY_REVIEW;
   const rate = isReviewType && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
   const bookMentioned = isReviewType ? editions[0] : null;
   const displayDate = convertDistanceDate(new Date(lastUpdate ? lastUpdate : publishedDate), new Date(), i18n.language);
   const shareUrl = AppConstant.WEBSITE_URL + getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title);
-  const appBarProps = { isDetail: true, shareUrl, appBarTitle: title, hasBookmark: true };
+  const appBarProps = { isDetail: true, shareUrl, appBarTitle: title, hasBookmark: true, isBookmarked: saved };
   const headProps = { title: title, description: intro, ogImage: getImageById(coverId) };
 
   useEffect(() => {
@@ -82,7 +83,7 @@ const ArticleDetail = ({ article }) => {
           <ArticleAuthor name={creator.name} avatar={creator.avatar} date={displayDate} address={creator.address} />
           <ArticleReacts reactCount={reactCount} commentCount={commentCount} articleId={articleId} />
         </Grid>
-        <ArticleReactButtons shareUrl={shareUrl} />
+        <ArticleReactButtons shareUrl={shareUrl} saved={saved} />
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           <ArticleComments commentCount={commentCount} articleId={articleId} />
         </Grid>

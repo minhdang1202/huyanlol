@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { useSelector } from "react-redux";
 import { Button, Box, Hidden, Divider, useTheme, useMediaQuery, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import FBShareButton from "components/FBShareButton";
-import DialogAppDownload from "components/DialogAppDownload";
+import { FBShareButton, DialogAppDownload, BookmarkButton } from "components";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 
 const ArticleReactButtons = ({ shareUrl }) => {
@@ -12,6 +11,7 @@ const ArticleReactButtons = ({ shareUrl }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const { saved: isBookmarked } = useSelector(({ articleRedux }) => articleRedux.article);
   const [isOpenDownload, setIsOpenDownload] = useState(false);
   const onOpenDownload = () => {
     setIsOpenDownload(true);
@@ -40,14 +40,9 @@ const ArticleReactButtons = ({ shareUrl }) => {
         </Hidden>
         <Hidden xsDown>
           <Box display="flex">
-            <Button
-              size="large"
-              className={clsx("grey-text", "mr-24")}
-              startIcon={<Box className="ic-bookmark-empty" />}
-              onClick={onOpenDownload}
-            >
+            <BookmarkButton size="large" isBookmarked={isBookmarked} className="mr-24" onClick={onOpenDownload}>
               {getLabel("TXT_BOOKMARK")}
-            </Button>
+            </BookmarkButton>
             <FBShareButton size="large" url={shareUrl} />
           </Box>
         </Hidden>

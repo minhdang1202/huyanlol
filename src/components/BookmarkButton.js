@@ -5,10 +5,17 @@ import { Button, Box, IconButton, makeStyles } from "@material-ui/core";
 
 const BookmarkButton = ({ children, isBookmarked, className, ...otherProps }) => {
   const classes = useStyles({ isBookmarked });
+  const { variant } = otherProps;
 
   return children ? (
     <Button
-      startIcon={<Box className={isBookmarked ? "ic-bookmark" : "ic-bookmark-empty"} />}
+      startIcon={
+        variant === "contained" ? (
+          <Box className="ic-bookmark" />
+        ) : (
+          <Box className={isBookmarked ? "ic-bookmark" : "ic-bookmark-empty"} />
+        )
+      }
       className={clsx(classes.root, className)}
       {...otherProps}
     >

@@ -7,11 +7,10 @@ const { Types, Creators } = createActions({
   requestChallengeArticles: ["data"],
   requestGetGiversList: ["id", "params", "isComment"],
   requestGetComments: ["data"],
-  requestGetRepliesList: ["commentId", "params"],
+  requestGetReplies: ["data"],
 
   getArticle: ["data"],
   onReplyComment: ["commentId", "userId", "name"],
-  onRefresh: null,
   onCancelReply: null,
 
   articleFailure: ["data"],
@@ -25,6 +24,7 @@ export default Creators;
 export const INITIAL_STATE = {
   isFetching: false,
   isFetchingComments: false,
+  isFetchingReplies: false,
   error: null,
   article: {},
   comments: {},
@@ -48,6 +48,11 @@ export const requestGetComments = (state = INITIAL_STATE) => ({
   isFetchingComments: true,
 });
 
+export const requestGetReplies = (state = INITIAL_STATE) => ({
+  ...state,
+  isFetchingReplies: true,
+});
+
 export const getArticle = (state = INITIAL_STATE, action) => {
   return {
     ...state,
@@ -69,24 +74,18 @@ const onCancelReply = (state = INITIAL_STATE) => ({
 
 export const finish = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
+  console.log(data);
   return {
     ...state,
     error: null,
     isFetching: false,
     isFetchingComments: false,
+    isFetchingReplies: false,
     isTypingReply: false,
     replyInfo: null,
     ...data,
   };
 };
-
-export const refresh = (state = INITIAL_STATE) => ({
-  ...state,
-  error: null,
-  article: {},
-  comments: {},
-  replies: [],
-});
 
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
@@ -94,9 +93,9 @@ export const HANDLERS = {
   [Types.REQUEST_HOME_REVIEWS]: request,
   [Types.REQUEST_CHALLENGE_ARTICLES]: request,
   [Types.REQUEST_GET_COMMENTS]: requestGetComments,
+  [Types.REQUEST_GET_REPLIES]: requestGetReplies,
 
   [Types.GET_ARTICLE]: getArticle,
-  [Types.ON_REFRESH]: refresh,
   [Types.ON_REPLY_COMMENT]: onReplyComment,
   [Types.ON_CANCEL_REPLY]: onCancelReply,
 

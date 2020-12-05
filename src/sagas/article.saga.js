@@ -85,16 +85,26 @@ export function* requestGetGiversList(action) {
 export function* requestGetComments(action) {
   const { articleId, ...params } = action.data;
   const { pageNum } = params;
-  let { pageData: currentPageData } = yield select(({ articleRedux }) => articleRedux.comments);
+  let [currentPageData, currentReplies] = yield select(({ articleRedux }) => [
+    articleRedux.comments.pageData,
+    articleRedux.replies,
+  ]);
   let response = yield call(ArticleService.getArticleComments, articleId, params);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
       const { pageData: newPageData } = responseData;
+      newPageData.forEach(comment => {
+        const { commentId, replies } = comment;
+        if (replies)
+          currentReplies[commentId] = {
+            pageData: replies.concat(currentReplies[commentId]?.pageData || []),
+          };
+      });
       const comments =
         pageNum === 1 ? responseData : { ...responseData, pageData: currentPageData.concat(newPageData) };
-      yield put(ArticleAction.articleSuccess({ comments: comments }));
+      yield put(ArticleAction.articleSuccess({ comments, replies: currentReplies }));
     }
   } catch (error) {
     console.log(error);
@@ -102,36 +112,17 @@ export function* requestGetComments(action) {
   }
 }
 
-export function* requestGetRepliesList(action) {
-  const { commentId, params } = action;
+export function* requestGetReplies(action) {
+  const { commentId, ...params } = action.data;
+  let currentReplies = yield select(({ articleRedux }) => articleRedux.replies);
   let response = yield call(ArticleService.getArticleReplies, commentId, params);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
-      let { pageData } = responseData;
-      const repliesList = pageData.map(reply => {
-        const { content, commentId, commentToEditions, commentToUsers, reactCount, lastUpdate, replyCount } = reply;
-        const { userId, name, imageId } = reply.user;
-        const avatar = imageId ? getImageById(imageId) : null;
-        const bookCoverId = commentToEditions[0] ? commentToEditions[0].imageId : null;
-        const bookCover = bookCoverId ? getImageById(bookCoverId) : null;
-        if (commentToEditions[0]) commentToEditions[0].bookCover = bookCover;
-        return {
-          content,
-          commentId,
-          commentToEditions,
-          commentToUsers,
-          reactCount,
-          lastUpdate,
-          userId,
-          name,
-          avatar,
-          replyCount,
-        };
-      });
-
-      yield put(ArticleAction.articleSuccess({ repliesList }));
+      const { pageData: newReplies } = responseData;
+      currentReplies[commentId] = { ...responseData, pageData: newReplies.concat(currentReplies[commentId].pageData) };
+      yield put(ArticleAction.articleSuccess({ replies: currentReplies }));
     }
   } catch (error) {
     console.log(error);

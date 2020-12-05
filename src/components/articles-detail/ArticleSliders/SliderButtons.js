@@ -11,7 +11,7 @@ const SliderButtons = ({ onPrevSlide, onNextSlide, slideIndex, totalSlides }) =>
   return (
     <Hidden xsDown>
       {slideIndex > 0 && <SliderButton className={clsx(classes.button, classes.prevButton)} onClick={onPrevSlide} />}
-      {(slideIndex != lastSlide || totalSlides > 2) && (
+      {(slideIndex != lastSlide && totalSlides > 2) && (
         <SliderButton isNext={true} className={clsx(classes.button, classes.nextButton)} onClick={onNextSlide} />
       )}
     </Hidden>
