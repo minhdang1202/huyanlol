@@ -4,26 +4,15 @@ import { createReducer, createActions } from "reduxsauce";
 const { Types, Creators } = createActions({
   requestHomeArticles: ["data"],
   requestHomeReviews: ["data"],
-
   requestChallengeArticles: ["data"],
-
   requestGetGiversList: ["id", "params", "isComment"],
-  getGiversListSuccess: ["data"],
-  getGiversListFailure: ["data"],
-
-  requestGetCommentsList: ["articleId", "params"],
-  getCommentsListSuccess: ["data"],
-  getCommentsListFailure: ["data"],
-
+  requestGetComments: ["data"],
   requestGetRepliesList: ["commentId", "params"],
-  getRepliesListSuccess: ["data"],
-  getRepliesListFailure: ["data"],
 
+  getArticle: ["data"],
   onReplyComment: ["commentId", "userId", "name"],
+  onRefresh: null,
   onCancelReply: null,
-
-  requestArticleFailure: ["data"],
-  requestArticleSuccess: ["data"],
 
   articleFailure: ["data"],
   articleSuccess: ["data"],
@@ -35,8 +24,11 @@ export default Creators;
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE = {
   isFetching: false,
+  isFetchingComments: false,
   error: null,
-
+  article: {},
+  comments: {},
+  replies: [],
   homeArticles: {},
   homeReviews: {},
   challengeArticles: [],
@@ -51,10 +43,22 @@ export const request = () => ({
   error: null,
 });
 
+export const requestGetComments = (state = INITIAL_STATE) => ({
+  ...state,
+  isFetchingComments: true,
+});
+
+export const getArticle = (state = INITIAL_STATE, action) => {
+  return {
+    ...state,
+    article: action.data,
+  };
+};
+
 const onReplyComment = (state = INITIAL_STATE, action) => ({
   ...state,
   isTypingReply: true,
-  replyInfo: { ...action },
+  replyInfo: action,
 });
 
 const onCancelReply = (state = INITIAL_STATE) => ({
@@ -63,42 +67,36 @@ const onCancelReply = (state = INITIAL_STATE) => ({
   replyInfo: null,
 });
 
-export const requestArticleSuccess = (state = INITIAL_STATE, action) => {
-  let data = action.data ? action.data : {};
-  return { ...state, error: null, ...data };
-};
-
-export const requestArticleFailure = (state = INITIAL_STATE, action) => {
-  let data = action.data ? action.data : {};
-  return { ...state, ...data };
-};
-
 export const finish = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
   return {
     ...state,
     error: null,
     isFetching: false,
+    isFetchingComments: false,
+    isTypingReply: false,
+    replyInfo: null,
     ...data,
   };
 };
+
+export const refresh = (state = INITIAL_STATE) => ({
+  ...state,
+  error: null,
+  article: {},
+  comments: {},
+  replies: [],
+});
 
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
   [Types.REQUEST_HOME_ARTICLES]: request,
   [Types.REQUEST_HOME_REVIEWS]: request,
-
   [Types.REQUEST_CHALLENGE_ARTICLES]: request,
+  [Types.REQUEST_GET_COMMENTS]: requestGetComments,
 
-  [Types.GET_GIVERS_LIST_SUCCESS]: requestArticleSuccess,
-  [Types.GET_GIVERS_LIST_FAILURE]: requestArticleFailure,
-
-  [Types.GET_COMMENTS_LIST_SUCCESS]: requestArticleSuccess,
-  [Types.GET_COMMENTS_LIST_FAILURE]: requestArticleFailure,
-
-  [Types.GET_REPLIES_LIST_SUCCESS]: requestArticleSuccess,
-  [Types.GET_REPLIES_LIST_FAILURE]: requestArticleFailure,
-
+  [Types.GET_ARTICLE]: getArticle,
+  [Types.ON_REFRESH]: refresh,
   [Types.ON_REPLY_COMMENT]: onReplyComment,
   [Types.ON_CANCEL_REPLY]: onCancelReply,
 

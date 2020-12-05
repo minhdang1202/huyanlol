@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import StringFormat from "string-format";
 import { convertFormat } from "utils/date";
+
 const ChallengeInfo = () => {
   const classes = useStyles();
   const theme = useTheme();

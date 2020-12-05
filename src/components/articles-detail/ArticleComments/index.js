@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import StringFormat from "string-format";
 import {
   Typography,
@@ -24,50 +23,52 @@ import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 import { AvatarIcon } from "icons";
 import ArticleReplyDialog from "./ArticleReplyDialog";
 import { getLabel } from "language";
+import { checkIfLastPage } from "utils";
 
-const ArticleComments = ({ articleId, commentCount }) => {
+const ArticleComments = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
 
+  const { comments, article, isFetchingComments } = useSelector(({ articleRedux }) => articleRedux);
+  const { articleId, commentCount } = article;
   const dispatch = useDispatch();
-  const dispatchGetComments = params => {
-    dispatch(ArticleActions.requestGetCommentsList(articleId, params));
+  const dispatchGetComments = pageNo => {
+    dispatch(ArticleActions.requestGetComments(onGetParams(pageNo)));
   };
-
-  const [comments, totalComments] = useSelector(state => [
-    state.articleRedux.commentsList,
-    state.articleRedux.totalComments,
-  ]);
 
   const [isOpenSort, setIsOpenSort] = useState(false);
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
-  const [commentsList, setCommentsList] = useState();
-  const [pageNum, setPageNum] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [hasChangeSort, setHasChangeSort] = useState(false);
+  const [isOpenReplyDialog, setIsOpenReplyDialog] = useState(false);
+
+  const onOpenReplyDialog = () => {
+    setIsOpenReplyDialog(true);
+  };
+
+  const onCloseReplyDialog = () => {
+    setIsOpenReplyDialog(false);
+  };
 
   const onScroll = e => {
-    if (isLoading || !commentsList) return;
-    if (commentsList.length >= totalComments) {
-      setIsLoading(false);
-      return;
-    }
+    if (isLoading || !comments.length) return;
+    const { pageNo, pageSize, total } = comments;
+    if (checkIfLastPage({ pageNo, pageSize, total })) return;
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     if (scrollHeight <= scrollTop + clientHeight) {
-      onFetchMoreData();
       setIsLoading(true);
+      dispatchGetComments(pageNo + 1);
     }
   };
 
   const onGetParams = pageNum => ({
-    article_id: articleId,
+    articleId: articleId,
     pageNum: pageNum,
     pageSize: AppConstant.DATA_SIZES.articles,
-    isFriend: sortValue == AppConstant.SORT_FRIEND,
+    isFriend: sortValue === AppConstant.SORT_FRIEND,
   });
 
   const onOpenSort = () => {
@@ -81,21 +82,6 @@ const ArticleComments = ({ articleId, commentCount }) => {
     setDisplaySort(RADIO_LIST[value].displayLabel);
   };
 
-  const onFetchWithSort = pageNum => {
-    switch (sortValue) {
-      case 1:
-        dispatchGetComments(onGetParams(pageNum));
-        break;
-      default:
-        dispatchGetComments(onGetParams(pageNum));
-    }
-  };
-
-  const onFetchMoreData = () => {
-    onFetchWithSort(pageNum + 1);
-    setPageNum(pageNum + 1);
-  };
-
   useEffect(() => {
     if (isMobile) {
       const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
@@ -107,31 +93,21 @@ const ArticleComments = ({ articleId, commentCount }) => {
   });
 
   useEffect(() => {
-    dispatchGetComments(onGetParams(pageNum));
-  }, []);
-
-  useEffect(() => {
-    onFetchWithSort(1);
-    setHasChangeSort(true);
+    dispatchGetComments(1);
   }, [sortValue]);
 
   useEffect(() => {
-    if (commentsList && pageNum != 1) {
-      setCommentsList(commentsList.concat(comments));
-      setIsLoading(false);
-      setHasChangeSort(false);
-      return;
-    }
-    if (comments) {
-      setCommentsList(comments);
-      setIsLoading(false);
-      setHasChangeSort(false);
-    }
-  }, [comments]);
+    setIsLoading(isFetchingComments);
+  }, [isFetchingComments]);
 
   return (
     <Box width="100%">
-      <ArticleReplyDialog sortValue={sortValue} open={true} onChangeSort={onChangeSort} />
+      <ArticleReplyDialog
+        sortValue={sortValue}
+        open={isOpenReplyDialog}
+        onChangeSort={onChangeSort}
+        onBackdropClick={onCloseReplyDialog}
+      />
       <SortPopup
         sortValue={sortValue}
         radioList={RADIO_LIST}
@@ -149,11 +125,16 @@ const ArticleComments = ({ articleId, commentCount }) => {
       </Hidden>
       <Box position="relative">
         <Hidden xsDown>
-          <Button variant="outlined" className={clsx("grey-text", classes.commentButton)} startIcon={<AvatarIcon />}>
+          <Button
+            variant="outlined"
+            className={clsx("grey-text", "mt-24", classes.commentButton)}
+            startIcon={<AvatarIcon />}
+            onClick={onOpenReplyDialog}
+          >
             <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
           </Button>
         </Hidden>
-        {totalComments === 0 ? (
+        {commentCount === 0 ? (
           <Box py={{ xs: 10, sm: 8 }} className="center-root" flexDirection="column">
             <Box className="ic-comment-alt-dots" />
             <Typography variant="body2" className="grey-text">
@@ -162,16 +143,14 @@ const ArticleComments = ({ articleId, commentCount }) => {
           </Box>
         ) : (
           <Box mb={{ xs: 4, sm: 5 }} mt={3} className={classes.commentWrapper}>
-            {!hasChangeSort &&
-              commentsList &&
-              commentsList.map((comment, index) => {
+            {comments.pageData &&
+              comments.pageData.map((comment, index) => {
                 if (!isMobile && index >= 2) return;
                 const { replies, replyCount, commentId } = comment;
-                const hasReply = Boolean(replies);
                 return (
                   <Box key={index}>
                     <Comment comment={comment} />
-                    {hasReply && (
+                    {replies && (
                       <Hidden smUp>
                         <Replies initialReplies={replies} replyCount={replyCount} commentId={commentId} />
                       </Hidden>
@@ -179,10 +158,14 @@ const ArticleComments = ({ articleId, commentCount }) => {
                   </Box>
                 );
               })}
-            {(isLoading || hasChangeSort) && <CircularProgress className={classes.loading} />}
-            {commentsList && commentsList.length > commentCount && (
+            {isLoading && <CircularProgress className={classes.loading} />}
+            {comments.pageData?.length < commentCount && (
               <Hidden xsDown>
-                <Button variant="contained" className={clsx("light-blue-button", classes.seeAllButton)}>
+                <Button
+                  variant="contained"
+                  className={clsx("light-blue-button", classes.seeAllButton)}
+                  onClick={onOpenReplyDialog}
+                >
                   {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
                 </Button>
               </Hidden>
@@ -211,11 +194,6 @@ export const RADIO_LIST = [
     title: getLabel("TXT_FRIEND_COMMENT"),
   },
 ];
-
-ArticleComments.propTypes = {
-  articleId: PropTypes.number,
-  commentCount: PropTypes.number,
-};
 
 const useStyles = makeStyles(theme => ({
   selectButton: {

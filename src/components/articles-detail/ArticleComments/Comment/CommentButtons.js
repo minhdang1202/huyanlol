@@ -9,7 +9,8 @@ import DialogAppDownload from "components/DialogAppDownload";
 import ArticleActions from "redux/article.redux";
 import GiverList from "../../GiversList";
 
-const CommentButtons = ({ reactCount, replyCount, commentId, userId, name }) => {
+const CommentButtons = ({ reactCount, replyCount, commentId, user }) => {
+  const { userId, name } = user;
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -75,8 +76,7 @@ CommentButtons.propTypes = {
   reactCount: PropTypes.number,
   replyCount: PropTypes.number,
   commentId: PropTypes.number,
-  userId: PropTypes.number,
-  name: PropTypes.string,
+  user: PropTypes.object,
 };
 
 const useStyles = makeStyles(theme => ({

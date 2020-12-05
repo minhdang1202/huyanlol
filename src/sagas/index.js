@@ -26,7 +26,7 @@ import {
 import { requestGetTopWriter, requestGetUserProfile, requestImage } from "./user.saga";
 import {
   requestGetGiversList,
-  requestGetCommentsList,
+  requestGetComments,
   requestGetRepliesList,
   requestGetHomeArticles,
   requestGetHomeReviews,
@@ -67,7 +67,7 @@ export default function* root() {
     takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),
     takeLatest(ArticleTypes.REQUEST_HOME_REVIEWS, requestGetHomeReviews),
     takeLatest(ArticleTypes.REQUEST_GET_GIVERS_LIST, requestGetGiversList),
-    takeLatest(ArticleTypes.REQUEST_GET_COMMENTS_LIST, requestGetCommentsList),
+    takeLatest(ArticleTypes.REQUEST_GET_COMMENTS, requestGetComments),
     takeLatest(ArticleTypes.REQUEST_GET_REPLIES_LIST, requestGetRepliesList),
     takeLatest(ArticleTypes.REQUEST_CHALLENGE_ARTICLES, requestGetChallengeArticles),
 

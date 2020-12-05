@@ -1,15 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, IconButton, Avatar, Typography, makeStyles } from "@material-ui/core";
+import { Box, IconButton, Typography, makeStyles } from "@material-ui/core";
+import { Avatar } from "components";
 import AppLink from "components/AppLink";
+import { getImageById } from "utils";
 
-const CommentAuthor = ({ avatar, name, date }) => {
+const CommentAuthor = ({ user, date }) => {
   const classes = useStyles();
+  const { name, imageId } = user;
   return (
     <Box className={classes.root}>
       <AppLink to="#">
         <IconButton className={classes.avatarButton}>
-          <Avatar className={classes.avatar} src={avatar} />
+          <Avatar className={classes.avatar} src={getImageById(imageId)} />
         </IconButton>
       </AppLink>
       <Box ml={1}>
@@ -27,8 +30,7 @@ const CommentAuthor = ({ avatar, name, date }) => {
 };
 
 CommentAuthor.propTypes = {
-  avatar: PropTypes.string,
-  name: PropTypes.string,
+  user: PropTypes.object,
   date: PropTypes.string,
 };
 
