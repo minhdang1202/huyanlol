@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import MainLayout from "layouts/MainLayout";
 import { DownloadApp, ListJoined, ListAll } from "components/challenges";
 import { Box, makeStyles, Typography, useTheme, useMediaQuery } from "@material-ui/core";
@@ -8,14 +8,20 @@ import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import { useDispatch, useSelector } from "react-redux";
 import ChallengeAction from "redux/challenge.redux";
 import Cookie from "js-cookie";
+import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 
 const Challenge = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const SHARE_URL = getLabel("L_CHALLENGE_ADDRESS");
-  const appBarProps = { isDetail: true, shareUrl: SHARE_URL, className: classes.appBar };
+  const [isTransparentAppBar, setIsTransparentAppBar] = useState(true);
+  const appBarProps = {
+    isDetail: true,
+    className: classes.appBar,
+    appBarTitle: getLabel("L_CHALLENGE_WITH_GAT"),
+    isTransparent: isTransparentAppBar,
+  };
   const listJoined = useSelector(state => state.challengeRedux.listJoined.pageData);
   const listRecommend = useSelector(state => state.challengeRedux.listRecommend.pageData);
   const isLoggedIn = Boolean(Cookie.get(AppConstant.KEY_TOKEN));
@@ -29,7 +35,21 @@ const Challenge = () => {
       ChallengeAction.requestGetChallengeListRecommend({ joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.notJoined }),
     );
   }, []);
-
+  useEffect(() => {
+    if (!isMobile) {
+      const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
+      if (mainLayout) {
+        mainLayout.addEventListener("scroll", onScroll);
+      }
+    }
+  });
+  const onScroll = e => {
+    if (e.target.scrollTop > 0) {
+      setIsTransparentAppBar(false);
+    } else {
+      setIsTransparentAppBar(true);
+    }
+  };
   return (
     <MainLayout appBarProps={appBarProps}>
       <Box className={classes.root}>
@@ -50,6 +70,7 @@ const Challenge = () => {
     </MainLayout>
   );
 };
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -149,14 +170,14 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  appBar: {
-    [theme.breakpoints.up("sm")]: {
-      boxShadow: "none !important",
-      background: "none !important",
-      "& *": {
-        color: `${theme.palette.white} !important`,
-      },
-    },
-  },
+  // appBar: {
+  //   [theme.breakpoints.up("sm")]: {
+  //     boxShadow: "none !important",
+  //     background: "none !important",
+  //     "& *": {
+  //       color: `${theme.palette.white} !important`,
+  //     },
+  //   },
+  // },
 }));
 export default Challenge;

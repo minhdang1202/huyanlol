@@ -246,6 +246,7 @@ export default {
     MSG_SAVE_ARTICLE_SUCCESS: "Bài viết đã lưu vào nháp",
   },
   challengeList: {
+    L_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
     L_CHALLENGE: "Thử thách",
     L_WITH_GAT: "cùng GAT",
     L_CHALLENGE_ADDRESS: "/challenges",

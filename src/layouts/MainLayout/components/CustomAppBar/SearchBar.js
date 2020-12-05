@@ -3,8 +3,9 @@ import { Box, InputBase, Divider, FormControl, makeStyles } from "@material-ui/c
 import { useTranslation } from "react-i18next";
 import CommonSelect from "components/CommonSelect";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
-
-const SearchBar = () => {
+import PropTypes from "prop-types";
+import clsx from "clsx";
+const SearchBar = ({ isTransparent }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const SELECT_LIST = [
@@ -27,7 +28,7 @@ const SearchBar = () => {
   };
 
   return (
-    <Box className={classes.root}>
+    <Box className={clsx(classes.root, isTransparent && classes.transparentBackground)}>
       <Box className="ic-search" />
       <InputBase placeholder={getLabel("P_APPBAR_SEARCH")} />
       <Box>
@@ -47,6 +48,13 @@ const SearchBar = () => {
   );
 };
 
+SearchBar.propTypes = {
+  isTransparent: PropTypes.bool,
+};
+SearchBar.defaultProps = {
+  isTransparent: false,
+};
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -59,6 +67,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1, 2),
     "&>*:nth-child(1)": {
       marginRight: theme.spacing(1.5),
+      color: `${theme.palette.text.secondary} !important`,
     },
     "&>*:nth-child(2)": {
       flexGrow: 1,
@@ -68,6 +77,18 @@ const useStyles = makeStyles(theme => ({
       height: "inherit",
       display: "flex",
       alignItems: "center",
+    },
+  },
+  transparentBackground: {
+    background: "rgba(240, 243, 246, 0.4)",
+    "&>*:nth-child(1)": {
+      marginRight: theme.spacing(1.5),
+      color: `${theme.palette.white} !important`,
+    },
+    "&>*:nth-child(3)": {
+      "&>*:nth-child(1)": {
+        background: `${theme.palette.white} !important`,
+      },
     },
   },
   divider: {

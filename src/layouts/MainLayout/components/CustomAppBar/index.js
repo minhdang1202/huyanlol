@@ -20,13 +20,13 @@ import SearchBar from "./SearchBar";
 import SignIn from "./SignIn";
 import { FacebookShareButton } from "react-share";
 
-const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark }) => {
+const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark, isTransparent }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const classes = useStyles({ isDetail: isDetail });
 
   return (
-    <AppBar className={clsx(classes.root, className)} elevation={0}>
+    <AppBar className={clsx(classes.root, className, isTransparent && classes.transparentAppBar)} elevation={0}>
       <Container maxWidth="lg">
         <Toolbar className={classes.toolbar}>
           {isDetail && isMobile ? (
@@ -61,10 +61,15 @@ const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark 
           ) : (
             <>
               <AppLink to={PathConstant.ROOT}>
-                <Avatar variant="square" src="/images/logo.png" alt="logo" className={classes.logo} />
+                <Avatar
+                  variant="square"
+                  src={isTransparent ? "/images/logo-white.png" : "/images/logo.png"}
+                  alt="logo"
+                  className={classes.logo}
+                />
               </AppLink>
               <Container className={classes.searchBar}>
-                <SearchBar />
+                <SearchBar isTransparent={isTransparent} />
               </Container>
               <Hidden xsDown>
                 <SignIn />
@@ -83,6 +88,7 @@ CustomAppBar.propTypes = {
   appBarTitle: PropTypes.string,
   shareUrl: PropTypes.string,
   hasBookmark: PropTypes.bool,
+  isTransparent: PropTypes.bool,
 };
 CustomAppBar.defaultProps = {};
 
@@ -131,6 +137,20 @@ const useStyles = makeStyles(theme => ({
     background: "none",
     padding: 0,
   },
+  transparentAppBar: {
+    [theme.breakpoints.up("sm")]: {
+      boxShadow: "none !important",
+      background: "none !important",
+      "& *": {
+        color: `${theme.palette.white} !important`,
+      },
+    },
+  },
+  // transparentSearchBar: {
+  //   "&>*": {
+  //     background: "tomato !important",
+  //   },
+  // },
 }));
 
 export default memo(CustomAppBar);
