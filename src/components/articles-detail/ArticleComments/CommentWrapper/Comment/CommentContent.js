@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { Box, Button, IconButton, Hidden, makeStyles } from "@material-ui/core";
+import { Box, Button, IconButton, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { AppConstant } from "const";
-import BookBox from "../../BookBox";
+import BookBox from "../../../BookBox";
 import { cutString, getImageById } from "utils";
 
-const CommentContent = ({ content, commentToEditions }) => {
+const CommentContent = ({ content, commentToEditions, isDesktopComment }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const shortComment = cutString(AppConstant.COMMENT_DEFAULT_LENGTH, content);
@@ -31,11 +31,11 @@ const CommentContent = ({ content, commentToEditions }) => {
             </Button>
           )}
         </Box>
-        <Hidden smUp>
+        {!isDesktopComment && (
           <IconButton className={clsx(classes.loveBtn)}>
             <Box className="ic-heart" />
           </IconButton>
-        </Hidden>
+        )}
       </Box>
       {commentToEditions[0] && (
         <BookBox
@@ -54,6 +54,7 @@ const CommentContent = ({ content, commentToEditions }) => {
 CommentContent.propTypes = {
   commentToEditions: PropTypes.array,
   content: PropTypes.string,
+  isDesktopComment: PropTypes.bool,
 };
 
 const useStyles = makeStyles(theme => ({

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { CommonSelect } from "components";
-import { RADIO_LIST } from "..";
+import { RADIO_LIST } from "../index";
 
 const SortSelect = props => {
   const classes = useStyles();

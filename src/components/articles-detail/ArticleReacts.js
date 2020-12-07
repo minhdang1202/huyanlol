@@ -31,7 +31,7 @@ const ArticleReacts = ({ reactCount, commentCount, articleId }) => {
 
   return (
     <>
-      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} reactCount={reactCount} id={articleId} />
+      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} reactCount={reactCount} articleId={articleId} />
       {isMobile ? (
         <Box display="flex" justifyContent="space-between" width="100%">
           <Button

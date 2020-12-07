@@ -2,28 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import StringFormat from "string-format";
-import {
-  Typography,
-  Box,
-  Hidden,
-  Button,
-  makeStyles,
-  useTheme,
-  useMediaQuery,
-  CircularProgress,
-} from "@material-ui/core";
+import { Typography, Box, Hidden, Button, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant } from "const";
 import ArticleActions from "redux/article.redux";
 import MobileInput from "./MobileInput";
 import SortPopup from "./SortPopup";
-import Comment from "./Comment";
-import Replies from "./Replies";
+import CommentWrapper from "./CommentWrapper";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 import { AvatarIcon } from "icons";
 import ArticleReplyDialog from "./ArticleReplyDialog";
 import { getLabel } from "language";
 import { checkIfLastPage } from "utils";
+import { AuthDialog } from "components";
 
 const ArticleComments = () => {
   const classes = useStyles();
@@ -31,7 +22,8 @@ const ArticleComments = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
-  const { comments, article, isFetchingComments, replies } = useSelector(({ articleRedux }) => articleRedux);
+  const { isAuth } = useSelector(({ authRedux }) => authRedux);
+  const { comments, article, isFetchingComments } = useSelector(({ articleRedux }) => articleRedux);
   const { articleId, commentCount } = article;
   const dispatch = useDispatch();
   const dispatchGetComments = pageNum => {
@@ -42,6 +34,8 @@ const ArticleComments = () => {
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
   const [isOpenReplyDialog, setIsOpenReplyDialog] = useState(false);
+  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
+  const [hasSortChange, setHasSortChange] = useState(false);
 
   const onOpenReplyDialog = () => {
     setIsOpenReplyDialog(true);
@@ -49,6 +43,14 @@ const ArticleComments = () => {
 
   const onCloseReplyDialog = () => {
     setIsOpenReplyDialog(false);
+  };
+
+  const onOpenAuthDialog = () => {
+    setIsOpenAuthDialog(true);
+  };
+
+  const onCloseAuthDialog = () => {
+    setIsOpenAuthDialog(false);
   };
 
   const onScroll = e => {
@@ -77,6 +79,7 @@ const ArticleComments = () => {
   const onChangeSort = value => {
     setSortValue(value);
     setDisplaySort(RADIO_LIST[value].displayLabel);
+    setHasSortChange(true);
   };
 
   useEffect(() => {
@@ -90,17 +93,17 @@ const ArticleComments = () => {
   });
 
   useEffect(() => {
-    dispatchGetComments(1);
-  }, [sortValue]);
+    if (isMobile) dispatchGetComments(1);
+  }, [sortValue, isMobile]);
+
+  useEffect(() => {
+    if (hasSortChange) setHasSortChange(false);
+  }, [comments]);
 
   return (
     <Box width="100%">
-      <ArticleReplyDialog
-        sortValue={sortValue}
-        open={isOpenReplyDialog}
-        onChangeSort={onChangeSort}
-        onBackdropClick={onCloseReplyDialog}
-      />
+      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
+      <ArticleReplyDialog open={isOpenReplyDialog} onBackdropClick={onCloseReplyDialog} />
       <SortPopup
         sortValue={sortValue}
         radioList={RADIO_LIST}
@@ -120,50 +123,24 @@ const ArticleComments = () => {
         <Hidden xsDown>
           <Button
             variant="outlined"
-            className={clsx("grey-text", "mt-24", classes.commentButton)}
+            className={clsx("grey-text", "mt-16", classes.commentButton)}
             startIcon={<AvatarIcon />}
-            onClick={onOpenReplyDialog}
+            onClick={isAuth ? onOpenReplyDialog : onOpenAuthDialog}
           >
             <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
           </Button>
         </Hidden>
-        {commentCount === 0 ? (
-          <Box py={{ xs: 10, sm: 8 }} className="center-root" flexDirection="column">
-            <Box className="ic-comment-alt-dots" />
-            <Typography variant="body2" className="grey-text">
-              {getLabel("TXT_ARTICLE_FIRST_COMMENT")}
-            </Typography>
-          </Box>
-        ) : (
-          <Box mb={{ xs: 4, sm: 5 }} mt={3} className={classes.commentWrapper}>
-            {comments.pageData &&
-              comments.pageData.map((comment, index) => {
-                if (!isMobile && index >= 2) return;
-                const { replyCount, commentId } = comment;
-                return (
-                  <Box key={index}>
-                    <Comment comment={comment} />
-                    {replies[commentId] && (
-                      <Hidden smUp>
-                        <Replies replyCount={replyCount} commentId={commentId} />
-                      </Hidden>
-                    )}
-                  </Box>
-                );
-              })}
-            {isFetchingComments && <CircularProgress className={classes.loading} />}
-            {comments.pageData?.length < commentCount && (
-              <Hidden xsDown>
-                <Button
-                  variant="contained"
-                  className={clsx("light-blue-button", classes.seeAllButton)}
-                  onClick={onOpenReplyDialog}
-                >
-                  {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
-                </Button>
-              </Hidden>
-            )}
-          </Box>
+        <CommentWrapper onOpenReplyDialog={onOpenReplyDialog} hasSortChange={hasSortChange} />
+        {comments.pageData?.length < commentCount && (
+          <Hidden xsDown>
+            <Button
+              variant="contained"
+              className={clsx("light-blue-button", classes.seeAllButton)}
+              onClick={onOpenReplyDialog}
+            >
+              {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
+            </Button>
+          </Hidden>
         )}
         <Hidden smUp>
           <MobileInput />
@@ -197,28 +174,12 @@ const useStyles = makeStyles(theme => ({
   seeAllButton: {
     width: "100%",
   },
-  commentWrapper: {
-    "&>*:not(:last-child)": {
-      marginBottom: theme.spacing(2),
-    },
-  },
   commentButton: {
     borderRadius: "6px !important",
     width: "100%",
     justifyContent: "flex-start",
     padding: theme.spacing(2),
     borderColor: `${theme.palette.grey[100]} !important`,
-  },
-  userAvatar: {
-    width: 48,
-    height: 48,
-    marginRight: theme.spacing(1),
-  },
-  loading: {
-    margin: theme.spacing(5, "auto"),
-    textAlign: "center",
-    display: "inherit",
-    color: theme.palette.primary.main,
   },
 }));
 

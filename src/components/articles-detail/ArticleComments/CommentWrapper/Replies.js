@@ -8,6 +8,7 @@ import { LangConstant, AppConstant } from "const";
 import { Box, Divider, Button, CircularProgress } from "@material-ui/core";
 import Comment from "./Comment";
 import ArticleActions from "redux/article.redux";
+import { uuid } from "utils";
 
 const Replies = ({ replyCount, commentId }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
@@ -35,7 +36,7 @@ const Replies = ({ replyCount, commentId }) => {
         )}
         {isFetchingReplies && <CircularProgress size={20} className={clsx("mt-4", "mb-4", "blue-text")} />}
         {replies.map((reply, index) => (
-          <Comment key={index} comment={reply} className={index === replies.length - 1 ? null : "mb-8"} />
+          <Comment key={uuid()} comment={reply} className={index === replies.length - 1 ? null : "mb-8"} />
         ))}
       </Box>
     </Box>

@@ -4,10 +4,13 @@ import clsx from "clsx";
 import StringFormat from "string-format";
 import { useTranslation } from "react-i18next";
 import { Box, Badge, Avatar, IconButton, Typography, makeStyles } from "@material-ui/core";
-import FollowButton from "../FollowButton";
+import FollowButton from "../../FollowButton";
 import { AppLink } from "components";
+import { getImageById } from "utils";
+import HeartBadge from "./HeartBadge";
 
-const Giver = ({ name, avatar, userId, followRelation, reactCount }) => {
+const Giver = ({ data }) => {
+  const { userId, name, imageId, followRelation } = data.user;
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   return (
@@ -16,14 +19,14 @@ const Giver = ({ name, avatar, userId, followRelation, reactCount }) => {
         <AppLink to="#">
           <IconButton>
             <Badge
-              badgeContent={<Heart />}
+              badgeContent={<HeartBadge />}
               classes={{ badge: classes.badge }}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "right",
               }}
             >
-              <Avatar className={classes.avatar} src={avatar} />
+              <Avatar className={classes.avatar} src={getImageById(imageId)} />
             </Badge>
           </IconButton>
         </AppLink>
@@ -34,30 +37,17 @@ const Giver = ({ name, avatar, userId, followRelation, reactCount }) => {
             </Typography>
           </AppLink>
           <Typography variant="body2" className={clsx("eclipse", "grey-text")}>
-            {StringFormat(getLabel("FM_GIVERS"), reactCount)}
+            {StringFormat(getLabel("FM_GIVERS"), data.reactCount)}
           </Typography>
         </Box>
       </Box>
-      <FollowButton isFollowing={followRelation} className="ml-8" />
+      <FollowButton isFollowing={followRelation?.followed} className="ml-8" />
     </Box>
   );
 };
 
-const Heart = () => {
-  const classes = useStyles();
-  return (
-    <IconButton disabled className={classes.heartBadge} component="div">
-      <Box className="ic-heart" />
-    </IconButton>
-  );
-};
-
 Giver.propTypes = {
-  name: PropTypes.string,
-  avatar: PropTypes.string,
-  reactCount: PropTypes.number,
-  followRelation: PropTypes.bool,
-  userId: PropTypes.number,
+  data: PropTypes.object,
 };
 
 const useStyles = makeStyles(theme => ({
@@ -85,16 +75,6 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     right: 8,
     bottom: 8,
-  },
-  heartBadge: {
-    width: 18,
-    height: 18,
-    border: `1px solid ${theme.palette.white}`,
-    background: "radial-gradient(82.39% 62.87% at 50% 0%, #FA9393 0%, #F45A5A 100%)",
-    "& .ic-heart": {
-      fontSize: 10,
-      color: theme.palette.white,
-    },
   },
   name: {
     fontSize: 18,

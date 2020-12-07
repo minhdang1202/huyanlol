@@ -5,9 +5,12 @@ const { Types, Creators } = createActions({
   requestHomeArticles: ["data"],
   requestHomeReviews: ["data"],
   requestChallengeArticles: ["data"],
-  requestGetGiversList: ["id", "params", "isComment"],
+  requestGetGivers: ["data"],
+  requestGetCommentGivers: ["data"],
   requestGetComments: ["data"],
   requestGetReplies: ["data"],
+  requestPostComment: ["data"],
+  requestPostReply: ["data"],
 
   getArticle: ["data"],
   onReplyComment: ["commentId", "userId", "name"],
@@ -25,9 +28,13 @@ export const INITIAL_STATE = {
   isFetching: false,
   isFetchingComments: false,
   isFetchingReplies: false,
+  isFetchingGivers: false,
   error: null,
   article: {},
+  givers: [],
+  commentGivers: [],
   comments: {},
+  desktopComments: [],
   replies: [],
   homeArticles: {},
   homeReviews: {},
@@ -46,6 +53,11 @@ export const request = () => ({
 export const requestGetComments = (state = INITIAL_STATE) => ({
   ...state,
   isFetchingComments: true,
+});
+
+export const requestGetGivers = (state = INITIAL_STATE) => ({
+  ...state,
+  isFetchingGivers: true,
 });
 
 export const requestGetReplies = (state = INITIAL_STATE) => ({
@@ -74,12 +86,12 @@ const onCancelReply = (state = INITIAL_STATE) => ({
 
 export const finish = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
-  console.log(data);
   return {
     ...state,
     error: null,
     isFetching: false,
     isFetchingComments: false,
+    isFetchingGivers: false,
     isFetchingReplies: false,
     isTypingReply: false,
     replyInfo: null,
@@ -92,6 +104,8 @@ export const HANDLERS = {
   [Types.REQUEST_HOME_ARTICLES]: request,
   [Types.REQUEST_HOME_REVIEWS]: request,
   [Types.REQUEST_CHALLENGE_ARTICLES]: request,
+  [Types.REQUEST_GET_GIVERS]: requestGetGivers,
+  [Types.REQUEST_GET_COMMENT_GIVERS]: requestGetGivers,
   [Types.REQUEST_GET_COMMENTS]: requestGetComments,
   [Types.REQUEST_GET_REPLIES]: requestGetReplies,
 

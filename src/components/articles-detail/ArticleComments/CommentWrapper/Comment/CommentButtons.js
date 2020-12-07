@@ -1,25 +1,25 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
-import { Button, Box, useTheme, makeStyles, useMediaQuery } from "@material-ui/core";
-import DialogAppDownload from "components/DialogAppDownload";
+import { Button, Box, makeStyles } from "@material-ui/core";
 import ArticleActions from "redux/article.redux";
-import GiverList from "../../GiversList";
+import GiversList from "../../../GiversList";
+import { AuthDialog, DialogAppDownload } from "components";
 
-const CommentButtons = ({ reactCount, replyCount, commentId, user }) => {
+const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDialog, isDesktopComment }) => {
   const { userId, name } = user;
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation();
+  const { isAuth } = useSelector(({ authRedux }) => authRedux);
   const dispatch = useDispatch();
   const onReplyComment = () => dispatch(ArticleActions.onReplyComment(commentId, userId, name));
 
   const [isOpenDownload, setIsOpenDownload] = useState(false);
   const [isOpenGivers, setIsOpenGivers] = useState(false);
+  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
 
   const onOpenGiversList = () => {
     setIsOpenGivers(true);
@@ -35,19 +35,25 @@ const CommentButtons = ({ reactCount, replyCount, commentId, user }) => {
   const onCloseDownload = () => {
     setIsOpenDownload(false);
   };
+  const onOpenAuthDialog = () => {
+    setIsOpenAuthDialog(true);
+  };
+  const onCloseAuthDialog = () => {
+    setIsOpenAuthDialog(false);
+  };
+
   return (
     <>
-      <GiverList
-        isOpen={isOpenGivers}
-        onClose={onCloseGiversList}
-        reactCount={reactCount}
-        id={commentId}
-        isComment={true}
-      />
+      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} reactCount={reactCount} commentId={commentId} />
+      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
       <DialogAppDownload isOpen={isOpenDownload} onClose={onCloseDownload} />
-      {isMobile ? (
+      {!isDesktopComment ? (
         <Box display="flex">
-          <Button size="small" className={clsx(classes.buttonMobile, "grey-text", "mr-4")} onClick={onReplyComment}>
+          <Button
+            size="small"
+            className={clsx(classes.buttonMobile, "grey-text", "mr-4")}
+            onClick={isAuth ? onReplyComment : onOpenAuthDialog}
+          >
             {getLabel("TXT_REPLY")}
           </Button>
           <Button size="small" className={clsx(classes.buttonMobile, "grey-text")} onClick={onOpenGiversList}>
@@ -63,7 +69,7 @@ const CommentButtons = ({ reactCount, replyCount, commentId, user }) => {
           >
             {StringFormat(getLabel("FM_LOVE"), reactCount)}
           </Button>
-          <Button className="grey-text" startIcon={<Box className="ic-comment" />}>
+          <Button className="grey-text" startIcon={<Box className="ic-comment" />} onClick={onOpenReplyDialog}>
             {StringFormat(getLabel("FM_COMMENT"), replyCount)}
           </Button>
         </Box>
@@ -77,6 +83,8 @@ CommentButtons.propTypes = {
   replyCount: PropTypes.number,
   commentId: PropTypes.number,
   user: PropTypes.object,
+  onOpenReplyDialog: PropTypes.func,
+  isDesktopComment: PropTypes.bool,
 };
 
 const useStyles = makeStyles(theme => ({
