@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "layouts/MainLayout";
 import { DownloadApp, ListJoined, ListAll } from "components/challenges";
 import { Box, makeStyles, Typography, useTheme, useMediaQuery } from "@material-ui/core";
@@ -7,9 +7,8 @@ import { useTranslation } from "react-i18next";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import { useDispatch, useSelector } from "react-redux";
 import ChallengeAction from "redux/challenge.redux";
-import Cookie from "js-cookie";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
-
+import { hasLogged } from "utils/auth";
 const Challenge = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
@@ -24,7 +23,6 @@ const Challenge = () => {
   };
   const listJoined = useSelector(state => state.challengeRedux.listJoined.pageData);
   const listRecommend = useSelector(state => state.challengeRedux.listRecommend.pageData);
-  const isLoggedIn = Boolean(Cookie.get(AppConstant.KEY_TOKEN));
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(ChallengeAction.requestGetChallengeList());
@@ -40,13 +38,16 @@ const Challenge = () => {
       const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
       if (mainLayout) {
         mainLayout.addEventListener("scroll", onScroll);
+        return () => {
+          mainLayout.removeEventListener("scroll", onScroll);
+        };
       }
     }
-  });
+  }, []);
   const onScroll = e => {
-    if (e.target.scrollTop > 0) {
+    if (e.target.scrollTop > 0 && isTransparentAppBar) {
       setIsTransparentAppBar(false);
-    } else {
+    } else if (e.target.scrollTop === 0) {
       setIsTransparentAppBar(true);
     }
   };
@@ -63,7 +64,7 @@ const Challenge = () => {
             <Typography variant="h5">{getLabel("L_WITH_GAT")}</Typography>
           </Box>
           {!isMobile && <DownloadApp />}
-          {isLoggedIn && listJoined && <ListJoined />}
+          {hasLogged() && listJoined && <ListJoined />}
           {listRecommend && <ListAll />}
         </Box>
       </Box>
@@ -170,14 +171,5 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  // appBar: {
-  //   [theme.breakpoints.up("sm")]: {
-  //     boxShadow: "none !important",
-  //     background: "none !important",
-  //     "& *": {
-  //       color: `${theme.palette.white} !important`,
-  //     },
-  //   },
-  // },
 }));
 export default Challenge;

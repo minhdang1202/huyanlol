@@ -249,7 +249,6 @@ export default {
     L_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
     L_CHALLENGE: "Thử thách",
     L_WITH_GAT: "cùng GAT",
-    L_CHALLENGE_ADDRESS: "/challenges",
     L_YOUR_CHALLENGE: "Thử thách của bạn",
     L_SUGGESTED_CHALLENGE: "Gợi ý cho bạn",
     L_RECOMMENDED_CHALLENGE: "Thử thách dành cho bạn",

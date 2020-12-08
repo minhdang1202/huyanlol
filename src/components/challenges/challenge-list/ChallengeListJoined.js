@@ -9,27 +9,28 @@ import clsx from "clsx";
 import { daysLeft } from "utils/date";
 import Slider from "react-slick";
 import { SliderButton, AppLink } from "components";
-import { ChallengeService } from "services";
+import { useDispatch } from "react-redux";
+import ChallengeAction from "redux/challenge.redux";
 const ChallengeListJoined = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const listJoinedData = useSelector(state => state.challengeRedux.listJoined);
-  const { pageData, total } = listJoinedData;
-  const [listJoined, setListJoined] = useState(pageData);
+  const { pageData, total } = useSelector(state => state.challengeRedux.listJoined);
+  const listJoined = pageData;
   const [slideIndex, setSlideIndex] = useState(0);
   const [initialSlide, setInitialSlide] = useState(0);
   const sliderRef = useRef();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const load = async () => {
       if (slideIndex === AppConstant.DATA_SIZES.challenges - 2 && listJoined.length < total) {
-        const res = await ChallengeService.getChallengeListAll({
-          joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.joined,
-          pageSize: total,
-        });
-        setListJoined(res.data.data.pageData);
+        dispatch(
+          ChallengeAction.requestGetChallengeListJoined({
+            joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.joined,
+            pageSize: total,
+          }),
+        );
         setInitialSlide(AppConstant.DATA_SIZES.challenges);
       }
     };
@@ -75,7 +76,7 @@ const ChallengeListJoined = () => {
           <SliderButton className={classes.prevBtn} disabled={slideIndex === 0} onClick={() => onClickPrev()} />
           <SliderButton
             className={classes.nextBtn}
-            disabled={slideIndex >= total - 3}
+            disabled={slideIndex >= total - 2}
             isNext
             onClick={() => onClickNext()}
           />

@@ -146,11 +146,6 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  // transparentSearchBar: {
-  //   "&>*": {
-  //     background: "tomato !important",
-  //   },
-  // },
 }));
 
 export default memo(CustomAppBar);
