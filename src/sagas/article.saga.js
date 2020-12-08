@@ -116,8 +116,9 @@ export function* requestGetComments(action) {
 
       const comments =
         pageNum === 1 ? responseData : { ...responseData, pageData: currentComments.concat(newComments) };
-      desktopComments = desktopComments.length ? desktopComments : newComments.slice(0, 2);
-      yield put(ArticleAction.articleSuccess({ comments, replies: currentReplies, desktopComments }));
+      const result = { comments, replies: currentReplies };
+      if (!desktopComments.length) result.desktopComments = newComments.slice(0, 2);
+      yield put(ArticleAction.articleSuccess(result));
     }
   } catch (error) {
     console.log(error);

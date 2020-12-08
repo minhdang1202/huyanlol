@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import StringFormat from "string-format";
 import clsx from "clsx";
@@ -52,4 +52,4 @@ Replies.propTypes = {
   commentId: PropTypes.number,
 };
 
-export default Replies;
+export default memo(Replies);

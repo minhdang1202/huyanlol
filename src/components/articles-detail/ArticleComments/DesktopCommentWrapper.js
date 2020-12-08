@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
@@ -36,7 +36,7 @@ DesktopCommentWrapper.propTypes = {
   onOpenReplyDialog: PropTypes.func,
 };
 
-export default DesktopCommentWrapper;
+export default memo(DesktopCommentWrapper);
 
 const useStyles = makeStyles(theme => ({
   root: {

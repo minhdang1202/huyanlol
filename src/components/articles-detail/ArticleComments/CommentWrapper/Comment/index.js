@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
@@ -35,4 +35,4 @@ Comment.propTypes = {
   isDesktopComment: PropTypes.bool,
 };
 
-export default Comment;
+export default memo(Comment);

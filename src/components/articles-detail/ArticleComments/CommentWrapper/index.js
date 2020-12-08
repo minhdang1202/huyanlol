@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { PropTypes } from "prop-types";
 import { useSelector } from "react-redux";
 import { Box, CircularProgress, makeStyles } from "@material-ui/core";
@@ -39,7 +39,7 @@ CommentWrapper.propTypes = {
   hasSortChange: PropTypes.bool,
 };
 
-export default CommentWrapper;
+export default memo(CommentWrapper);
 
 const useStyles = makeStyles(theme => ({
   commentWrapper: {

@@ -53,7 +53,7 @@ const GiversList = ({ isOpen, onClose, reactCount, commentId, articleId }) => {
 
   useEffect(() => {
     if (!givers) {
-      // dispatchGetGivers(1);
+      dispatchGetGivers(1);
     }
   }, []);
 

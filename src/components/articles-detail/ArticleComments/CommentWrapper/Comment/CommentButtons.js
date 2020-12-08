@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import StringFormat from "string-format";
@@ -96,10 +96,10 @@ CommentButtons.propTypes = {
   isDesktopComment: PropTypes.bool,
 };
 
+export default memo(CommentButtons);
+
 const useStyles = makeStyles(theme => ({
   buttonMobile: {
     margin: theme.spacing(-1, 0, 0, -1),
   },
 }));
-
-export default CommentButtons;

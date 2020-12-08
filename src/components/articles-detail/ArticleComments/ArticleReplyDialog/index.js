@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { DialogLayout } from "components";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -33,7 +33,7 @@ const ArticleReplyDialog = props => {
     articleRedux.article,
     articleRedux.isFetchingComments,
   ]);
-  
+
   const dispatch = useDispatch();
   const dispatchGetComments = pageNum => {
     dispatch(ArticleActions.requestGetComments(onGetParams(pageNum)));
@@ -90,7 +90,7 @@ const ArticleReplyDialog = props => {
   );
 };
 
-export default ArticleReplyDialog;
+export default memo(ArticleReplyDialog);
 
 const useStyles = makeStyles(theme => ({
   root: {

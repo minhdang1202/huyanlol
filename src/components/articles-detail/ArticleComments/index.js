@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import StringFormat from "string-format";
@@ -176,7 +176,7 @@ export const RADIO_LIST = [
   },
 ];
 
-export default ArticleComments;
+export default memo(ArticleComments);
 
 const useStyles = makeStyles(theme => ({
   selectButton: {
