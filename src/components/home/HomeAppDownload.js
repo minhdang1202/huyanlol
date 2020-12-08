@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, List, ListItem, ListItemText, ListSubheader, makeStyles, Paper, Typography } from "@material-ui/core";
-import { DownloadButtons } from "components";
+import { AppLink, DownloadButtons } from "components";
 import { useTranslation } from "react-i18next";
 import { getCommonKey } from "const/lang.const";
-import { LangConstant } from "const";
+import { LangConstant, PathConstant } from "const";
 
 const HomeAppDownload = () => {
   const classes = useStyles();
@@ -27,16 +27,25 @@ const HomeAppDownload = () => {
           className={classes.shortcutContainer}
         >
           <ListItem button className={classes.shortcutItem}>
-            <Box style={{}} />
-            <ListItemText
-              primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_UP"))}</Typography>}
-            />
+            <AppLink className="no-style-link">
+              <ListItemText
+                primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_UP"))}</Typography>}
+              />
+            </AppLink>
           </ListItem>
           <ListItem button className={classes.shortcutItem}>
-            <Box />
-            <ListItemText
-              primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_COMMUNITY"))}</Typography>}
-            />
+            <AppLink to={PathConstant.CHALLENGES} className="no-style-link">
+              <ListItemText
+                primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_CHALLENGE"))}</Typography>}
+              />
+            </AppLink>
+          </ListItem>
+          <ListItem button className={classes.shortcutItem}>
+            <AppLink className="no-style-link">
+              <ListItemText
+                primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_COMMUNITY"))}</Typography>}
+              />
+            </AppLink>
           </ListItem>
         </List>
       </Paper>
@@ -83,13 +92,6 @@ const useStyles = makeStyles(theme => ({
   shortcutItem: {
     marginLeft: -5,
     paddingLeft: 5,
-    "&>*:first-child": {
-      width: 25,
-      height: 25,
-      borderRadius: 2,
-      background: "#d8d8d8",
-      marginRight: 12,
-    },
   },
   downloadTitle: {
     marginTop: theme.spacing(2),

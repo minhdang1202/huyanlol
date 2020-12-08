@@ -44,6 +44,7 @@ export default {
     TXT_REPLY: "Trả lời",
     TXT_ARRANGE: "Sắp xếp",
     TXT_NO_GIVER: "Bài viết chưa có giver",
+    TXT_CHALLENGE: "Thử thách đọc sách",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
