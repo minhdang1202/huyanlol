@@ -17,27 +17,13 @@ const ChallengeListJoined = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const sliderRef = useRef();
+  const dispatch = useDispatch();
+
   const { pageData, total } = useSelector(state => state.challengeRedux.listJoined);
   const listJoined = pageData;
   const [slideIndex, setSlideIndex] = useState(0);
   const [initialSlide, setInitialSlide] = useState(0);
-  const sliderRef = useRef();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const load = async () => {
-      if (slideIndex === AppConstant.DATA_SIZES.challenges - 2 && listJoined.length < total) {
-        dispatch(
-          ChallengeAction.requestGetChallengeListJoined({
-            joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.joined,
-            pageSize: total,
-          }),
-        );
-        setInitialSlide(AppConstant.DATA_SIZES.challenges);
-      }
-    };
-
-    load();
-  }, [slideIndex]);
 
   const sequenceBackground = position => {
     switch (position % 4) {
@@ -74,6 +60,21 @@ const ChallengeListJoined = () => {
       return 3;
     }
   };
+  useEffect(() => {
+    const load = () => {
+      if (slideIndex === AppConstant.DATA_SIZES.challenges - 2 && listJoined.length < total) {
+        dispatch(
+          ChallengeAction.requestGetChallengeListJoined({
+            joinStatusFilter: AppConstant.CHALLENGE_LIST_TYPE.joined,
+            pageSize: total,
+          }),
+        );
+        setInitialSlide(AppConstant.DATA_SIZES.challenges);
+      }
+    };
+
+    load();
+  }, [slideIndex]);
   return (
     <Box className={classes.root}>
       <Typography variant="h6">{getLabel("L_YOUR_CHALLENGE")}</Typography>
