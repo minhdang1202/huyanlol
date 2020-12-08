@@ -19,6 +19,16 @@ const ChallengeListJoined = () => {
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const sliderRef = useRef();
   const dispatch = useDispatch();
+  const slideSettings = {
+    dots: false,
+    infinite: false,
+    speed: 200,
+    variableWidth: true,
+    afterChange: index => setSlideIndex(index),
+    arrows: false,
+    initialSlide: initialSlide,
+    swipe: isTablet,
+  };
 
   const { pageData, total } = useSelector(state => state.challengeRedux.listJoined);
   const listJoined = pageData;
@@ -41,16 +51,6 @@ const ChallengeListJoined = () => {
   const onClickNext = () => sliderRef.current.slickNext();
   const onClickPrev = () => sliderRef.current.slickPrev();
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 200,
-    variableWidth: true,
-    afterChange: index => setSlideIndex(index),
-    arrows: false,
-    initialSlide: initialSlide,
-    swipe: isTablet,
-  };
   const getSlidePrefix = () => {
     if (isTablet) {
       return 2;
@@ -78,7 +78,7 @@ const ChallengeListJoined = () => {
   return (
     <Box className={classes.root}>
       <Typography variant="h6">{getLabel("L_YOUR_CHALLENGE")}</Typography>
-      <Slider className={classes.list} {...settings} ref={sliderRef}>
+      <Slider className={classes.list} {...slideSettings} ref={sliderRef}>
         {listJoined.map((item, index) => (
           <Item key={item.challengeId} data={item} className={sequenceBackground(index + 1)} />
         ))}
