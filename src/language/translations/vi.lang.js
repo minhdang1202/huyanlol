@@ -200,6 +200,7 @@ export default {
     TXT_LIST_ARTICLES: "Danh sách đánh giá",
     TXT_LIST_REVIEWS: "Danh sách review",
     TXT_LIST_WRITERS: "Danh sách nhà văn",
+    TXT_CREATE_ARTICLE: "Tạo bài viết mới",
   },
   articleCreate: {
     TXT_CREATE_POST: "Đăng bài",

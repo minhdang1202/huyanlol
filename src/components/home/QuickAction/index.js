@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { Box, Grid, makeStyles, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, PathConstant } from "const";
 import { uuid } from "utils";
 import QuickActionItem from "./QuickActionItem";
 import { BookIcon, PersonIcon } from "icons";
@@ -29,6 +29,11 @@ const QuickAction = () => {
           <PersonIcon />
         </Box>
       ),
+    },
+    {
+      title: getLabel("TXT_CREATE_ARTICLE"),
+      cover: "/images/img-create-article.png",
+      path: PathConstant.ARTICLE_CREATE,
     },
   ];
 
