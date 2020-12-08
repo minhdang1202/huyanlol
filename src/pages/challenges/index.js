@@ -77,6 +77,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     position: "relative",
     marginTop: `-${HEIGHT_APP_BAR}`,
+    overflowX: "hidden",
     [theme.breakpoints.down("xs")]: {
       marginTop: 0,
     },
@@ -151,11 +152,6 @@ const useStyles = makeStyles(theme => ({
       [theme.breakpoints.down("xs")]: {
         padding: theme.spacing(1),
         marginBottom: theme.spacing(7),
-      },
-    },
-    "&>:nth-child(2)": {
-      [theme.breakpoints.down("xs")]: {
-        paddingRight: 0,
       },
     },
   },

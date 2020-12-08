@@ -16,6 +16,7 @@ const ChallengeListJoined = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const { pageData, total } = useSelector(state => state.challengeRedux.listJoined);
   const listJoined = pageData;
   const [slideIndex, setSlideIndex] = useState(0);
@@ -62,6 +63,16 @@ const ChallengeListJoined = () => {
     afterChange: index => setSlideIndex(index),
     arrows: false,
     initialSlide: initialSlide,
+    swipe: isTablet,
+  };
+  const getSlidePrefix = () => {
+    if (isTablet) {
+      return 2;
+    } else if (isMobile) {
+      return 1;
+    } else {
+      return 3;
+    }
   };
   return (
     <Box className={classes.root}>
@@ -76,7 +87,7 @@ const ChallengeListJoined = () => {
           <SliderButton className={classes.prevBtn} disabled={slideIndex === 0} onClick={() => onClickPrev()} />
           <SliderButton
             className={classes.nextBtn}
-            disabled={slideIndex >= total - 2}
+            disabled={slideIndex >= total - getSlidePrefix()}
             isNext
             onClick={() => onClickNext()}
           />
@@ -147,6 +158,11 @@ Item.propTypes = {
 };
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    [theme.breakpoints.down("xs")]: {
+      paddingRight: 0,
+    },
+  },
   list: {
     marginTop: theme.spacing(2),
     width: "100%",
