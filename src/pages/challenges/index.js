@@ -43,10 +43,11 @@ const Challenge = () => {
         };
       }
     }
-  }, []);
+  });
   const onScroll = e => {
     if (e.target.scrollTop > 0 && isTransparentAppBar) {
       setIsTransparentAppBar(false);
+      console.log(1);
     } else if (e.target.scrollTop === 0) {
       setIsTransparentAppBar(true);
     }
