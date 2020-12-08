@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import PropTypes from "prop-types";
@@ -15,10 +15,10 @@ const Replies = ({ replyCount, commentId }) => {
   const dispatch = useDispatch();
 
   const dispatchGetReplies = () => dispatch(ArticleActions.requestGetReplies(onGetParams()));
-  const [replies, isFetchingReplies] = useSelector(({ articleRedux }) => [
-    articleRedux.replies[commentId]?.pageData,
-    articleRedux.isFetchingReplies,
-  ]);
+  const [replies, isFetchingReplies] = useSelector(
+    ({ articleRedux }) => [articleRedux.replies[commentId]?.pageData, articleRedux.isFetchingReplies],
+    shallowEqual,
+  );
   const lastReplyId = replies ? replies[0].commentId : null;
 
   const onGetParams = () => ({

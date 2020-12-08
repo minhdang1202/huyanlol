@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { PropTypes } from "prop-types";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { Box, CircularProgress, makeStyles } from "@material-ui/core";
 import Comment from "./Comment";
 import Replies from "./Replies";
@@ -9,11 +9,14 @@ import { uuid } from "utils";
 
 const CommentWrapper = ({ hasSortChange }) => {
   const classes = useStyles();
-  const [comments, commentCount, isFetchingComments] = useSelector(({ articleRedux }) => [
-    articleRedux.comments.pageData,
-    articleRedux.article.commentCount,
-    articleRedux.isFetchingComments,
-  ]);
+  const [comments, commentCount, isFetchingComments] = useSelector(
+    ({ articleRedux }) => [
+      articleRedux.comments.pageData,
+      articleRedux.article.commentCount,
+      articleRedux.isFetchingComments,
+    ],
+    shallowEqual,
+  );
 
   return commentCount === 0 ? (
     <NoCommentWrapper />

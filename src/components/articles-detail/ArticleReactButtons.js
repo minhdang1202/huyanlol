@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { Button, Box, Hidden, Divider, useTheme, useMediaQuery, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { FBShareButton, DialogAppDownload, BookmarkButton, AuthDialog } from "components";
@@ -12,7 +12,7 @@ const ArticleReactButtons = ({ shareUrl }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const { saved: isBookmarked } = useSelector(({ articleRedux }) => articleRedux.article);
+  const { saved: isBookmarked } = useSelector(({ articleRedux }) => articleRedux.article, shallowEqual);
   const { isAuth } = useSelector;
   const [isOpenDownload, setIsOpenDownload] = useState(false);
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);

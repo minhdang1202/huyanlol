@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from "react";
 import { DialogLayout } from "components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import {
   Box,
   DialogContent,
@@ -28,11 +28,10 @@ const ArticleReplyDialog = props => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [hasSortChange, setHasSortChange] = useState(false);
-  const [comments, article, isFetchingComments] = useSelector(({ articleRedux }) => [
-    articleRedux.comments,
-    articleRedux.article,
-    articleRedux.isFetchingComments,
-  ]);
+  const [comments, article, isFetchingComments] = useSelector(
+    ({ articleRedux }) => [articleRedux.comments, articleRedux.article, articleRedux.isFetchingComments],
+    shallowEqual,
+  );
 
   const dispatch = useDispatch();
   const dispatchGetComments = pageNum => {

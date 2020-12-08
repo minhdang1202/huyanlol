@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Typography, makeStyles, DialogContent, Divider, Box, Hidden, CircularProgress } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import StringFormat from "string-format";
@@ -22,10 +22,13 @@ const GiversList = ({ isOpen, onClose, reactCount, commentId, articleId }) => {
       ? dispatch(ArticleActions.requestGetCommentGivers(onGetParams(pageNum)))
       : dispatch(ArticleActions.requestGetGivers(onGetParams(pageNum)));
 
-  const [currentGivers, isFetchingGivers] = useSelector(({ articleRedux }) => [
-    commentId ? articleRedux.commentGivers[commentId] : articleRedux.articleGivers[articleId],
-    articleRedux.isFetchingGivers,
-  ]);
+  const [currentGivers, isFetchingGivers] = useSelector(
+    ({ articleRedux }) => [
+      commentId ? articleRedux.commentGivers[commentId] : articleRedux.articleGivers[articleId],
+      articleRedux.isFetchingGivers,
+    ],
+    shallowEqual,
+  );
 
   const givers = currentGivers?.pageData;
   const pageNo = currentGivers?.pageNo;

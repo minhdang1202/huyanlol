@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import StringFormat from "string-format";
 import { Typography, Box, Hidden, Button, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
@@ -24,11 +24,10 @@ const ArticleComments = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
   const { isAuth } = useSelector(({ authRedux }) => authRedux);
-  const [comments, article, isFetchingComments] = useSelector(({ articleRedux }) => [
-    articleRedux.comments,
-    articleRedux.article,
-    articleRedux.isFetchingComments,
-  ]);
+  const [comments, article, isFetchingComments] = useSelector(
+    ({ articleRedux }) => [articleRedux.comments, articleRedux.article, articleRedux.isFetchingComments],
+    shallowEqual,
+  );
   const { articleId, commentCount } = article;
   const dispatch = useDispatch();
   const dispatchGetComments = pageNum => {
