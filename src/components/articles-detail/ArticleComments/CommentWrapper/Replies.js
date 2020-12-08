@@ -15,9 +15,11 @@ const Replies = ({ replyCount, commentId }) => {
   const dispatch = useDispatch();
 
   const dispatchGetReplies = () => dispatch(ArticleActions.requestGetReplies(onGetParams()));
-  const { replies: repliesRedux, isFetchingReplies } = useSelector(({ articleRedux }) => articleRedux);
-  const replies = repliesRedux[commentId].pageData;
-  const lastReplyId = replies[0].commentId;
+  const [replies, isFetchingReplies] = useSelector(({ articleRedux }) => [
+    articleRedux.replies[commentId]?.pageData,
+    articleRedux.isFetchingReplies,
+  ]);
+  const lastReplyId = replies ? replies[0].commentId : null;
 
   const onGetParams = () => ({
     commentId: commentId,
@@ -26,20 +28,22 @@ const Replies = ({ replyCount, commentId }) => {
   });
 
   return (
-    <Box display="flex" mt={1} width="100%">
-      <Divider orientation="vertical" className="mr-12" flexItem />
-      <Box flexGrow={1}>
-        {!isFetchingReplies && replies.length < replyCount && (
-          <Button size="small" className={clsx("blue-text", "mb-8", "ml-n8")} onClick={dispatchGetReplies}>
-            {StringFormat(getLabel("FM_ARTICLE_SEE_MORE_REPLIES"), replyCount - replies.length)}
-          </Button>
-        )}
-        {isFetchingReplies && <CircularProgress size={20} className={clsx("mt-4", "mb-4", "blue-text")} />}
-        {replies.map((reply, index) => (
-          <Comment key={uuid()} comment={reply} className={index === replies.length - 1 ? null : "mb-8"} />
-        ))}
+    replies && (
+      <Box display="flex" mt={1} width="100%">
+        <Divider orientation="vertical" className="mr-12" flexItem />
+        <Box flexGrow={1}>
+          {!isFetchingReplies && replies?.length < replyCount && (
+            <Button size="small" className={clsx("blue-text", "mb-8", "ml-n8")} onClick={dispatchGetReplies}>
+              {StringFormat(getLabel("FM_ARTICLE_SEE_MORE_REPLIES"), replyCount - replies.length)}
+            </Button>
+          )}
+          {isFetchingReplies && <CircularProgress size={20} className={clsx("mt-4", "mb-4", "blue-text")} />}
+          {replies.map((reply, index) => (
+            <Comment key={uuid()} comment={reply} className={index === replies.length - 1 ? null : "mb-8"} />
+          ))}
+        </Box>
       </Box>
-    </Box>
+    )
   );
 };
 

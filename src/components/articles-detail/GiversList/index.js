@@ -22,10 +22,11 @@ const GiversList = ({ isOpen, onClose, reactCount, commentId, articleId }) => {
       ? dispatch(ArticleActions.requestGetCommentGivers(onGetParams(pageNum)))
       : dispatch(ArticleActions.requestGetGivers(onGetParams(pageNum)));
 
-  const { givers: giversRedux, isFetchingGivers, commentGivers: commentGiversRedux } = useSelector(
-    ({ articleRedux }) => articleRedux,
-  );
-  const currentGivers = commentId ? commentGiversRedux[commentId] : giversRedux[articleId];
+  const [currentGivers, isFetchingGivers] = useSelector(({ articleRedux }) => [
+    commentId ? articleRedux.commentGivers[commentId] : articleRedux.articleGivers[articleId],
+    articleRedux.isFetchingGivers,
+  ]);
+
   const givers = currentGivers?.pageData;
   const pageNo = currentGivers?.pageNo;
   const pageSize = currentGivers?.pageSize;
@@ -51,10 +52,10 @@ const GiversList = ({ isOpen, onClose, reactCount, commentId, articleId }) => {
   };
 
   useEffect(() => {
-    if (isOpen && !givers) {
-      dispatchGetGivers(1);
+    if (!givers) {
+      // dispatchGetGivers(1);
     }
-  }, [isOpen]);
+  }, []);
 
   return (
     <Dialog open={isOpen} onBackdropClick={onClose}>

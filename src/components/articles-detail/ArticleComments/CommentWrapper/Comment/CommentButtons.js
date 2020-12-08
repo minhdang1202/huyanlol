@@ -4,18 +4,20 @@ import PropTypes from "prop-types";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
-import { Button, Box, makeStyles } from "@material-ui/core";
+import { Button, Box, useTheme, useMediaQuery, makeStyles } from "@material-ui/core";
 import ArticleActions from "redux/article.redux";
 import GiversList from "../../../GiversList";
 import { AuthDialog, DialogAppDownload } from "components";
+import { MOBILE_INPUT_ID } from "../../MobileInput";
 
 const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDialog, isDesktopComment }) => {
   const { userId, name } = user;
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation();
   const { isAuth } = useSelector(({ authRedux }) => authRedux);
   const dispatch = useDispatch();
-  const onReplyComment = () => dispatch(ArticleActions.onReplyComment(commentId, userId, name));
 
   const [isOpenDownload, setIsOpenDownload] = useState(false);
   const [isOpenGivers, setIsOpenGivers] = useState(false);
@@ -35,25 +37,32 @@ const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDi
   const onCloseDownload = () => {
     setIsOpenDownload(false);
   };
-  const onOpenAuthDialog = () => {
-    setIsOpenAuthDialog(true);
-  };
+
   const onCloseAuthDialog = () => {
     setIsOpenAuthDialog(false);
+  };
+  const onReplyComment = () => {
+    if (!isAuth) {
+      setIsOpenAuthDialog(true);
+      return;
+    }
+    if (isMobile) {
+      const mobileInput = document.getElementById(MOBILE_INPUT_ID);
+      mobileInput.focus();
+      return;
+    }
   };
 
   return (
     <>
-      <GiversList isOpen={isOpenGivers} onClose={onCloseGiversList} reactCount={reactCount} commentId={commentId} />
-      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
-      <DialogAppDownload isOpen={isOpenDownload} onClose={onCloseDownload} />
+      {isOpenGivers && (
+        <GiversList isOpen={true} onClose={onCloseGiversList} reactCount={reactCount} commentId={commentId} />
+      )}
+      {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
+      {isOpenDownload && <DialogAppDownload isOpen={true} onClose={onCloseDownload} />}
       {!isDesktopComment ? (
         <Box display="flex">
-          <Button
-            size="small"
-            className={clsx(classes.buttonMobile, "grey-text", "mr-4")}
-            onClick={isAuth ? onReplyComment : onOpenAuthDialog}
-          >
+          <Button size="small" className={clsx(classes.buttonMobile, "grey-text", "mr-4")} onClick={onReplyComment}>
             {getLabel("TXT_REPLY")}
           </Button>
           <Button size="small" className={clsx(classes.buttonMobile, "grey-text")} onClick={onOpenGiversList}>

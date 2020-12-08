@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { Button, Box, Hidden, Divider, useTheme, useMediaQuery, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { FBShareButton, DialogAppDownload, BookmarkButton } from "components";
+import { FBShareButton, DialogAppDownload, BookmarkButton, AuthDialog } from "components";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
+import { MOBILE_INPUT_ID } from "./ArticleComments/MobileInput";
 
 const ArticleReactButtons = ({ shareUrl }) => {
   const { t: getLabel } = useTranslation();
@@ -12,16 +13,30 @@ const ArticleReactButtons = ({ shareUrl }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { saved: isBookmarked } = useSelector(({ articleRedux }) => articleRedux.article);
+  const { isAuth } = useSelector;
   const [isOpenDownload, setIsOpenDownload] = useState(false);
+  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
   const onOpenDownload = () => {
     setIsOpenDownload(true);
   };
   const onCloseDownload = () => {
     setIsOpenDownload(false);
   };
+  const onCloseAuthDialog = () => {
+    setIsOpenAuthDialog(false);
+  };
+  const onGotoComment = () => {
+    if (!isAuth) {
+      setIsOpenAuthDialog(true);
+      return;
+    }
+    const mobileInput = document.getElementById(MOBILE_INPUT_ID);
+    mobileInput.focus();
+  };
 
   return (
     <Box className={classes.root}>
+      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
       <Divider className={classes.divider} />
       <DialogAppDownload isOpen={isOpenDownload} onClose={onCloseDownload} />
       <Box bgcolor="white" display="flex" justifyContent={{ xs: "space-around", sm: "space-between" }} py={1}>
@@ -34,7 +49,7 @@ const ArticleReactButtons = ({ shareUrl }) => {
           {getLabel("TXT_LOVE")}
         </Button>
         <Hidden smUp>
-          <Button size="small" className="grey-text" startIcon={<Box className="ic-comment" />}>
+          <Button size="small" className="grey-text" startIcon={<Box className="ic-comment" />} onClick={onGotoComment}>
             {getLabel("TXT_COMMENT")}
           </Button>
         </Hidden>

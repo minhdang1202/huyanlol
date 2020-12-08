@@ -5,14 +5,13 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { AppConstant } from "const";
 import BookBox from "../../../BookBox";
-import { cutString, getImageById } from "utils";
+import { cutString } from "utils";
 
 const CommentContent = ({ content, commentToEditions, isDesktopComment }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const shortComment = cutString(AppConstant.COMMENT_DEFAULT_LENGTH, content);
   const hasSeeMoreBtn = content.length > AppConstant.COMMENT_DEFAULT_LENGTH;
-  const { imageId, rateAvg, title, authorName, editionId } = commentToEditions[0] || {};
   const [isFullComment, setIsFullComment] = useState(false);
   const [displayContent, setDisplayContent] = useState(shortComment);
   const onShowComment = () => {
@@ -40,11 +39,7 @@ const CommentContent = ({ content, commentToEditions, isDesktopComment }) => {
       {commentToEditions[0] && (
         <BookBox
           className="mt-12"
-          bookCover={getImageById(imageId)}
-          rateAvg={rateAvg}
-          bookName={title}
-          author={authorName}
-          editionId={editionId}
+          data={commentToEditions[0]}
         />
       )}
     </Box>

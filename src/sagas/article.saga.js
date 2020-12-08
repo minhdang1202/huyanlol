@@ -2,7 +2,6 @@ import { call, put, select } from "redux-saga/effects";
 import { ApiConstant } from "const";
 import ArticleAction from "redux/article.redux";
 import { ArticleService } from "services";
-import { getImageById } from "utils";
 
 export function* requestGetHomeArticles(action) {
   let response = yield call(ArticleService.getListArticles, action.data);
@@ -54,7 +53,7 @@ export function* requestGetChallengeArticles(action) {
 export function* requestGetGivers(action) {
   const { articleId, ...params } = action.data;
   const { pageNum } = params;
-  let givers = yield select(({ articleRedux }) => articleRedux.givers);
+  let givers = yield select(({ articleRedux }) => articleRedux.articleGivers);
   const currentGivers = givers[articleId]?.pageData || [];
   let response = yield call(ArticleService.getArticleGivers, articleId, params);
 
@@ -128,6 +127,7 @@ export function* requestGetComments(action) {
 
 export function* requestGetReplies(action) {
   const { commentId, ...params } = action.data;
+  const isFetchingReplies = false;
   let currentReplies = yield select(({ articleRedux }) => articleRedux.replies);
   let response = yield call(ArticleService.getArticleReplies, commentId, params);
 
@@ -139,24 +139,25 @@ export function* requestGetReplies(action) {
         ...responseData,
         pageData: newReplies.reverse().concat(currentReplies[commentId].pageData),
       };
-      yield put(ArticleAction.articleSuccess({ replies: currentReplies }));
+      yield put(ArticleAction.articleSuccess({ replies: currentReplies, isFetchingReplies }));
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(ArticleAction.articleFailure(error, isFetchingReplies));
+  }
+}
+
+export function* requestPostComment(action) {
+  const { articleId, ...params } = action.data;
+  let comments = yield select(({ articleRedux }) => articleRedux.comments);
+  let response = yield call(ArticleService.postComment, articleId, params);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
     }
   } catch (error) {
     console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
-
-// export function* requestPostComment(action) {
-//   const { articleId, ...params } = action.data;
-//   let response = yield call(ArticleService.postComment, articleId, params);
-
-//   try {
-//     if (response.status === ApiConstant.STT_OK) {
-//       let responseData = response.data.data;      
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     yield put(ArticleAction.articleFailure(error));
-//   }
-// }

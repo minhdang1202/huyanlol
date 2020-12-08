@@ -15,6 +15,7 @@ import ArticleReplyDialog from "./ArticleReplyDialog";
 import { getLabel } from "language";
 import { checkIfLastPage } from "utils";
 import { AuthDialog } from "components";
+import DesktopCommentWrapper from "./DesktopCommentWrapper";
 
 const ArticleComments = () => {
   const classes = useStyles();
@@ -23,7 +24,11 @@ const ArticleComments = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
   const { isAuth } = useSelector(({ authRedux }) => authRedux);
-  const { comments, article, isFetchingComments } = useSelector(({ articleRedux }) => articleRedux);
+  const [comments, article, isFetchingComments] = useSelector(({ articleRedux }) => [
+    articleRedux.comments,
+    articleRedux.article,
+    articleRedux.isFetchingComments,
+  ]);
   const { articleId, commentCount } = article;
   const dispatch = useDispatch();
   const dispatchGetComments = pageNum => {
@@ -93,7 +98,7 @@ const ArticleComments = () => {
   });
 
   useEffect(() => {
-    if (isMobile) dispatchGetComments(1);
+    dispatchGetComments(1);
   }, [sortValue, isMobile]);
 
   useEffect(() => {
@@ -102,8 +107,8 @@ const ArticleComments = () => {
 
   return (
     <Box width="100%">
-      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
-      <ArticleReplyDialog open={isOpenReplyDialog} onBackdropClick={onCloseReplyDialog} />
+      {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
+      {isOpenReplyDialog && <ArticleReplyDialog open={true} onBackdropClick={onCloseReplyDialog} />}
       <SortPopup
         sortValue={sortValue}
         radioList={RADIO_LIST}
@@ -130,7 +135,11 @@ const ArticleComments = () => {
             <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
           </Button>
         </Hidden>
-        <CommentWrapper onOpenReplyDialog={onOpenReplyDialog} hasSortChange={hasSortChange} />
+        {!isMobile ? (
+          <DesktopCommentWrapper onOpenReplyDialog={onOpenReplyDialog} />
+        ) : (
+          <CommentWrapper hasSortChange={hasSortChange} />
+        )}
         {comments.pageData?.length < commentCount && (
           <Hidden xsDown>
             <Button
@@ -142,9 +151,11 @@ const ArticleComments = () => {
             </Button>
           </Hidden>
         )}
-        <Hidden smUp>
-          <MobileInput />
-        </Hidden>
+        {isAuth && (
+          <Hidden smUp>
+            <MobileInput />
+          </Hidden>
+        )}
       </Box>
     </Box>
   );
@@ -165,6 +176,8 @@ export const RADIO_LIST = [
   },
 ];
 
+export default ArticleComments;
+
 const useStyles = makeStyles(theme => ({
   selectButton: {
     "& .ic-chevron-down": {
@@ -182,5 +195,3 @@ const useStyles = makeStyles(theme => ({
     borderColor: `${theme.palette.grey[100]} !important`,
   },
 }));
-
-export default ArticleComments;

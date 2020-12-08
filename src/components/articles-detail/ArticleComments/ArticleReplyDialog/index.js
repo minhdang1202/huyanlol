@@ -28,7 +28,12 @@ const ArticleReplyDialog = props => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [hasSortChange, setHasSortChange] = useState(false);
-  const { comments, article, isFetchingComments } = useSelector(({ articleRedux }) => articleRedux);
+  const [comments, article, isFetchingComments] = useSelector(({ articleRedux }) => [
+    articleRedux.comments,
+    articleRedux.article,
+    articleRedux.isFetchingComments,
+  ]);
+  
   const dispatch = useDispatch();
   const dispatchGetComments = pageNum => {
     dispatch(ArticleActions.requestGetComments(onGetParams(pageNum)));

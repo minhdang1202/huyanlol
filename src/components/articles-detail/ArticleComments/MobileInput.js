@@ -3,7 +3,7 @@ import StringFormat from "string-format";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
-import { Avatar, Box, makeStyles, Button, TextareaAutosize, IconButton, Typography } from "@material-ui/core";
+import { Avatar, Box, makeStyles, Button, InputBase, IconButton, Typography } from "@material-ui/core";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 import ArticleActions from "redux/article.redux";
 
@@ -62,8 +62,11 @@ const MobileInput = () => {
       )}
       <form className={classes.form}>
         <Avatar variant="square" src="/images/ic-book.png" />
-        <TextareaAutosize
+        <InputBase
+          multiline
+          rowsMax={4}
           ref={input}
+          id={MOBILE_INPUT_ID}
           className={classes.textarea}
           placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
           onChange={onChange}
@@ -75,6 +78,9 @@ const MobileInput = () => {
     </Box>
   );
 };
+
+export const MOBILE_INPUT_ID = "mobile-input";
+export default MobileInput;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -139,5 +145,3 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-
-export default MobileInput;

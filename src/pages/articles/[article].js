@@ -73,14 +73,14 @@ const ArticleDetail = ({ article }) => {
           />
         </Grid>
         <Box position="relative" display="flex" maxWidth={{ xs: 624, sm: 1020 }}>
-          <ArticleContent name={creator.name} body={body} avatar={creator.avatar} date={displayDate} />
+          <ArticleContent body={body} creator={creator} date={displayDate} />
         </Box>
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           {editions.length > 0 && (
             <ArticleBookMentioned isReviewType={isReviewType} bookList={editions} bookMentioned={bookMentioned} />
           )}
           <ArticleHashtagButtons className="mt-16" hashtags={hashtags} category={categories[0].title} />
-          <ArticleAuthor name={creator.name} avatar={creator.avatar} date={displayDate} address={creator.address} />
+          <ArticleAuthor creator={creator} date={displayDate} />
           <ArticleReacts reactCount={reactCount} commentCount={commentCount} articleId={articleId} />
         </Grid>
         <ArticleReactButtons shareUrl={shareUrl} saved={saved} />

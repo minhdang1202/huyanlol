@@ -7,8 +7,8 @@ import SliderButtons from "./SliderButtons";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 
 const BookSlider = ({ sliderList, ...otherProps }) => {
-  const classes = useStyles();
   const totalSlides = sliderList.length;
+  const classes = useStyles({ totalSlides });
   const settings = {
     dots: false,
     infinite: false,
@@ -40,18 +40,7 @@ const BookSlider = ({ sliderList, ...otherProps }) => {
     >
       <Slider ref={slider} {...settings} {...otherProps} className={classes.root}>
         {sliderList.map((slide, index) => {
-          const { bookCover, title, authorName, editionId, rateAvg } = slide;
-          return (
-            <BookBox
-              key={index}
-              editionId={editionId}
-              bookCover={bookCover}
-              rateAvg={rateAvg}
-              bookName={title}
-              author={authorName}
-              className={classes.slide}
-            />
-          );
+          return <BookBox key={index} data={slide} className={classes.slide} />;
         })}
       </Slider>
       <SliderButtons
@@ -79,25 +68,23 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     maxWidth: "100%",
     "& .slick-slide": {
-      marginRight: theme.spacing(2),
-    },
-  },
-  slide: {
-    width: WIDTH_BOOK_BOX,
-    minWidth: WIDTH_BOOK_BOX,
-    maxWidth: WIDTH_BOOK_BOX,
-    height: HEIGHT_BOOK_BOX,
-    [theme.breakpoints.down("md")]: {
-      width: WIDTH_BOOK_BOX_TABLET,
-      minWidth: WIDTH_BOOK_BOX_TABLET,
-      maxWidth: WIDTH_BOOK_BOX,
+      marginRight: ({ totalSlides }) => (totalSlides === 1 ? 0 : theme.spacing(2)),
+      width: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX),
+      minWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX),
+      maxWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX),
       height: HEIGHT_BOOK_BOX,
-    },
-    [theme.breakpoints.down("xs")]: {
-      width: WIDTH_BOOK_BOX_MOBILE,
-      minWidth: WIDTH_BOOK_BOX_MOBILE,
-      maxWidth: WIDTH_BOOK_BOX_MOBILE,
-      height: HEIGHT_BOOK_BOX_MOBILE,
+      [theme.breakpoints.down("md")]: {
+        width: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_TABLET),
+        minWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_TABLET),
+        maxWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX),
+        height: HEIGHT_BOOK_BOX,
+      },
+      [theme.breakpoints.down("xs")]: {
+        width: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_MOBILE),
+        minWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_MOBILE),
+        maxWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_MOBILE),
+        height: HEIGHT_BOOK_BOX_MOBILE,
+      },
     },
   },
 }));
