@@ -61,3 +61,4 @@ export const GET_CHALLENGE_LEADER_BOARD = challengeId => `/challenges/${challeng
 export const GET_CHALLENGE_FRIEND_LEADER_BOARD = challengeId => `/challenges/${challengeId}/friend_leader_board`;
 export const GET_CHALLENGE_ACTIVITY = challengeId => `/challenges/${challengeId}/activities`;
 export const PUT_JOIN_CHALLENGE = challengeId => `/challenges/${challengeId}/_join`;
+export const GET_CHALLENGE_LIST_ALL = "/challenges";

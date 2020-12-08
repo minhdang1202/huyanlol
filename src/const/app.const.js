@@ -17,6 +17,7 @@ export const SORT_ORDER = {
 export const DATA_SIZES = {
   books: 9,
   articles: 10,
+  challenges: 6,
   hashTags: 10,
   categories: 10,
 };
@@ -81,6 +82,11 @@ export const CHALLENGE_ACTIVITY_SIZE = 3;
 
 export const CHALLENGE_DESCRIPTION_DEFAULT_LENGTH = 200;
 
+export const CHALLENGE_LIST_TYPE = {
+  all: 0,
+  notJoined: 1,
+  joined: 2,
+};
 export const DRAFT_TYPE = {
   divider: "DIVIDER",
   image: "IMAGE",

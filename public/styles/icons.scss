@@ -33,7 +33,6 @@
   font-family: "FontAwesome5Pro";
   content: "\f002";
   font-size: 22px;
-  color: $color-text-secondary;
 }
 
 .ic-link:before {
@@ -206,4 +205,28 @@
   content: "\f4a3";
   color: #ebf4f9;
   font-size: 100px;
+}
+
+.ic-trophy-alt:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f2eb";
+  font-size: 12px;
+}
+
+.ic-bullseye-arrow:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f648";
+  font-size: 12px;
+}
+
+.ic-calendar-alt-solid:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f073";
+  font-size: 14px;
+}
+
+.ic-user-alt-solid:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f007";
+  font-size: 14px;
 }
