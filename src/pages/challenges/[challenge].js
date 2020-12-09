@@ -23,11 +23,13 @@ import ChallengeAction from "redux/challenge.redux";
 import ArticleAction from "redux/article.redux";
 import StringFormat from "string-format";
 import { AppConstant, PathConstant } from "const";
+import { hasLogged } from "utils/auth";
 const Challenge = ({ data }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
+  const loggedIn = hasLogged();
   const { WEBSITE_URL, CHALLENGE_PROGRESS_STATUS, CHALLENGE_MODE, CHALLENGE_TARGET_TYPE } = AppConstant;
   const { title, challengeProgress, challengeModeId, endDate, challengeId, targetTypeId } = data;
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
@@ -44,14 +46,17 @@ const Challenge = ({ data }) => {
   useEffect(() => {
     const load = () => {
       dispatch(ChallengeAction.setChallengeDetail(data));
-      dispatch(ChallengeAction.requestGetChallengeActivity(challengeId));
       dispatch(ChallengeAction.requestGetChallengeLeaderBoard(challengeId));
-      dispatch(ChallengeAction.requestGetChallengeFriendLeaderBoard(challengeId));
-      if (
-        targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle ||
-        targetTypeId === CHALLENGE_TARGET_TYPE.writeArticleList
-      ) {
-        dispatch(ArticleAction.requestChallengeArticles(challengeId));
+
+      if (hasLogged) {
+        dispatch(ChallengeAction.requestGetChallengeActivity(challengeId));
+        dispatch(ChallengeAction.requestGetChallengeFriendLeaderBoard(challengeId));
+        if (
+          targetTypeId === CHALLENGE_TARGET_TYPE.writeArticle ||
+          targetTypeId === CHALLENGE_TARGET_TYPE.writeArticleList
+        ) {
+          dispatch(ArticleAction.requestChallengeArticles(challengeId));
+        }
       }
     };
     load();
@@ -183,9 +188,14 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     padding: 0,
+    maxWidth: 1200,
   },
   breadcrumb: {
-    margin: "24px 0px 0px 100px",
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(11),
+    [theme.breakpoints.down("md")]: {
+      marginLeft: theme.spacing(3),
+    },
   },
   current: {
     color: theme.palette.text.primary,
@@ -206,6 +216,7 @@ const useStyles = makeStyles(theme => ({
   },
   rightContainer: {
     marginLeft: theme.spacing(2),
+    maxWidth: "672px",
     [theme.breakpoints.down("xs")]: {
       padding: "0px",
     },
