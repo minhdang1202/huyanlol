@@ -11,7 +11,7 @@ import { AppLink } from "components";
 const ChallengeListDetailCard = ({ title, totalJoined, startDate, endDate, imageId, challengeId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
-  const LINK = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
+  const LINK = StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, challengeId);
   return (
     <AppLink to={LINK}>
       <Box className={classes.root}>

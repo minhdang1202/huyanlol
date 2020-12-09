@@ -43,20 +43,11 @@ const Activity = () => {
           {getLabel("L_ACTIVITY")}
         </Typography>
       </Box>
-
-      {!isArticle
-        ? activities.map(
-            (each, index) =>
-              index < AppConstant.CHALLENGE_ACTIVITY_SIZE && (
-                <Item activityData={each} className={classes.item} key={each.activityId} />
-              ),
-          )
-        : articles.map(
-            (each, index) =>
-              index < AppConstant.CHALLENGE_ACTIVITY_SIZE && (
-                <ArticleSummary key={each.articleId} data={each} className={classes.article} />
-              ),
-          )}
+      <Box>
+        {!isArticle
+          ? activities.map(each => <Item activityData={each} className={classes.item} key={each.activityId} />)
+          : articles.map(each => <ArticleSummary key={each.articleId} data={each} />)}
+      </Box>
     </Box>
   );
 };
@@ -84,7 +75,7 @@ const Item = ({ activityData }) => {
     }
   };
   return (
-    <Paper className={classes.item}>
+    <Paper>
       <Box className={classes.itemTop}>
         <AppLink>
           <Avatar src={getImageById(user.imageId)} className={classes.avatar} />
@@ -129,6 +120,20 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("sm")]: {
       paddingBottom: theme.spacing(10),
     },
+    "&>:nth-child(2)": {
+      "&>*": {
+        width: "100%",
+        borderRadius: "10px",
+        margin: "16px 0px 16px 0px",
+        [theme.breakpoints.down("xs")]: {
+          margin: "2px 0px 2px 0px",
+          borderRadius: "0px",
+          "&:first-of-type": {
+            marginTop: theme.spacing(1),
+          },
+        },
+      },
+    },
   },
   titleContainer: {
     display: "flex",
@@ -145,18 +150,6 @@ const useStyles = makeStyles(theme => ({
       "&:first-of-type": {
         marginLeft: theme.spacing(2),
         marginRight: theme.spacing(2),
-      },
-    },
-  },
-  item: {
-    width: "100%",
-    borderRadius: "10px",
-    margin: "16px 0px 16px 0px",
-    [theme.breakpoints.down("xs")]: {
-      margin: "2px 0px 2px 0px",
-      borderRadius: "0px",
-      "&:first-of-type": {
-        marginTop: theme.spacing(1),
       },
     },
   },
@@ -192,15 +185,6 @@ const useStyles = makeStyles(theme => ({
   text: {
     "&>:nth-child(3)": {
       color: theme.palette.primary.main,
-    },
-  },
-  article: {
-    marginTop: "16px",
-    [theme.breakpoints.down("xs")]: {
-      "&:first-of-type": {
-        marginTop: theme.spacing(1),
-      },
-      marginTop: "1px",
     },
   },
 }));
