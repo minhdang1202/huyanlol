@@ -10,7 +10,7 @@ import GoalList from "./challenge-detail/ChallengeDetailGoalList";
 import Description from "./challenge-detail/ChallengeDetailDescription";
 import Footer from "./challenge-detail/ChallengeDetailFooter";
 import Creator from "./challenge-detail/ChallengeDetailCreator";
-
+import LeaderBoard from "./challenge-detail/ChallengeDetailLeaderBoardPopup";
 //challengeList
 import DownloadApp from "./challenge-list/ChallengeListDownloadApp";
 import ListJoined from "./challenge-list/ChallengeListJoined";
@@ -35,4 +35,5 @@ export {
   ListRecommend,
   ListAll,
   DetailCard,
+  LeaderBoard,
 };
