@@ -6,6 +6,7 @@ export const APP_NAME = "GAT";
 export const EXPIRES_TOKEN = 1;
 
 export const BOOK_SUGGESTION = 10;
+export const USER_SUGGESTION = 10;
 
 //Sort
 export const SORT_ORDER = {
@@ -91,9 +92,20 @@ export const DRAFT_TYPE = {
   link: "LINK",
   unstyled: "unstyled",
   atomic: "atomic",
+  mention: "mention",
+  mentionEdition: "&mention",
   unorderedList: "unordered-list-item",
+};
+
+export const VALUE_TYPE = {
+  all: "ALL",
+  title: "TITLE",
+  name: "NAME",
 };
 
 export const THUMBNAIL_TYPE = 0;
 export const COVER_TYPE = 1;
 export const COMMENT_DEFAULT_LENGTH = 250;
+
+export const AUTOSAVE_WAIT_TIME = 30000;
+export const TYPING_WAIT_TIME = 500;

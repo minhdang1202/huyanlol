@@ -29,6 +29,7 @@ export const POST_REGISTER = "/user/register_by_email";
 export const GET_USER_PROFILE = "/user/self/info";
 export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
 export const POST_USER_IMAGES = "/user-images";
+export const GET_USER_SUGGESTION = "/user/suggestion";
 
 // * Book
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;

@@ -182,7 +182,7 @@ export default {
     TXT_ARTICLE_LOGIN_TO_COMMENT: "Đăng nhập để bình luận",
 
     //P
-    P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",
+    P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn...",
 
     //FM
     FM_ARTICLE_BOOK: "{0} cuốn",

@@ -58,7 +58,7 @@ const ArticleCreate = () => {
   const onAutoSave = debounce(() => {
     setIsSaving(true);
     setHasAutoSave(false);
-  }, 30000);
+  }, AppConstant.AUTOSAVE_WAIT_TIME);
 
   const onChangeTagsList = tags => {
     const newTagsList = tags.map(tag => {

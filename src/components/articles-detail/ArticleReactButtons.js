@@ -13,7 +13,7 @@ const ArticleReactButtons = ({ shareUrl }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { saved: isBookmarked } = useSelector(({ articleRedux }) => articleRedux.article, shallowEqual);
-  const { isAuth } = useSelector;
+  const { isAuth } = useSelector(({ authRedux }) => authRedux);
   const [isOpenDownload, setIsOpenDownload] = useState(false);
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
   const onOpenDownload = () => {
@@ -31,14 +31,14 @@ const ArticleReactButtons = ({ shareUrl }) => {
       return;
     }
     const mobileInput = document.getElementById(MOBILE_INPUT_ID);
-    mobileInput.focus();
+    mobileInput.click();
   };
 
   return (
     <Box className={classes.root}>
-      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
+      {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
+      {isOpenDownload && <DialogAppDownload isOpen={true} onClose={onCloseDownload} />}
       <Divider className={classes.divider} />
-      <DialogAppDownload isOpen={isOpenDownload} onClose={onCloseDownload} />
       <Box bgcolor="white" display="flex" justifyContent={{ xs: "space-around", sm: "space-between" }} py={1}>
         <Button
           size={isMobile ? "small" : "large"}

@@ -112,7 +112,6 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
     setEditorState(editorState);
     let newEditorState = removeLastBlankBlocks(editorState);
     const contentHtml = stateToHTML(newEditorState.getCurrentContent());
-    console.log(contentHtml);
     const hasContent = editorState.getCurrentContent().hasText();
     const intro = getPlainText(editorState);
     onChangeContent({ contentHtml, hasContent, intro });

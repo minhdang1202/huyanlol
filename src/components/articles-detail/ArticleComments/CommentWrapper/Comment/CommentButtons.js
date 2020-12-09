@@ -48,7 +48,7 @@ const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDi
     }
     if (isMobile) {
       const mobileInput = document.getElementById(MOBILE_INPUT_ID);
-      mobileInput.focus();
+      mobileInput.click();
       return;
     }
   };

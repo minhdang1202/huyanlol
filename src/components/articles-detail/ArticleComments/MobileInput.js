@@ -1,17 +1,26 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import StringFormat from "string-format";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import createMentionPlugin from "draft-js-mention-plugin";
 import { LangConstant } from "const";
-import { Avatar, Box, makeStyles, Button, InputBase, IconButton, Typography } from "@material-ui/core";
+import { Avatar, Box, makeStyles, Button, IconButton, Typography } from "@material-ui/core";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 import ArticleActions from "redux/article.redux";
+import MentionInput from "./MentionInput";
+import Mention from "./MentionInput/Mention";
+import {
+  HEIGHT_EDITION_SUGGESTIONS,
+  HEIGHT_USER_SUGGESTIONS,
+  WIDTH_EDITION_SUGGESTIONS,
+  WIDTH_USER_SUGGESTIONS,
+} from "./MentionInput";
 
 const MobileInput = () => {
   const classes = useStyles();
-  const input = useRef();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
+  const [content, setContent] = useState({});
 
   const dispatch = useDispatch();
   const onCancelReply = () => dispatch(ArticleActions.onCancelReply());
@@ -20,32 +29,8 @@ const MobileInput = () => {
     state.articleRedux.replyInfo,
   ]);
 
-  const [content, setContent] = useState();
-
-  useEffect(() => {
-    const onFocusout = () => {
-      onCancelReply();
-      input.current.value = null;
-    };
-    input.current.addEventListener("focusout", onFocusout);
-    return () => {
-      input.current.removeEventListener("focusout", onFocusout);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isTypingReply) {
-      input.current.focus();
-      input.current.value = replyInfo.name;
-      setContent(replyInfo.name);
-      return;
-    }
-    setContent(null);
-    input.current.value = null;
-  }, [isTypingReply]);
-
-  const onChange = e => {
-    setContent(e.target.value);
+  const onChangeContent = newContent => {
+    setContent(newContent);
   };
 
   return (
@@ -60,24 +45,58 @@ const MobileInput = () => {
           </IconButton>
         </Box>
       )}
-      <form className={classes.form}>
+      <Box className={classes.form}>
         <Avatar variant="square" src="/images/ic-book.png" />
-        <InputBase
-          multiline
-          rowsMax={4}
-          ref={input}
+        <MentionInput
           id={MOBILE_INPUT_ID}
-          className={classes.textarea}
+          MentionUserSuggestions={MentionUserSuggestions}
+          MentionEditionSuggestions={MentionEditionSuggestions}
+          plugins={plugins}
+          onChangeContent={onChangeContent}
+          className={classes.input}
           placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
-          onChange={onChange}
         />
         <Button disabled={!Boolean(content)} classes={{ root: classes.button, disabled: classes.disabled }}>
           {getLabel(getCommonKey("TXT_POST"))}
         </Button>
-      </form>
+      </Box>
     </Box>
   );
 };
+
+const mentionUserPlugin = createMentionPlugin({
+  mentionTrigger: "@",
+  mentionComponent: Mention,
+  entityMutability: "IMMUTABLE",
+  supportWhitespace: true,
+  positionSuggestions: settings => {
+    return {
+      left: settings.decoratorRect.left + "px",
+      top: settings.decoratorRect.top - 25 + "px", // Change this value (25) for manage the distance between cursor and bottom edge of popover
+      transform: "scale(1) translateY(-100%)",
+      maxHeight: HEIGHT_USER_SUGGESTIONS,
+      width: WIDTH_USER_SUGGESTIONS,
+    };
+  },
+});
+const mentionEditionPlugin = createMentionPlugin({
+  mentionTrigger: "&",
+  mentionComponent: Mention,
+  entityMutability: "IMMUTABLE",
+  supportWhitespace: true,
+  positionSuggestions: settings => {
+    return {
+      left: settings.decoratorRect.left + "px",
+      top: settings.decoratorRect.top - 25 + "px", // Change this value (25) for manage the distance between cursor and bottom edge of popover
+      transform: "scale(1) translateY(-100%)",
+      maxHeight: HEIGHT_EDITION_SUGGESTIONS,
+      width: WIDTH_EDITION_SUGGESTIONS,
+    };
+  },
+});
+const plugins = [mentionEditionPlugin, mentionUserPlugin];
+const { MentionSuggestions: MentionUserSuggestions } = mentionUserPlugin;
+const { MentionSuggestions: MentionEditionSuggestions } = mentionEditionPlugin;
 
 export const MOBILE_INPUT_ID = "mobile-input";
 export default MobileInput;
@@ -108,20 +127,16 @@ const useStyles = makeStyles(theme => ({
       marginRight: theme.spacing(2),
     },
   },
-  textarea: {
-    resize: "none",
+  input: {
     flexGrow: 1,
     borderRadius: 18,
-    fontFamily: "SFProDisplay",
-    fontSize: 14,
-    color: theme.palette.text.primary,
     border: `1px solid ${theme.palette.grey[100]}`,
-    padding: theme.spacing(1.5, 2),
-    "&:focus": {
-      outline: "none",
-    },
-    "&::placeholder": {
-      color: theme.palette.text.secondary,
+    padding: theme.spacing(1.5, 0),
+    "& .DraftEditor-root": {
+      padding: theme.spacing(0, 2),
+      overflow: "auto",
+      maxHeight: 88,
+      fontSize: 16,
     },
   },
   button: {

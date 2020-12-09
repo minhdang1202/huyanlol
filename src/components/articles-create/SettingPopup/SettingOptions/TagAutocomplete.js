@@ -31,7 +31,7 @@ const TagAutocomplete = ({ tagsList, onChangeTagsList }) => {
   const onSetValue = useCallback(
     debounce(value => {
       setValue(value);
-    }, 500),
+    }, AppConstant.TYPING_WAIT_TIME),
     [],
   );
 

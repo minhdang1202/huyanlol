@@ -23,7 +23,7 @@ import {
   requestGetBookSuggestion,
   requestGetEditionSuggestion,
 } from "./edition.saga";
-import { requestGetTopWriter, requestGetUserProfile, requestImage } from "./user.saga";
+import { requestGetTopWriter, requestGetUserProfile, requestImage, requestGetUserSuggestion } from "./user.saga";
 import {
   requestGetGivers,
   requestGetCommentGivers,
@@ -77,6 +77,7 @@ export default function* root() {
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
     takeLatest(UserTypes.REQUEST_PROFILE, requestGetUserProfile),
     takeLatest(UserTypes.REQUEST_IMAGE, requestImage),
+    takeLatest(UserTypes.REQUEST_USER_SUGGESTION, requestGetUserSuggestion),
 
     //article-create
     takeLatest(ArticleCreateTypes.REQUEST_HASH_TAGS_LIST, requestGetHashTagsList),
