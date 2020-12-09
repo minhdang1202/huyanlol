@@ -109,7 +109,7 @@ const Item = ({ data, className }) => {
       targetTypeId === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
   );
   const isPersonal = Boolean(challengeModeId === AppConstant.CHALLENGE_MODE.personal);
-  const LINK = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, data.challengeId);
+  const LINK = StringFormat(PathConstant.FM_CHALLENGE_DETAIL_ID, data.challengeId);
   return (
     <AppLink to={LINK}>
       <Box className={clsx(classes.itemCard, className)}>

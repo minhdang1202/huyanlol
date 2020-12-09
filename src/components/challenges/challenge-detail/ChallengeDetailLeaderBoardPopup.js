@@ -21,23 +21,25 @@ import { getImageById } from "utils";
 import { AppConstant, ApiConstant } from "const";
 import { CrownIcon } from "icons";
 import { UserService } from "services";
+import { hasLogged } from "utils/auth";
 const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
+  const isLoggedIn = hasLogged();
   const [isFollowedTab, setIsFollowedTab] = useState(false);
   const [myPlace, setMyPlace] = useState(0);
   const leaderBoard = useSelector(state => state.challengeRedux.detailLeaderBoard);
   const friendLeaderBoard = useSelector(state => state.challengeRedux.detailFriendLeaderBoard);
   const user = useSelector(state => state.userRedux.profile);
   const detailInfo = useSelector(state => state.challengeRedux.detailInfo);
-  const { targetType, challengeProgress } = detailInfo;
+  const { targetTypeId, challengeProgress } = detailInfo;
   const list = isFollowedTab ? friendLeaderBoard : leaderBoard;
   const isRead = Boolean(
-    targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
-      targetType === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
+    targetTypeId === AppConstant.CHALLENGE_TARGET_TYPE.readBook ||
+      targetTypeId === AppConstant.CHALLENGE_TARGET_TYPE.readBookList,
   );
   const userOnLeaderBoard = leaderBoard.filter(each => each.user.userId === user.userId)[0];
   useEffect(() => {
@@ -57,7 +59,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
       <Box className={classes.root}>
         <Box className={classes.top}>
           <Box className={classes.head}>
-            {!isTablet && challengeProgress && user.userId && userOnLeaderBoard && (
+            {!isTablet && challengeProgress && user.userId && isLoggedIn && (
               <Box className={classes.topLeft}>
                 <Avatar src={getImageById(user.imageId)} className={classes.userAvatar} />
                 <Box>
@@ -139,7 +141,7 @@ const ChallengeDetailLeaderBoardPopup = ({ isOpen, onClose }) => {
           ))}
         </Box>
       </Box>
-      {isTablet && user.userId && challengeProgress && userOnLeaderBoard && (
+      {isTablet && user.userId && challengeProgress && isLoggedIn && (
         <Item className={classes.footer} data={userOnLeaderBoard} isFollowedTab={false} place={myPlace} />
       )}
     </Dialog>
