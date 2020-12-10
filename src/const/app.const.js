@@ -98,3 +98,4 @@ export const DRAFT_TYPE = {
 
 export const THUMBNAIL_TYPE = 0;
 export const COVER_TYPE = 1;
+export const MAX_LENGTH_ARTICLE_TITLE = 250;

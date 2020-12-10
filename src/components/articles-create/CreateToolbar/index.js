@@ -12,12 +12,14 @@ import SidebarMenu from "../CustomEditor/SidebarMenu";
 import ArticleCreateActions from "redux/articleCreate.redux";
 import { debounce } from "utils";
 
-const CreateToolbar = ({ onOpenSetting }) => {
+const CreateToolbar = ({ onOpenSetting, title, hasContent }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const [anchorCharCount, setAnchorCharCount] = useState(null);
   const [anchorSidebar, setAnchorSidebar] = useState(null);
+  const [hasNoTitleWarning, setHasNoTitleWarning] = useState(false);
+  const [hasNoContentWarning, setHasNoContentWarning] = useState(false);
   const hasCharOpen = Boolean(anchorCharCount);
   const hasSidebarOpen = Boolean(anchorSidebar);
 
@@ -42,11 +44,37 @@ const CreateToolbar = ({ onOpenSetting }) => {
     dispatch(ArticleCreateActions.saveArticleSuccess());
   }, AppConstant.SNACKBAR_DURATION);
 
+  const onClickPreview = () => {
+    if (!title) {
+      setHasNoContentWarning(false);
+      setHasNoTitleWarning(true);
+      return;
+    }
+    if (!hasContent) {
+      setHasNoTitleWarning(false);
+      setHasNoContentWarning(true);
+      return;
+    }
+    onOpenSetting();
+  };
+
   useEffect(() => {
     if (isSaveSuccess || isSaveFailure) {
       onFinishSave();
     }
   }, [isSaveSuccess, isSaveFailure]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHasNoContentWarning(false);
+    }, AppConstant.SNACKBAR_DURATION);
+  }, [hasNoContentWarning]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHasNoTitleWarning(false);
+    }, AppConstant.SNACKBAR_DURATION);
+  }, [hasNoTitleWarning]);
 
   return (
     <Toolbar className={classes.root}>
@@ -77,11 +105,9 @@ const CreateToolbar = ({ onOpenSetting }) => {
       />
       {isSaveSuccess && <Typography className={classes.success}>{getLabel("MSG_SAVE_ARTICLE_SUCCESS")}</Typography>}
       {isSaveFailure && <Typography className={classes.failure}>{getLabel("ERR_SAVE_ARTICLE")}</Typography>}
-      <Button
-        onClick={() => onOpenSetting()}
-        variant="contained"
-        className={clsx(classes.previewButton, "dark-blue-button")}
-      >
+      {hasNoTitleWarning && <Typography className={classes.failure}>{getLabel("ERR_MUST_HAVE_TITLE")}</Typography>}
+      {hasNoContentWarning && <Typography className={classes.failure}>{getLabel("ERR_MUST_HAVE_CONTENT")}</Typography>}
+      <Button onClick={onClickPreview} variant="contained" className={clsx(classes.previewButton, "dark-blue-button")}>
         {getLabel("TXT_PREVIEW")}
       </Button>
     </Toolbar>
@@ -90,6 +116,8 @@ const CreateToolbar = ({ onOpenSetting }) => {
 
 CreateToolbar.propTypes = {
   onOpenSetting: PropTypes.func,
+  title: PropTypes.string,
+  hasContent: PropTypes.bool,
 };
 
 export const WORD_BOX_ID = "word-count";

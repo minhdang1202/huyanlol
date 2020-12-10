@@ -14,7 +14,6 @@ import { ArticleService } from "services";
 import { getNumberIdFromCreateQuery, getRedirectPath, debounce } from "utils";
 
 const ArticleEdit = ({ article }) => {
-  const MAX_LENGTH_TITLE = 250;
   const classes = useStyles();
   const router = useRouter();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
@@ -206,7 +205,7 @@ const ArticleEdit = ({ article }) => {
 
   return (
     <MainLayout className={classes.root}>
-      <Processing isShow={isFetching && hasSnackbar} />
+      <Processing isShow={isFetching && hasSnackbar || isPostSuccess} />
       {hasSnackbar && message && <Snackbar open={true} error={isSaveFailure || isPostFailure} message={message} />}
       <Hidden smUp>
         <DialogAppDownload isOpen={true} onClose={onCloseDownload} />
@@ -226,7 +225,6 @@ const ArticleEdit = ({ article }) => {
         onChangeTagsList={onChangeTagsList}
         booksList={booksList}
         onChangeBooksList={onChangeBooksList}
-        isDisabled={!(hasContent && title)}
         coverId={coverId}
         thumbnailId={thumbnailId}
         thumbnailList={thumbnailList}
@@ -239,12 +237,12 @@ const ArticleEdit = ({ article }) => {
       <Box position="relative">
         <Box position="sticky" top={0} zIndex={1000} bgcolor="white">
           <Container className={classes.container}>
-            <CreateToolbar onOpenSetting={onOpenSetting} />
+            <CreateToolbar onOpenSetting={onOpenSetting} title={title} hasContent={hasContent}/>
           </Container>
           <Divider />
         </Box>
         <Container className={classes.container}>
-          <TitleInput onChange={onChangeTitle} maxLength={MAX_LENGTH_TITLE} value={title} />
+          <TitleInput onChange={onChangeTitle} maxLength={AppConstant.MAX_LENGTH_ARTICLE_TITLE} value={title} />
           {isReviewType && (
             <Box display="flex" alignItems="center" mb={3}>
               <Typography className={clsx("grey-text", "mr-8")}>{getLabel("L_CREATE_RATING")}</Typography>

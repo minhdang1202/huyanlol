@@ -248,6 +248,8 @@ export default {
 
     ERR_SAVE_ARTICLE: "Có lỗi xảy ra, bài viết chưa được lưu vào nháp",
     ERR_POST_ARTICLE: "Có lỗi xảy ra, bài viết chưa được đăng",
+    ERR_MUST_HAVE_TITLE: "Bài viết chưa có tiêu đề",
+    ERR_MUST_HAVE_CONTENT: "Bài viết chưa có nội dung",
 
     MSG_POST_ARTICLE_SUCCESS: "Bài viết đã được đăng",
     MSG_SAVE_ARTICLE_SUCCESS: "Bài viết đã lưu vào nháp",

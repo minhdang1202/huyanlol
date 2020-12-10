@@ -44,8 +44,8 @@ const SettingThumbnails = ({ thumbnailId, thumbnailList, onChangeThumbnailId, on
       <Box className={clsx(classes.titleWrapper, "space-between-root")} mt={{ sm: 1.5, md: 1 }} mb={1}>
         <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_THUMBNAIL")}</Typography>
         <Box display="flex">
-          <SliderButton disabled={slideIndex === 0} className="mr-12" onClick={onPrevSlide} />
-          <SliderButton disabled={slideIndex === totalSlides || totalSlides <= 1} isNext onClick={onNextSlide} />
+          {(totalSlides === 1 || slideIndex === 0) && <SliderButton className="mr-12" onClick={onPrevSlide} />}
+          {(totalSlides === 1 || slideIndex === totalSlides - 1) && <SliderButton isNext onClick={onNextSlide} />}
         </Box>
       </Box>
       <Box display="flex" flexGrow={1} overflow="hidden">
