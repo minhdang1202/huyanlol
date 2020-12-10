@@ -10,9 +10,10 @@ import Editor from "draft-js-plugins-editor";
 import createMentionPlugin from "draft-js-mention-plugin";
 import EditionEntry from "./EditionEntry";
 import UserEntry from "./UserEntry";
-import { removeLastBlankBlocks, getMentionMap } from "utils/editor";
+import { removeLastBlankBlocks, getMentionMap, getPlainText } from "utils/editor";
 import { getRedirectPath, debounce, uuid } from "utils";
 import Mention from "./Mention";
+import ArticleActions from "redux/article.redux";
 import EditionActions from "redux/edition.redux";
 import UserActions from "redux/user.redux";
 
@@ -32,9 +33,14 @@ const MentionInput = forwardRef(
     const classes = useStyles();
     const editorRef = useRef();
     const dispatch = useDispatch();
-    const [userSuggestionRedux, editionSuggestionRedux] = useSelector(({ editionRedux, userRedux }) => [
+    const [
+      userSuggestionRedux,
+      editionSuggestionRedux,
+      isPostCommentSuccess,
+    ] = useSelector(({ editionRedux, userRedux, articleRedux }) => [
       userRedux.suggestions,
       editionRedux.suggestions,
+      articleRedux.isPostCommentSuccess,
     ]);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [searchUser, setSearchUser] = useState();
@@ -47,6 +53,7 @@ const MentionInput = forwardRef(
       let modifiedEditorState = removeLastBlankBlocks(newEditorState);
       const content = convertToHTML(convertMap)(modifiedEditorState.getCurrentContent());
       const mentionMap = getMentionMap(modifiedEditorState);
+      const hasContent = Boolean(getPlainText(newEditorState));
       const editionIds = [];
       const userIds = [];
       mentionMap.forEach(mention => {
@@ -54,7 +61,7 @@ const MentionInput = forwardRef(
         if (editionId && !editionIds.includes(editionId)) editionIds.push(editionId);
         if (userId && !userIds.includes(userId)) userIds.push(userId);
       });
-      onChangeContent({ userIds, editionIds, content });
+      onChangeContent({ userIds, editionIds, content, hasContent });
     };
 
     const onSetSearchUser = useCallback(
@@ -127,6 +134,13 @@ const MentionInput = forwardRef(
       setUserSuggestions(newUserSuggestion);
     }, [userSuggestionRedux]);
 
+    useEffect(() => {
+      if (isPostCommentSuccess) {
+        onChange(EditorState.createEmpty());
+        dispatch(ArticleActions.finishPostComment());
+      }
+    }, [isPostCommentSuccess]);
+
     return (
       <Box className={clsx(classes.root, className)} ref={ref} onClick={onFocus} {...otherProps}>
         <Editor
@@ -159,7 +173,11 @@ const convertMap = {
         ? getRedirectPath(PathConstant.FM_BOOK_DETAIL, editionId, title)
         : getRedirectPath(PathConstant.FM_USER_DETAIL, userId);
       const href = AppConstant.WEBSITE_URL + path;
-      return <a href={href}>{name || title}</a>;
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {name || title}
+        </a>
+      );
     }
     return originalText;
   },

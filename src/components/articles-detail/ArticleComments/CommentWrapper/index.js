@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import { shallowEqual, useSelector } from "react-redux";
 import { Box, CircularProgress, makeStyles } from "@material-ui/core";

@@ -11,7 +11,6 @@ import { AuthDialog, DialogAppDownload } from "components";
 import { MOBILE_INPUT_ID } from "../../MobileInput";
 
 const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDialog, isDesktopComment }) => {
-  const { userId, name } = user;
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -49,6 +48,7 @@ const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDi
     if (isMobile) {
       const mobileInput = document.getElementById(MOBILE_INPUT_ID);
       mobileInput.click();
+      // dispatch(ArticleActions.replyComment({ user, commentId }));
       return;
     }
   };

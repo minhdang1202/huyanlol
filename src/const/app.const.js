@@ -107,5 +107,5 @@ export const THUMBNAIL_TYPE = 0;
 export const COVER_TYPE = 1;
 export const COMMENT_DEFAULT_LENGTH = 250;
 
-export const AUTOSAVE_WAIT_TIME = 30000;
+export const AUTO_SAVE_WAIT_TIME = 30000;
 export const TYPING_WAIT_TIME = 500;

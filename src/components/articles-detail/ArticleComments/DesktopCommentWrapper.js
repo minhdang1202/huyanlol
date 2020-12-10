@@ -8,16 +8,22 @@ import NoCommentWrapper from "./NoCommentWrapper";
 
 const DesktopCommentWrapper = ({ onOpenReplyDialog }) => {
   const classes = useStyles();
-  const [desktopComments, commentCount] = useSelector(
-    ({ articleRedux }) => [articleRedux.desktopComments, articleRedux.article.commentCount],
+  const [desktopCommentsRedux, commentCount, articleId] = useSelector(
+    ({ articleRedux }) => [
+      articleRedux.desktopComments,
+      articleRedux.article.commentCount,
+      articleRedux.article.articleId,
+    ],
     shallowEqual,
   );
+  const desktopComments = desktopCommentsRedux[articleId];
 
   return (
     <Box mt={2} className={classes.root}>
       {commentCount === 0 ? (
         <NoCommentWrapper />
       ) : (
+        desktopComments &&
         desktopComments.map(comment => (
           <Comment
             onOpenReplyDialog={onOpenReplyDialog}

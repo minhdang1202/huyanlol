@@ -13,8 +13,9 @@ const { Types, Creators } = createActions({
   requestPostReply: ["data"],
 
   getArticle: ["data"],
-  onReplyComment: ["commentId", "userId", "name"],
-  onCancelReply: null,
+  replyComment: ["data"],
+  cancelReply: null,
+  finishPostComment: null,
 
   articleFailure: ["data"],
   articleSuccess: ["data"],
@@ -29,6 +30,7 @@ export const INITIAL_STATE = {
   isFetchingComments: false,
   isFetchingReplies: false,
   isFetchingGivers: false,
+  isPostingComment: false,
   error: null,
   article: {},
   articleGivers: [],
@@ -41,6 +43,8 @@ export const INITIAL_STATE = {
   challengeArticles: [],
   isTypingReply: false,
   replyInfo: null,
+  isPostCommentFailure: false,
+  isPostCommentSuccess: false,
 };
 
 /* ------------- Reducers ------------- */
@@ -65,6 +69,11 @@ export const requestGetReplies = (state = INITIAL_STATE) => ({
   isFetchingReplies: true,
 });
 
+export const requestPostComment = (state = INITIAL_STATE) => ({
+  ...state,
+  isPostingComment: true,
+});
+
 export const getArticle = (state = INITIAL_STATE, action) => {
   return {
     ...state,
@@ -72,16 +81,22 @@ export const getArticle = (state = INITIAL_STATE, action) => {
   };
 };
 
-const onReplyComment = (state = INITIAL_STATE, action) => ({
+const replyComment = (state = INITIAL_STATE, action) => ({
   ...state,
   isTypingReply: true,
-  replyInfo: action,
+  replyInfo: action.data,
 });
 
-const onCancelReply = (state = INITIAL_STATE) => ({
+const cancelReply = (state = INITIAL_STATE) => ({
   ...state,
   isTypingReply: false,
   replyInfo: null,
+});
+
+const finishPostComment = (state = INITIAL_STATE) => ({
+  ...state,
+  isPostCommentFailure: false,
+  isPostCommentSuccess: false,
 });
 
 export const finish = (state = INITIAL_STATE, action) => {
@@ -93,6 +108,7 @@ export const finish = (state = INITIAL_STATE, action) => {
     isFetchingComments: false,
     isFetchingReplies: false,
     isFetchingGivers: false,
+    isPostingComment: false,
     isTypingReply: false,
     replyInfo: null,
     ...data,
@@ -108,10 +124,13 @@ export const HANDLERS = {
   [Types.REQUEST_GET_COMMENT_GIVERS]: requestGetGivers,
   [Types.REQUEST_GET_COMMENTS]: requestGetComments,
   [Types.REQUEST_GET_REPLIES]: requestGetReplies,
+  [Types.REQUEST_POST_COMMENT]: requestPostComment,
+  [Types.REQUEST_POST_REPLY]: requestPostComment,
 
+  [Types.FINISH_POST_COMMENT]: finishPostComment,
   [Types.GET_ARTICLE]: getArticle,
-  [Types.ON_REPLY_COMMENT]: onReplyComment,
-  [Types.ON_CANCEL_REPLY]: onCancelReply,
+  [Types.REPLY_COMMENT]: replyComment,
+  [Types.CANCEL_REPLY]: cancelReply,
 
   [Types.ARTICLE_SUCCESS]: finish,
   [Types.ARTICLE_FAILURE]: finish,

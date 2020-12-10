@@ -49,7 +49,7 @@ const ArticleEdit = ({ article }) => {
   const onAutoSave = debounce(() => {
     setIsSaving(true);
     setHasAutoSave(false);
-  }, AppConstant.AUTOSAVE_WAIT_TIME);
+  }, AppConstant.AUTO_SAVE_WAIT_TIME);
 
   const onChangeTagsList = tags => {
     const newTagsList = tags.map(tag => {

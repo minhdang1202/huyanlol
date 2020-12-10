@@ -93,31 +93,36 @@ export function* requestGetCommentGivers(action) {
 
 export function* requestGetComments(action) {
   const { articleId, ...params } = action.data;
-  const { pageNum } = params;
-  let [currentComments, currentReplies, desktopComments] = yield select(({ articleRedux }) => [
-    articleRedux.comments.pageData,
+  const { lastCommentId } = params;
+  let [comments, currentReplies, desktopComments] = yield select(({ articleRedux }) => [
+    articleRedux.comments,
     articleRedux.replies,
     articleRedux.desktopComments,
   ]);
+  const { pageData: currentComments, total: currentTotal } = comments;
   let response = yield call(ArticleService.getArticleComments, articleId, params);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
-      const { pageData: newComments } = responseData;
-      if (pageNum !== 1 || (pageNum === 1 && !currentReplies.length))
+      let { pageData: newComments, total: newTotal } = responseData;
+      const total = newTotal < currentTotal ? currentTotal : newTotal;
+      if (lastCommentId || (!lastCommentId && !currentReplies.length))
         newComments.forEach(comment => {
           const { commentId, replies } = comment;
-          if (replies)
+          if (replies && !currentReplies[commentId])
             currentReplies[commentId] = {
               pageData: replies.concat(currentReplies[commentId]?.pageData || []),
             };
         });
-
-      const comments =
-        pageNum === 1 ? responseData : { ...responseData, pageData: currentComments.concat(newComments) };
+      const comments = !lastCommentId
+        ? responseData
+        : { ...responseData, pageData: currentComments.concat(newComments), total };
       const result = { comments, replies: currentReplies };
-      if (!desktopComments.length) result.desktopComments = newComments.slice(0, 2);
+      if (!desktopComments[articleId]) {
+        desktopComments[articleId] = newComments.slice(0, 2);
+        result.desktopComments = desktopComments;
+      }
       yield put(ArticleAction.articleSuccess(result));
     }
   } catch (error) {
@@ -149,16 +154,53 @@ export function* requestGetReplies(action) {
 }
 
 export function* requestPostComment(action) {
-  const { articleId, ...params } = action.data;
+  const { articleId, ...bodyReq } = action.data;
+  let isSuccess = false;
   let comments = yield select(({ articleRedux }) => articleRedux.comments);
-  let response = yield call(ArticleService.postComment, articleId, params);
-
+  let response = yield call(ArticleService.postComment, articleId, bodyReq);
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
+      if (comments.pageData) {
+        comments.pageData.unshift(responseData);
+        comments.total += 1;
+      } else {
+        comments.pageData = [responseData];
+        comments.total = 1;
+      }
+      isSuccess = true;
+      yield put(ArticleAction.articleSuccess({ comments, isPostCommentSuccess: true }));
     }
   } catch (error) {
     console.log(error);
-    yield put(ArticleAction.articleFailure(error));
+    yield put(ArticleAction.articleFailure({ isPostCommentFailure: true }));
+  }
+  if (!isSuccess) {
+    yield put(ArticleAction.articleFailure({ isPostCommentFailure: true }));
+  }
+}
+
+export function* requestPostReply(action) {
+  const { commentId, ...bodyReq } = action.data;
+  let isSuccess = false;
+  let replies = yield select(({ articleRedux }) => articleRedux.replies);
+  let response = yield call(ArticleService.postReply, commentId, bodyReq);
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      if (replies[commentId].pageData) {
+        replies[commentId].pageData.unshift(responseData);
+      } else {
+        replies[commentId].pageData = [responseData];
+      }
+      isSuccess = true;
+      yield put(ArticleAction.articleSuccess({ replies, isPostCommentSuccess: true }));
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(ArticleAction.articleFailure({ isPostCommentFailure: true }));
+  }
+  if (!isSuccess) {
+    yield put(ArticleAction.articleFailure({ isPostCommentFailure: true }));
   }
 }

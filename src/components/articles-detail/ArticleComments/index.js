@@ -13,7 +13,6 @@ import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 import { AvatarIcon } from "icons";
 import ArticleReplyDialog from "./ArticleReplyDialog";
 import { getLabel } from "language";
-import { checkIfLastPage } from "utils";
 import { AuthDialog } from "components";
 import DesktopCommentWrapper from "./DesktopCommentWrapper";
 
@@ -28,10 +27,10 @@ const ArticleComments = () => {
     ({ articleRedux }) => [articleRedux.comments, articleRedux.article, articleRedux.isFetchingComments],
     shallowEqual,
   );
-  const { articleId, commentCount } = article;
+  const { commentCount, articleId } = article;
   const dispatch = useDispatch();
-  const dispatchGetComments = pageNum => {
-    dispatch(ArticleActions.requestGetComments(onGetParams(pageNum)));
+  const dispatchGetComments = () => {
+    dispatch(ArticleActions.requestGetComments(onGetParams()));
   };
 
   const [isOpenSort, setIsOpenSort] = useState(false);
@@ -58,21 +57,25 @@ const ArticleComments = () => {
   };
 
   const onScroll = e => {
-    if (isFetchingComments || !comments.length) return;
-    const { pageNo, pageSize, total } = comments;
-    if (checkIfLastPage({ pageNo, pageSize, total })) return;
+    if (isFetchingComments || !commentCount) return;
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    if (scrollHeight <= scrollTop + clientHeight) {
-      dispatchGetComments(pageNo + 1);
-    }
+    if (scrollHeight > scrollTop + clientHeight) return;
+    const { pageData: commentsList, total } = comments;
+    if (commentsList.length === total) return;
+    dispatchGetComments();
   };
 
-  const onGetParams = pageNum => ({
-    articleId: articleId,
-    pageNum: pageNum,
-    pageSize: AppConstant.DATA_SIZES.comments,
-    isFriend: sortValue === AppConstant.SORT_FRIEND,
-  });
+  const onGetParams = () => {
+    const commentList = comments?.pageData;
+    const lastCommentId = commentList && !hasSortChange ? commentList[commentList.length - 1].commentId : null;
+    return {
+      articleId: articleId,
+      lastCommentId,
+      // pageSize: AppConstant.DATA_SIZES.comments,
+      pageSize: 2, //Mock data to test
+      isFriend: sortValue === AppConstant.SORT_FRIEND,
+    };
+  };
 
   const onOpenSort = () => {
     setIsOpenSort(true);
@@ -82,23 +85,23 @@ const ArticleComments = () => {
   };
   const onChangeSort = value => {
     setSortValue(value);
-    setDisplaySort(RADIO_LIST[value].displayLabel);
     setHasSortChange(true);
+    setDisplaySort(RADIO_LIST[value].displayLabel);
   };
 
   useEffect(() => {
+    //TODO: Fix scroll in Mobile
+    const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
     if (isMobile) {
-      const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
-      mainLayout.addEventListener("scroll", onScroll);
-      return () => {
-        mainLayout.removeEventListener("scroll", onScroll);
-      };
+      mainLayout.addEventListener("scroll", onScroll, true);
+      return;
     }
-  });
+    mainLayout.removeEventListener("scroll", onScroll, true);
+  }, [isMobile]);
 
   useEffect(() => {
-    dispatchGetComments(1);
-  }, [sortValue, isMobile]);
+    dispatchGetComments();
+  }, [sortValue]);
 
   useEffect(() => {
     if (hasSortChange) setHasSortChange(false);
@@ -107,14 +110,25 @@ const ArticleComments = () => {
   return (
     <Box width="100%">
       {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
-      {isOpenReplyDialog && <ArticleReplyDialog open={true} onBackdropClick={onCloseReplyDialog} />}
-      <SortPopup
-        sortValue={sortValue}
-        radioList={RADIO_LIST}
-        open={isOpenSort}
-        onClose={onCloseSort}
-        onChangeSort={onChangeSort}
-      />
+      {isOpenReplyDialog && (
+        <ArticleReplyDialog
+          open={true}
+          onBackdropClick={onCloseReplyDialog}
+          sortValue={sortValue}
+          onChangeSort={onChangeSort}
+          hasSortChange={hasSortChange}
+          onScroll={onScroll}
+        />
+      )}
+      {isOpenSort && (
+        <SortPopup
+          sortValue={sortValue}
+          radioList={RADIO_LIST}
+          open={true}
+          onClose={onCloseSort}
+          onChangeSort={onChangeSort}
+        />
+      )}
       <Hidden smUp>
         <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" mt={2}>
           <Typography variant="h5">{getLabel(getCommonKey("TXT_COMMENT"))}</Typography>
@@ -139,7 +153,7 @@ const ArticleComments = () => {
         ) : (
           <CommentWrapper hasSortChange={hasSortChange} />
         )}
-        {comments.pageData?.length < commentCount && (
+        {commentCount > 2 && (
           <Hidden xsDown>
             <Button
               variant="contained"

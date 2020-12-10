@@ -21,16 +21,26 @@ const MobileInput = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
   const [content, setContent] = useState({});
+  const [hasContent, setHasContent] = useState(false);
 
   const dispatch = useDispatch();
-  const onCancelReply = () => dispatch(ArticleActions.onCancelReply());
-  const [isTypingReply, replyInfo] = useSelector(state => [
-    state.articleRedux.isTypingReply,
-    state.articleRedux.replyInfo,
+  const [isTypingReply, replyInfo, isPostingComment, articleId] = useSelector(({ articleRedux }) => [
+    articleRedux.isTypingReply,
+    articleRedux.replyInfo,
+    articleRedux.isPostingComment,
+    articleRedux.article.articleId,
   ]);
+  const { user, commentId } = replyInfo || {};
 
-  const onChangeContent = newContent => {
+  const onChangeContent = ({ hasContent, ...newContent }) => {
     setContent(newContent);
+    setHasContent(hasContent);
+  };
+
+  const onPostComment = () => {
+    isTypingReply
+      ? dispatch(ArticleActions.requestPostReply({ ...content, commentId }))
+      : dispatch(ArticleActions.requestPostComment({ ...content, articleId }));
   };
 
   return (
@@ -38,9 +48,9 @@ const MobileInput = () => {
       {isTypingReply && (
         <Box className={classes.reply}>
           <Typography variant="subtitle1" className="eclipse">
-            {StringFormat(getLabel("FM_ARTICLE_REPLY_COMMENT"), replyInfo.name)}
+            {StringFormat(getLabel("FM_ARTICLE_REPLY_COMMENT"), user.name)}
           </Typography>
-          <IconButton onClick={onCancelReply}>
+          <IconButton onClick={dispatch(ArticleActions.cancelReply())}>
             <Box className="ic-times-circle" />
           </IconButton>
         </Box>
@@ -56,7 +66,11 @@ const MobileInput = () => {
           className={classes.input}
           placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
         />
-        <Button disabled={!Boolean(content)} classes={{ root: classes.button, disabled: classes.disabled }}>
+        <Button
+          disabled={!hasContent || isPostingComment}
+          classes={{ root: classes.button, disabled: classes.disabled }}
+          onClick={onPostComment}
+        >
           {getLabel(getCommonKey("TXT_POST"))}
         </Button>
       </Box>
