@@ -1,6 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import StringFormat from "string-format";
 import { makeStyles, TextareaAutosize } from "@material-ui/core";
 import { LangConstant } from "const";
 import { useTranslation } from "react-i18next";
@@ -8,16 +6,7 @@ import { useTranslation } from "react-i18next";
 const TitleInput = props => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
-  const { isReviewType, reviewInfo } = useSelector(({ articleCreateRedux }) => articleCreateRedux);
-  return (
-    <TextareaAutosize
-      className={classes.root}
-      placeholder={
-        isReviewType ? StringFormat(getLabel("FM_CREATE_REVIEW_TITLE"), reviewInfo.title) : getLabel("P_CREATE_TITLE")
-      }
-      {...props}
-    />
-  );
+  return <TextareaAutosize className={classes.root} placeholder={getLabel("P_CREATE_TITLE")} {...props} />;
 };
 
 export default TitleInput;
