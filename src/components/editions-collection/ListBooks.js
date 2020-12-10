@@ -8,8 +8,8 @@ import EditionAction from "redux/edition.redux";
 const ListBooks = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const listSuggestionsRedux = useSelector(({ editionRedux }) => editionRedux.suggestions);
 
+  const listSuggestionsRedux = useSelector(({ editionRedux }) => editionRedux.suggestions);
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -48,17 +48,33 @@ const DEFAULT_PARAMS = {
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(2),
-    padding: theme.spacing(2, 3),
+    padding: theme.spacing(2),
     boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.08)",
     borderRadius: 10,
+    [theme.breakpoints.down("xs")]: {
+      borderRadius: 0,
+      paddingRight: 0,
+    },
   },
   list: {
     display: "grid",
-    gridGap: 8,
-    gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+    width: "100%",
+    height: "100%",
+    gridTemplateColumns: "repeat(auto-fit, 117px)",
+    gridColumnGap: 13,
+    [theme.breakpoints.down("xs")]: {
+      gridTemplateColumns: "repeat(auto-fit, 30vw)",
+      gridColumnGap: 0,
+    },
   },
   item: {
-    paddingRight: 8,
+    maxWidth: 117,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(2),
+    [theme.breakpoints.down("xs")]: {
+      paddingRight: theme.spacing(1),
+      maxWidth: 110,
+    },
   },
   pagination: {
     marginBottom: 8,
