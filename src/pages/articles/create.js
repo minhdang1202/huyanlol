@@ -1,92 +1,125 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import StringFormat from "string-format";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles, Container, Divider, Typography, Box, TextareaAutosize, Hidden } from "@material-ui/core";
-import PropTypes from "prop-types";
+import { makeStyles, Container, Divider, Typography, Box, Hidden } from "@material-ui/core";
 import clsx from "clsx";
-import { LangConstant, PathConstant } from "const";
+import { LangConstant, PathConstant, AppConstant } from "const";
 import { useTranslation } from "react-i18next";
 import MainLayout from "layouts/MainLayout";
-import { CustomRating, DialogAppDownload } from "components";
-import { CreateToolbar, CustomEditor, SettingPopup } from "components/articles-create";
+import { CustomRating, DialogAppDownload, AuthDialog, Snackbar, Processing } from "components";
+import { CreateToolbar, CustomEditor, SettingPopup, TitleInput } from "components/articles-create";
 import ArticleCreateActions from "redux/articleCreate.redux";
-import { getRandomDefaultArticleCover } from "utils";
+import { getRandomDefaultArticleCoverId, getRedirectPath, debounce } from "utils";
 
-const Creator = () => {
+const ArticleCreate = () => {
   const MAX_LENGTH_TITLE = 250;
-  const categoryList = MOCK_CATEGORY_LIST;
-  const tagsSuggestion = MOCK_HASHTAGS_LIST;
-  const booksSuggestion = MOCK_BOOKS_LIST;
-
-  const reviewCategoryList = [{ title: "Đánh giá sách", id: 0 }];
   const classes = useStyles();
   const router = useRouter();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
+  const reviewCategoryList = [{ title: getLabel("TXT_REVIEW_TYPE_CATEGORY"), categoryId: AppConstant.CATEGORY_REVIEW }];
 
   const dispatch = useDispatch();
-  const dispatchStartSuccess = () => dispatch(ArticleCreateActions.startReviewBookSuccess());
-  const [isReviewType, reviewInfo] = useSelector(state => [
-    state.articleCreateRedux.isReviewType,
-    state.articleCreateRedux.reviewInfo,
-  ]);
+  const {
+    isReviewType,
+    reviewInfo,
+    categoriesList,
+    article,
+    isSaveSuccess,
+    isSaveFailure,
+    isPostSuccess,
+    isPostFailure,
+    isFetching,
+  } = useSelector(({ articleCreateRedux }) => articleCreateRedux);
+  const { isAuth } = useSelector(({ authRedux }) => authRedux);
+
+  const articleId = article.articleId;
 
   const [title, setTitle] = useState();
   const [rate, setRate] = useState(0);
   const [contentHtml, setContentHtml] = useState();
-  const [contentText, setContentText] = useState();
+  const [intro, setIntro] = useState();
   const [hasContent, setHasContent] = useState();
   const [isOpenSetting, setIsOpenSetting] = useState(false);
-  const [categoryId, setCategoryId] = useState(categoryList[0].id);
-  const [defaultCover, setDefaultCover] = useState(getRandomDefaultArticleCover());
+  const [categoryId, setCategoryId] = useState();
+  const [defaultCoverId, setDefaultCoverId] = useState(getRandomDefaultArticleCoverId());
   const [tagsList, setTagsList] = useState([]);
-  const [booksList, setBooksList] = useState(isReviewType ? [booksSuggestion[0]] : []);
-  const [thumbnailList, setThumbnailList] = useState([
-    { src: defaultCover },
-    { src: "/images/img-article-cover-2.jpg" },
-    { src: "/images/img-article-cover-3.jpg" },
-    { src: "/images/img-article-cover-4.jpg" },
-    { src: "/images/img-article-cover-5.jpg" },
-    { src: "/images/img-article-cover-6.jpg" },
-    { src: "/images/img-article-cover-7.jpg" },
-    { src: "/images/img-article-cover-8.jpg" },
-  ]);
-  const [coverList, setCoverList] = useState([
-    { src: defaultCover },
-    { src: "/images/img-article-cover-2.jpg" },
-    { src: "/images/img-article-cover-3.jpg" },
-    { src: "/images/img-article-cover-4.jpg" },
-    { src: "/images/img-article-cover-5.jpg" },
-    { src: "/images/img-article-cover-6.jpg" },
-    { src: "/images/img-article-cover-7.jpg" },
-    { src: "/images/img-article-cover-8.jpg" },
-  ]);
-  const [currentThumbnail, setCurrentThumbnail] = useState({ src: defaultCover });
-  const [currentCover, setCurrentCover] = useState({ src: defaultCover });
+  const [booksList, setBooksList] = useState(isReviewType ? [reviewInfo] : []);
+  const [thumbnailList, setThumbnailList] = useState([defaultCoverId]);
+  const [thumbnailId, setThumbnailId] = useState(defaultCoverId);
+  const [coverId, setCoverId] = useState(defaultCoverId);
+  const [tagIds, setTagIds] = useState([]);
+  const [tagNames, setTagNames] = useState([]);
+  const [hasAutoSave, setHasAutoSave] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasSnackbar, setHasSnackbar] = useState(false);
+  const [hasArticleId, setHasArticleId] = useState(false);
+  const [message, setMessage] = useState();
+
+  const onAutoSave = debounce(() => {
+    setIsSaving(true);
+    setHasAutoSave(false);
+  }, 30000);
 
   const onChangeTagsList = tags => {
     const newTagsList = tags.map(tag => {
-      if (typeof tag === "object") return tag.title;
+      if (typeof tag === "object") {
+        setTagIds(tagIds.concat(tag.tagId));
+        return tag.tagName;
+      }
+      setTagNames(tagNames.concat(tag));
       return tag;
     });
     setTagsList([...new Set(newTagsList)]);
   };
 
-  const onChangeCurrentCover = newCover => {
-    setCurrentCover(newCover);
+  const onChangeThumbnailList = thumbnailId => {
+    if (thumbnailList.length === 1) {
+      setCoverId(thumbnailId);
+      setThumbnailId(thumbnailId);
+    }
+    setThumbnailList([thumbnailId, ...thumbnailList]);
   };
 
-  const onChangeCurrentThumbnail = newThumbnail => {
-    setCurrentThumbnail(newThumbnail);
+  const onChangeCoverId = newCoverId => {
+    setCoverId(newCoverId);
+  };
+
+  const onChangeThumbnailId = newThumbnailId => {
+    setThumbnailId(newThumbnailId);
   };
 
   const onChangeBooksList = books => {
     setBooksList(books);
   };
 
+  const onGetBodyReq = () => {
+    const editionIds = booksList.map(book => book.editionId);
+    const bodyReq = {
+      body: contentHtml,
+      intro: intro,
+      bodyImageIds: thumbnailList,
+      categoryIds: [categoryId],
+      coverId: coverId,
+      editionIds: editionIds,
+      tagIds: tagIds,
+      tagNames: [...new Set(tagNames)],
+      thumbId: thumbnailId,
+      title: title,
+    };
+    if (isReviewType) {
+      bodyReq.value = rate;
+    }
+    return bodyReq;
+  };
+
+  const onPatchArticle = (state = AppConstant.DRAFT) => {
+    const bodyReq = onGetBodyReq();
+    dispatch(ArticleCreateActions.requestPatchArticle({ articleId, bodyReq: { ...bodyReq, state } }));
+  };
+
   const onCloseDownload = () => {
     if (isReviewType) {
-      router.push(StringFormat(PathConstant.FM_BOOK_DETAIL_ID, reviewInfo.editionId));
+      router.push(getRedirectPath(PathConstant.FM_BOOK_DETAIL, reviewInfo.editionId, reviewInfo.title));
     } else {
       router.push(PathConstant.ROOT);
     }
@@ -100,14 +133,16 @@ const Creator = () => {
     setIsOpenSetting(false);
   };
 
-  const onChangeContent = ({ contentHtml, hasContent, contentText }) => {
+  const onChangeContent = ({ contentHtml, hasContent, intro }) => {
     setContentHtml(contentHtml);
     setHasContent(hasContent);
-    setContentText(contentText);
+    setIntro(intro);
+    onCreateArticle();
   };
 
   const onChangeTitle = e => {
     setTitle(e.target.value);
+    onCreateArticle();
   };
 
   const onChangeRate = (e, newRate) => {
@@ -118,9 +153,32 @@ const Creator = () => {
     setCategoryId(e.target.value);
   };
 
+  const onCreateArticle = () => {
+    if (hasContent && title && !hasArticleId) {
+      setHasArticleId(true);
+      dispatch(ArticleCreateActions.requestPostArticle(onGetBodyReq()));
+    }
+  };
+
+  const onClickPostArticle = () => {
+    onPatchArticle(AppConstant.PUBLISHED);
+    setHasSnackbar(true);
+  };
+
+  const onClickSaveDraft = () => {
+    onPatchArticle();
+    setHasSnackbar(true);
+  };
+
+  const onHiddenSnackbar = debounce(() => {
+    dispatch(ArticleCreateActions.saveArticleSuccess());
+    setHasSnackbar(false);
+  }, AppConstant.SNACKBAR_DURATION);
+
   useEffect(() => {
     return () => {
-      dispatchStartSuccess();
+      if (isReviewType) dispatch(ArticleCreateActions.finishReviewBook());
+      dispatch(ArticleCreateActions.postArticleSuccess());
     };
   }, []);
 
@@ -128,14 +186,75 @@ const Creator = () => {
     if (isReviewType) {
       setRate(reviewInfo.rate ? reviewInfo.rate : 0);
       setCategoryId(0);
+      return;
     }
+    dispatch(ArticleCreateActions.requestCategoriesList());
   }, [isReviewType]);
+
+  useEffect(() => {
+    if (categoriesList.length && !isReviewType) setCategoryId(categoriesList[0].categoryId);
+  }, [categoriesList]);
+
+  useEffect(() => {
+    if (articleId && !hasAutoSave && contentHtml && title) {
+      setHasAutoSave(true);
+      onAutoSave();
+    }
+  }, [contentHtml, tagsList, thumbnailList, coverId, thumbnailId, categoryId, title, rate]);
+
+  useEffect(() => {
+    if (isSaving) {
+      onPatchArticle();
+      setIsSaving(false);
+    }
+  }, [isSaving]);
+
+  useEffect(() => {
+    if (isPostSuccess || isPostFailure || isSaveFailure || isSaveSuccess) {
+      if (!articleId) {
+        setHasArticleId(false);
+      }
+      if (hasSnackbar) {
+        onHiddenSnackbar();
+        const newDefaultThumbnailId = getRandomDefaultArticleCoverId();
+        switch (true) {
+          case isPostSuccess:
+            dispatch(ArticleCreateActions.saveArticleSuccess());
+            dispatch(ArticleCreateActions.postArticleSuccess());
+            dispatch(ArticleCreateActions.finishReviewBook());
+            setMessage(getLabel("MSG_POST_ARTICLE_SUCCESS"));
+
+            setThumbnailId(newDefaultThumbnailId);
+            setCoverId(newDefaultThumbnailId);
+            setBooksList([]);
+            setThumbnailList([newDefaultThumbnailId]);
+            setTagsList([]);
+            setCategoryId();
+            setHasArticleId(false);
+            setIsOpenSetting(false);
+            setTitle("");
+            break;
+          case isPostFailure:
+            setMessage(getLabel("ERR_POST_ARTICLE"));
+            break;
+          case isSaveSuccess:
+            setMessage(getLabel("MSG_SAVE_ARTICLE_SUCCESS"));
+            break;
+          case isSaveFailure:
+            setMessage(getLabel("ERR_SAVE_ARTICLE"));
+        }
+      }
+    }
+  }, [isPostSuccess, isPostFailure, isSaveFailure, isSaveSuccess]);
 
   return (
     <MainLayout className={classes.root}>
+      <Processing isShow={isFetching && hasSnackbar} />
+      {hasSnackbar && message && <Snackbar open={true} error={isSaveFailure || isPostFailure} message={message} />}
       <Hidden smUp>
         <DialogAppDownload isOpen={true} onClose={onCloseDownload} />
       </Hidden>
+      <AuthDialog isOpen={!isAuth} />
       <SettingPopup
         open={isOpenSetting}
         onClose={onCloseSetting}
@@ -143,24 +262,23 @@ const Creator = () => {
         bookName={isReviewType ? reviewInfo.bookName : null}
         isReviewType={isReviewType}
         title={title}
-        content={contentText}
+        content={intro}
         categoryId={categoryId}
-        categoryList={isReviewType ? reviewCategoryList : categoryList}
+        categoriesList={isReviewType ? reviewCategoryList : categoriesList}
         onChangeCategoryId={onChangeCategoryId}
-        tagsSuggestion={tagsSuggestion}
         tagsList={tagsList}
         onChangeTagsList={onChangeTagsList}
-        booksSuggestion={booksSuggestion}
         booksList={booksList}
         onChangeBooksList={onChangeBooksList}
-        defaultCover={defaultCover}
         isDisabled={!(hasContent && title)}
-        currentCover={currentCover}
-        currentThumbnail={currentThumbnail}
-        coverList={coverList}
+        coverId={coverId}
+        thumbnailId={thumbnailId}
         thumbnailList={thumbnailList}
-        onChangeCurrentCover={onChangeCurrentCover}
-        onChangeCurrentThumbnail={onChangeCurrentThumbnail}
+        onChangeCoverId={onChangeCoverId}
+        onChangeThumbnailId={onChangeThumbnailId}
+        onChangeThumbnailList={onChangeThumbnailList}
+        onClickPostArticle={onClickPostArticle}
+        onClickSaveDraft={onClickSaveDraft}
       />
       <Box position="relative">
         <Box position="sticky" top={0} zIndex={1000} bgcolor="white">
@@ -170,53 +288,21 @@ const Creator = () => {
           <Divider />
         </Box>
         <Container className={classes.container}>
-          <TextareaAutosize
-            maxLength={MAX_LENGTH_TITLE}
-            value={title}
-            className={classes.title}
-            placeholder={
-              isReviewType
-                ? StringFormat(getLabel("FM_CREATE_REVIEW_TITLE"), reviewInfo.bookName)
-                : getLabel("P_CREATE_TITLE")
-            }
-            onChange={onChangeTitle}
-          />
+          <TitleInput onChange={onChangeTitle} maxLength={MAX_LENGTH_TITLE} value={title} />
           {isReviewType && (
             <Box display="flex" alignItems="center" mb={3}>
               <Typography className={clsx("grey-text", "mr-8")}>{getLabel("L_CREATE_RATING")}</Typography>
               <CustomRating value={rate} onChange={onChangeRate} />
             </Box>
           )}
-          <CustomEditor onChangeContent={onChangeContent} />
+          <CustomEditor onChangeContent={onChangeContent} onChangeThumbnailList={onChangeThumbnailList} />
         </Container>
       </Box>
     </MainLayout>
   );
 };
 
-const MOCK_CATEGORY_LIST = [
-  { title: "Đánh giá sách", id: 1 },
-  { title: "Tiêu điểm sách", id: 2 },
-];
-
-const MOCK_HASHTAGS_LIST = [
-  { title: "hashtag1", id: 0, quantity: 100 },
-  { title: "hashtag2", id: 1, quantity: "10K" },
-  { title: "hashtag3", id: 3, quantity: 200 },
-  { title: "hashtag4", id: 4, quantity: "12k" },
-  { title: "hashtag5", id: 5, quantity: 100 },
-  { title: "hashtag6", id: 6, quantity: 100 },
-  { title: "hashtag7", id: 7, quantity: 100 },
-];
-
-const MOCK_BOOKS_LIST = [
-  { title: "Sự im lặng của bầy cừu1", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 0 },
-  { title: "Sự im lặng của bầy cừu2", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 1 },
-  { title: "Sự im lặng của bầy cừu3", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 2 },
-  { title: "Sự im lặng của bầy cừu4", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 3 },
-  { title: "Sự im lặng của bầy cừu5", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 4 },
-  { title: "Sự im lặng của bầy cừu6", author: "Thomas Harris", bookCover: "/images/img-demo-avatar.jpg", id: 5 },
-];
+export default ArticleCreate;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -231,21 +317,4 @@ const useStyles = makeStyles(theme => ({
       marginTop: theme.spacing(3),
     },
   },
-  title: {
-    resize: "none",
-    width: "100%",
-    fontFamily: "SFProDisplay",
-    fontSize: 34,
-    color: theme.palette.text.primary,
-    padding: theme.spacing(1.5, 0),
-    border: "none",
-    "&:focus": {
-      outline: "none",
-    },
-    "&::placeholder": {
-      color: theme.palette.text.secondary,
-    },
-  },
 }));
-
-export default Creator;

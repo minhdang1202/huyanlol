@@ -157,6 +157,11 @@ const ArticleComments = ({ articleId, commentCount }) => {
         </Box>
       </Hidden>
       <Box position="relative">
+        <Hidden xsDown>
+          <Button variant="outlined" className={clsx("grey-text", classes.commentButton)} startIcon={<AvatarIcon />}>
+            <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
+          </Button>
+        </Hidden>
         {totalComments === 0 ? (
           <Box py={{ xs: 10, sm: 8 }} className="center-root" flexDirection="column">
             <Box className="ic-comment-alt-dots" />
@@ -166,15 +171,6 @@ const ArticleComments = ({ articleId, commentCount }) => {
           </Box>
         ) : (
           <Box mb={{ xs: 4, sm: 5 }} mt={3} className={classes.commentWrapper}>
-            <Hidden xsDown>
-              <Button
-                variant="outlined"
-                className={clsx("grey-text", classes.commentButton)}
-                startIcon={<AvatarIcon />}
-              >
-                <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
-              </Button>
-            </Hidden>
             {!hasChangeSort &&
               commentsList &&
               commentsList.map((comment, index) => {

@@ -9,6 +9,7 @@ import { AuthTypes } from "../redux/auth.redux";
 import { EditionTypes } from "redux/edition.redux";
 import { ArticleTypes } from "redux/article.redux";
 import { UserTypes } from "redux/user.redux";
+import { ArticleCreateTypes } from "redux/articleCreate.redux";
 import { ChallengeTypes } from "redux/challenge.redux";
 
 /* ------------- Sagas ------------- */
@@ -20,9 +21,9 @@ import {
   requestGetTotalLenders,
   requestGetNearestLenders,
   requestGetBookSuggestion,
+  requestGetEditionSuggestion,
 } from "./edition.saga";
-import { requestGetTopWriter, requestGetUserProfile } from "./user.saga";
-
+import { requestGetTopWriter, requestGetUserProfile, requestImage } from "./user.saga";
 import {
   requestGetGiversList,
   requestGetCommentsList,
@@ -31,13 +32,21 @@ import {
   requestGetHomeReviews,
   requestGetChallengeArticles,
 } from "./article.saga";
+import {
+  requestGetCategoriesList,
+  requestGetHashTagsList,
+  requestPostArticle,
+  requestPatchArticle,
+} from "./articleCreate.saga";
 
 import {
   requestGetChallengeInfo,
   requestGetLeaderBoard,
   requestGetFriendLeaderBoard,
   requestGetActivity,
-  requestPutJoin,
+  requestGetChallengeList,
+  requestGetChallengeJoinedList,
+  requestGetChallengeRecommendList,
 } from "./challenge.saga";
 /* ------------- Connect Types To Sagas ------------- */
 export default function* root() {
@@ -54,6 +63,7 @@ export default function* root() {
     takeLatest(EditionTypes.REQUEST_GET_TOTAL_LENDERS, requestGetTotalLenders),
     takeLatest(EditionTypes.REQUEST_GET_NEAREST_LENDERS, requestGetNearestLenders),
     takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION, requestGetBookSuggestion),
+    takeLatest(EditionTypes.REQUEST_GET_EDITION_SUGGESTION, requestGetEditionSuggestion),
 
     // article
     takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),
@@ -66,12 +76,21 @@ export default function* root() {
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
     takeLatest(UserTypes.REQUEST_PROFILE, requestGetUserProfile),
+    takeLatest(UserTypes.REQUEST_IMAGE, requestImage),
+
+    //article-create
+    takeLatest(ArticleCreateTypes.REQUEST_HASH_TAGS_LIST, requestGetHashTagsList),
+    takeLatest(ArticleCreateTypes.REQUEST_CATEGORIES_LIST, requestGetCategoriesList),
+    takeLatest(ArticleCreateTypes.REQUEST_POST_ARTICLE, requestPostArticle),
+    takeLatest(ArticleCreateTypes.REQUEST_PATCH_ARTICLE, requestPatchArticle),
 
     // challenge detail
     takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_INFO, requestGetChallengeInfo),
     takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LEADER_BOARD, requestGetLeaderBoard),
     takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_FRIEND_LEADER_BOARD, requestGetFriendLeaderBoard),
     takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_ACTIVITY, requestGetActivity),
-    takeLatest(ChallengeTypes.REQUEST_JOIN_CHALLENGE, requestPutJoin),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LIST, requestGetChallengeList),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LIST_JOINED, requestGetChallengeJoinedList),
+    takeLatest(ChallengeTypes.REQUEST_GET_CHALLENGE_LIST_RECOMMEND, requestGetChallengeRecommendList),
   ]);
 }

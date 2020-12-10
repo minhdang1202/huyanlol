@@ -27,6 +27,8 @@ import Chip from "./Chip";
 import SliderButton from "./SliderButton";
 import CollectionTitle from "./CollectionTitle";
 import CommonPagination from "./CommonPagination";
+import AuthDialog from "./AuthDialog";
+import Snackbar from "./Snackbar";
 
 export {
   AppHead,
@@ -58,4 +60,6 @@ export {
   SliderButton,
   CollectionTitle,
   CommonPagination,
+  AuthDialog,
+  Snackbar,
 };

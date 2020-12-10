@@ -19,12 +19,11 @@ import { useTranslation } from "react-i18next";
 import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
 import clsx from "clsx";
-import CustomRating from "./CustomRating";
 import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
-import { getImageById } from "utils";
+import { getImageById, getTitleNoMark } from "utils";
 import { useRouter } from "next/router";
-import { FBShareButton } from "components";
+import { FBShareButton, AppLink, CustomRating } from "components";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
@@ -70,9 +69,14 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
           newReview.createTime = getCreatedTime(parseISO(createTime));
         }
         setReview(newReview);
-        if (newReview.articleId) {
-          setLinkToDetail(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, review.articleId));
+        let linkToReview;
+        if (newReview.title) {
+          const articleTitleNoMark = getTitleNoMark(newReview.title);
+          linkToReview = StringFormat(PathConstant.FM_ARTICLE_DETAIL, articleTitleNoMark, newReview.articleId);
+        } else if (newReview.articleId) {
+          linkToReview = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, newReview.articleId);
         }
+        setLinkToDetail(linkToReview);
       }
     }
   }, [data]);
@@ -80,13 +84,15 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   let isHeart = Boolean(review.reactCount && review.reactCount > 0);
 
   return (
-    <Card className={clsx(defaultClasses.root, classes && classes.root)} onClick={onGoToDetail}>
+    <Card className={clsx(defaultClasses.root, classes && classes.root)}>
       <CardHeader
         classes={{ root: defaultClasses.header, action: defaultClasses.headerAction }}
         avatar={
-          <Avatar src={getImageById(creator.imageId)} className={defaultClasses.headerAvatar}>
-            {(creator.name || AppConstant.APP_NAME).charAt(0)}
-          </Avatar>
+          <AppLink className="no-style-link">
+            <Avatar src={getImageById(creator.imageId)} className={defaultClasses.headerAvatar}>
+              {(creator.name || AppConstant.APP_NAME).charAt(0)}
+            </Avatar>
+          </AppLink>
         }
         action={
           <>
@@ -99,9 +105,11 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
           </>
         }
         title={
-          <Typography variant="subtitle2" component="p">
-            {creator.name}
-          </Typography>
+          <AppLink className="no-style-link">
+            <Typography variant="subtitle2" component="p">
+              {creator.name}
+            </Typography>
+          </AppLink>
         }
         subheader={
           <Typography variant="caption" color="textSecondary" component="p">
@@ -111,32 +119,34 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
       />
 
       <CardContent className={defaultClasses.main}>
-        <Grid container>
-          <Grid item xs={8} md={9}>
-            <Typography variant="subtitle1" component="p">
-              {review.title}
-            </Typography>
-            <CustomRating readOnly={true} value={review.rating || 0} size="small" />
-            <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
-              {review.intro}
-            </Typography>
-          </Grid>
-          <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-            <CardMedia src={getImageById(review.thumbnailId)} title={review.title} component="img" />
-          </Grid>
+        <AppLink className="no-style-link" to={linkToDetail}>
+          <Grid container>
+            <Grid item xs={8} md={9}>
+              <Typography variant="subtitle1" component="p">
+                {review.title}
+              </Typography>
+              <CustomRating readOnly={true} value={review.rating || 0} size="small" />
+              <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
+                {review.intro}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
+              <CardMedia src={getImageById(review.thumbnailId)} title={review.title} component="img" />
+            </Grid>
 
-          <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
-            <HeartIcon isActive={isHeart} width={12} height={12} />
-            <Typography variant="body2" color="textSecondary" component="p">
-              {review.reactCount}
-            </Typography>
+            <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
+              <HeartIcon isActive={isHeart} width={12} height={12} />
+              <Typography variant="body2" color="textSecondary" component="p">
+                {review.reactCount}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} md={3}>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {StringFormat(getLabel("FM_NUMBER_COMMENTS"), review.commentCount || 0)}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={4} md={3}>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {StringFormat(getLabel("FM_NUMBER_COMMENTS"), review.commentCount || 0)}
-            </Typography>
-          </Grid>
-        </Grid>
+        </AppLink>
       </CardContent>
 
       {!isHiddenAction && <Divider />}

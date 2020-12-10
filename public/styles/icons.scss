@@ -33,7 +33,6 @@
   font-family: "FontAwesome5Pro";
   content: "\f002";
   font-size: 22px;
-  color: $color-text-secondary;
 }
 
 .ic-link:before {
@@ -163,11 +162,12 @@
   font-size: 14px;
 }
 
-.ic-check:before {
+.ic-check-circle:before {
   font-family: "FontAwesome5Pro-Solid";
   content: "\f058";
   font-size: 20px;
 }
+
 .ic-progress:before {
   font-family: "FontAwesome5Pro";
   content: "\f3f4";
@@ -183,6 +183,12 @@
   font-family: "FontAwesome5Pro-Solid";
   content: "\f0a3";
   font-size: 32px;
+}
+
+.ic-certificate-small:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f0a3";
+  font-size: 20px;
 }
 
 .ic-times-circle:before {
@@ -205,4 +211,28 @@
   content: "\f4a3";
   color: #ebf4f9;
   font-size: 100px;
+}
+
+.ic-trophy-alt:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f2eb";
+  font-size: 12px;
+}
+
+.ic-bullseye-arrow:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f648";
+  font-size: 12px;
+}
+
+.ic-calendar-alt-solid:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f073";
+  font-size: 14px;
+}
+
+.ic-user-alt-solid:before {
+  font-family: "FontAwesome5Pro-Solid";
+  content: "\f007";
+  font-size: 14px;
 }

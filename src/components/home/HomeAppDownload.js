@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, List, ListItem, ListItemText, ListSubheader, makeStyles, Paper, Typography } from "@material-ui/core";
-import { DownloadButtons } from "components";
+import { AppLink, DownloadButtons } from "components";
 import { useTranslation } from "react-i18next";
 import { getCommonKey } from "const/lang.const";
-import { LangConstant } from "const";
+import { LangConstant, PathConstant } from "const";
+import clsx from "clsx";
 
 const HomeAppDownload = () => {
   const classes = useStyles();
@@ -13,9 +14,15 @@ const HomeAppDownload = () => {
     <Box className={classes.root}>
       <Paper className={classes.main}>
         <Typography variant="subtitle1">{getLabel(getCommonKey("TXT_HOMEPAGE"))}</Typography>
-        <Typography variant="subtitle1" className={classes.secondary}>
-          {getLabel("TXT_BOOK_SHELVES")}
-        </Typography>
+        <Box className={classes.secondary}>
+          <ListItem button className={classes.shortcutItem}>
+            <AppLink to={PathConstant.CHALLENGES} className="no-style-link">
+              <ListItemText
+                primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_CHALLENGE"))}</Typography>}
+              />
+            </AppLink>
+          </ListItem>
+        </Box>
 
         <List
           aria-labelledby="nested-quick-refer"
@@ -27,16 +34,19 @@ const HomeAppDownload = () => {
           className={classes.shortcutContainer}
         >
           <ListItem button className={classes.shortcutItem}>
-            <Box style={{}} />
-            <ListItemText
-              primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_UP"))}</Typography>}
-            />
+            <AppLink className="no-style-link">
+              <ListItemText
+                primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_UP"))}</Typography>}
+              />
+            </AppLink>
           </ListItem>
+
           <ListItem button className={classes.shortcutItem}>
-            <Box />
-            <ListItemText
-              primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_COMMUNITY"))}</Typography>}
-            />
+            <AppLink className="no-style-link">
+              <ListItemText
+                primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_COMMUNITY"))}</Typography>}
+              />
+            </AppLink>
           </ListItem>
         </List>
       </Paper>
@@ -66,10 +76,8 @@ const useStyles = makeStyles(theme => ({
     "& > *": { paddingRight: 16, paddingLeft: 16 },
   },
   secondary: {
-    opacity: 0.48,
-    color: theme.palette.text.secondary,
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(1),
+    "& > *": { padding: 0 },
   },
   shortcutContainer: {
     paddingTop: theme.spacing(2),
@@ -83,13 +91,6 @@ const useStyles = makeStyles(theme => ({
   shortcutItem: {
     marginLeft: -5,
     paddingLeft: 5,
-    "&>*:first-child": {
-      width: 25,
-      height: 25,
-      borderRadius: 2,
-      background: "#d8d8d8",
-      marginRight: 12,
-    },
   },
   downloadTitle: {
     marginTop: theme.spacing(2),

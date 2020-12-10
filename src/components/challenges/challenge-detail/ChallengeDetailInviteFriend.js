@@ -38,7 +38,7 @@ const InviteFriend = () => {
               )
             : getLabel("TXT_NO_FRIEND_JOINED")}
         </Typography>
-        <Button fullWidth color="secondary" variant="contained" className={classes.btn} size="large">
+        <Button fullWidth color="secondary" variant="contained" className={classes.btn} size="medium">
           {getLabel("L_INVITE")}
         </Button>
       </Box>

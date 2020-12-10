@@ -15,7 +15,7 @@ const PreviewArticle = ({
   bookName,
   tagsList,
   categoryTitle,
-  currentThumbnail,
+  thumbnailId,
   onChangeType,
 }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
@@ -33,7 +33,7 @@ const PreviewArticle = ({
         isReviewType={isReviewType}
         bookName={bookName}
         tagsList={tagsList}
-        currentThumbnail={currentThumbnail}
+        thumbnailId={thumbnailId}
         categoryTitle={categoryTitle}
       />
     </>
@@ -49,7 +49,7 @@ PreviewArticle.propTypes = {
   bookName: PropTypes.string,
   tagsList: PropTypes.array,
   categoryTitle: PropTypes.string,
-  currentThumbnail: PropTypes.object,
+  thumbnailId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onChangeType: PropTypes.func,
 };
 

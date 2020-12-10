@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Typography, Paper, Box, Button, useTheme, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import { LangConstant } from "const";
@@ -9,15 +9,14 @@ import { useSelector } from "react-redux";
 import { daysLeft } from "utils/date";
 import { CHALLENGE_TARGET_TYPE } from "const/app.const";
 import { ChallengeService } from "services";
-import ChallengeAction from "redux/challenge.redux";
-import { useDispatch } from "react-redux";
+import { hasLogged } from "utils/auth";
+import AuthDialog from "components/AuthDialog";
 const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_DETAIL);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const dispatch = useDispatch();
-
+  const isLoggedIn = hasLogged();
   const challengeProgress = useSelector(state => state.challengeRedux.detailInfo.challengeProgress);
   const fixedTargetNumber = useSelector(state => state.challengeRedux.detailInfo.targetNumber);
   const targetTypeId = useSelector(state => state.challengeRedux.detailInfo.targetTypeId);
@@ -25,12 +24,16 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
   const progress = challengeProgress ? challengeProgress.progress : 0;
   const target = challengeProgress ? challengeProgress.targetNumber : fixedTargetNumber;
   const challengeId = useSelector(state => state.challengeRedux.detailInfo.challengeId);
-
+  const [isOpenLoginForm, setIsOpenLoginForm] = useState(false);
   const onJoin = async challengeId => {
-    const response = await ChallengeService.putJoinChallenge(challengeId);
-    if (response) window.location.reload();
-    // dispatch(ChallengeAction.requestJoinChallenge(challengeId));
+    if (isLoggedIn) {
+      const response = await ChallengeService.putJoinChallenge(challengeId);
+      if (response) window.location.reload();
+    } else {
+      setIsOpenLoginForm(true);
+    }
   };
+  const onCloseLoginForm = () => setIsOpenLoginForm(false);
 
   return (
     <Paper elevation={1} className={classes.content}>
@@ -89,7 +92,7 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
         <Box className={classes.btnContainer}>
           <Button
             fullWidth
-            size={isMobile ? "small" : "large"}
+            size={isMobile ? "small" : "medium"}
             color="primary"
             variant="contained"
             className={classes.btn}
@@ -100,7 +103,7 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
       ) : (
         <Button
           fullWidth
-          size={isMobile ? "medium" : "large"}
+          size={isMobile ? "large" : "medium"}
           color="primary"
           variant="contained"
           onClick={() => onJoin(challengeId)}
@@ -108,6 +111,7 @@ const ChallengeDetailFooter = ({ isDone, isEnd, joined }) => {
           {getLabel("L_JOIN")}
         </Button>
       )}
+      <AuthDialog isOpen={isOpenLoginForm} onClose={onCloseLoginForm} />
     </Paper>
   );
 };
