@@ -42,7 +42,7 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
   const dispatch = useDispatch();
 
-  const { hasCreateList, hasCreateBreakLine, hasInsertImage, article } = useSelector(
+  const { screen_hasCreateList, screen_hasCreateBreakLine, screen_hasInsertImage, article } = useSelector(
     ({ articleCreateRedux }) => articleCreateRedux,
   );
   const { imageId, error } = useSelector(({ userRedux }) => userRedux);
@@ -185,19 +185,19 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
   }, [editorState, wordBox]);
 
   useEffect(() => {
-    if (hasCreateList) onCreateList();
-  }, [hasCreateList]);
+    if (screen_hasCreateList) onCreateList();
+  }, [screen_hasCreateList]);
 
   useEffect(() => {
-    if (hasCreateBreakLine) onCreateBreakLine();
-  }, [hasCreateBreakLine]);
+    if (screen_hasCreateBreakLine) onCreateBreakLine();
+  }, [screen_hasCreateBreakLine]);
 
   useEffect(() => {
-    if (hasInsertImage && imageId) {
+    if (screen_hasInsertImage && imageId) {
       onInsertImage(getImageById(imageId));
       onChangeThumbnailList(imageId);
     }
-  }, [hasInsertImage, imageId]);
+  }, [screen_hasInsertImage, imageId]);
 
   useEffect(() => {
     if (inlineBtn != "link") onRemoveLink();
