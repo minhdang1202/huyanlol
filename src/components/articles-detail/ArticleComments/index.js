@@ -63,14 +63,19 @@ const ArticleComments = () => {
   };
 
   const onScroll = e => {
-    console.log("scroll");
-    console.log(isFetchingComments)
+    if (scrollTimeoutEvent) {
+      clearTimeout(scrollTimeoutEvent);
+      scrollTimeoutEvent = null;
+    }
     if (isFetchingComments || !commentCount) return;
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     if (scrollHeight > scrollTop + clientHeight) return;
     const { total } = comments;
     if (total === 0) return;
-    dispatchGetComments();
+
+    scrollTimeoutEvent = setTimeout(() => {
+      dispatchGetComments();
+    }, TIMEOUT_SCROLL);
   };
 
   const onGetParams = () => {
@@ -101,10 +106,19 @@ const ArticleComments = () => {
     const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
     if (isMobile) {
       mainLayout.addEventListener("scroll", onScroll, true);
-      return;
     }
-    mainLayout.removeEventListener("scroll", onScroll, true);
-  }, [isMobile]);
+  });
+
+  useEffect(() => {
+    //Remove event scroll
+    return () => {
+      if (isMobile) {
+        const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
+        mainLayout.removeEventListener("scroll", onScroll, true);
+        clearTimeout(scrollTimeoutEvent);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     dispatchGetComments();
@@ -203,6 +217,9 @@ export const RADIO_LIST = [
 ];
 
 export default memo(ArticleComments);
+
+var scrollTimeoutEvent;
+var TIMEOUT_SCROLL = 600;
 
 const useStyles = makeStyles(theme => ({
   selectButton: {
