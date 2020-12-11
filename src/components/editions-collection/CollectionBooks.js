@@ -7,7 +7,7 @@ const CollectionBooks = () => {
   const classes = useStyles();
   return (
     <Box className={classes.root}>
-      <CollectionSort />
+      {/* <CollectionSort /> */}
       <ListBooks />
     </Box>
   );

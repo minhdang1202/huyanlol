@@ -7,15 +7,15 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 
 const CustomBreadcrumb = ({ bookName, articleName, className, challengeName }) => {
+  const { t: getLabel } = useTranslation();
   const BREADCRUMB_NAME_MAP = {
-    editions: null,
+    editions: getLabel("TXT_MOST_BORROWING_BOOK"),
     edition: bookName,
     articles: null,
     article: articleName,
-    challenges: null,
+    challenges: getLabel("TXT_CHALLENGE_WITH_GAT"),
     challenge: challengeName,
   };
-  const { t: getLabel } = useTranslation();
   const classes = useStyles();
   const router = useRouter();
   const { pathname } = router;

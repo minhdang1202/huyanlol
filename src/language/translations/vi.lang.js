@@ -51,6 +51,7 @@ export default {
     TXT_LIST_REVIEWS: "Danh sách review",
     TXT_LIST_WRITERS: "Danh sách nhà văn",
     TXT_CHALLENGE: "Thử thách đọc sách",
+    TXT_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",

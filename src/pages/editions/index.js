@@ -1,8 +1,8 @@
 import React from "react";
 import MainLayout from "layouts/MainLayout";
-import { Box, Grid, makeStyles, useTheme, useMediaQuery, Hidden } from "@material-ui/core";
+import { Box, Grid, makeStyles, useTheme, useMediaQuery, Hidden, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { CollectionTitle, ListCategory } from "components";
+import { ListCategory, CustomBreadcrumb } from "components";
 import { PopularArticles, CollectionBooks } from "components/editions-collection";
 
 const CollectionBooksPage = () => {
@@ -18,11 +18,14 @@ const CollectionBooksPage = () => {
   return (
     <MainLayout appBarProps={appBarProps}>
       <Grid container className={classes.root}>
-        {/* {isMobile && (
-          <Grid item xs={12} md={12} lg={12} className={classes.titleContainer}>
-            <CollectionTitle title={getLabel("TXT_MOST_BORROWING_BOOK")} />
+        {!isMobile && (
+          <Grid item xs={12} md={12} lg={12}>
+            <CustomBreadcrumb />
+            <Typography variant="h4" component="h1">
+              {getLabel("TXT_MOST_BORROWING_BOOK")}
+            </Typography>
           </Grid>
-        )} */}
+        )}
         <Grid item xs={12} sm={12} md={8} className={classes.mainContainer}>
           <CollectionBooks />
         </Grid>
@@ -46,7 +49,6 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 1022,
     margin: "16px auto",
   },
-  titleContainer: {},
   mainContainer: {
     paddingRight: 12,
     [theme.breakpoints.down("sm")]: {
