@@ -93,7 +93,7 @@ export function* requestGetCommentGivers(action) {
 
 export function* requestGetComments(action) {
   const { articleId, ...params } = action.data;
-  const { lastCommentId, isFriend } = params;
+  const { lastCommentId, isFriend, pageSize } = params;
   let [comments, currentReplies] = yield select(({ articleRedux }) => [articleRedux.comments, articleRedux.replies]);
   const { pageData: currentComments } = comments;
   let response = yield call(ArticleService.getArticleComments, articleId, params);
@@ -102,7 +102,7 @@ export function* requestGetComments(action) {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
       responseData.isFriend = isFriend;
-      let { pageData: newComments } = responseData;
+      let { pageData: newComments, total } = responseData;
       if (lastCommentId || (!lastCommentId && !currentReplies.length))
         newComments.forEach(comment => {
           const { commentId, replies } = comment;
@@ -111,9 +111,10 @@ export function* requestGetComments(action) {
               pageData: replies.concat(currentReplies[commentId]?.pageData || []),
             };
         });
+      const isLastPage = !lastCommentId ? pageSize >= total : total === 0;
       const comments = !lastCommentId
-        ? responseData
-        : { ...responseData, pageData: currentComments.concat(newComments) };
+        ? { ...responseData, isLastPage }
+        : { ...responseData, pageData: currentComments.concat(newComments), isLastPage };
       yield put(ArticleAction.articleSuccess({ comments, replies: currentReplies }));
     }
   } catch (error) {
@@ -147,11 +148,12 @@ export function* requestGetReplies(action) {
 export function* requestPostComment(action) {
   const { articleId, ...bodyReq } = action.data;
   let isSuccess = false;
-  let comments = yield select(({ articleRedux }) => articleRedux.comments);
+  let [comments, replies] = yield select(({ articleRedux }) => [articleRedux.comments, articleRedux.replies]);
   let response = yield call(ArticleService.postComment, articleId, bodyReq);
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
+      const { commentId } = responseData;
       let pageData;
       if (comments.pageData) {
         pageData = [responseData].concat(comments.pageData);
@@ -166,6 +168,7 @@ export function* requestPostComment(action) {
           comments: { ...comments, pageData },
           isPostCommentSuccess: true,
           newComment: responseData,
+          replies,
         }),
       );
     }
@@ -187,9 +190,9 @@ export function* requestPostReply(action) {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
       if (replies[commentId]?.pageData) {
-        replies[commentId].pageData.unshift(responseData);
+        replies[commentId].pageData.concat(responseData);
       } else {
-        replies[commentId].pageData = [responseData];
+        replies[commentId] = { pageData: [responseData] };
       }
       isSuccess = true;
       yield put(ArticleAction.articleSuccess({ replies, isPostCommentSuccess: true }));

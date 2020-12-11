@@ -63,13 +63,13 @@ const ArticleComments = () => {
   };
 
   const onScroll = e => {
-    console.log("scroll");
-    console.log(isFetchingComments)
+    // console.log("scroll");
+    // console.log(isFetchingComments)
     if (isFetchingComments || !commentCount) return;
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     if (scrollHeight > scrollTop + clientHeight) return;
-    const { total } = comments;
-    if (total === 0) return;
+    const { isLastPage } = comments;
+    if (isLastPage) return;
     dispatchGetComments();
   };
 

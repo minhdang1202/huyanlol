@@ -24,6 +24,7 @@ const MentionInput = forwardRef(
       MentionUserSuggestions,
       MentionEditionSuggestions,
       plugins,
+      reset,
       ...otherProps
     },
     ref,
@@ -31,15 +32,17 @@ const MentionInput = forwardRef(
     const classes = useStyles();
     const editorRef = useRef();
     const dispatch = useDispatch();
-    const [userSuggestionRedux, editionSuggestionRedux, isPostCommentSuccess, replyInfo] = useSelector(
+    const [userSuggestionRedux, editionSuggestionRedux, isPostCommentSuccess, replyInfo, isTypingReply] = useSelector(
       ({ editionRedux, userRedux, articleRedux }) => [
         userRedux.suggestions,
         editionRedux.suggestions,
         articleRedux.isPostCommentSuccess,
         articleRedux.replyInfo,
+        articleRedux.isTypingReply,
       ],
       shallowEqual,
     );
+    const userId = replyInfo?.user?.userId;
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [searchUser, setSearchUser] = useState();
     const [searchEdition, setSearchEdition] = useState();
@@ -59,6 +62,8 @@ const MentionInput = forwardRef(
         if (editionId && !editionIds.includes(editionId)) editionIds.push(editionId);
         if (userId && !userIds.includes(userId)) userIds.push(userId);
       });
+      if (isTypingReply && !userIds.includes(userId)) userIds.push(userId);
+      console.log(editionIds);
       onChangeContent({ userIds, editionIds, content, hasContent });
     };
 
@@ -89,7 +94,7 @@ const MentionInput = forwardRef(
     };
 
     useEffect(() => {
-      if (searchUser)
+      if (searchUser) {
         dispatch(
           UserActions.requestUserSuggestion({
             keyword: searchUser,
@@ -97,11 +102,11 @@ const MentionInput = forwardRef(
             type: AppConstant.VALUE_TYPE.name,
           }),
         );
+      }
     }, [searchUser]);
 
     useEffect(() => {
-      setEditionSuggestions([]);
-      if (searchEdition)
+      if (searchEdition) {
         dispatch(
           EditionActions.requestGetEditionSuggestion({
             keyword: searchEdition,
@@ -109,6 +114,7 @@ const MentionInput = forwardRef(
             type: AppConstant.VALUE_TYPE.title,
           }),
         );
+      }
     }, [searchEdition]);
 
     useEffect(() => {
@@ -140,10 +146,18 @@ const MentionInput = forwardRef(
     }, [isPostCommentSuccess]);
 
     useEffect(() => {
-      if (replyInfo?.user) {
+      if (isTypingReply) {
         onChange(EditorState.moveSelectionToEnd(addMention(replyInfo)));
+        return;
       }
-    }, [replyInfo]);
+    }, [isTypingReply]);
+
+    useEffect(() => {
+      if (reset) {
+        onChange(EditorState.createEmpty());
+        editorRef.current.blur();
+      }
+    }, [reset]);
 
     return (
       <Box className={clsx(classes.root, className)} ref={ref} onClick={onFocus} {...otherProps}>
@@ -194,6 +208,7 @@ MentionInput.propTypes = {
   MentionUserSuggestions: PropTypes.elementType.isRequired,
   MentionEditionSuggestions: PropTypes.elementType.isRequired,
   plugins: PropTypes.array.isRequired,
+  reset: PropTypes.bool,
 };
 
 MentionInput.displayName = "MentionInput";

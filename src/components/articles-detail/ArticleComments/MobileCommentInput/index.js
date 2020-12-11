@@ -15,6 +15,7 @@ const MobileCommentInput = () => {
   const { getCommonKey } = LangConstant;
   const [content, setContent] = useState({});
   const [hasContent, setHasContent] = useState(false);
+  const [reset, setReset] = useState(false);
 
   const dispatch = useDispatch();
   const [isTypingReply, commentId, isPostingComment, articleId] = useSelector(({ articleRedux }) => [
@@ -35,15 +36,24 @@ const MobileCommentInput = () => {
       : dispatch(ArticleActions.requestPostComment({ ...content, articleId }));
   };
 
+  const onCancelReply = () => {
+    dispatch(ArticleActions.cancelReply());
+    setReset(true);
+    setTimeout(() => {
+      setReset(false);
+    }, 500);
+  };
+
   return (
     <Box className={classes.root}>
-      <ReplyInfo />
+      <ReplyInfo onCancelReply={onCancelReply} />
       <Box className={classes.form}>
         <Avatar variant="square" src="/images/ic-book.png" />
         <MentionInput
           id={MOBILE_INPUT_ID}
           onChangeContent={onChangeContent}
           className={classes.input}
+          reset={reset}
           placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
           {...topMentionPlugins}
         />

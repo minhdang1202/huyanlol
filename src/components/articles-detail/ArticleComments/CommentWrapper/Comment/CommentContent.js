@@ -36,12 +36,7 @@ const CommentContent = ({ content, commentToEditions, isDesktopComment }) => {
           </IconButton>
         )}
       </Box>
-      {commentToEditions[0] && (
-        <BookBox
-          className="mt-12"
-          data={commentToEditions[0]}
-        />
-      )}
+      {commentToEditions[0] && <BookBox className="mt-12" data={commentToEditions[0]} />}
     </Box>
   );
 };
@@ -58,6 +53,10 @@ const useStyles = makeStyles(theme => ({
     "& a": {
       textDecoration: "none",
       color: theme.palette.primary.main,
+    },
+    "& p": {
+      marginTop: 0,
+      marginBottom: 0,
     },
     "& *:first-child": {
       marginTop: 0,

@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import StringFormat from "string-format";
 import { useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { Box, makeStyles, IconButton, Typography, useTheme, useMediaQuery } from "@material-ui/core";
 
-const ReplyInfo = () => {
+const ReplyInfo = ({ onCancelReply }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -23,12 +24,16 @@ const ReplyInfo = () => {
         <Typography variant="subtitle1" className="eclipse">
           {StringFormat(getLabel("FM_ARTICLE_REPLY_COMMENT"), userName)}
         </Typography>
-        <IconButton onClick={() => {}}>
+        <IconButton onClick={onCancelReply}>
           <Box className="ic-times-circle" />
         </IconButton>
       </Box>
     )
   );
+};
+
+ReplyInfo.propTypes = {
+  onCancelReply: PropTypes.func,
 };
 
 export default ReplyInfo;

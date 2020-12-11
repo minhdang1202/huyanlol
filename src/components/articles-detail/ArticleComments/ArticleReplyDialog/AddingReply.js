@@ -1,25 +1,32 @@
 import React, { memo, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { Button, Card, CardContent, CardHeader, Divider, makeStyles, Typography } from "@material-ui/core";
 import { Avatar, AuthDialog } from "components";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { getImageById } from "utils";
 import MentionInput from "../MentionInput";
+import ArticleActions from "redux/article.redux";
 import { downMentionPlugins } from "../MentionInput/MentionPlugins";
 
 const AddingReply = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
+  const dispatch = useDispatch();
   const { isAuth } = useSelector(({ authRedux }) => authRedux);
   const { profile } = useSelector(({ userRedux }) => userRedux);
+  const [articleId, isPostingComment] = useSelector(
+    ({ articleRedux }) => [articleRedux.article.articleId, articleRedux.isPostingComment],
+    shallowEqual,
+  );
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
   const [content, setContent] = useState({});
   const [hasContent, setHasContent] = useState(false);
 
   const onAddReply = event => {
     event.stopPropagation();
+    dispatch(ArticleActions.requestPostComment({ ...content, articleId }));
   };
 
   const onChangeContent = ({ hasContent, ...newContent }) => {
@@ -62,7 +69,7 @@ const AddingReply = () => {
         <Button
           variant="contained"
           color="primary"
-          disabled={!hasContent}
+          disabled={!hasContent || isPostingComment}
           className={classes.sendBtn}
           onClick={isAuth ? onAddReply : onOpenAuthDialog}
         >
