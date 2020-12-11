@@ -1,7 +1,6 @@
 import punycode from "punycode";
 import { AppConstant } from "const";
-import { EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
+import { EditorState, RichUtils, convertToRaw, AtomicBlockUtils, Modifier } from "draft-js";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 
 export const getWordCount = editorState => {
@@ -165,4 +164,25 @@ export const getMentionMap = editorState => {
     }
   });
   return mentionMap;
+};
+
+export const addMention = replyInfo => {
+  const editorState = EditorState.createEmpty();
+  const mention = { ...replyInfo };
+  const contentStateWithEntity = editorState
+    .getCurrentContent()
+    .createEntity(AppConstant.DRAFT_TYPE.mention, "IMMUTABLE", { mention });
+  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+
+  let mentionReplacedContent = Modifier.replaceText(
+    editorState.getCurrentContent(),
+    editorState.getSelection(),
+    replyInfo.user.name,
+    null,
+    entityKey,
+  );
+  mentionReplacedContent = Modifier.insertText(mentionReplacedContent, mentionReplacedContent.getSelectionAfter(), " ");
+
+  let newEditorState = EditorState.push(editorState, mentionReplacedContent, "insert-mention");
+  return newEditorState;
 };

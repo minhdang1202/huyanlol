@@ -115,7 +115,7 @@ export const getServerSideProps = async ({ res, query, req }) => {
 
   if (article.data) {
     const articleData = article.data;
-    let { title } = article;
+    let { title } = articleData;
     if (isOnlyNumber) {
       return {
         redirect: {

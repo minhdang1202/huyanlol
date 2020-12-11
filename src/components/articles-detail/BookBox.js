@@ -11,6 +11,7 @@ import { getImageById } from "utils";
 const BookBox = ({ data, className, ...otherProps }) => {
   const classes = useStyles();
   const { imageId, authorName, title, editionId, rateAvg } = data;
+  console.log(data);
   return (
     <AppLink className={classes.root} to={StringFormat(PathConstant.FM_BOOK_DETAIL_ID, editionId)}>
       <Button className={clsx(classes.button, className)} {...otherProps}>

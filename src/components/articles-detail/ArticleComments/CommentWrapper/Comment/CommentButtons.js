@@ -8,7 +8,7 @@ import { Button, Box, useTheme, useMediaQuery, makeStyles } from "@material-ui/c
 import ArticleActions from "redux/article.redux";
 import GiversList from "../../../GiversList";
 import { AuthDialog, DialogAppDownload } from "components";
-import { MOBILE_INPUT_ID } from "../../MobileInput";
+import { MOBILE_INPUT_ID } from "../../MobileCommentInput";
 
 const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDialog, isDesktopComment }) => {
   const classes = useStyles();
@@ -48,7 +48,7 @@ const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDi
     if (isMobile) {
       const mobileInput = document.getElementById(MOBILE_INPUT_ID);
       mobileInput.click();
-      // dispatch(ArticleActions.replyComment({ user, commentId }));
+      dispatch(ArticleActions.replyComment({ user, commentId }));
       return;
     }
   };

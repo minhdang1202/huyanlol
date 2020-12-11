@@ -28,7 +28,7 @@ const CommentWrapper = ({ hasSortChange }) => {
           const { replyCount, commentId } = comment;
           return (
             <Box key={uuid()}>
-              <Comment comment={comment} />
+              <Comment id={commentId} comment={comment} />
               {replyCount > 0 && <Replies replyCount={replyCount} commentId={commentId} />}
             </Box>
           );

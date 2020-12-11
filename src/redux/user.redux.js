@@ -26,8 +26,8 @@ export const INITIAL_STATE = {
 };
 
 /* ------------- Reducers ------------- */
-export const request = () => ({
-  ...INITIAL_STATE,
+export const request = (state = INITIAL_STATE) => ({
+  ...state,
   isFetching: true,
   error: null,
 });

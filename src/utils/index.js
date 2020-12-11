@@ -147,8 +147,8 @@ export const checkIfLastPage = ({ pageSize, pageNo, total }) => {
 };
 
 export const getRedirectPath = (path, id, title) => {
-  const articleTitleNoMark = title ? getTitleNoMark(title) : null;
-  return articleTitleNoMark ? StringFormat(path, articleTitleNoMark, id) : StringFormat(path, "_", id);
+  const titleNoMark = title ? getTitleNoMark(title) : null;
+  return titleNoMark ? StringFormat(path, titleNoMark, id) : StringFormat(path, "_", id);
 };
 
 export const debounce = (func, wait, immediate) => {
@@ -165,4 +165,8 @@ export const debounce = (func, wait, immediate) => {
     timeout = setTimeout(later, wait);
     if (callNow) func.apply(context, args);
   };
+};
+
+export const scrollToEl = id => {
+  document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "center" });
 };

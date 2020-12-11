@@ -5,7 +5,7 @@ import { Button, Box, Hidden, Divider, useTheme, useMediaQuery, makeStyles } fro
 import { useTranslation } from "react-i18next";
 import { FBShareButton, DialogAppDownload, BookmarkButton, AuthDialog } from "components";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
-import { MOBILE_INPUT_ID } from "./ArticleComments/MobileInput";
+import { MOBILE_INPUT_ID } from "./ArticleComments/MobileCommentInput";
 
 const ArticleReactButtons = ({ shareUrl }) => {
   const { t: getLabel } = useTranslation();

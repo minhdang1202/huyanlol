@@ -8,15 +8,11 @@ import NoCommentWrapper from "./NoCommentWrapper";
 
 const DesktopCommentWrapper = ({ onOpenReplyDialog }) => {
   const classes = useStyles();
-  const [desktopCommentsRedux, commentCount, articleId] = useSelector(
-    ({ articleRedux }) => [
-      articleRedux.desktopComments,
-      articleRedux.article.commentCount,
-      articleRedux.article.articleId,
-    ],
+  const [comments, commentCount] = useSelector(
+    ({ articleRedux }) => [articleRedux.comments.pageData, articleRedux.article.commentCount],
     shallowEqual,
   );
-  const desktopComments = desktopCommentsRedux[articleId];
+  const desktopComments = comments?.slice(0, 2);
 
   return (
     <Box mt={2} className={classes.root}>

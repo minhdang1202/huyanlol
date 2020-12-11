@@ -6,11 +6,12 @@ import { Typography, Box, Hidden, Button, makeStyles, useTheme, useMediaQuery } 
 import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant } from "const";
 import ArticleActions from "redux/article.redux";
-import MobileInput from "./MobileInput";
+import MobileCommentInput from "./MobileCommentInput";
 import SortPopup from "./SortPopup";
 import CommentWrapper from "./CommentWrapper";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 import { AvatarIcon } from "icons";
+import { scrollToEl } from "utils";
 import ArticleReplyDialog from "./ArticleReplyDialog";
 import { getLabel } from "language";
 import { AuthDialog } from "components";
@@ -23,8 +24,13 @@ const ArticleComments = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
   const { isAuth } = useSelector(({ authRedux }) => authRedux);
-  const [comments, article, isFetchingComments] = useSelector(
-    ({ articleRedux }) => [articleRedux.comments, articleRedux.article, articleRedux.isFetchingComments],
+  const [comments, article, isFetchingComments, newComment] = useSelector(
+    ({ articleRedux }) => [
+      articleRedux.comments,
+      articleRedux.article,
+      articleRedux.isFetchingComments,
+      articleRedux.newComment,
+    ],
     shallowEqual,
   );
   const { commentCount, articleId } = article;
@@ -57,22 +63,23 @@ const ArticleComments = () => {
   };
 
   const onScroll = e => {
+    console.log("scroll");
+    console.log(isFetchingComments)
     if (isFetchingComments || !commentCount) return;
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     if (scrollHeight > scrollTop + clientHeight) return;
-    const { pageData: commentsList, total } = comments;
-    if (commentsList.length === total) return;
+    const { total } = comments;
+    if (total === 0) return;
     dispatchGetComments();
   };
 
   const onGetParams = () => {
     const commentList = comments?.pageData;
-    const lastCommentId = commentList && !hasSortChange ? commentList[commentList.length - 1].commentId : null;
+    const lastCommentId = commentList && !hasSortChange ? commentList[commentList.length - 1]?.commentId : null;
     return {
       articleId: articleId,
       lastCommentId,
-      // pageSize: AppConstant.DATA_SIZES.comments,
-      pageSize: 2, //Mock data to test
+      pageSize: AppConstant.DATA_SIZES.comments,
       isFriend: sortValue === AppConstant.SORT_FRIEND,
     };
   };
@@ -106,6 +113,12 @@ const ArticleComments = () => {
   useEffect(() => {
     if (hasSortChange) setHasSortChange(false);
   }, [comments]);
+
+  useEffect(() => {
+    if (newComment.commentId && isMobile) {
+      scrollToEl(newComment.commentId);
+    }
+  }, [newComment]);
 
   return (
     <Box width="100%">
@@ -166,7 +179,7 @@ const ArticleComments = () => {
         )}
         {isAuth && (
           <Hidden smUp>
-            <MobileInput />
+            <MobileCommentInput />
           </Hidden>
         )}
       </Box>

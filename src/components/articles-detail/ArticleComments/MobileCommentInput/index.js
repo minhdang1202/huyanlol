@@ -1,22 +1,15 @@
 import React, { useState } from "react";
-import StringFormat from "string-format";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import createMentionPlugin from "draft-js-mention-plugin";
 import { LangConstant } from "const";
-import { Avatar, Box, makeStyles, Button, IconButton, Typography } from "@material-ui/core";
+import { Avatar, Box, makeStyles, Button } from "@material-ui/core";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 import ArticleActions from "redux/article.redux";
-import MentionInput from "./MentionInput";
-import Mention from "./MentionInput/Mention";
-import {
-  HEIGHT_EDITION_SUGGESTIONS,
-  HEIGHT_USER_SUGGESTIONS,
-  WIDTH_EDITION_SUGGESTIONS,
-  WIDTH_USER_SUGGESTIONS,
-} from "./MentionInput";
+import MentionInput from "../MentionInput";
+import { topMentionPlugins } from "../MentionInput/MentionPlugins";
+import ReplyInfo from "./ReplyInfo";
 
-const MobileInput = () => {
+const MobileCommentInput = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
@@ -24,13 +17,12 @@ const MobileInput = () => {
   const [hasContent, setHasContent] = useState(false);
 
   const dispatch = useDispatch();
-  const [isTypingReply, replyInfo, isPostingComment, articleId] = useSelector(({ articleRedux }) => [
+  const [isTypingReply, commentId, isPostingComment, articleId] = useSelector(({ articleRedux }) => [
     articleRedux.isTypingReply,
-    articleRedux.replyInfo,
+    articleRedux.replyInfo?.commentId,
     articleRedux.isPostingComment,
     articleRedux.article.articleId,
   ]);
-  const { user, commentId } = replyInfo || {};
 
   const onChangeContent = ({ hasContent, ...newContent }) => {
     setContent(newContent);
@@ -45,26 +37,15 @@ const MobileInput = () => {
 
   return (
     <Box className={classes.root}>
-      {isTypingReply && (
-        <Box className={classes.reply}>
-          <Typography variant="subtitle1" className="eclipse">
-            {StringFormat(getLabel("FM_ARTICLE_REPLY_COMMENT"), user.name)}
-          </Typography>
-          <IconButton onClick={dispatch(ArticleActions.cancelReply())}>
-            <Box className="ic-times-circle" />
-          </IconButton>
-        </Box>
-      )}
+      <ReplyInfo />
       <Box className={classes.form}>
         <Avatar variant="square" src="/images/ic-book.png" />
         <MentionInput
           id={MOBILE_INPUT_ID}
-          MentionUserSuggestions={MentionUserSuggestions}
-          MentionEditionSuggestions={MentionEditionSuggestions}
-          plugins={plugins}
           onChangeContent={onChangeContent}
           className={classes.input}
           placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
+          {...topMentionPlugins}
         />
         <Button
           disabled={!hasContent || isPostingComment}
@@ -78,42 +59,8 @@ const MobileInput = () => {
   );
 };
 
-const mentionUserPlugin = createMentionPlugin({
-  mentionTrigger: "@",
-  mentionComponent: Mention,
-  entityMutability: "IMMUTABLE",
-  supportWhitespace: true,
-  positionSuggestions: settings => {
-    return {
-      left: settings.decoratorRect.left + "px",
-      top: settings.decoratorRect.top - 25 + "px", // Change this value (25) for manage the distance between cursor and bottom edge of popover
-      transform: "scale(1) translateY(-100%)",
-      maxHeight: HEIGHT_USER_SUGGESTIONS,
-      width: WIDTH_USER_SUGGESTIONS,
-    };
-  },
-});
-const mentionEditionPlugin = createMentionPlugin({
-  mentionTrigger: "&",
-  mentionComponent: Mention,
-  entityMutability: "IMMUTABLE",
-  supportWhitespace: true,
-  positionSuggestions: settings => {
-    return {
-      left: settings.decoratorRect.left + "px",
-      top: settings.decoratorRect.top - 25 + "px", // Change this value (25) for manage the distance between cursor and bottom edge of popover
-      transform: "scale(1) translateY(-100%)",
-      maxHeight: HEIGHT_EDITION_SUGGESTIONS,
-      width: WIDTH_EDITION_SUGGESTIONS,
-    };
-  },
-});
-const plugins = [mentionEditionPlugin, mentionUserPlugin];
-const { MentionSuggestions: MentionUserSuggestions } = mentionUserPlugin;
-const { MentionSuggestions: MentionEditionSuggestions } = mentionEditionPlugin;
-
 export const MOBILE_INPUT_ID = "mobile-input";
-export default MobileInput;
+export default MobileCommentInput;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -160,17 +107,5 @@ const useStyles = makeStyles(theme => ({
   },
   disabled: {
     color: `${theme.palette.grey[500]} !important`,
-  },
-  reply: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    background: theme.palette.grey[100],
-    padding: theme.spacing(1, 2),
-    color: theme.palette.grey[500],
-    "& .ic-times-circle": {
-      fontSize: 14,
-      color: theme.palette.grey[500],
-    },
   },
 }));

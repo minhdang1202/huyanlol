@@ -1,18 +1,16 @@
 import React, { useState, useRef, useEffect, useCallback, forwardRef } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import clsx from "clsx";
 import { AppConstant, PathConstant } from "const";
 import { Box, makeStyles } from "@material-ui/core";
 import { convertToHTML } from "draft-convert";
 import { EditorState } from "draft-js";
 import Editor from "draft-js-plugins-editor";
-import createMentionPlugin from "draft-js-mention-plugin";
 import EditionEntry from "./EditionEntry";
 import UserEntry from "./UserEntry";
-import { removeLastBlankBlocks, getMentionMap, getPlainText } from "utils/editor";
+import { removeLastBlankBlocks, getMentionMap, getPlainText, addMention } from "utils/editor";
 import { getRedirectPath, debounce, uuid } from "utils";
-import Mention from "./Mention";
 import ArticleActions from "redux/article.redux";
 import EditionActions from "redux/edition.redux";
 import UserActions from "redux/user.redux";
@@ -33,15 +31,15 @@ const MentionInput = forwardRef(
     const classes = useStyles();
     const editorRef = useRef();
     const dispatch = useDispatch();
-    const [
-      userSuggestionRedux,
-      editionSuggestionRedux,
-      isPostCommentSuccess,
-    ] = useSelector(({ editionRedux, userRedux, articleRedux }) => [
-      userRedux.suggestions,
-      editionRedux.suggestions,
-      articleRedux.isPostCommentSuccess,
-    ]);
+    const [userSuggestionRedux, editionSuggestionRedux, isPostCommentSuccess, replyInfo] = useSelector(
+      ({ editionRedux, userRedux, articleRedux }) => [
+        userRedux.suggestions,
+        editionRedux.suggestions,
+        articleRedux.isPostCommentSuccess,
+        articleRedux.replyInfo,
+      ],
+      shallowEqual,
+    );
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [searchUser, setSearchUser] = useState();
     const [searchEdition, setSearchEdition] = useState();
@@ -141,6 +139,12 @@ const MentionInput = forwardRef(
       }
     }, [isPostCommentSuccess]);
 
+    useEffect(() => {
+      if (replyInfo?.user) {
+        onChange(EditorState.moveSelectionToEnd(addMention(replyInfo)));
+      }
+    }, [replyInfo]);
+
     return (
       <Box className={clsx(classes.root, className)} ref={ref} onClick={onFocus} {...otherProps}>
         <Editor
@@ -183,54 +187,13 @@ const convertMap = {
   },
 };
 
-export const HEIGHT_USER_SUGGESTIONS = "200px";
-export const WIDTH_USER_SUGGESTIONS = "250px";
-export const HEIGHT_EDITION_SUGGESTIONS = "245px";
-export const WIDTH_EDITION_SUGGESTIONS = "250px";
-
-const mentionUserPlugin = createMentionPlugin({
-  mentionTrigger: "@",
-  mentionComponent: Mention,
-  entityMutability: "IMMUTABLE",
-  supportWhitespace: true,
-  positionSuggestions: () => {
-    return {
-      maxHeight: HEIGHT_USER_SUGGESTIONS,
-      width: WIDTH_USER_SUGGESTIONS,
-    };
-  },
-});
-
-const mentionEditionPlugin = createMentionPlugin({
-  mentionTrigger: "&",
-  mentionComponent: Mention,
-  entityMutability: "IMMUTABLE",
-  supportWhitespace: true,
-  positionSuggestions: () => {
-    return {
-      maxHeight: HEIGHT_EDITION_SUGGESTIONS,
-      width: WIDTH_EDITION_SUGGESTIONS,
-    };
-  },
-});
-const defaultPlugins = [mentionEditionPlugin, mentionUserPlugin];
-
-const { MentionSuggestions: DownMentionUserSuggestions } = mentionUserPlugin;
-const { MentionSuggestions: DownMentionEditionSuggestions } = mentionEditionPlugin;
-
 MentionInput.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
-  onChangeContent: PropTypes.func,
-  MentionUserSuggestions: PropTypes.elementType,
-  MentionEditionSuggestions: PropTypes.elementType,
-  plugins: PropTypes.array,
-};
-
-MentionInput.defaultProps = {
-  MentionUserSuggestions: DownMentionUserSuggestions,
-  MentionEditionSuggestions: DownMentionEditionSuggestions,
-  plugins: defaultPlugins,
+  onChangeContent: PropTypes.func.isRequired,
+  MentionUserSuggestions: PropTypes.elementType.isRequired,
+  MentionEditionSuggestions: PropTypes.elementType.isRequired,
+  plugins: PropTypes.array.isRequired,
 };
 
 MentionInput.displayName = "MentionInput";

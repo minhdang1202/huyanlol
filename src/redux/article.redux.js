@@ -36,15 +36,15 @@ export const INITIAL_STATE = {
   articleGivers: [],
   commentGivers: [],
   comments: {},
-  desktopComments: [],
   replies: [],
   homeArticles: {},
   homeReviews: {},
   challengeArticles: [],
   isTypingReply: false,
-  replyInfo: null,
+  replyInfo: {},
   isPostCommentFailure: false,
   isPostCommentSuccess: false,
+  newComment: {},
 };
 
 /* ------------- Reducers ------------- */
@@ -90,13 +90,14 @@ const replyComment = (state = INITIAL_STATE, action) => ({
 const cancelReply = (state = INITIAL_STATE) => ({
   ...state,
   isTypingReply: false,
-  replyInfo: null,
+  replyInfo: {},
 });
 
 const finishPostComment = (state = INITIAL_STATE) => ({
   ...state,
   isPostCommentFailure: false,
   isPostCommentSuccess: false,
+  newComment: {},
 });
 
 export const finish = (state = INITIAL_STATE, action) => {
