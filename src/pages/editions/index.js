@@ -2,12 +2,13 @@ import React from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, makeStyles, useTheme, useMediaQuery, Hidden, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
+import { LangConstant } from "const";
 import { ListCategory, CustomBreadcrumb } from "components";
 import { PopularArticles, CollectionBooks } from "components/editions-collection";
 
 const CollectionBooksPage = () => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation();
+  const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_BOOKS);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const appBarProps = {

@@ -99,3 +99,21 @@ export const DRAFT_TYPE = {
 
 export const THUMBNAIL_TYPE = 0;
 export const COVER_TYPE = 1;
+
+export const BOOK_SUGGESTION_CATEGORY = [
+  { id: 1, title: "TXT_LITERATURE_CATEGORY_TITLE" },
+  { id: 2, title: "TXT_CHILDREN_CATEGORY_TITLE" },
+  { id: 3, title: "TXT_SKILL_CATEGORY_TITLE" },
+  { id: 4, title: "TXT_MOM_AND_BABY_CATEGORY_TITLE" },
+  { id: 5, title: "TXT_ECONOMIC_CATEGORY_TITLE" },
+  { id: 7, title: "TXT_TEXTBOOK_CATEGORY_TITLE" },
+  { id: 8, title: "TXT_FOREIGN_LANGUAGE_CATEGORY_TITLE" },
+  { id: 10, title: "TXT_COMIC_CATEGORY_TITLE" },
+  { id: 11, title: "TXT_SYLLABUS_CATEGORY_TITLE" },
+  { id: 12, title: "TXT_SYNTHESIS_CATEGORY_TITLE" },
+  { id: 13, title: "TXT_HISTORY_AND_GEOGRAPHY_CATEGORY_TITLE" },
+  { id: 14, title: "TXT_SCIENCE_CATEGORY_TITLE" },
+  { id: 15, title: "TXT_ART_CATEGORY_TITLE" },
+  { id: 16, title: "TXT_RELIGION_CATEGORY_TITLE" },
+  { id: 17, title: "TXT_MAGAZINE_CATEGORY_TITLE" },
+];

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, Button, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
@@ -6,12 +6,18 @@ import clsx from "clsx";
 import { AppLink } from "components";
 import { uuid } from "utils";
 import StringFormat from "string-format";
+import { LangConstant, AppConstant } from "const";
 
 const ListCategory = props => {
   const { classes } = props;
   const defaultClasses = useStyles();
-  const { t: getLabel } = useTranslation();
+  const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_BOOKS);
+  const [isFullCategory, setIsFullCategory] = useState(false);
+  const categoryList = isFullCategory
+    ? AppConstant.BOOK_SUGGESTION_CATEGORY
+    : AppConstant.BOOK_SUGGESTION_CATEGORY.slice(0, 4);
 
+  const onClickMore = () => setIsFullCategory(true);
   return (
     <Grid container className={clsx(defaultClasses.root, classes.root)}>
       <Grid item xs={12}>
@@ -22,22 +28,22 @@ const ListCategory = props => {
       <Grid item xs={12} className={clsx(defaultClasses.main, classes.main)}>
         <Paper className={clsx(defaultClasses.paper, classes.paper)}>
           <Box>
-            {MOCK_DATA.map(item => (
+            {categoryList.map(item => (
               <Button
                 variant="contained"
                 color="primary"
                 key={uuid()}
                 className={clsx("light-blue-button", defaultClasses.item, classes.item)}
               >
-                <Typography>{item}</Typography>
+                <Typography>{getLabel(item.title)}</Typography>
               </Button>
             ))}
           </Box>
-          <AppLink className={defaultClasses.seeMore}>
-            <Typography variant="button" component="p">
+          {!isFullCategory && (
+            <Typography variant="button" component="p" className={defaultClasses.seeMore} onClick={onClickMore}>
               {StringFormat(getLabel("FM_SEE_MORE_CATEGORY"), 35)}
             </Typography>
-          </AppLink>
+          )}
         </Paper>
       </Grid>
     </Grid>
@@ -73,7 +79,6 @@ const useStyles = makeStyles(theme => ({
     display: "block",
     color: theme.palette.primary.main,
     marginTop: theme.spacing(2.5),
+    cursor: "pointer",
   },
 }));
-
-const MOCK_DATA = ["Category 1", "Category 2", "Category 3", "Category catego 4", "Category 3"];
