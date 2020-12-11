@@ -9,18 +9,28 @@ import PropTypes from "prop-types";
 const ListBooks = ({ onChangePage, pageNum }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const listSuggestionsRedux = useSelector(({ editionRedux }) => editionRedux.suggestions);
+  const { suggestions, suggestionsCategory, suggestionsByCategory } = useSelector(state => state.editionRedux);
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    if (listSuggestionsRedux && listSuggestionsRedux != list) {
-      setList(listSuggestionsRedux);
+    const displayList = suggestionsByCategory.length > 0 ? suggestionsByCategory : suggestions;
+    if (displayList && displayList != list) {
+      setList(displayList);
     }
-  }, [listSuggestionsRedux]);
+  }, [suggestions, suggestionsByCategory]);
 
   useEffect(() => {
-    dispatch(EditionAction.requestGetBookSuggestion({ pageNum: pageNum }));
-  }, [pageNum]);
+    const load = () => {
+      if (suggestionsCategory) {
+        dispatch(
+          EditionAction.requestGetBookSuggestionByCategory({ pageNum: pageNum, categories: suggestionsCategory }),
+        );
+      } else {
+        dispatch(EditionAction.requestGetBookSuggestion({ pageNum: pageNum }));
+      }
+    };
+    load();
+  }, [pageNum, suggestionsCategory]);
 
   return (
     <Paper className={classes.root}>

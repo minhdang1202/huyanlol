@@ -6,17 +6,22 @@ import clsx from "clsx";
 import { uuid } from "utils";
 import StringFormat from "string-format";
 import { LangConstant, AppConstant } from "const";
-
+import { useDispatch } from "react-redux";
+import EditionAction from "redux/edition.redux";
 const ListCategory = props => {
   const { classes } = props;
   const defaultClasses = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_BOOKS);
+  const dispatch = useDispatch();
   const [isFullCategory, setIsFullCategory] = useState(false);
   const categoryList = isFullCategory
     ? AppConstant.BOOK_SUGGESTION_CATEGORY
     : AppConstant.BOOK_SUGGESTION_CATEGORY.slice(0, 5);
 
   const onClickMore = () => setIsFullCategory(true);
+  const onChangeCategory = category => {
+    dispatch(EditionAction.setSuggestionsCategory(category));
+  };
   return (
     <Grid container className={clsx(defaultClasses.root, classes.root)}>
       <Grid item xs={12}>
@@ -33,6 +38,7 @@ const ListCategory = props => {
                 color="primary"
                 key={uuid()}
                 className={clsx("light-blue-button", defaultClasses.item, classes.item)}
+                onClick={() => onChangeCategory(item.id)}
               >
                 <Typography>{getLabel(item.title)}</Typography>
               </Button>
@@ -40,7 +46,7 @@ const ListCategory = props => {
           </Box>
           {!isFullCategory && (
             <Typography variant="button" component="p" className={defaultClasses.seeMore} onClick={onClickMore}>
-              {StringFormat(getLabel("FM_SEE_MORE_CATEGORY"), 35)}
+              {StringFormat(getLabel("FM_SEE_MORE_CATEGORY"), categoryList.length - 5)}
             </Typography>
           )}
         </Paper>
