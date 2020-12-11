@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "100%",
     "& > $item:not(:last-child)": {
-      marginBottom: theme.spacing(2),
+      marginBottom: 4,
     },
   },
   item: {},

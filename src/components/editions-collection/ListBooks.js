@@ -19,7 +19,7 @@ const ListBooks = () => {
   }, [listSuggestionsRedux]);
 
   useEffect(() => {
-    dispatch(EditionAction.requestGetBookSuggestion(DEFAULT_PARAMS));
+    dispatch(EditionAction.requestGetBookSuggestion());
   }, []);
 
   return (
@@ -47,7 +47,6 @@ const DEFAULT_PARAMS = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: theme.spacing(2),
     padding: theme.spacing(2),
     boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.08)",
     borderRadius: 10,

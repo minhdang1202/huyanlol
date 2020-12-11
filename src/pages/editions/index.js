@@ -50,12 +50,14 @@ const useStyles = makeStyles(theme => ({
     margin: "16px auto",
   },
   mainContainer: {
+    marginTop: theme.spacing(2),
     paddingRight: 12,
     [theme.breakpoints.down("sm")]: {
       paddingRight: 0,
     },
   },
   rightContainer: {
+    marginTop: theme.spacing(2),
     paddingLeft: 12,
   },
   fixedPosition: {

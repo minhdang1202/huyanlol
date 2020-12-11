@@ -20,6 +20,7 @@ export const DATA_SIZES = {
   challenges: 6,
   hashTags: 10,
   categories: 10,
+  editions: 15,
 };
 
 // Base url

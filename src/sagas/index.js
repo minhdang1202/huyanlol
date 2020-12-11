@@ -22,6 +22,7 @@ import {
   requestGetNearestLenders,
   requestGetBookSuggestion,
   requestGetEditionSuggestion,
+  requestGetBookSuggestionByCategory,
 } from "./edition.saga";
 import { requestGetTopWriter, requestGetUserProfile, requestImage } from "./user.saga";
 import {
@@ -64,6 +65,7 @@ export default function* root() {
     takeLatest(EditionTypes.REQUEST_GET_NEAREST_LENDERS, requestGetNearestLenders),
     takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION, requestGetBookSuggestion),
     takeLatest(EditionTypes.REQUEST_GET_EDITION_SUGGESTION, requestGetEditionSuggestion),
+    takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION_BY_CATEGORY, requestGetBookSuggestionByCategory),
 
     // article
     takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),

@@ -57,9 +57,8 @@ const useStyles = makeStyles(theme => ({
   },
   titleRoot: {
     display: "flex",
-    "& > *:first-child": {
-      flexGrow: 1,
-    },
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   main: {
     paddingTop: theme.spacing(2),

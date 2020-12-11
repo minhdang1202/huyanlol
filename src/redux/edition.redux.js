@@ -23,6 +23,7 @@ const { Types, Creators } = createActions({
   getSelfReviewFailure: ["data"],
 
   requestGetBookSuggestion: ["data"],
+  requestGetBookSuggestionByCategory: ["data"],
   requestGetEditionSuggestion: ["data"],
 
   requestPostEditionRate: ["data"],
@@ -40,6 +41,7 @@ export const INITIAL_STATE = {
   error: null,
 
   suggestions: [],
+  suggestionsByCategory: [],
 };
 
 /* ------------- Reducers ------------- */
@@ -76,6 +78,7 @@ export const HANDLERS = {
   [Types.GET_NEAREST_LENDERS_SUCCESS]: requestEditionSuccess,
 
   [Types.REQUEST_GET_BOOK_SUGGESTION]: request,
+  [Types.REQUEST_GET_BOOK_SUGGESTION_BY_CATEGORY]: request,
   [Types.REQUEST_GET_EDITION_SUGGESTION]: request,
 
   [Types.REQUEST_POST_EDITION_RATE]: request,

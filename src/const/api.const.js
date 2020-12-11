@@ -36,6 +36,7 @@ export const DELETE_UN_FOLLOW_USER = targetUserID => `/users/self/follows/${targ
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;
 export const PUT_BOOK_LENDERS = "/book_edition/_find_sharing_users";
 export const GET_BOOK_SUGGESTION = "/suggestion/book_suggestion";
+export const GET_BOOK_SUGGESTION_BY_CATEGORY = "/suggestion/book_suggestion_by_category";
 export const GET_SELF_REVIEW = editionId => `/articles/self/review/${editionId}`;
 export const GET_EDITION_SUGGESTION = "/book_edition/suggestion";
 export const POST_EDITION_RATE = "/book/selfupdate_book_evaluation";
