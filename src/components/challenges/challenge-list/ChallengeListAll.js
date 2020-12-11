@@ -26,7 +26,7 @@ const ChallengeListAll = () => {
 
   const onChangePage = (event, value) => {
     setPageNum(value);
-    titleRef.current.scrollIntoView();
+    titleRef.current.scrollIntoView({ behavior: "smooth" });
   };
   const getTotalPage = (total, pageSize) => {
     return Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1);
@@ -53,7 +53,7 @@ const ChallengeListAll = () => {
       <Pagination
         count={getTotalPage(total, AppConstant.DATA_SIZES.challenges)}
         shape="rounded"
-        siblingCount={0}
+        siblingCount={1}
         hidePrevButton
         hideNextButton
         variant="outlined"

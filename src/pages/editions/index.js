@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, makeStyles, useTheme, useMediaQuery, Hidden, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { ListCategory, CustomBreadcrumb } from "components";
-import { PopularArticles, CollectionBooks } from "components/editions-collection";
+import { PopularArticles, ListBooks } from "components/editions-collection";
 
 const CollectionBooksPage = () => {
   const classes = useStyles();
@@ -16,9 +16,16 @@ const CollectionBooksPage = () => {
     className: classes.appBar,
     appBarTitle: getLabel("TXT_MOST_BORROWING_BOOK"),
   };
+  const headRef = useRef();
+  const [pageNum, setPageNum] = useState(1);
+
+  const onChangePage = (event, value) => {
+    setPageNum(value);
+    headRef.current.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <MainLayout appBarProps={appBarProps}>
-      <Grid container className={classes.root}>
+      <Grid container className={classes.root} ref={headRef}>
         {!isMobile && (
           <Grid item xs={12} md={12} lg={12}>
             <CustomBreadcrumb />
@@ -28,7 +35,7 @@ const CollectionBooksPage = () => {
           </Grid>
         )}
         <Grid item xs={12} sm={12} md={8} className={classes.mainContainer}>
-          <CollectionBooks />
+          <ListBooks pageNum={pageNum} onChangePage={onChangePage} />
         </Grid>
         <Grid item md={4} className={classes.rightContainer}>
           <Hidden smDown>

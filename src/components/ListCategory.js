@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Box, Button, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { AppLink } from "components";
 import { uuid } from "utils";
 import StringFormat from "string-format";
 import { LangConstant, AppConstant } from "const";
@@ -15,7 +14,7 @@ const ListCategory = props => {
   const [isFullCategory, setIsFullCategory] = useState(false);
   const categoryList = isFullCategory
     ? AppConstant.BOOK_SUGGESTION_CATEGORY
-    : AppConstant.BOOK_SUGGESTION_CATEGORY.slice(0, 4);
+    : AppConstant.BOOK_SUGGESTION_CATEGORY.slice(0, 5);
 
   const onClickMore = () => setIsFullCategory(true);
   return (
@@ -72,7 +71,7 @@ const useStyles = makeStyles(theme => ({
   item: {
     padding: 11,
     borderRadius: 4,
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
     marginBottom: theme.spacing(1.5),
   },
   seeMore: {

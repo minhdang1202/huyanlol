@@ -10,7 +10,7 @@ const CommonPagination = props => {
       variant="outlined"
       shape="rounded"
       color="primary"
-      siblingCount={0}
+      siblingCount={1}
       hidePrevButton
       hideNextButton
       renderItem={item => <PaginationItem {...item} />}

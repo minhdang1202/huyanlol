@@ -5,10 +5,10 @@ import { uuid } from "utils";
 import { useDispatch, useSelector } from "react-redux";
 import EditionAction from "redux/edition.redux";
 
-const ListBooks = () => {
+import PropTypes from "prop-types";
+const ListBooks = ({ onChangePage, pageNum }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const listSuggestionsRedux = useSelector(({ editionRedux }) => editionRedux.suggestions);
   const [list, setList] = useState([]);
 
@@ -19,8 +19,8 @@ const ListBooks = () => {
   }, [listSuggestionsRedux]);
 
   useEffect(() => {
-    dispatch(EditionAction.requestGetBookSuggestion());
-  }, []);
+    dispatch(EditionAction.requestGetBookSuggestion({ pageNum: pageNum }));
+  }, [pageNum]);
 
   return (
     <Paper className={classes.root}>
@@ -31,19 +31,17 @@ const ListBooks = () => {
           </Box>
         ))}
       </Box>
-      <CommonPagination count={5} className={classes.pagination} />
+      <CommonPagination count={10} className={classes.pagination} onChange={onChangePage} />
     </Paper>
   );
 };
 
-ListBooks.propTypes = {};
+ListBooks.propTypes = {
+  onChangePage: PropTypes.func,
+  pageNum: PropTypes.number,
+};
 
 export default ListBooks;
-
-const DEFAULT_PARAMS = {
-  page: 1,
-  page_size: 36,
-};
 
 const useStyles = makeStyles(theme => ({
   root: {
