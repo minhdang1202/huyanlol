@@ -54,16 +54,17 @@ export function* requestGetGivers(action) {
   const { articleId, ...params } = action.data;
   const { pageNum } = params;
   const giversRedux = yield select(({ articleRedux }) => articleRedux.articleGivers);
-  const givers = Array.from(giversRedux);
-  const currentGivers = givers[articleId]?.pageData || [];
+  const articleGivers = Array.from(giversRedux);
+  const currentGivers = articleGivers[articleId]?.pageData || [];
   let response = yield call(ArticleService.getArticleGivers, articleId, params);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
       const { pageData: newGivers } = responseData;
-      givers[articleId] = pageNum === 1 ? responseData : { ...responseData, pageData: currentGivers.concat(newGivers) };
-      yield put(ArticleAction.articleSuccess({ givers }));
+      articleGivers[articleId] =
+        pageNum === 1 ? responseData : { ...responseData, pageData: currentGivers.concat(newGivers) };
+      yield put(ArticleAction.articleSuccess({ articleGivers }));
     }
   } catch (error) {
     console.log(error);
