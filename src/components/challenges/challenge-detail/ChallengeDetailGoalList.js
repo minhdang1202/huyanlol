@@ -35,17 +35,25 @@ const GoalList = () => {
     }
   };
 
+  const moreGoal = Boolean(renderImageCount() < data.length);
+
   return (
     <Paper className={classes.root}>
       <Typography variant="subtitle1" className={classes.text}>
         {getLabel("L_GOAL_LIST")}
       </Typography>
-      <Grid container direction="row" justify="space-around" alignItems="center">
+      <Grid container direction="row" justify={moreGoal ? "space-between" : "flex-start"} alignItems="center">
         {data.map((item, index) => {
           const bookURL = StringFormat(PathConstant.FM_BOOK_DETAIL_ID, item.id);
           if (index < renderImageCount()) {
             return (
-              <Grid item xs={2} sm={3} className={classes.goalContainer} key={item.id}>
+              <Grid
+                item
+                xs={2}
+                sm={3}
+                className={clsx(classes.goalContainer, !moreGoal && classes.goalContainerNotFull)}
+                key={item.id}
+              >
                 <AppLink to={bookURL}>
                   <Avatar alt="goal" src={getImageById(item.img)} variant="square" className={classes.goal} />
                 </AppLink>
@@ -53,7 +61,7 @@ const GoalList = () => {
             );
           }
         })}
-        {renderImageCount() < data.length && (
+        {moreGoal && (
           <Grid item xs={2} sm={3} className={clsx(classes.goalContainer, classes.more)}>
             <Avatar
               alt="goal"
@@ -93,6 +101,9 @@ const useStyles = makeStyles(theme => ({
       maxHeight: "94px",
       maxWidth: "62px",
     },
+  },
+  goalContainerNotFull: {
+    marginRight: "12px",
   },
   goal: {
     width: "100%",

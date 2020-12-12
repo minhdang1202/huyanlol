@@ -23,6 +23,7 @@ export const SORT_COMMENT = {
 export const DATA_SIZES = {
   books: 9,
   articles: 10,
+  challenges: 6,
   hashTags: 10,
   categories: 10,
   replies: 3,
@@ -89,6 +90,11 @@ export const CHALLENGE_ACTIVITY_SIZE = 3;
 
 export const CHALLENGE_DESCRIPTION_DEFAULT_LENGTH = 200;
 
+export const CHALLENGE_LIST_TYPE = {
+  all: 0,
+  notJoined: 1,
+  joined: 2,
+};
 export const DRAFT_TYPE = {
   divider: "DIVIDER",
   image: "IMAGE",
@@ -109,6 +115,6 @@ export const VALUE_TYPE = {
 export const THUMBNAIL_TYPE = 0;
 export const COVER_TYPE = 1;
 export const COMMENT_DEFAULT_LENGTH = 250;
-
 export const AUTO_SAVE_WAIT_TIME = 30000;
 export const TYPING_WAIT_TIME = 500;
+export const MAX_LENGTH_ARTICLE_TITLE = 250;

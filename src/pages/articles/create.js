@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import StringFormat from "string-format";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles, Container, Divider, Typography, Box, Hidden } from "@material-ui/core";
@@ -12,7 +13,6 @@ import ArticleCreateActions from "redux/articleCreate.redux";
 import { getRandomDefaultArticleCoverId, getRedirectPath, debounce } from "utils";
 
 const ArticleCreate = () => {
-  const MAX_LENGTH_TITLE = 250;
   const classes = useStyles();
   const router = useRouter();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_CREATE);
@@ -34,7 +34,9 @@ const ArticleCreate = () => {
 
   const articleId = article.articleId;
 
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState(
+    isReviewType ? StringFormat(getLabel("FM_CREATE_REVIEW_TITLE"), reviewInfo.title) : "",
+  );
   const [rate, setRate] = useState(0);
   const [contentHtml, setContentHtml] = useState();
   const [intro, setIntro] = useState();
@@ -216,23 +218,12 @@ const ArticleCreate = () => {
       }
       if (hasSnackbar) {
         onHiddenSnackbar();
-        const newDefaultThumbnailId = getRandomDefaultArticleCoverId();
         switch (true) {
           case isPostSuccess:
             dispatch(ArticleCreateActions.saveArticleSuccess());
             dispatch(ArticleCreateActions.postArticleSuccess());
             dispatch(ArticleCreateActions.finishReviewBook());
-            setMessage(getLabel("MSG_POST_ARTICLE_SUCCESS"));
-
-            setThumbnailId(newDefaultThumbnailId);
-            setCoverId(newDefaultThumbnailId);
-            setBooksList([]);
-            setThumbnailList([newDefaultThumbnailId]);
-            setTagsList([]);
-            setCategoryId();
-            setHasArticleId(false);
-            setIsOpenSetting(false);
-            setTitle("");
+            router.push(getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title));
             break;
           case isPostFailure:
             setMessage(getLabel("ERR_POST_ARTICLE"));
@@ -249,7 +240,7 @@ const ArticleCreate = () => {
 
   return (
     <MainLayout className={classes.root}>
-      <Processing isShow={isFetching && hasSnackbar} />
+      <Processing isShow={(isFetching && hasSnackbar) || isPostSuccess} />
       {hasSnackbar && message && <Snackbar open={true} error={isSaveFailure || isPostFailure} message={message} />}
       <Hidden smUp>
         <DialogAppDownload isOpen={true} onClose={onCloseDownload} />
@@ -270,7 +261,6 @@ const ArticleCreate = () => {
         onChangeTagsList={onChangeTagsList}
         booksList={booksList}
         onChangeBooksList={onChangeBooksList}
-        isDisabled={!(hasContent && title)}
         coverId={coverId}
         thumbnailId={thumbnailId}
         thumbnailList={thumbnailList}
@@ -283,12 +273,12 @@ const ArticleCreate = () => {
       <Box position="relative">
         <Box position="sticky" top={0} zIndex={1000} bgcolor="white">
           <Container className={classes.container}>
-            <CreateToolbar onOpenSetting={onOpenSetting} />
+            <CreateToolbar onOpenSetting={onOpenSetting} title={title} hasContent={hasContent} />
           </Container>
           <Divider />
         </Box>
         <Container className={classes.container}>
-          <TitleInput onChange={onChangeTitle} maxLength={MAX_LENGTH_TITLE} value={title} />
+          <TitleInput onChange={onChangeTitle} maxLength={AppConstant.MAX_LENGTH_ARTICLE_TITLE} value={title} />
           {isReviewType && (
             <Box display="flex" alignItems="center" mb={3}>
               <Typography className={clsx("grey-text", "mr-8")}>{getLabel("L_CREATE_RATING")}</Typography>

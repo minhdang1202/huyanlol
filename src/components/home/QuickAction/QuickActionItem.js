@@ -4,11 +4,11 @@ import { Box, Card, CardContent, CardMedia, makeStyles, Typography } from "@mate
 import AppLink from "components/AppLink";
 
 const QuickActionItem = props => {
-  const { title, cover, icon } = props;
+  const { title, cover, icon, path } = props;
   const classes = useStyles();
 
   return (
-    <AppLink>
+    <AppLink to={path}>
       <Card className={classes.root}>
         <CardMedia className={classes.cover} image={cover} title={title} />
         <CardContent className={classes.content}>
@@ -26,6 +26,7 @@ QuickActionItem.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.node,
   cover: PropTypes.string,
+  path: PropTypes.string,
 };
 QuickActionItem.defaultProps = {};
 

@@ -1,5 +1,5 @@
 import { call, put } from "redux-saga/effects";
-import { ApiConstant } from "const";
+import { ApiConstant, AppConstant } from "const";
 import ChallengeAction from "redux/challenge.redux";
 import { ChallengeService } from "services";
 
@@ -67,18 +67,47 @@ export function* requestGetActivity(action) {
   }
 }
 
-export function* requestPutJoin(action) {
-  let response = yield call(ChallengeService.putJoinChallenge, action.data);
-  console.log(response.data);
+export function* requestGetChallengeList(action) {
+  const response = yield call(ChallengeService.getChallengeListAll, action.data);
   try {
     if (response.status === ApiConstant.STT_OK) {
-      window.location.reload();
+      let responseData = response.data.data;
+      yield put(ChallengeAction.getChallengeListSuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
-      console.log(response.data);
     }
   } catch (error) {
-    console.log(error);
+    yield console.log(error);
+    yield put(ChallengeAction.getChallengeInfoFailure(error));
+  }
+}
+
+export function* requestGetChallengeJoinedList(action) {
+  const response = yield call(ChallengeService.getChallengeListAll, action.data);
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      yield put(ChallengeAction.getChallengeListJoinedSuccess(responseData));
+    } else {
+      yield put(ChallengeAction.getChallengeInfoFailure());
+    }
+  } catch (error) {
+    yield console.log(error);
+    yield put(ChallengeAction.getChallengeInfoFailure(error));
+  }
+}
+
+export function* requestGetChallengeRecommendList(action) {
+  const response = yield call(ChallengeService.getChallengeListAll, action.data);
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      yield put(ChallengeAction.getChallengeListRecommendSuccess(responseData));
+    } else {
+      yield put(ChallengeAction.getChallengeInfoFailure());
+    }
+  } catch (error) {
+    yield console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }

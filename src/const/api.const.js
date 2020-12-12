@@ -30,6 +30,8 @@ export const GET_USER_PROFILE = "/user/self/info";
 export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
 export const POST_USER_IMAGES = "/user-images";
 export const GET_USER_SUGGESTION = "/user/suggestion";
+export const POST_FOLLOW_USER = "/users/self/follows";
+export const DELETE_UN_FOLLOW_USER = targetUserID => `/users/self/follows/${targetUserID}`;
 
 // * Book
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;
@@ -64,3 +66,4 @@ export const GET_CHALLENGE_LEADER_BOARD = challengeId => `/challenges/${challeng
 export const GET_CHALLENGE_FRIEND_LEADER_BOARD = challengeId => `/challenges/${challengeId}/friend_leader_board`;
 export const GET_CHALLENGE_ACTIVITY = challengeId => `/challenges/${challengeId}/activities`;
 export const PUT_JOIN_CHALLENGE = challengeId => `/challenges/${challengeId}/_join`;
+export const GET_CHALLENGE_LIST_ALL = "/challenges";

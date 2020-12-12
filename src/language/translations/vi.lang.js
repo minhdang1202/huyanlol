@@ -15,6 +15,8 @@ export default {
     TXT_APPDOWNLOAD_BUTTON: "Tải ngay",
     TXT_APPDOWNLOAD_SUGGEST: "Cài đặt ứng dụng GAT để sử dụng chức năng này",
     TXT_APPDOWNLOAD_SUGGEST_BUTTON: "Tải ứng dụng",
+    TXT_APPDOWNLOAD_CHALLENGE: "Tải GAT và Tham gia thử thách",
+    TXT_APPDOWNLOAD_STORE: "Ứng dụng đã có mặt trên Appstore & Google Play",
     TXT_HOMEPAGE: "Trang chủ",
     TXT_LOGIN: "Đăng nhập",
     TXT_LOGOUT: "Đăng xuất",
@@ -45,6 +47,7 @@ export default {
     TXT_REPLY: "Trả lời",
     TXT_ARRANGE: "Sắp xếp",
     TXT_NO_GIVER: "Bài viết chưa có giver",
+    TXT_CHALLENGE: "Thử thách đọc sách",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -136,6 +139,9 @@ export default {
     L_COMPANY_NAME: "GAT",
     L_LESS: "Rút gọn",
     L_ARTICLE: "Bài viết",
+    L_ALL: "Tất cả",
+    L_FOLLOWED: "Đang theo dõi",
+    L_FOLLOW: "Theo dõi",
 
     TXT_AND: "và",
     TXT_OTHERS_JOIN: "người khác tham gia thử thách này",
@@ -165,6 +171,8 @@ export default {
     FM_CREATOR: `<span>Tạo bởi <a class="primary-text">{0}</a></span>`,
     FM_INVITE_FRIEND: "{0} và {1} người khác tham gia thử thách này",
     FM_INVITE_FRIEND_ONE: "{0} tham gia thử thách này",
+    FM_PROGRESS_LEADER_BOARD: "Đã đọc {0}/{1}",
+    FM_PROGRESS_REVIEW_LEADER_BOARD: "Đã viết {0}/{1}",
   },
   articleDetail: {
     TXT_ARTICLE_REVIEW_TITLE: "Đánh giá cuốn sách",
@@ -201,6 +209,7 @@ export default {
     TXT_LIST_ARTICLES: "Danh sách đánh giá",
     TXT_LIST_REVIEWS: "Danh sách review",
     TXT_LIST_WRITERS: "Danh sách nhà văn",
+    TXT_CREATE_ARTICLE: "Tạo bài viết mới",
   },
   articleCreate: {
     TXT_CREATE_POST: "Đăng bài",
@@ -241,8 +250,29 @@ export default {
 
     ERR_SAVE_ARTICLE: "Có lỗi xảy ra, bài viết chưa được lưu vào nháp",
     ERR_POST_ARTICLE: "Có lỗi xảy ra, bài viết chưa được đăng",
+    ERR_MUST_HAVE_TITLE: "Bài viết chưa có tiêu đề",
+    ERR_MUST_HAVE_CONTENT: "Bài viết chưa có nội dung",
 
     MSG_POST_ARTICLE_SUCCESS: "Bài viết đã được đăng",
     MSG_SAVE_ARTICLE_SUCCESS: "Bài viết đã lưu vào nháp",
+  },
+  challengeList: {
+    L_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
+    L_CHALLENGE: "Thử thách",
+    L_WITH_GAT: "cùng GAT",
+    L_YOUR_CHALLENGE: "Thử thách của bạn",
+    L_SUGGESTED_CHALLENGE: "Gợi ý cho bạn",
+    L_RECOMMENDED_CHALLENGE: "Thử thách dành cho bạn",
+    L_PERSONAL: "Cá nhân: ",
+    L_GROUP: "Tập thể: ",
+
+    FM_TARGET_READ: "đọc {0} quyển sách",
+    FM_TARGET_WRITE: "viết {0} đánh giá",
+    FM_PROGRESS_READ: "Đã hoàn thành {0} quyển",
+    FM_PROGRESS_WRITE: "Đã hoàn thành {0} bài",
+    FM_PROGRESS_PERCENT: "{0}%",
+    FM_DAYS_LEFT: "Còn {0} ngày",
+    FM_DUE_TIME: "{0} đến {1}",
+    FM_JOINED: "{0} người",
   },
 };
