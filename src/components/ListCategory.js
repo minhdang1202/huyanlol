@@ -14,9 +14,9 @@ const ListCategory = props => {
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_BOOKS);
   const dispatch = useDispatch();
   const [isFullCategory, setIsFullCategory] = useState(false);
-  const categoryList = isFullCategory
-    ? AppConstant.BOOK_SUGGESTION_CATEGORY
-    : AppConstant.BOOK_SUGGESTION_CATEGORY.slice(0, 5);
+  const fullList = AppConstant.BOOK_SUGGESTION_CATEGORY;
+  const shortList = AppConstant.BOOK_SUGGESTION_CATEGORY.slice(0, 5);
+  const categoryList = isFullCategory ? fullList : shortList;
 
   const onClickMore = () => setIsFullCategory(true);
   const onChangeCategory = category => {
@@ -46,7 +46,7 @@ const ListCategory = props => {
           </Box>
           {!isFullCategory && (
             <Typography variant="button" component="p" className={defaultClasses.seeMore} onClick={onClickMore}>
-              {StringFormat(getLabel("FM_SEE_MORE_CATEGORY"), categoryList.length - 5)}
+              {StringFormat(getLabel("FM_SEE_MORE_CATEGORY"), fullList.length - shortList.length)}
             </Typography>
           )}
         </Paper>

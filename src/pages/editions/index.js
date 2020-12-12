@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MainLayout from "layouts/MainLayout";
 import { Box, Grid, makeStyles, useTheme, useMediaQuery, Hidden, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import { ListCategory, CustomBreadcrumb } from "components";
 import { PopularArticles, ListBooks } from "components/editions-collection";
+import { useSelector } from "react-redux";
 
 const CollectionBooksPage = () => {
   const classes = useStyles();
@@ -18,19 +19,27 @@ const CollectionBooksPage = () => {
   };
   const headRef = useRef();
   const [pageNum, setPageNum] = useState(1);
-
+  const [categoryTitle, setCategoryTitle] = useState();
+  const suggestionsCategory = useSelector(state => state.editionRedux.suggestionsCategory);
   const onChangePage = (event, value) => {
     setPageNum(value);
     headRef.current.scrollIntoView({ behavior: "smooth" });
   };
+  useEffect(() => {
+    if (suggestionsCategory) {
+      setCategoryTitle(
+        AppConstant.BOOK_SUGGESTION_CATEGORY.find(category => category.id === suggestionsCategory).title,
+      );
+    }
+  }, [suggestionsCategory]);
   return (
     <MainLayout appBarProps={appBarProps}>
-      <Grid container className={classes.root} ref={headRef}>
+      <Grid container className={classes.root}>
         {!isMobile && (
           <Grid item xs={12} md={12} lg={12}>
             <CustomBreadcrumb />
-            <Typography variant="h4" component="h1">
-              {getLabel("TXT_MOST_BORROWING_BOOK")}
+            <Typography variant="h4" component="h1" ref={headRef}>
+              {getLabel(categoryTitle ? categoryTitle : "TXT_MOST_BORROWING_BOOK")}
             </Typography>
           </Grid>
         )}
