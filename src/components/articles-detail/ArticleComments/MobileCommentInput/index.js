@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { Avatar, Box, makeStyles, Button } from "@material-ui/core";
@@ -17,12 +17,15 @@ const MobileCommentInput = () => {
   const [isDisabled, setIsDisabled] = useState(false);
 
   const dispatch = useDispatch();
-  const [isTypingReply, commentId, isPostingComment, articleId] = useSelector(({ articleRedux }) => [
-    articleRedux.isTypingReply,
-    articleRedux.replyInfo?.commentId,
-    articleRedux.isPostingComment,
-    articleRedux.article.articleId,
-  ]);
+  const [isTypingReply, replyInfo, isPostingComment, articleId] = useSelector(
+    ({ articleRedux }) => [
+      articleRedux.isTypingReply,
+      articleRedux.replyInfo,
+      articleRedux.isPostingComment,
+      articleRedux.article.articleId,
+    ],
+    shallowEqual,
+  );
 
   const onChangeContent = ({ hasContent, ...newContent }) => {
     setContent(newContent);
@@ -30,6 +33,7 @@ const MobileCommentInput = () => {
   };
 
   const onPostComment = () => {
+    const commentId = replyInfo?.commentId;
     isTypingReply
       ? dispatch(ArticleActions.requestPostReply({ ...content, commentId }))
       : dispatch(ArticleActions.requestPostComment({ ...content, articleId }));
@@ -51,6 +55,7 @@ const MobileCommentInput = () => {
           className={classes.input}
           disabled={isDisabled}
           isTopSuggestion
+          replyInfo={replyInfo}
         />
         <Button
           disabled={!hasContent || isPostingComment}

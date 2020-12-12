@@ -70,19 +70,13 @@ const useStyles = makeStyles(theme => ({
     "& .slick-slide": {
       marginRight: ({ totalSlides }) => (totalSlides === 1 ? 0 : theme.spacing(2)),
       width: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX),
-      minWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX),
-      maxWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX),
       height: HEIGHT_BOOK_BOX,
       [theme.breakpoints.down("md")]: {
         width: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_TABLET),
-        minWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_TABLET),
-        maxWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX),
         height: HEIGHT_BOOK_BOX,
       },
       [theme.breakpoints.down("xs")]: {
         width: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_MOBILE),
-        minWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_MOBILE),
-        maxWidth: ({ totalSlides }) => (totalSlides === 1 ? "100%" : WIDTH_BOOK_BOX_MOBILE),
         height: HEIGHT_BOOK_BOX_MOBILE,
       },
     },

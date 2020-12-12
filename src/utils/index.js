@@ -175,3 +175,7 @@ export const scrollToTop = id => {
   const element = document.getElementById(id);
   element.scrollTop = 0;
 };
+
+export const getAbsolutePath = path => {
+  return AppConstant.WEBSITE_URL + path;
+};

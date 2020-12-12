@@ -17,7 +17,7 @@ import {
   ArticleBookMentioned,
   ArticleComments,
 } from "components/articles-detail";
-import { getRedirectPath, getNumberIdFromQuery, getImageById } from "utils";
+import { getRedirectPath, getNumberIdFromQuery, getImageById, getAbsolutePath } from "utils";
 import { convertDistanceDate } from "utils/date";
 import ArticleActions from "redux/article.redux";
 import { ArticleService } from "services";
@@ -45,7 +45,7 @@ const ArticleDetail = ({ article }) => {
   const rate = isReviewType && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
   const bookMentioned = isReviewType ? editions[0] : null;
   const displayDate = convertDistanceDate(new Date(lastUpdate ? lastUpdate : publishedDate), new Date(), i18n.language);
-  const shareUrl = AppConstant.WEBSITE_URL + getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title);
+  const shareUrl = getAbsolutePath(getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title));
   const appBarProps = { isDetail: true, shareUrl, appBarTitle: title, hasBookmark: true, isBookmarked: saved };
   const headProps = { title: title, description: intro, ogImage: getImageById(coverId) };
 

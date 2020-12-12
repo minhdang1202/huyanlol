@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ import ArticleActions from "redux/article.redux";
 
 const PopupReplyInput = ({ commentId }) => {
   const classes = useStyles();
+  const inputRef = useRef();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const dispatch = useDispatch();
   const { isTypingReply, replyInfo, isPostingComment } = useSelector(({ articleRedux }) => articleRedux, shallowEqual);
@@ -39,6 +40,13 @@ const PopupReplyInput = ({ commentId }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.click();
+      inputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [inputRef.current]);
+
   return (
     isTypingReply &&
     (commentId === replyInfo?.commentId || commentId === replyInfo?.parent?.commentId) && (
@@ -46,9 +54,12 @@ const PopupReplyInput = ({ commentId }) => {
         <Box display="flex" alignContent="center" flexGrow={1}>
           <Avatar className={classes.avatar} src={getImageById(profile.imageId)} />
           <MentionInput
+            ref={inputRef}
             onChangeContent={onChangeContent}
             className={classes.input}
             placeholder={getLabel("P_ARTICLE_WRITE_REPLY")}
+            isTopSuggestion
+            replyInfo={replyInfo}
           />
         </Box>
         <Box display="flex" justifyContent="flex-end" mt={1.5} className={classes.buttonWrapper}>

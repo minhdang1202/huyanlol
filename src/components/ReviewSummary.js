@@ -21,7 +21,7 @@ import StringFormat from "string-format";
 import clsx from "clsx";
 import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
-import { getImageById, getTitleNoMark } from "utils";
+import { getImageById, getTitleNoMark, getAbsolutePath } from "utils";
 import { useRouter } from "next/router";
 import { FBShareButton, AppLink, CustomRating } from "components";
 
@@ -161,7 +161,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>
-        <FBShareButton url={AppConstant.WEBSITE_URL + linkToDetail} />
+        <FBShareButton url={getAbsolutePath(linkToDetail)} />
       </CardActions>
     </Card>
   );

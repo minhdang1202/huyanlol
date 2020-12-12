@@ -2,6 +2,7 @@ import React from "react";
 import NextHead from "next/head";
 import { string } from "prop-types";
 import { AppConstant } from "../const";
+import { getAbsolutePath } from "utils";
 
 const getTitle = title => {
   if (title) return `${AppConstant.APP_NAME} - ${title}`;
@@ -9,7 +10,7 @@ const getTitle = title => {
 };
 
 const AppHead = props => {
-  let primaryUrl = AppConstant.WEBSITE_URL + props.url;
+  let primaryUrl = getAbsolutePath(props.url);
   let primaryImageUrl = props.ogImage;
   let primaryTitle = getTitle(props.title);
 

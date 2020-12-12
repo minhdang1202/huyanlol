@@ -9,7 +9,7 @@ import { uuid } from "utils";
 
 const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps }) => {
   const classes = useStyles();
-  const totalSlides = sliderList ? sliderList.length - 1 : null; // Exclude current Article
+  const totalSlides = sliderList ? sliderList.length - 1 : 0; // Exclude current Article
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.between("xs", "md"));
   let settings = {

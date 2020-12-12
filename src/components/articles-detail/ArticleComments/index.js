@@ -79,7 +79,7 @@ const ArticleComments = () => {
       articleId: articleId,
       lastCommentId,
       pageSize: AppConstant.DATA_SIZES.comments,
-      isFriend: sortValue === AppConstant.SORT_FRIEND,
+      isFriend: sortValue === AppConstant.SORT_COMMENT.byFriend,
     };
   };
 
@@ -189,11 +189,7 @@ const ArticleComments = () => {
             </Button>
           </Hidden>
         )}
-        {isAuth && (
-          <Hidden smUp>
-            <MobileCommentInput />
-          </Hidden>
-        )}
+        {isAuth && isMobile && <MobileCommentInput />}
       </Box>
     </Box>
   );
@@ -201,13 +197,13 @@ const ArticleComments = () => {
 
 export const RADIO_LIST = [
   {
-    value: AppConstant.SORT_POPULAR,
+    value: AppConstant.SORT_COMMENT.byPopular,
     label: getLabel("TXT_POPULAR_COMMENT_RANGE"),
     displayLabel: getLabel("TXT_POPULAR_COMMENT"),
     title: getLabel("TXT_POPULAR_COMMENT"),
   },
   {
-    value: AppConstant.SORT_FRIEND,
+    value: AppConstant.SORT_COMMENT.byFriend,
     label: getLabel("TXT_FRIEND_COMMENT_RANGE"),
     displayLabel: getLabel("TXT_FRIEND_COMMENT"),
     title: getLabel("TXT_FRIEND_COMMENT"),
