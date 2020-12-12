@@ -25,7 +25,7 @@ const BookAutocomplete = ({ booksList, onChangeBooksList, isReviewType }) => {
   const onSetInputValue = useCallback(
     debounce(value => {
       setInputValue(value);
-    }, 500),
+    }, AppConstant.TYPING_WAIT_TIME),
     [],
   );
 
@@ -39,7 +39,7 @@ const BookAutocomplete = ({ booksList, onChangeBooksList, isReviewType }) => {
         EditionActions.requestGetEditionSuggestion({
           keyword: inputValue,
           size: AppConstant.BOOK_SUGGESTION,
-          type: "TITLE",
+          type: AppConstant.VALUE_TYPE.title,
         }),
       );
   }, [inputValue]);

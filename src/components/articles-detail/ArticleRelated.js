@@ -18,13 +18,11 @@ const ArticleRelated = ({ isReviewType, isArticleType, categoryId, editionId, ar
         categoryIds: categoryId,
       };
   const dispatch = useDispatch();
-  const dispatchGetArticleList = data => dispatch(EditionActions.requestGetReviews(data));
-
   const articles = useSelector(state => state.editionRedux.reviewsList);
   const [articlesList, setArticlesList] = useState();
 
   useEffect(() => {
-    dispatchGetArticleList(PARAMS);
+    dispatch(EditionActions.requestGetReviews(PARAMS));
   }, []);
 
   useEffect(() => {

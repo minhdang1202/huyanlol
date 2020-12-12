@@ -5,16 +5,18 @@ import { Typography, makeStyles, Avatar } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import FollowButton from "./FollowButton";
+import { getImageById } from "utils";
 
-const AsideAuthorButton = ({ name, date, avatar }) => {
+const AsideAuthorButton = ({ creator, date }) => {
   const classes = useStyles();
+  const { imageId, name } = creator;
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   return (
     <>
       <Typography variant="subtitle2" className={classes.reviewByText}>
         {getLabel("TXT_ARTICLE_REVIEW_BY")}
       </Typography>
-      <Avatar className={classes.authorAvatar} src={avatar} />
+      <Avatar className={classes.authorAvatar} src={getImageById(imageId)} />
       <Typography variant="subtitle1" className="eclipse">
         {name}
       </Typography>
@@ -27,8 +29,7 @@ const AsideAuthorButton = ({ name, date, avatar }) => {
 };
 
 AsideAuthorButton.propTypes = {
-  name: PropTypes.string,
-  avatar: PropTypes.string,
+  creator: PropTypes.object,
   date: PropTypes.string,
 };
 

@@ -29,6 +29,7 @@ export const POST_REGISTER = "/user/register_by_email";
 export const GET_USER_PROFILE = "/user/self/info";
 export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
 export const POST_USER_IMAGES = "/user-images";
+export const GET_USER_SUGGESTION = "/user/suggestion";
 export const POST_FOLLOW_USER = "/users/self/follows";
 export const DELETE_UN_FOLLOW_USER = targetUserID => `/users/self/follows/${targetUserID}`;
 
@@ -48,6 +49,8 @@ export const GET_ARTICLE_GIVERS = articleId => `/articles/${articleId}/reaction`
 export const GET_ARTICLE_COMMENTS = articleId => `/articles/${articleId}/comments`;
 export const GET_ARTICLE_REPLIES = commentId => `/articles/comments/${commentId}/replies`;
 export const GET_ARTICLE_COMMENT_GIVERS = commentId => `/articles/comments/${commentId}/reaction`;
+export const POST_COMMENT = articleId => `/articles/${articleId}/comments`;
+export const POST_REPLY = commentId => `/articles/comments/${commentId}/replies`;
 
 //Article-create
 export const GET_HASHTAGS = "/hashtags";

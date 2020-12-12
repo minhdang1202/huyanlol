@@ -5,12 +5,13 @@ import clsx from "clsx";
 import { makeStyles, Box, useTheme, useMediaQuery } from "@material-ui/core";
 import { ReviewBox } from "components";
 import SliderButtons from "./SliderButtons";
+import { uuid } from "utils";
 
 const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps }) => {
   const classes = useStyles();
+  const totalSlides = sliderList ? sliderList.length - 1 : 0; // Exclude current Article
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.between("xs", "md"));
-  const totalSlides = sliderList ? sliderList.length - 1 : null; // Exclude current Article
   let settings = {
     dots: false,
     infinite: false,
@@ -45,7 +46,7 @@ const ArticleSlider = ({ sliderList, isReviewType, isArticleType, ...otherProps 
           return (
             <ReviewBox
               className={clsx(classes.slide, hasMb && "mb-8")}
-              key={index}
+              key={uuid()}
               review={slider}
               isReviewType={isReviewType}
               isArticleType={isArticleType}

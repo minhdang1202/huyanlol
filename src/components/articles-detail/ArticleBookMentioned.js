@@ -9,10 +9,6 @@ import { BookSlider } from "./ArticleSliders";
 
 const ArticleBookMentioned = ({ isReviewType, bookList, bookMentioned }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
-  bookList = bookList.map(book => {
-    const { bookCover, title, authorName, editionId, rateAvg } = book;
-    return { bookCover, title, authorName, editionId, rateAvg };
-  });
 
   return (
     <>
@@ -33,11 +29,7 @@ const ArticleBookMentioned = ({ isReviewType, bookList, bookMentioned }) => {
       </Box>
       {isReviewType ? (
         <BookBox
-          editionId={bookMentioned.editionId}
-          bookCover={bookMentioned.bookCover}
-          rateAvg={bookMentioned.rateAvg}
-          bookName={bookMentioned.title}
-          author={bookMentioned.authorName}
+          data={bookMentioned}
           className="mb-8"
         />
       ) : (

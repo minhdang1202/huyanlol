@@ -6,11 +6,17 @@ export const APP_NAME = "GAT";
 export const EXPIRES_TOKEN = 1;
 
 export const BOOK_SUGGESTION = 10;
+export const USER_SUGGESTION = 10;
 
 //Sort
 export const SORT_ORDER = {
   asc: "ASC",
   desc: "DESC",
+};
+
+export const SORT_COMMENT = {
+  byPopular: 0,
+  byFriend: 1,
 };
 
 //Size to infinite scroll
@@ -20,6 +26,8 @@ export const DATA_SIZES = {
   challenges: 6,
   hashTags: 10,
   categories: 10,
+  replies: 3,
+  comments: 10,
 };
 
 // Base url
@@ -93,9 +101,20 @@ export const DRAFT_TYPE = {
   link: "LINK",
   unstyled: "unstyled",
   atomic: "atomic",
+  mention: "mention",
+  mentionEdition: "&mention",
   unorderedList: "unordered-list-item",
+};
+
+export const VALUE_TYPE = {
+  all: "ALL",
+  title: "TITLE",
+  name: "NAME",
 };
 
 export const THUMBNAIL_TYPE = 0;
 export const COVER_TYPE = 1;
+export const COMMENT_DEFAULT_LENGTH = 250;
+export const AUTO_SAVE_WAIT_TIME = 30000;
+export const TYPING_WAIT_TIME = 500;
 export const MAX_LENGTH_ARTICLE_TITLE = 250;

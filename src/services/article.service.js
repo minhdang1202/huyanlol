@@ -31,6 +31,14 @@ export const getArticleReplies = (commentId, params) => {
   return createApi().get(ApiConstant.GET_ARTICLE_REPLIES(commentId), params);
 };
 
+export const postComment = (articleId, params) => {
+  return createApi().post(ApiConstant.POST_COMMENT(articleId), params);
+};
+
+export const postReply = (commentId, params) => {
+  return createApi().post(ApiConstant.POST_REPLY(commentId), params);
+};
+
 const getQueryPrams = data => {
   let defaultData = data || {};
   const { categoryIds, sorts, ...otherParams } = defaultData;

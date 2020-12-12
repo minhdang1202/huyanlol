@@ -20,7 +20,7 @@ import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
 import { AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
-import { getImageById, getTitleNoMark, uuid } from "utils";
+import { getImageById, getTitleNoMark, uuid, getAbsolutePath } from "utils";
 import clsx from "clsx";
 import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
@@ -177,7 +177,7 @@ const ArticleSummary = ({ data, isHiddenAction, classes }) => {
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>
-        <FBShareButton url={AppConstant.WEBSITE_URL + linkToDetail} />
+        <FBShareButton url={getAbsolutePath(linkToDetail)} />
       </CardActions>
     </Card>
   );

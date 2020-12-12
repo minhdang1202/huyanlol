@@ -11,7 +11,7 @@ const DialogTitle = ({ title, children, onClose, className }) => {
       <Box>
         <Typography variant="h5">{title}</Typography>
         {onClose ? (
-          <IconButton className={classes.closeButton} onClick={() => onClose()}>
+          <IconButton edge="start" className={classes.closeButton} onClick={() => onClose()}>
             <CloseIcon />
           </IconButton>
         ) : null}

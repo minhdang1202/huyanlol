@@ -27,6 +27,7 @@ import Chip from "./Chip";
 import SliderButton from "./SliderButton";
 import AuthDialog from "./AuthDialog";
 import Snackbar from "./Snackbar";
+import BookmarkButton from "./BookmarkButton";
 
 export {
   AppHead,
@@ -58,4 +59,5 @@ export {
   SliderButton,
   AuthDialog,
   Snackbar,
+  BookmarkButton,
 };

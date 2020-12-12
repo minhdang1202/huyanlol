@@ -16,11 +16,13 @@ import { useTranslation } from "react-i18next";
 import { AppLink } from "components";
 import { LangConstant } from "const";
 import FollowButton from "./FollowButton";
+import { getImageById } from "utils";
 
-const ArticleAuthor = ({ name, avatar, date, address }) => {
+const ArticleAuthor = ({ creator, date }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const { name, address, imageId } = creator;
   return (
     <Hidden lgUp>
       <Hidden smUp>
@@ -33,7 +35,7 @@ const ArticleAuthor = ({ name, avatar, date, address }) => {
         <Box display="flex" alignItems="center">
           <AppLink to="#">
             <IconButton className={classes.avatarButton}>
-              <Avatar className={classes.avatar} src={avatar} />
+              <Avatar className={classes.avatar} src={getImageById(imageId)} />
             </IconButton>
           </AppLink>
           <Box ml={1}>
@@ -57,10 +59,8 @@ const ArticleAuthor = ({ name, avatar, date, address }) => {
 };
 
 ArticleAuthor.propTypes = {
-  name: PropTypes.string,
   date: PropTypes.string,
-  address: PropTypes.string,
-  avatar: PropTypes.string,
+  creator: PropTypes.object,
 };
 
 const Title = () => {

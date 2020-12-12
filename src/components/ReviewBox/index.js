@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import StringFormat from "string-format";
 import clsx from "clsx";
+import { getAbsolutePath } from "utils";
 import { convertDistanceDate } from "utils/date";
 import { useTranslation } from "react-i18next";
 import { AppConstant, PathConstant } from "const";
@@ -31,7 +32,7 @@ const ReviewBox = ({ review, className, isArticleType, isReviewType, isSlide, is
     editionId,
   } = review;
   const classes = useStyles({ isArticleType, isReviewType });
-  const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
+  const shareUrl = getAbsolutePath(StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId));
   const articleUrl = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
   const editionUrl = editionId ? "#" : null;
   const { i18n } = useTranslation();
