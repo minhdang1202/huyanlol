@@ -4,10 +4,16 @@ import { Box, IconButton, Typography, makeStyles } from "@material-ui/core";
 import { Avatar } from "components";
 import AppLink from "components/AppLink";
 import { getImageById } from "utils";
+import { useTranslation } from "react-i18next";
+import { convertDistanceDate } from "utils/date";
 
-const CommentAuthor = ({ user, date }) => {
+const CommentAuthor = ({ comment }) => {
   const classes = useStyles();
+  const { user, lastUpdate } = comment;
   const { name, imageId } = user;
+  const { i18n } = useTranslation();
+  const date = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
+
   return (
     <Box className={classes.root}>
       <AppLink to="#">
@@ -30,8 +36,7 @@ const CommentAuthor = ({ user, date }) => {
 };
 
 CommentAuthor.propTypes = {
-  user: PropTypes.object,
-  date: PropTypes.string,
+  comment: PropTypes.object,
 };
 
 const useStyles = makeStyles(theme => ({

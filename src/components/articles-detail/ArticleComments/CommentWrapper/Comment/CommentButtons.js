@@ -10,7 +10,8 @@ import GiversList from "../../../GiversList";
 import { AuthDialog, DialogAppDownload } from "components";
 import { MOBILE_INPUT_ID } from "../../MobileCommentInput";
 
-const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDialog, isDesktopComment }) => {
+const CommentButtons = ({ comment, onOpenReplyDialog, isDesktopComment }) => {
+  const { reactCount, replyCount, commentId } = comment;
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -48,9 +49,8 @@ const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDi
     if (isMobile) {
       const mobileInput = document.getElementById(MOBILE_INPUT_ID);
       mobileInput.click();
-      dispatch(ArticleActions.replyComment({ user, commentId }));
-      return;
     }
+    dispatch(ArticleActions.replyComment(comment));
   };
 
   return (
@@ -88,10 +88,7 @@ const CommentButtons = ({ reactCount, replyCount, commentId, user, onOpenReplyDi
 };
 
 CommentButtons.propTypes = {
-  reactCount: PropTypes.number,
-  replyCount: PropTypes.number,
-  commentId: PropTypes.number,
-  user: PropTypes.object,
+  comment: PropTypes.object,
   onOpenReplyDialog: PropTypes.func,
   isDesktopComment: PropTypes.bool,
 };

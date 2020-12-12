@@ -36,7 +36,6 @@ const ArticleDetail = ({ article }) => {
     lastUpdate,
     publishedDate,
     coverId,
-    reactCount,
     commentCount,
     body,
     hashtags,
@@ -81,7 +80,7 @@ const ArticleDetail = ({ article }) => {
           )}
           <ArticleHashtagButtons className="mt-16" hashtags={hashtags} category={categories[0].title} />
           <ArticleAuthor creator={creator} date={displayDate} />
-          <ArticleReacts reactCount={reactCount} commentCount={commentCount} articleId={articleId} />
+          <ArticleReacts />
         </Grid>
         <ArticleReactButtons shareUrl={shareUrl} saved={saved} />
         <Grid container item xs={12} md={8} className={classes.subContainer}>

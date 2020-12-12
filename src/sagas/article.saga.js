@@ -53,7 +53,8 @@ export function* requestGetChallengeArticles(action) {
 export function* requestGetGivers(action) {
   const { articleId, ...params } = action.data;
   const { pageNum } = params;
-  let givers = yield select(({ articleRedux }) => articleRedux.articleGivers);
+  const giversRedux = yield select(({ articleRedux }) => articleRedux.articleGivers);
+  const givers = Array.from(giversRedux);
   const currentGivers = givers[articleId]?.pageData || [];
   let response = yield call(ArticleService.getArticleGivers, articleId, params);
 
@@ -73,7 +74,8 @@ export function* requestGetGivers(action) {
 export function* requestGetCommentGivers(action) {
   const { commentId, ...params } = action.data;
   const { pageNum } = params;
-  let commentGivers = yield select(({ articleRedux }) => articleRedux.commentGivers);
+  const commentGiversRedux = yield select(({ articleRedux }) => articleRedux.commentGivers);
+  const commentGivers = Array.from(commentGiversRedux);
   const currentCommentGivers = commentGivers[commentId]?.pageData || [];
   let response = yield call(ArticleService.getArticleCommentGivers, commentId, params);
 
@@ -93,22 +95,24 @@ export function* requestGetCommentGivers(action) {
 
 export function* requestGetComments(action) {
   const { articleId, ...params } = action.data;
-  const { lastCommentId, isFriend, pageSize } = params;
-  let [comments, currentReplies] = yield select(({ articleRedux }) => [articleRedux.comments, articleRedux.replies]);
+  const { lastCommentId, pageSize } = params;
+  const { comments: commentsRedux, replies: currentRepliesRedux } = yield select(({ articleRedux }) => articleRedux);
+  const comments = { ...commentsRedux };
+  const currentReplies = Array.from(currentRepliesRedux);
   const { pageData: currentComments } = comments;
   let response = yield call(ArticleService.getArticleComments, articleId, params);
 
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
-      responseData.isFriend = isFriend;
       let { pageData: newComments, total } = responseData;
       if (lastCommentId || (!lastCommentId && !currentReplies.length))
         newComments.forEach(comment => {
-          const { commentId, replies } = comment;
+          const { commentId, replies, replyCount } = comment;
           if (replies && !currentReplies[commentId])
             currentReplies[commentId] = {
               pageData: replies.concat(currentReplies[commentId]?.pageData || []),
+              replyCount,
             };
         });
       const isLastPage = !lastCommentId ? pageSize >= total : total === 0;
@@ -125,8 +129,8 @@ export function* requestGetComments(action) {
 
 export function* requestGetReplies(action) {
   const { commentId, ...params } = action.data;
-  const isFetchingReplies = false;
-  let currentReplies = yield select(({ articleRedux }) => articleRedux.replies);
+  const currentRepliesRedux = yield select(({ articleRedux }) => articleRedux.replies);
+  const currentReplies = Array.from(currentRepliesRedux);
   let response = yield call(ArticleService.getArticleReplies, commentId, params);
 
   try {
@@ -137,38 +141,39 @@ export function* requestGetReplies(action) {
         ...responseData,
         pageData: newReplies.reverse().concat(currentReplies[commentId].pageData),
       };
-      yield put(ArticleAction.articleSuccess({ replies: currentReplies, isFetchingReplies }));
+      yield put(ArticleAction.articleSuccess({ replies: currentReplies }));
     }
   } catch (error) {
     console.log(error);
-    yield put(ArticleAction.articleFailure(error, isFetchingReplies));
+    yield put(ArticleAction.articleFailure(error));
   }
 }
 
 export function* requestPostComment(action) {
   const { articleId, ...bodyReq } = action.data;
   let isSuccess = false;
-  let [comments, replies] = yield select(({ articleRedux }) => [articleRedux.comments, articleRedux.replies]);
+  const { comments: commentsRedux, article: articleRedux } = yield select(({ articleRedux }) => articleRedux);
+  const comments = { ...commentsRedux };
+  const article = { ...articleRedux };
   let response = yield call(ArticleService.postComment, articleId, bodyReq);
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
-      const { commentId } = responseData;
-      let pageData;
       if (comments.pageData) {
-        pageData = [responseData].concat(comments.pageData);
+        comments.pageData.unshift(responseData);
         comments.total += 1;
       } else {
-        pageData = [responseData];
+        comments.pageData = [responseData];
         comments.total = 1;
       }
+      article.commentCount += 1;
       isSuccess = true;
       yield put(
         ArticleAction.articleSuccess({
-          comments: { ...comments, pageData },
+          comments,
           isPostCommentSuccess: true,
           newComment: responseData,
-          replies,
+          article,
         }),
       );
     }
@@ -184,18 +189,31 @@ export function* requestPostComment(action) {
 export function* requestPostReply(action) {
   const { commentId, ...bodyReq } = action.data;
   let isSuccess = false;
-  let replies = yield select(({ articleRedux }) => articleRedux.replies);
+  const { replies: repliesRedux, article: articleRedux } = yield select(({ articleRedux }) => articleRedux);
+  const replies = Array.from(repliesRedux);
+  const article = { ...articleRedux };
   let response = yield call(ArticleService.postReply, commentId, bodyReq);
   try {
     if (response.status === ApiConstant.STT_OK) {
       let responseData = response.data.data;
-      if (replies[commentId]?.pageData) {
-        replies[commentId].pageData.concat(responseData);
+      const parentCommentId = responseData.parent.commentId;
+      if (replies[parentCommentId]?.pageData) {
+        replies[parentCommentId].pageData.push(responseData);
+        replies[parentCommentId].replyCount += 1;
       } else {
-        replies[commentId] = { pageData: [responseData] };
+        replies[parentCommentId] = { pageData: [responseData], replyCount: 1 };
       }
+      article.commentCount += 1;
       isSuccess = true;
-      yield put(ArticleAction.articleSuccess({ replies, isPostCommentSuccess: true }));
+      yield put(
+        ArticleAction.articleSuccess({
+          replies,
+          isPostCommentSuccess: true,
+          isPostReplySuccess: true,
+          article,
+          newComment: responseData,
+        }),
+      );
     }
   } catch (error) {
     console.log(error);

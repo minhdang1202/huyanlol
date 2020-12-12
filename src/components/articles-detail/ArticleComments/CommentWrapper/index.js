@@ -1,11 +1,12 @@
 import React, { memo } from "react";
 import { PropTypes } from "prop-types";
 import { shallowEqual, useSelector } from "react-redux";
-import { Box, CircularProgress, makeStyles } from "@material-ui/core";
+import { Box, CircularProgress, makeStyles, Hidden } from "@material-ui/core";
 import Comment from "./Comment";
 import Replies from "./Replies";
 import NoCommentWrapper from "../NoCommentWrapper";
 import { uuid } from "utils";
+import PopupReplyInput from "../PopupReplyInput";
 
 const CommentWrapper = ({ hasSortChange }) => {
   const classes = useStyles();
@@ -25,11 +26,14 @@ const CommentWrapper = ({ hasSortChange }) => {
       {comments &&
         !hasSortChange &&
         comments.map(comment => {
-          const { replyCount, commentId } = comment;
+          const { commentId } = comment;
           return (
             <Box key={uuid()}>
-              <Comment id={commentId} comment={comment} />
-              {replyCount > 0 && <Replies replyCount={replyCount} commentId={commentId} />}
+              <Comment comment={comment} />
+              <Replies commentId={commentId} />
+              <Hidden xsDown>
+                <PopupReplyInput commentId={commentId} />
+              </Hidden>
             </Box>
           );
         })}

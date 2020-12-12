@@ -7,7 +7,8 @@ import { AppConstant } from "const";
 import BookBox from "../../../BookBox";
 import { cutString } from "utils";
 
-const CommentContent = ({ content, commentToEditions, isDesktopComment }) => {
+const CommentContent = ({ comment, isDesktopComment }) => {
+  const { content, commentToEditions } = comment;
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const shortComment = cutString(AppConstant.COMMENT_DEFAULT_LENGTH, content);
@@ -42,10 +43,11 @@ const CommentContent = ({ content, commentToEditions, isDesktopComment }) => {
 };
 
 CommentContent.propTypes = {
-  commentToEditions: PropTypes.array,
-  content: PropTypes.string,
+  comment: PropTypes.object,
   isDesktopComment: PropTypes.bool,
 };
+
+export default CommentContent;
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -100,5 +102,3 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-
-export default CommentContent;

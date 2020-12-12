@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, shallowEqual } from "react-redux";
 import clsx from "clsx";
 import StringFormat from "string-format";
 import { useTranslation } from "react-i18next";
 import { Button, Typography, Box, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
-import PropTypes from "prop-types";
 import GiversList from "./GiversList";
 
-const ArticleReacts = ({ reactCount, commentCount, articleId }) => {
+const ArticleReacts = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const { reactCount, commentCount, articleId } = useSelector(({ articleRedux }) => articleRedux.article, shallowEqual);
   const { t: getLabel } = useTranslation();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const loveButton = StringFormat(getLabel("FM_LOVE"), reactCount);
@@ -31,7 +32,9 @@ const ArticleReacts = ({ reactCount, commentCount, articleId }) => {
 
   return (
     <>
-      {isOpenGivers && <GiversList isOpen={true} onClose={onCloseGiversList} reactCount={reactCount} articleId={articleId} />}
+      {isOpenGivers && (
+        <GiversList isOpen={true} onClose={onCloseGiversList} reactCount={reactCount} articleId={articleId} />
+      )}
       {isMobile ? (
         <Box display="flex" justifyContent="space-between" width="100%">
           <Button
@@ -60,12 +63,6 @@ const ArticleReacts = ({ reactCount, commentCount, articleId }) => {
       )}
     </>
   );
-};
-
-ArticleReacts.propTypes = {
-  reactCount: PropTypes.number,
-  commentCount: PropTypes.number,
-  articleId: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({

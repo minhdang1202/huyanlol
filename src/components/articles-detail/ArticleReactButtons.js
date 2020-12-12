@@ -31,6 +31,7 @@ const ArticleReactButtons = ({ shareUrl }) => {
       return;
     }
     const mobileInput = document.getElementById(MOBILE_INPUT_ID);
+    console.log(mobileInput);
     mobileInput.click();
   };
 

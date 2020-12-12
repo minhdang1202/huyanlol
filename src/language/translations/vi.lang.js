@@ -178,10 +178,10 @@ export default {
     TXT_ARTICLE_LIST_COMMENTS: "Bình luận của thành viên",
     TXT_ARTICLE_REPLY_BUTTON: "Phản hồi",
     TXT_ARTICLE_CANCEL: "Huỷ",
-    TXT_ARTICLE_WRITE_REPLY: "Phản hồi của bạn...",
     TXT_ARTICLE_LOGIN_TO_COMMENT: "Đăng nhập để bình luận",
-
+    
     //P
+    P_ARTICLE_WRITE_REPLY: "Phản hồi của bạn...",
     P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn...",
 
     //FM

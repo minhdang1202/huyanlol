@@ -25,7 +25,7 @@ const ArticleReplyDialog = ({ sortValue, hasSortChange, onChangeSort, onScroll, 
           </Typography>
           <SortSelect value={sortValue} onChange={e => onChangeSort(e.target.value)} />
         </Box>
-        <DialogContent onScroll={onScroll}>
+        <DialogContent id={ARTICLE_REPLY_DIALOG_ID} onScroll={onScroll}>
           <CommentWrapper sortValue={sortValue} isPopup hasSortChange={hasSortChange} />
         </DialogContent>
       </DialogLayout>
@@ -39,6 +39,8 @@ ArticleReplyDialog.propTypes = {
   onChangeSort: PropTypes.func,
   onScroll: PropTypes.func,
 };
+
+export const ARTICLE_REPLY_DIALOG_ID = "article-reply-dialog";
 
 export default memo(ArticleReplyDialog);
 

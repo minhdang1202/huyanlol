@@ -7,7 +7,6 @@ import { LangConstant } from "const";
 import { getImageById } from "utils";
 import MentionInput from "../MentionInput";
 import ArticleActions from "redux/article.redux";
-import { downMentionPlugins } from "../MentionInput/MentionPlugins";
 
 const AddingReply = () => {
   const classes = useStyles();
@@ -16,8 +15,8 @@ const AddingReply = () => {
   const dispatch = useDispatch();
   const { isAuth } = useSelector(({ authRedux }) => authRedux);
   const { profile } = useSelector(({ userRedux }) => userRedux);
-  const [articleId, isPostingComment] = useSelector(
-    ({ articleRedux }) => [articleRedux.article.articleId, articleRedux.isPostingComment],
+  const [articleId, isPostingComment, isTypingReply] = useSelector(
+    ({ articleRedux }) => [articleRedux.article.articleId, articleRedux.isPostingComment, articleRedux.isTypingReply],
     shallowEqual,
   );
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
@@ -42,6 +41,10 @@ const AddingReply = () => {
     setIsOpenAuthDialog(false);
   };
 
+  const onClick = () => {
+    dispatch(ArticleActions.cancelReply());
+  };
+
   return (
     <>
       <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
@@ -58,10 +61,11 @@ const AddingReply = () => {
         <CardContent className={classes.main}>
           {isAuth && (
             <MentionInput
+              disabled={isTypingReply}
+              onClick={onClick}
               onChangeContent={onChangeContent}
               className={classes.input}
               placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
-              {...downMentionPlugins}
             />
           )}
           <Divider />

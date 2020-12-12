@@ -11,8 +11,8 @@ import SortPopup from "./SortPopup";
 import CommentWrapper from "./CommentWrapper";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 import { AvatarIcon } from "icons";
-import { scrollToEl } from "utils";
-import ArticleReplyDialog from "./ArticleReplyDialog";
+import { scrollToCenterEl, scrollToTop } from "utils";
+import ArticleReplyDialog, { ARTICLE_REPLY_DIALOG_ID } from "./ArticleReplyDialog";
 import { getLabel } from "language";
 import { AuthDialog } from "components";
 import DesktopCommentWrapper from "./DesktopCommentWrapper";
@@ -24,13 +24,8 @@ const ArticleComments = () => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const { getCommonKey } = LangConstant;
   const { isAuth } = useSelector(({ authRedux }) => authRedux);
-  const [comments, article, isFetchingComments, newComment] = useSelector(
-    ({ articleRedux }) => [
-      articleRedux.comments,
-      articleRedux.article,
-      articleRedux.isFetchingComments,
-      articleRedux.newComment,
-    ],
+  const { comments, article, isFetchingComments, newComment, isPostReplySuccess } = useSelector(
+    ({ articleRedux }) => articleRedux,
     shallowEqual,
   );
   const { commentCount, articleId } = article;
@@ -101,7 +96,6 @@ const ArticleComments = () => {
   };
 
   useEffect(() => {
-    //TODO: Fix scroll in Mobile
     const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
     if (isMobile) {
       mainLayout.addEventListener("scroll", onScroll, true);
@@ -128,10 +122,15 @@ const ArticleComments = () => {
   }, [comments]);
 
   useEffect(() => {
-    if (newComment.commentId && isMobile) {
-      scrollToEl(newComment.commentId);
+    if (newComment.commentId) {
+      if (isMobile) {
+        scrollToCenterEl(newComment.commentId);
+        return;
+      }
+      if (isPostReplySuccess) return;
+      scrollToTop(ARTICLE_REPLY_DIALOG_ID);
     }
-  }, [newComment]);
+  }, [newComment, isPostReplySuccess]);
 
   return (
     <Box width="100%">
@@ -158,7 +157,7 @@ const ArticleComments = () => {
       <Hidden smUp>
         <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" mt={2}>
           <Typography variant="h5">{getLabel(getCommonKey("TXT_COMMENT"))}</Typography>
-          <Button endIcon={<Box className="ic-chevron-down" />} className={classes.selectButton} onClick={onOpenSort}>
+          <Button endIcon={<Box className="ic-chevron-down" fontSize={14} />} onClick={onOpenSort}>
             <Typography variant="body2">{displaySort}</Typography>
           </Button>
         </Box>
@@ -221,11 +220,6 @@ var scrollTimeoutEvent;
 var TIMEOUT_SCROLL = 600;
 
 const useStyles = makeStyles(theme => ({
-  selectButton: {
-    "& .ic-chevron-down": {
-      fontSize: 14,
-    },
-  },
   seeAllButton: {
     width: "100%",
   },

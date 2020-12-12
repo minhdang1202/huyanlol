@@ -6,7 +6,6 @@ import { Avatar, Box, makeStyles, Button } from "@material-ui/core";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 import ArticleActions from "redux/article.redux";
 import MentionInput from "../MentionInput";
-import { topMentionPlugins } from "../MentionInput/MentionPlugins";
 import ReplyInfo from "./ReplyInfo";
 
 const MobileCommentInput = () => {
@@ -15,7 +14,7 @@ const MobileCommentInput = () => {
   const { getCommonKey } = LangConstant;
   const [content, setContent] = useState({});
   const [hasContent, setHasContent] = useState(false);
-  const [reset, setReset] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const dispatch = useDispatch();
   const [isTypingReply, commentId, isPostingComment, articleId] = useSelector(({ articleRedux }) => [
@@ -38,10 +37,7 @@ const MobileCommentInput = () => {
 
   const onCancelReply = () => {
     dispatch(ArticleActions.cancelReply());
-    setReset(true);
-    setTimeout(() => {
-      setReset(false);
-    }, 500);
+    setIsDisabled(true);
   };
 
   return (
@@ -53,9 +49,8 @@ const MobileCommentInput = () => {
           id={MOBILE_INPUT_ID}
           onChangeContent={onChangeContent}
           className={classes.input}
-          reset={reset}
-          placeholder={getLabel("P_ARTICLE_WRITE_COMMENT")}
-          {...topMentionPlugins}
+          disabled={isDisabled}
+          isTopSuggestion
         />
         <Button
           disabled={!hasContent || isPostingComment}

@@ -167,6 +167,11 @@ export const debounce = (func, wait, immediate) => {
   };
 };
 
-export const scrollToEl = id => {
+export const scrollToCenterEl = id => {
   document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "center" });
+};
+
+export const scrollToTop = id => {
+  const element = document.getElementById(id);
+  element.scrollTop = 0;
 };

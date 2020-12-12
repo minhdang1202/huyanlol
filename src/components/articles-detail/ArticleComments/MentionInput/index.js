@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback, forwardRef } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+import { LangConstant } from "const";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import clsx from "clsx";
 import { AppConstant, PathConstant } from "const";
@@ -14,31 +16,67 @@ import { getRedirectPath, debounce, uuid } from "utils";
 import ArticleActions from "redux/article.redux";
 import EditionActions from "redux/edition.redux";
 import UserActions from "redux/user.redux";
+import createMentionPlugin from "draft-js-mention-plugin";
+import Mention from "./Mention";
 
 const MentionInput = forwardRef(
-  (
-    {
-      className,
-      placeholder,
-      onChangeContent,
-      MentionUserSuggestions,
-      MentionEditionSuggestions,
-      plugins,
-      reset,
-      ...otherProps
-    },
-    ref,
-  ) => {
+  ({ className, onChangeContent, placeholder, disabled, isTopSuggestion, ...otherProps }, ref) => {
+    const [{ plugins, MentionUserSuggestions, MentionEditionSuggestions }] = useState(() => {
+      const mentionUserPlugin = createMentionPlugin({
+        mentionTrigger: "@",
+        mentionComponent: Mention,
+        entityMutability: "IMMUTABLE",
+        supportWhitespace: true,
+        positionSuggestions: settings => {
+          const top = isTopSuggestion ? settings.decoratorRect.top - 25 + "px" : settings.decoratorRect.top + 25 + "px";
+          const transform = isTopSuggestion ? "scale(1) translateY(-100%)" : "scale(1)";
+          return {
+            left: settings.decoratorRect.left + "px",
+            top: top,
+            transform,
+            maxHeight: HEIGHT_USER_SUGGESTIONS,
+            width: WIDTH_USER_SUGGESTIONS,
+          };
+        },
+      });
+      const mentionEditionPlugin = createMentionPlugin({
+        mentionTrigger: "&",
+        mentionComponent: Mention,
+        entityMutability: "IMMUTABLE",
+        supportWhitespace: true,
+        positionSuggestions: settings => {
+          const top = isTopSuggestion ? settings.decoratorRect.top - 25 + "px" : settings.decoratorRect.top + 25 + "px";
+          const transform = isTopSuggestion ? "scale(1) translateY(-100%)" : "scale(1)";
+
+          return {
+            left: settings.decoratorRect.left + "px",
+            top,
+            transform,
+            maxHeight: HEIGHT_EDITION_SUGGESTIONS,
+            width: WIDTH_EDITION_SUGGESTIONS,
+          };
+        },
+      });
+      const plugins = [mentionEditionPlugin, mentionUserPlugin];
+      const { MentionSuggestions: MentionUserSuggestions } = mentionUserPlugin;
+      const { MentionSuggestions: MentionEditionSuggestions } = mentionEditionPlugin;
+      return {
+        plugins,
+        MentionUserSuggestions,
+        MentionEditionSuggestions,
+      };
+    });
     const classes = useStyles();
+    const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
     const editorRef = useRef();
     const dispatch = useDispatch();
-    const [userSuggestionRedux, editionSuggestionRedux, isPostCommentSuccess, replyInfo, isTypingReply] = useSelector(
+    const [userSuggestionRedux, editionSuggestionRedux, isPostCommentSuccess, isTypingReply, replyInfo] = useSelector(
       ({ editionRedux, userRedux, articleRedux }) => [
         userRedux.suggestions,
         editionRedux.suggestions,
         articleRedux.isPostCommentSuccess,
-        articleRedux.replyInfo,
         articleRedux.isTypingReply,
+        articleRedux.replyInfo,
       ],
       shallowEqual,
     );
@@ -63,7 +101,6 @@ const MentionInput = forwardRef(
         if (userId && !userIds.includes(userId)) userIds.push(userId);
       });
       if (isTypingReply && !userIds.includes(userId)) userIds.push(userId);
-      console.log(editionIds);
       onChangeContent({ userIds, editionIds, content, hasContent });
     };
 
@@ -147,17 +184,19 @@ const MentionInput = forwardRef(
 
     useEffect(() => {
       if (isTypingReply) {
-        onChange(EditorState.moveSelectionToEnd(addMention(replyInfo)));
+        onFocus();
+        onChange(addMention(replyInfo));
         return;
       }
-    }, [isTypingReply]);
+    }, [isTypingReply, replyInfo]);
 
     useEffect(() => {
-      if (reset) {
+      if (disabled) {
         onChange(EditorState.createEmpty());
         editorRef.current.blur();
+        console.log("disabled");
       }
-    }, [reset]);
+    }, [disabled]);
 
     return (
       <Box className={clsx(classes.root, className)} ref={ref} onClick={onFocus} {...otherProps}>
@@ -166,7 +205,7 @@ const MentionInput = forwardRef(
           editorState={editorState}
           onChange={onChange}
           plugins={plugins}
-          placeholder={placeholder}
+          placeholder={placeholder || getLabel("P_ARTICLE_WRITE_COMMENT")}
         />
         <MentionUserSuggestions
           onSearchChange={onSearchUser}
@@ -201,14 +240,17 @@ const convertMap = {
   },
 };
 
+const HEIGHT_USER_SUGGESTIONS = "200px";
+const WIDTH_USER_SUGGESTIONS = "250px";
+const HEIGHT_EDITION_SUGGESTIONS = "245px";
+const WIDTH_EDITION_SUGGESTIONS = "250px";
+
 MentionInput.propTypes = {
   className: PropTypes.string,
-  placeholder: PropTypes.string,
   onChangeContent: PropTypes.func.isRequired,
-  MentionUserSuggestions: PropTypes.elementType.isRequired,
-  MentionEditionSuggestions: PropTypes.elementType.isRequired,
-  plugins: PropTypes.array.isRequired,
-  reset: PropTypes.bool,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  isTopSuggestion: PropTypes.bool,
 };
 
 MentionInput.displayName = "MentionInput";

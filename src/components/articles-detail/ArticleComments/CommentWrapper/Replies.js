@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import StringFormat from "string-format";
 import clsx from "clsx";
@@ -10,17 +10,17 @@ import Comment from "./Comment";
 import ArticleActions from "redux/article.redux";
 import { uuid } from "utils";
 
-const Replies = ({ replyCount, commentId }) => {
+const Replies = ({ commentId }) => {
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const dispatch = useDispatch();
-
   const dispatchGetReplies = () => dispatch(ArticleActions.requestGetReplies(onGetParams()));
-  const [replies, isFetchingReplies] = useSelector(
-    ({ articleRedux }) => [articleRedux.replies[commentId]?.pageData, articleRedux.isFetchingReplies],
+  const [repliesRedux, isFetchingReplies] = useSelector(
+    ({ articleRedux }) => [articleRedux.replies[commentId], articleRedux.isFetchingReplies],
     shallowEqual,
   );
+  const replies = repliesRedux?.pageData;
+  const replyCount = repliesRedux?.replyCount;
   const lastReplyId = replies ? replies[0].commentId : null;
-
   const onGetParams = () => ({
     commentId: commentId,
     lastReplyId: lastReplyId,
@@ -28,7 +28,7 @@ const Replies = ({ replyCount, commentId }) => {
   });
 
   return (
-    replies && (
+    replies  && (
       <Box display="flex" mt={1} width="100%">
         <Divider orientation="vertical" className="mr-12" flexItem />
         <Box flexGrow={1}>
@@ -39,7 +39,11 @@ const Replies = ({ replyCount, commentId }) => {
           )}
           {isFetchingReplies && <CircularProgress size={20} className={clsx("mt-4", "mb-4", "blue-text")} />}
           {replies.map((reply, index) => (
-            <Comment key={uuid()} comment={reply} className={index === replies.length - 1 ? null : "mb-8"} />
+            <Comment
+              key={uuid()}
+              comment={reply}
+              className={index === replies.length - 1 ? null : "mb-8"}
+            />
           ))}
         </Box>
       </Box>
@@ -48,7 +52,6 @@ const Replies = ({ replyCount, commentId }) => {
 };
 
 Replies.propTypes = {
-  replyCount: PropTypes.number,
   commentId: PropTypes.number,
 };
 

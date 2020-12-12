@@ -44,6 +44,7 @@ export const INITIAL_STATE = {
   replyInfo: {},
   isPostCommentFailure: false,
   isPostCommentSuccess: false,
+  isPostReplySuccess: false,
   newComment: {},
 };
 
@@ -97,6 +98,9 @@ const finishPostComment = (state = INITIAL_STATE) => ({
   ...state,
   isPostCommentFailure: false,
   isPostCommentSuccess: false,
+  isPostReplySuccess: false,
+  isTypingReply: false,
+  replyInfo: {},
   newComment: {},
 });
 
