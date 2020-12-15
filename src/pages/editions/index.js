@@ -20,18 +20,17 @@ const CollectionBooksPage = () => {
   const headRef = useRef();
   const [pageNum, setPageNum] = useState(1);
   const [categoryTitle, setCategoryTitle] = useState();
-  const suggestionsCategory = useSelector(state => state.editionRedux.suggestionsCategory);
+  const suggestionsCategoryId = useSelector(state => state.editionRedux.suggestionsCategoryId);
   const onChangePage = (event, value) => {
     setPageNum(value);
     headRef.current.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
-    if (suggestionsCategory) {
-      setCategoryTitle(
-        AppConstant.BOOK_SUGGESTION_CATEGORY.find(category => category.id === suggestionsCategory).title,
-      );
+    if (suggestionsCategoryId) {
+      let category = AppConstant.BOOK_SUGGESTION_CATEGORY.find(category => category.id === suggestionsCategoryId);
+      setCategoryTitle(category.title);
     }
-  }, [suggestionsCategory]);
+  }, [suggestionsCategoryId]);
   return (
     <MainLayout appBarProps={appBarProps}>
       <Grid container className={classes.root}>
@@ -65,6 +64,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 1022,
     margin: "16px auto",
+    [theme.breakpoints.down("xs")]: {
+      margin: "auto",
+    },
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(3),
+    },
   },
   mainContainer: {
     marginTop: theme.spacing(2),
@@ -76,6 +81,9 @@ const useStyles = makeStyles(theme => ({
   rightContainer: {
     marginTop: theme.spacing(2),
     paddingLeft: 12,
+    [theme.breakpoints.down("sm")]: {
+      marginTop: 0,
+    },
   },
   fixedPosition: {
     width: "100%",

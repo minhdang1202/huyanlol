@@ -20,7 +20,7 @@ const ListCategory = props => {
 
   const onClickMore = () => setIsFullCategory(true);
   const onChangeCategory = category => {
-    dispatch(EditionAction.setSuggestionsCategory(category));
+    dispatch(EditionAction.setSuggestionsCategoryId(category));
   };
   return (
     <Grid container className={clsx(defaultClasses.root, classes.root)}>

@@ -31,7 +31,7 @@ const { Types, Creators } = createActions({
   requestEditionFailure: ["data"],
   requestEditionSuccess: ["data"],
 
-  setSuggestionsCategory: ["data"],
+  setSuggestionsCategoryId: ["data"],
 });
 
 export const EditionTypes = Types;
@@ -44,7 +44,7 @@ export const INITIAL_STATE = {
 
   suggestions: [],
   suggestionsByCategory: [],
-  suggestionsCategory: null,
+  suggestionsCategoryId: null,
 };
 
 /* ------------- Reducers ------------- */
@@ -63,8 +63,8 @@ export const requestEditionFailure = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
   return { ...state, isFetching: false, ...data };
 };
-export const setSuggestionsCategory = (state = INITIAL_STATE, action) => {
-  return { ...state, suggestionsCategory: action.data };
+export const setSuggestionsCategoryId = (state = INITIAL_STATE, action) => {
+  return { ...state, suggestionsCategoryId: action.data };
 };
 
 /* ------------- Mapping ------------- */
@@ -92,7 +92,7 @@ export const HANDLERS = {
   [Types.REQUEST_EDITION_SUCCESS]: requestEditionSuccess,
   [Types.REQUEST_EDITION_FAILURE]: requestEditionFailure,
 
-  [Types.SET_SUGGESTIONS_CATEGORY]: setSuggestionsCategory,
+  [Types.SET_SUGGESTIONS_CATEGORY_ID]: setSuggestionsCategoryId,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

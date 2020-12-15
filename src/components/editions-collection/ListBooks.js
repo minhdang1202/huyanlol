@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 const ListBooks = ({ onChangePage, pageNum }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { suggestions, suggestionsCategory, suggestionsByCategory } = useSelector(state => state.editionRedux);
+  const { suggestions, suggestionsCategoryId, suggestionsByCategory } = useSelector(state => state.editionRedux);
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -21,16 +21,16 @@ const ListBooks = ({ onChangePage, pageNum }) => {
 
   useEffect(() => {
     const load = () => {
-      if (suggestionsCategory) {
+      if (suggestionsCategoryId) {
         dispatch(
-          EditionAction.requestGetBookSuggestionByCategory({ pageNum: pageNum, categories: suggestionsCategory }),
+          EditionAction.requestGetBookSuggestionByCategory({ pageNum: pageNum, categories: suggestionsCategoryId }),
         );
       } else {
         dispatch(EditionAction.requestGetBookSuggestion({ pageNum: pageNum }));
       }
     };
     load();
-  }, [pageNum, suggestionsCategory]);
+  }, [pageNum, suggestionsCategoryId]);
 
   return (
     <Paper className={classes.root}>
