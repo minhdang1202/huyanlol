@@ -5,6 +5,8 @@ import AppLink from "./AppLink";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import EditionAction from "redux/edition.redux";
+import { useDispatch } from "react-redux";
 
 const CustomBreadcrumb = ({ bookName, articleName, className, challengeName }) => {
   const { t: getLabel } = useTranslation();
@@ -18,11 +20,18 @@ const CustomBreadcrumb = ({ bookName, articleName, className, challengeName }) =
   };
   const classes = useStyles();
   const router = useRouter();
+  const dispatch = useDispatch();
   const { pathname } = router;
   const pathNames = pathname
     .split("/")
     .map(pathname => pathname.replace(/\[/, "").replace(/\]/, ""))
     .filter(pathname => BREADCRUMB_NAME_MAP[pathname]);
+  const onClickLastPath = lastPath => {
+    if (lastPath === "editions") {
+      dispatch(EditionAction.setSuggestionsCategoryId(null));
+      router.push(pathNames[pathNames.length - 1]);
+    }
+  };
   return (
     <Breadcrumbs className={clsx(classes.root, className)} separator={">"}>
       {pathNames.length > 0 ? (
@@ -38,7 +47,12 @@ const CustomBreadcrumb = ({ bookName, articleName, className, challengeName }) =
         const routeTo = `/${pathNames.slice(0, index + 1).join("/")}`;
         const isLast = index === pathNames.length - 1;
         return isLast ? (
-          <Typography variant="body2" key={index} className={classes.disabledLink}>
+          <Typography
+            variant="body2"
+            key={index}
+            className={classes.disabledLink}
+            onClick={() => onClickLastPath(pathname)}
+          >
             {BREADCRUMB_NAME_MAP[pathname]}
           </Typography>
         ) : (

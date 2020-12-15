@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant } from "const";
 import { ListCategory, CustomBreadcrumb } from "components";
 import { PopularArticles, ListBooks } from "components/editions-collection";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import EditionAction from "redux/edition.redux";
 
@@ -21,19 +21,26 @@ const CollectionBooksPage = ({ categoryId }) => {
     appBarTitle: getLabel("TXT_MOST_BORROWING_BOOK"),
   };
   const headRef = useRef();
+  const suggestionsCategoryId = useSelector(state => state.editionRedux.suggestionsCategoryId);
   const [pageNum, setPageNum] = useState(1);
-  const [categoryTitle, setCategoryTitle] = useState();
   const onChangePage = (event, value) => {
     setPageNum(value);
     headRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const getTitle = categoryId => {
+    let category = AppConstant.BOOK_SUGGESTION_CATEGORY.find(category => category.id === suggestionsCategoryId);
+    if (categoryId && category) {
+      return category.title;
+    }
+    return "TXT_MOST_BORROWING_BOOK";
+  };
   useEffect(() => {
     if (categoryId) {
-      let category = AppConstant.BOOK_SUGGESTION_CATEGORY.find(category => category.id === categoryId);
-      setCategoryTitle(category.title);
       dispatch(EditionAction.setSuggestionsCategoryId(categoryId));
     }
   }, [categoryId]);
+
   return (
     <MainLayout appBarProps={appBarProps}>
       <Grid container className={classes.root}>
@@ -41,7 +48,7 @@ const CollectionBooksPage = ({ categoryId }) => {
           <Grid item xs={12} md={12} lg={12}>
             <CustomBreadcrumb />
             <Typography variant="h4" component="h1" ref={headRef}>
-              {getLabel(categoryTitle ? categoryTitle : "TXT_MOST_BORROWING_BOOK")}
+              {getLabel(getTitle(suggestionsCategoryId))}
             </Typography>
           </Grid>
         )}
