@@ -5,23 +5,18 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { uuid } from "utils";
 import StringFormat from "string-format";
-import { LangConstant, AppConstant } from "const";
-import { useDispatch } from "react-redux";
-import EditionAction from "redux/edition.redux";
+import { LangConstant, AppConstant, PathConstant } from "const";
+import { AppLink } from "components";
 const ListCategory = props => {
   const { classes } = props;
   const defaultClasses = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_BOOKS);
-  const dispatch = useDispatch();
   const [isFullCategory, setIsFullCategory] = useState(false);
   const fullList = AppConstant.BOOK_SUGGESTION_CATEGORY;
   const shortList = AppConstant.BOOK_SUGGESTION_CATEGORY.slice(0, 5);
   const categoryList = isFullCategory ? fullList : shortList;
 
   const onClickMore = () => setIsFullCategory(true);
-  const onChangeCategory = category => {
-    dispatch(EditionAction.setSuggestionsCategoryId(category));
-  };
   return (
     <Grid container className={clsx(defaultClasses.root, classes.root)}>
       <Grid item xs={12}>
@@ -33,15 +28,15 @@ const ListCategory = props => {
         <Paper className={clsx(defaultClasses.paper, classes.paper)}>
           <Box>
             {categoryList.map(item => (
-              <Button
-                variant="contained"
-                color="primary"
-                key={uuid()}
-                className={clsx("light-blue-button", defaultClasses.item, classes.item)}
-                onClick={() => onChangeCategory(item.id)}
-              >
-                <Typography>{getLabel(item.title)}</Typography>
-              </Button>
+              <AppLink key={uuid()} to={StringFormat(PathConstant.COLLECTION_BOOKS_CATEGORY_ID, item.id)}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={clsx("light-blue-button", defaultClasses.item, classes.item)}
+                >
+                  <Typography>{getLabel(item.title)}</Typography>
+                </Button>
+              </AppLink>
             ))}
           </Box>
           {!isFullCategory && (

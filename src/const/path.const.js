@@ -9,5 +9,6 @@ export const FM_CHALLENGE_DETAIL = "/challenges/{0}-b{1}";
 export const FM_CHALLENGE_DETAIL_ID = "/challenges/{0}";
 export const ARTICLE_CREATE = "/articles/create";
 export const COLLECTION_BOOKS = "/editions";
+export const COLLECTION_BOOKS_CATEGORY_ID = "/editions?categoryId={0}";
 export const FM_ARTICLE_EDIT = "/articles/edit/{0}-{1}";
 export const CHALLENGES = "/challenges";

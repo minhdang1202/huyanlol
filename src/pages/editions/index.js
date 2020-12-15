@@ -5,13 +5,16 @@ import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant } from "const";
 import { ListCategory, CustomBreadcrumb } from "components";
 import { PopularArticles, ListBooks } from "components/editions-collection";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import EditionAction from "redux/edition.redux";
 
-const CollectionBooksPage = () => {
+const CollectionBooksPage = ({ categoryId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_BOOKS);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const dispatch = useDispatch();
   const appBarProps = {
     isDetail: true,
     className: classes.appBar,
@@ -20,17 +23,17 @@ const CollectionBooksPage = () => {
   const headRef = useRef();
   const [pageNum, setPageNum] = useState(1);
   const [categoryTitle, setCategoryTitle] = useState();
-  const suggestionsCategoryId = useSelector(state => state.editionRedux.suggestionsCategoryId);
   const onChangePage = (event, value) => {
     setPageNum(value);
     headRef.current.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
-    if (suggestionsCategoryId) {
-      let category = AppConstant.BOOK_SUGGESTION_CATEGORY.find(category => category.id === suggestionsCategoryId);
+    if (categoryId) {
+      let category = AppConstant.BOOK_SUGGESTION_CATEGORY.find(category => category.id === categoryId);
       setCategoryTitle(category.title);
+      dispatch(EditionAction.setSuggestionsCategoryId(categoryId));
     }
-  }, [suggestionsCategoryId]);
+  }, [categoryId]);
   return (
     <MainLayout appBarProps={appBarProps}>
       <Grid container className={classes.root}>
@@ -57,7 +60,26 @@ const CollectionBooksPage = () => {
     </MainLayout>
   );
 };
+export const getServerSideProps = ({ query }) => {
+  const categoryList = AppConstant.BOOK_SUGGESTION_CATEGORY;
+  let isValidCategory = false;
+  categoryList.forEach(async category => {
+    if (category.id === parseInt(query.categoryId)) {
+      isValidCategory = true;
+    }
+  });
 
+  const categoryId = isValidCategory ? parseInt(query.categoryId) : null;
+  return {
+    props: {
+      categoryId: categoryId,
+    },
+  };
+};
+
+CollectionBooksPage.propTypes = {
+  categoryId: PropTypes.number,
+};
 export default CollectionBooksPage;
 
 const useStyles = makeStyles(theme => ({
