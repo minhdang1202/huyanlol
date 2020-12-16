@@ -278,5 +278,6 @@ export default {
   collectionArticles: {
     TXT_POPULAR_ARTICLE: "Bài viết phổ biến",
     TXT_LATEST_ARTICLE: "Bài viết mới nhất",
+    TXT_MOST_MENTIONED_BOOK: "Cuốn sách được nói đến nhiều nhất",
   },
 };

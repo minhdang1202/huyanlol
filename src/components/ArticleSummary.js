@@ -27,8 +27,8 @@ import { parseISO } from "date-fns";
 import { useRouter } from "next/router";
 import AppLink from "./AppLink";
 
-const ArticleSummary = ({ data, isHiddenAction, classes }) => {
-  const defaultClasses = useStyles({ isHidden: isHiddenAction });
+const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classes }) => {
+  const defaultClasses = useStyles({ isHeader: isHeaderAction, isAction: isAction });
   const { t: getLabel } = useTranslation();
   const router = useRouter();
 
@@ -149,23 +149,26 @@ const ArticleSummary = ({ data, isHiddenAction, classes }) => {
             <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
               <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
             </Grid>
-
-            <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
-              <HeartIcon isActive={isHeart} width={12} height={12} />
-              <Typography variant="body2" color="textSecondary" component="p">
-                {article.reactCount}
-              </Typography>
-            </Grid>
-            <Grid item xs={4} md={3}>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
-              </Typography>
-            </Grid>
+            {isSummaryReact && (
+              <>
+                <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
+                  <HeartIcon isActive={isHeart} width={12} height={12} />
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {article.reactCount}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
+                  </Typography>
+                </Grid>
+              </>
+            )}
           </Grid>
         </AppLink>
       </CardContent>
 
-      {!isHiddenAction && <Divider />}
+      {isAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
         <Button
           startIcon={<HeartIcon isActive={isHeart} />}
@@ -185,10 +188,12 @@ const ArticleSummary = ({ data, isHiddenAction, classes }) => {
 
 ArticleSummary.propTypes = {
   data: PropTypes.object,
-  isHiddenAction: PropTypes.bool,
+  isAction: PropTypes.bool,
+  isHeaderAction: PropTypes.bool,
+  isSummaryReact: PropTypes.bool,
   classes: PropTypes.object,
 };
-ArticleSummary.defaultProps = { isHiddenAction: false, classes: {} };
+ArticleSummary.defaultProps = { isAction: true, isHeaderAction: true, isSummaryReact: true, classes: {} };
 
 export default memo(ArticleSummary);
 
@@ -208,7 +213,7 @@ const useStyles = makeStyles(theme => ({
   },
   headerAvatar: { width: 32, height: 32 },
   headerAction: {
-    display: props => (props.isHidden ? "none" : "block"),
+    display: props => (props.isHeader ? "block" : "none"),
     margin: 0,
     "& *": { color: theme.palette.text.secondary },
     "& button:last-child": {
@@ -257,7 +262,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   action: {
-    display: props => (props.isHidden ? "none" : "flex"),
+    display: props => (props.isAction ? "flex" : "none"),
     paddingTop: 6,
     paddingBottom: 6,
     justifyContent: "space-between",

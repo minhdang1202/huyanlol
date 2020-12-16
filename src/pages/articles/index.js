@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
 import { ArticleSummary, CommonPagination } from "components";
 import { uuid } from "utils";
+import { PopularArticles, MostMentionedBooks } from "components/collection-articles";
 
 const ArticlesCollectionPage = () => {
   const classes = useStyles();
@@ -49,7 +50,10 @@ const ArticlesCollectionPage = () => {
             ))}
             <CommonPagination count={totalPage} onChange={onChangePage} />
           </Box>
-          <Box className={classes.rightContent}>right</Box>
+          <Box className={classes.rightContent}>
+            <PopularArticles />
+            <MostMentionedBooks />
+          </Box>
         </Box>
       </Container>
     </MainLayout>
@@ -77,6 +81,9 @@ const useStyles = makeStyles(theme => ({
   },
   rightContent: {
     width: 324,
+    "&>:first-child": {
+      marginBottom: theme.spacing(4),
+    },
   },
 }));
 export default ArticlesCollectionPage;
