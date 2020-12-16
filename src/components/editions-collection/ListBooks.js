@@ -13,11 +13,11 @@ const ListBooks = ({ onChangePage, pageNum }) => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    const displayList = suggestionsByCategory.length > 0 ? suggestionsByCategory : suggestions;
+    const displayList = suggestionsCategoryId ? suggestionsByCategory : suggestions;
     if (displayList && displayList != list) {
       setList(displayList);
     }
-  }, [suggestions, suggestionsByCategory]);
+  }, [suggestionsCategoryId, suggestionsByCategory, suggestions]);
 
   useEffect(() => {
     const load = () => {
@@ -67,21 +67,15 @@ const useStyles = makeStyles(theme => ({
     display: "grid",
     width: "100%",
     height: "100%",
-    gridTemplateColumns: "repeat(auto-fit, 117px)",
-    gridColumnGap: 13,
+    gridTemplateColumns: "repeat(5, 1fr)",
+    gap: "6px",
     [theme.breakpoints.down("xs")]: {
-      gridTemplateColumns: "repeat(auto-fit, 30vw)",
-      gridColumnGap: 0,
+      gridTemplateColumns: "repeat(3, 1fr)",
     },
   },
   item: {
-    maxWidth: 117,
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(2),
-    [theme.breakpoints.down("xs")]: {
-      paddingRight: theme.spacing(1),
-      maxWidth: 110,
-    },
+    width: "93.2px",
+    marginLeft: theme.spacing(1),
   },
   pagination: {
     marginBottom: 8,

@@ -93,11 +93,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 1022,
     margin: "16px auto",
-    [theme.breakpoints.down("xs")]: {
-      margin: "auto",
-    },
     [theme.breakpoints.down("md")]: {
       padding: theme.spacing(3),
+    },
+    [theme.breakpoints.down("xs")]: {
+      margin: "auto",
+      padding: 0,
     },
   },
   mainContainer: {

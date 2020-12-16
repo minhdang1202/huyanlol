@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import EditionAction from "redux/edition.redux";
 import { useDispatch } from "react-redux";
-
+import { PathConstant } from "const";
 const CustomBreadcrumb = ({ bookName, articleName, className, challengeName }) => {
   const { t: getLabel } = useTranslation();
   const BREADCRUMB_NAME_MAP = {
@@ -29,7 +29,7 @@ const CustomBreadcrumb = ({ bookName, articleName, className, challengeName }) =
   const onClickLastPath = lastPath => {
     if (lastPath === "editions") {
       dispatch(EditionAction.setSuggestionsCategoryId(null));
-      router.push(pathNames[pathNames.length - 1]);
+      router.push(PathConstant.COLLECTION_BOOKS);
     }
   };
   return (
