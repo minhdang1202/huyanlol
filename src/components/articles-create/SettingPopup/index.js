@@ -24,7 +24,6 @@ const SettingPopup = ({
   onChangeTagsList,
   booksList,
   onChangeBooksList,
-  isDisabled,
   coverId,
   thumbnailId,
   thumbnailList,
@@ -83,7 +82,6 @@ const SettingPopup = ({
         </Grid>
       </DialogContent>
       <SettingDialogActions
-        isDisabled={isDisabled}
         onClose={onClose}
         onClickPostArticle={onClickPostArticle}
         onClickSaveDraft={onClickSaveDraft}
@@ -113,7 +111,6 @@ SettingPopup.propTypes = {
   onChangeTagsList: PropTypes.func,
   booksList: PropTypes.array,
   onChangeBooksList: PropTypes.func,
-  isDisabled: PropTypes.bool,
   coverId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   thumbnailId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   thumbnailList: PropTypes.array,

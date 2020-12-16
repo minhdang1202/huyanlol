@@ -37,7 +37,8 @@ export default {
     TXT_FOLLOW: "Theo dõi",
     TXT_FOLLOWED: "Đã theo dõi",
     TXT_GIVERS: "Givers",
-    TXT_BOOKMARK: "Bookmark",
+    TXT_BOOKMARK: "Lưu sách",
+    TXT_BOOKMARKED: "Đã lưu",
     TXT_POPULAR_COMMENT: "Bình luận phổ biến",
     TXT_FRIEND_COMMENT: "Bình luận của bạn bè",
     TXT_POPULAR_COMMENT_RANGE: "Sắp xếp theo phổ biến nhất",
@@ -189,10 +190,11 @@ export default {
     TXT_ARTICLE_LIST_COMMENTS: "Bình luận của thành viên",
     TXT_ARTICLE_REPLY_BUTTON: "Phản hồi",
     TXT_ARTICLE_CANCEL: "Huỷ",
-    TXT_ARTICLE_WRITE_REPLY: "Phản hồi của bạn...",
+    TXT_ARTICLE_LOGIN_TO_COMMENT: "Đăng nhập để bình luận",
 
     //P
-    P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn",
+    P_ARTICLE_WRITE_REPLY: "Phản hồi của bạn...",
+    P_ARTICLE_WRITE_COMMENT: "Viết bình luận của bạn...",
 
     //FM
     FM_ARTICLE_BOOK: "{0} cuốn",
@@ -252,6 +254,8 @@ export default {
 
     ERR_SAVE_ARTICLE: "Có lỗi xảy ra, bài viết chưa được lưu vào nháp",
     ERR_POST_ARTICLE: "Có lỗi xảy ra, bài viết chưa được đăng",
+    ERR_MUST_HAVE_TITLE: "Bài viết chưa có tiêu đề",
+    ERR_MUST_HAVE_CONTENT: "Bài viết chưa có nội dung",
 
     MSG_POST_ARTICLE_SUCCESS: "Bài viết đã được đăng",
     MSG_SAVE_ARTICLE_SUCCESS: "Bài viết đã lưu vào nháp",

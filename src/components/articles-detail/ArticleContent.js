@@ -4,14 +4,14 @@ import { Box, Grid, Hidden, makeStyles } from "@material-ui/core";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import AsideAuthorButton from "./AsideAuthorButton";
 
-const ArticleContent = ({ body, name, avatar, date }) => {
+const ArticleContent = ({ body, creator, date }) => {
   const classes = useStyles();
   return (
     <Grid container>
       <Grid item xs={2}>
         <Hidden mdDown>
           <Box position="sticky" alignSelf="flex-start" top={`calc(${HEIGHT_APP_BAR} + 112px)`} pr={2}>
-            <AsideAuthorButton name={name} avatar={avatar} date={date} />
+            <AsideAuthorButton creator={creator} date={date} />
           </Box>
         </Hidden>
       </Grid>
@@ -25,12 +25,11 @@ const ArticleContent = ({ body, name, avatar, date }) => {
 
 ArticleContent.propTypes = {
   body: PropTypes.string,
-  name: PropTypes.string,
-  avatar: PropTypes.string,
+  creator: PropTypes.object,
   date: PropTypes.string,
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   body: {
     "& *": {
       fontSize: 16,

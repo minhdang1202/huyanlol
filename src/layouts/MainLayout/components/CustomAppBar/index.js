@@ -14,16 +14,16 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import AppLink from "components/AppLink";
+import { AppLink, BookmarkButton } from "components";
 import { PathConstant } from "const";
 import SearchBar from "./SearchBar";
 import SignIn from "./SignIn";
 import { FacebookShareButton } from "react-share";
 
-const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark, isTransparent }) => {
+const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark, isTransparent, isBookmarked }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const classes = useStyles({ isDetail: isDetail });
+  const classes = useStyles({ isDetail, isBookmarked });
 
   return (
     <AppBar className={clsx(classes.root, className, isTransparent && classes.transparentAppBar)} elevation={0}>
@@ -45,9 +45,10 @@ const CustomAppBar = ({ isDetail, className, appBarTitle, shareUrl, hasBookmark,
               </Box>
               <Box display="flex">
                 {hasBookmark && (
-                  <IconButton className={classes.iconButton}>
-                    <Box className="ic-bookmark-empty" />
-                  </IconButton>
+                  <BookmarkButton
+                    className={clsx(classes.iconButton, classes.bookmarkButton)}
+                    isBookmarked={isBookmarked}
+                  />
                 )}
                 {shareUrl && (
                   <FacebookShareButton resetButtonStyle={false} url={shareUrl} className={classes.shareButton}>
@@ -88,6 +89,7 @@ CustomAppBar.propTypes = {
   appBarTitle: PropTypes.string,
   shareUrl: PropTypes.string,
   hasBookmark: PropTypes.bool,
+  isBookmarked: PropTypes.bool,
   isTransparent: PropTypes.bool,
 };
 CustomAppBar.defaultProps = {};
@@ -123,11 +125,15 @@ const useStyles = makeStyles(theme => ({
   iconButton: {
     width: 35,
     height: 35,
-    "& *": {
-      fontSize: 18,
-    },
+    fontSize: 18,
     "&:not(:last-child)": {
       marginRight: theme.spacing(0.5),
+    },
+  },
+  bookmarkButton: {
+    "&, & *": {
+      color: ({ isBookmarked }) =>
+        isBookmarked ? `${theme.palette.primary.main} !important` : `${theme.palette.text.primary} !important`,
     },
   },
   shareButton: {

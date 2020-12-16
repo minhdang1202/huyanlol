@@ -1,35 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
-import { Box, Button, IconButton, Hidden, makeStyles } from "@material-ui/core";
+import { Box, Button, IconButton, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import BookBox from "../../BookBox";
+import { AppConstant } from "const";
+import BookBox from "../../../BookBox";
+import { cutString } from "utils";
 
-const CommentContent = ({
-  isFullComment,
-  content,
-  shortComment,
-  onClick,
-  hasSeeMoreBtn,
-  hasMentioned,
-  bookMentioned,
-}) => {
+const CommentContent = ({ comment, isDesktopComment }) => {
+  const { content, commentToEditions } = comment;
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
-  const { bookCover, editionId, title, rateAvg, authorName } = bookMentioned;
-  const [displayContent, setDisplayContent] = useState();
-
-  useEffect(() => {
-    if (!hasSeeMoreBtn) {
-      setDisplayContent(content);
-      return;
-    }
-    if (isFullComment) {
-      setDisplayContent(content);
-    } else {
-      setDisplayContent(shortComment);
-    }
-  }, [isFullComment]);
+  const shortComment = cutString(AppConstant.COMMENT_DEFAULT_LENGTH, content);
+  const hasSeeMoreBtn = content.length > AppConstant.COMMENT_DEFAULT_LENGTH;
+  const [isFullComment, setIsFullComment] = useState(false);
+  const [displayContent, setDisplayContent] = useState(shortComment);
+  const onShowComment = () => {
+    setIsFullComment(!isFullComment);
+    setDisplayContent(!isFullComment ? content : shortComment);
+  };
 
   return (
     <Box my={1.5}>
@@ -37,40 +26,28 @@ const CommentContent = ({
         <Box flexGrow={1}>
           <Box className={classes.content} dangerouslySetInnerHTML={{ __html: displayContent }} />
           {hasSeeMoreBtn && (
-            <Button size="small" className={clsx(classes.seeMoreBtn, "blue-text")} onClick={() => onClick()}>
+            <Button size="small" className={clsx(classes.seeMoreBtn, "blue-text")} onClick={onShowComment}>
               {isFullComment ? getLabel("TXT_SEE_LESS") : getLabel("TXT_SEE_MORE")}
             </Button>
           )}
         </Box>
-        <Hidden smUp>
+        {!isDesktopComment && (
           <IconButton className={clsx(classes.loveBtn)}>
             <Box className="ic-heart" />
           </IconButton>
-        </Hidden>
+        )}
       </Box>
-      {hasMentioned && (
-        <BookBox
-          className="mt-12"
-          bookCover={bookCover}
-          rateAvg={rateAvg}
-          bookName={title}
-          author={authorName}
-          editionId={editionId}
-        />
-      )}
+      {commentToEditions[0] && <BookBox className="mt-12" data={commentToEditions[0]} />}
     </Box>
   );
 };
 
 CommentContent.propTypes = {
-  isFullComment: PropTypes.bool,
-  content: PropTypes.string,
-  shortComment: PropTypes.string,
-  onClick: PropTypes.func,
-  hasSeeMoreBtn: PropTypes.bool,
-  hasMentioned: PropTypes.bool,
-  bookMentioned: PropTypes.object,
+  comment: PropTypes.object,
+  isDesktopComment: PropTypes.bool,
 };
+
+export default CommentContent;
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -78,6 +55,10 @@ const useStyles = makeStyles(theme => ({
     "& a": {
       textDecoration: "none",
       color: theme.palette.primary.main,
+    },
+    "& p": {
+      marginTop: 0,
+      marginBottom: 0,
     },
     "& *:first-child": {
       marginTop: 0,
@@ -121,5 +102,3 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-
-export default CommentContent;

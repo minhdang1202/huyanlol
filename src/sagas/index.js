@@ -24,14 +24,17 @@ import {
   requestGetEditionSuggestion,
   requestGetBookSuggestionByCategory,
 } from "./edition.saga";
-import { requestGetTopWriter, requestGetUserProfile, requestImage } from "./user.saga";
+import { requestGetTopWriter, requestGetUserProfile, requestImage, requestGetUserSuggestion } from "./user.saga";
 import {
-  requestGetGiversList,
-  requestGetCommentsList,
-  requestGetRepliesList,
+  requestGetGivers,
+  requestGetCommentGivers,
+  requestGetComments,
+  requestGetReplies,
   requestGetHomeArticles,
   requestGetHomeReviews,
   requestGetChallengeArticles,
+  requestPostComment,
+  requestPostReply,
 } from "./article.saga";
 import {
   requestGetCategoriesList,
@@ -70,15 +73,19 @@ export default function* root() {
     // article
     takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),
     takeLatest(ArticleTypes.REQUEST_HOME_REVIEWS, requestGetHomeReviews),
-    takeLatest(ArticleTypes.REQUEST_GET_GIVERS_LIST, requestGetGiversList),
-    takeLatest(ArticleTypes.REQUEST_GET_COMMENTS_LIST, requestGetCommentsList),
-    takeLatest(ArticleTypes.REQUEST_GET_REPLIES_LIST, requestGetRepliesList),
+    takeLatest(ArticleTypes.REQUEST_GET_GIVERS, requestGetGivers),
+    takeLatest(ArticleTypes.REQUEST_GET_COMMENT_GIVERS, requestGetCommentGivers),
+    takeLatest(ArticleTypes.REQUEST_GET_COMMENTS, requestGetComments),
+    takeLatest(ArticleTypes.REQUEST_GET_REPLIES, requestGetReplies),
     takeLatest(ArticleTypes.REQUEST_CHALLENGE_ARTICLES, requestGetChallengeArticles),
+    takeLatest(ArticleTypes.REQUEST_POST_COMMENT, requestPostComment),
+    takeLatest(ArticleTypes.REQUEST_POST_REPLY, requestPostReply),
 
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),
     takeLatest(UserTypes.REQUEST_PROFILE, requestGetUserProfile),
     takeLatest(UserTypes.REQUEST_IMAGE, requestImage),
+    takeLatest(UserTypes.REQUEST_USER_SUGGESTION, requestGetUserSuggestion),
 
     //article-create
     takeLatest(ArticleCreateTypes.REQUEST_HASH_TAGS_LIST, requestGetHashTagsList),

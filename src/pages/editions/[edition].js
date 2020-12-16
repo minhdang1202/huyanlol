@@ -25,16 +25,16 @@ import {
   BookLenders,
   CustomTabs,
 } from "components/editions";
-import { PathConstant, AppConstant } from "const";
+import { PathConstant } from "const";
 import { EditionService } from "services";
-import { getNumberIdFromQuery, getTitleNoMark, getImageById } from "utils";
+import { getNumberIdFromQuery, getTitleNoMark, getImageById, getAbsolutePath } from "utils";
 import { CustomBreadcrumb } from "components";
 
 const BookDetail = ({ book, bookCover }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_BOOK_DETAIL_ID, book.editionId);
+  const shareUrl = getAbsolutePath(StringFormat(PathConstant.FM_BOOK_DETAIL_ID, book.editionId));
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const appBarProps = { isDetail: true, shareUrl, className: classes.appBarMobile };
   const headProps = { title: book.title, description: book.description, ogImage: bookCover };

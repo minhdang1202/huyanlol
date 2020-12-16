@@ -6,20 +6,22 @@ import PropTypes from "prop-types";
 import { PathConstant } from "const";
 import { AppLink, CustomRating } from "components";
 import { HEIGHT_BOOK_BOX, HEIGHT_BOOK_BOX_MOBILE } from "./ArticleSliders/BookSlider";
+import { getImageById } from "utils";
 
-const BookBox = ({ bookCover, rateAvg, bookName, author, className, editionId, ...otherProps }) => {
+const BookBox = ({ data, className, ...otherProps }) => {
   const classes = useStyles();
+  const { imageId, authorName, title, editionId, rateAvg } = data;
   return (
     <AppLink className={classes.root} to={StringFormat(PathConstant.FM_BOOK_DETAIL_ID, editionId)}>
       <Button className={clsx(classes.button, className)} {...otherProps}>
         <Box display="flex">
-          <Avatar variant="square" src={bookCover} className={classes.bookCover} />
+          <Avatar variant="square" src={getImageById(imageId)} className={classes.bookCover} />
           <Box ml={2} my="auto">
             <Typography variant="subtitle1" className={clsx("primary-text", "eclipse-2", "mb-8")}>
-              {bookName}
+              {title}
             </Typography>
             <Typography variant="body2" className={clsx("grey-text", "eclipse")}>
-              {author}
+              {authorName}
             </Typography>
             <Box display="flex" alignItems="center" mt={1.5}>
               <CustomRating value={rateAvg} readOnly className="mr-4" />
@@ -35,12 +37,8 @@ const BookBox = ({ bookCover, rateAvg, bookName, author, className, editionId, .
 };
 
 BookBox.propTypes = {
-  rateAvg: PropTypes.number,
-  bookCover: PropTypes.string,
-  bookName: PropTypes.string,
-  author: PropTypes.string,
+  data: PropTypes.object,
   className: PropTypes.string,
-  editionId: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({

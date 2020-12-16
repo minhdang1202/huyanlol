@@ -5,14 +5,14 @@ import { Section, ArticleSummary } from "components";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { uuid } from "utils";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
 
 const ListArticles = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
   const dispatch = useDispatch();
-  const listArticlesRedux = useSelector(({ articleRedux }) => articleRedux.homeArticles.pageData);
+  const listArticlesRedux = useSelector(({ articleRedux }) => articleRedux.homeArticles.pageData, shallowEqual);
 
   const [list, setList] = useState([]);
 

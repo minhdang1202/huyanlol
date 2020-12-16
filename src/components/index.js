@@ -29,6 +29,7 @@ import CollectionTitle from "./CollectionTitle";
 import CommonPagination from "./CommonPagination";
 import AuthDialog from "./AuthDialog";
 import Snackbar from "./Snackbar";
+import BookmarkButton from "./BookmarkButton";
 
 export {
   AppHead,
@@ -62,4 +63,5 @@ export {
   CommonPagination,
   AuthDialog,
   Snackbar,
+  BookmarkButton,
 };

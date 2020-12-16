@@ -1,15 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, IconButton, Avatar, Typography, makeStyles } from "@material-ui/core";
+import { Box, IconButton, Typography, makeStyles } from "@material-ui/core";
+import { Avatar } from "components";
 import AppLink from "components/AppLink";
+import { getImageById } from "utils";
+import { useTranslation } from "react-i18next";
+import { convertDistanceDate } from "utils/date";
 
-const CommentAuthor = ({ avatar, name, date }) => {
+const CommentAuthor = ({ comment }) => {
   const classes = useStyles();
+  const { user, lastUpdate } = comment;
+  const { name, imageId } = user;
+  const { i18n } = useTranslation();
+  const date = convertDistanceDate(new Date(lastUpdate), new Date(), i18n.language);
+
   return (
     <Box className={classes.root}>
       <AppLink to="#">
         <IconButton className={classes.avatarButton}>
-          <Avatar className={classes.avatar} src={avatar} />
+          <Avatar className={classes.avatar} src={getImageById(imageId)} />
         </IconButton>
       </AppLink>
       <Box ml={1}>
@@ -27,9 +36,7 @@ const CommentAuthor = ({ avatar, name, date }) => {
 };
 
 CommentAuthor.propTypes = {
-  avatar: PropTypes.string,
-  name: PropTypes.string,
-  date: PropTypes.string,
+  comment: PropTypes.object,
 };
 
 const useStyles = makeStyles(theme => ({

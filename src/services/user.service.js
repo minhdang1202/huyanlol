@@ -5,7 +5,12 @@ export const getTopWriter = queryParams => createApi().get(ApiConstant.GET_USER_
 
 export const getUserProfile = () => createApi().get(ApiConstant.GET_USER_PROFILE);
 
-export const postImage = imageBase64 => createApi().post(ApiConstant.POST_USER_IMAGES, { imageBase64: imageBase64});
+export const postImage = imageBase64 => createApi().post(ApiConstant.POST_USER_IMAGES, { imageBase64: imageBase64 });
+
+export const getUserSuggestion = params => {
+  return createApi().get(ApiConstant.GET_USER_SUGGESTION, params);
+};
+
 export const postFollowUser = targetUserID =>
   createApi(defaultConfigV1).post(ApiConstant.POST_FOLLOW_USER, { targetUserID });
 

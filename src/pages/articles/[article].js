@@ -1,5 +1,5 @@
-import React from "react";
-import StringFormat from "string-format";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { makeStyles, Container, Hidden, Box, Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 import MainLayout from "layouts/MainLayout";
@@ -17,33 +17,41 @@ import {
   ArticleBookMentioned,
   ArticleComments,
 } from "components/articles-detail";
-import { getTitleNoMark, getNumberIdFromQuery, getImageById } from "utils";
+import { getRedirectPath, getNumberIdFromQuery, getImageById, getAbsolutePath } from "utils";
 import { convertDistanceDate } from "utils/date";
+import ArticleActions from "redux/article.redux";
 import { ArticleService } from "services";
 
-const ArticleDetail = ({ article, author, editions }) => {
+const ArticleDetail = ({ article }) => {
   const classes = useStyles();
   const { i18n } = useTranslation();
+  const dispatch = useDispatch();
   const {
     articleId,
-    title,
     intro,
-    cover,
+    creator,
+    editions,
+    title,
     categories,
-    hashtags,
-    body,
     lastUpdate,
     publishedDate,
-    reactCount,
+    coverId,
     commentCount,
+    body,
+    hashtags,
+    saved,
   } = article;
-  const isReviewType = categories[0].categoryId === 0;
+  const isReviewType = categories[0].categoryId === AppConstant.CATEGORY_REVIEW;
   const rate = isReviewType && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
   const bookMentioned = isReviewType ? editions[0] : null;
   const displayDate = convertDistanceDate(new Date(lastUpdate ? lastUpdate : publishedDate), new Date(), i18n.language);
-  const shareUrl = AppConstant.WEBSITE_URL + StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, articleId);
-  const appBarProps = { isDetail: true, shareUrl, appBarTitle: title, hasBookmark: true };
-  const headProps = { title: title, description: intro, ogImage: cover };
+  const shareUrl = getAbsolutePath(getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title));
+  const appBarProps = { isDetail: true, shareUrl, appBarTitle: title, hasBookmark: true, isBookmarked: saved };
+  const headProps = { title: title, description: intro, ogImage: getImageById(coverId) };
+
+  useEffect(() => {
+    dispatch(ArticleActions.getArticle(article));
+  }, []);
 
   return (
     <MainLayout className={classes.root} appBarProps={appBarProps} headProps={headProps}>
@@ -54,27 +62,27 @@ const ArticleDetail = ({ article, author, editions }) => {
           </Hidden>
           <ArticleTitle
             isReviewType={isReviewType}
-            name={author.name}
-            avatar={author.avatar}
+            name={creator.name}
+            avatar={creator.avatar}
             date={displayDate}
-            address={author.address}
+            address={creator.address}
             title={title}
             category={categories[0].title}
             rate={rate}
           />
         </Grid>
         <Box position="relative" display="flex" maxWidth={{ xs: 624, sm: 1020 }}>
-          <ArticleContent name={author.name} body={body} avatar={author.avatar} date={displayDate} />
+          <ArticleContent body={body} creator={creator} date={displayDate} />
         </Box>
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           {editions.length > 0 && (
             <ArticleBookMentioned isReviewType={isReviewType} bookList={editions} bookMentioned={bookMentioned} />
           )}
           <ArticleHashtagButtons className="mt-16" hashtags={hashtags} category={categories[0].title} />
-          <ArticleAuthor name={author.name} avatar={author.avatar} date={displayDate} address={author.address} />
-          <ArticleReacts reactCount={reactCount} commentCount={commentCount} articleId={articleId} />
+          <ArticleAuthor creator={creator} date={displayDate} />
+          <ArticleReacts />
         </Grid>
-        <ArticleReactButtons shareUrl={shareUrl} />
+        <ArticleReactButtons shareUrl={shareUrl} saved={saved} />
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           <ArticleComments commentCount={commentCount} articleId={articleId} />
         </Grid>
@@ -94,48 +102,31 @@ const ArticleDetail = ({ article, author, editions }) => {
 
 ArticleDetail.propTypes = {
   article: PropTypes.object,
-  author: PropTypes.object,
-  editions: PropTypes.array,
 };
 
-export const getServerSideProps = async ({ res, query }) => {
+export const getServerSideProps = async ({ res, query, req }) => {
   let articleId = query && query.article ? query.article : null;
   const isOnlyNumber = /^\d+$/.test(articleId);
   articleId = isOnlyNumber ? articleId : getNumberIdFromQuery(articleId);
-  const articleDetailResponse = await ArticleService.getArticleDetail(articleId);
+  const token = req.cookies[AppConstant.KEY_TOKEN];
+  const articleDetailResponse = await ArticleService.getArticleDetail(articleId, token);
   let article = articleDetailResponse.data;
 
   if (article.data) {
-    article = article.data;
-    let { title, editions, creator, coverId } = article;
-    const creatorImgId = creator.imageId;
+    const articleData = article.data;
+    let { title } = articleData;
     if (isOnlyNumber) {
-      const articleTitleNoMark = getTitleNoMark(title);
       return {
         redirect: {
           permanent: true,
-          destination: StringFormat(PathConstant.FM_ARTICLE_DETAIL, articleTitleNoMark, articleId),
+          destination: getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title),
         },
       };
     }
-    const creatorAvatar = creatorImgId ? getImageById(creatorImgId) : null;
-    creator.avatar = creatorAvatar;
-    const articleCover = coverId ? getImageById(coverId) : null;
-    article.cover = articleCover;
-    if (editions.length)
-      editions = editions.map(edition => {
-        const bookCoverId = edition.imageId;
-        return {
-          ...edition,
-          bookCover: bookCoverId ? getImageById(bookCoverId) : null,
-        };
-      });
 
     return {
       props: {
-        article: article,
-        author: creator,
-        editions: editions,
+        article: articleData,
       },
     };
   }
