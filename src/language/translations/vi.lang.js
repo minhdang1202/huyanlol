@@ -275,4 +275,8 @@ export default {
     FM_DUE_TIME: "{0} đến {1}",
     FM_JOINED: "{0} người",
   },
+  collectionArticles: {
+    TXT_POPULAR_ARTICLE: "Bài viết phổ biến",
+    TXT_LATEST_ARTICLE: "Bài viết mới nhất",
+  },
 };

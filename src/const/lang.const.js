@@ -15,5 +15,6 @@ export const NS_ARTICLE_DETAIL = "articleDetail";
 export const NS_HOME = "home";
 export const NS_ARTICLE_CREATE = "articleCreate";
 export const NS_CHALLENGE_LIST = "challengeList";
+export const NS_COLLECTION_ARTICLES = "collectionArticles";
 
 export const getCommonKey = key => `${NS_COMMON}:${key}`;
