@@ -48,7 +48,7 @@ export default {
     TXT_ARRANGE: "Sắp xếp",
     TXT_NO_GIVER: "Bài viết chưa có giver",
     TXT_CHALLENGE: "Thử thách đọc sách",
-
+    TXT_LATEST_ARTICLE: "Bài viết mới nhất",
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
 

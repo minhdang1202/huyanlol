@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import MainLayout from "layouts/MainLayout";
-import { Box, Grid, makeStyles, useTheme, useMediaQuery, Typography, Container } from "@material-ui/core";
+import { Box, makeStyles, useTheme, useMediaQuery, Typography, Container } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant } from "const";
-import { ListCategory, CustomBreadcrumb } from "components";
+import { CustomBreadcrumb } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
-import { ArticleSummary } from "components";
+import { ArticleSummary, CommonPagination } from "components";
 import { uuid } from "utils";
 
 const ArticlesCollectionPage = () => {
@@ -18,14 +18,23 @@ const ArticlesCollectionPage = () => {
   const appBarProps = {
     isDetail: true,
     className: classes.appBar,
-    appBarTitle: getLabel("TXT_MOST_BORROWING_BOOK"),
+    appBarTitle: getLabel("TXT_LATEST_ARTICLE"),
   };
   const headRef = useRef();
-  const { pageNo, total, pageData } = useSelector(state => state.articleRedux.articleList);
+  const { total, pageData } = useSelector(state => state.articleRedux.articleList);
+  const pageSize = AppConstant.DATA_SIZES.collectionArticles;
   const articleList = pageData ? pageData : [];
+  const totalPage = Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1);
+  const [pageNum, setPageNum] = useState(1);
+
+  const onChangePage = (event, value) => {
+    setPageNum(value);
+    headRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
-    dispatch(ArticleAction.requestArticleList());
-  }, []);
+    dispatch(ArticleAction.requestArticleList({ pageSize: pageSize, pageNum: pageNum }));
+  }, [pageNum]);
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container ref={headRef} className={classes.root}>
@@ -38,6 +47,7 @@ const ArticlesCollectionPage = () => {
             {articleList.map(article => (
               <ArticleSummary key={uuid()} data={article} />
             ))}
+            <CommonPagination count={totalPage} onChange={onChangePage} />
           </Box>
           <Box className={classes.rightContent}>right</Box>
         </Box>

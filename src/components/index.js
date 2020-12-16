@@ -28,6 +28,7 @@ import SliderButton from "./SliderButton";
 import AuthDialog from "./AuthDialog";
 import Snackbar from "./Snackbar";
 import BookmarkButton from "./BookmarkButton";
+import CommonPagination from "./CommonPagination";
 
 export {
   AppHead,
@@ -60,4 +61,5 @@ export {
   AuthDialog,
   Snackbar,
   BookmarkButton,
+  CommonPagination,
 };

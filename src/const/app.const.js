@@ -28,6 +28,7 @@ export const DATA_SIZES = {
   categories: 10,
   replies: 3,
   comments: 10,
+  collectionArticles: 4,
 };
 
 // Base url
