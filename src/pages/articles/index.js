@@ -5,7 +5,9 @@ import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant } from "const";
 import { ListCategory, CustomBreadcrumb } from "components";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import ArticleAction from "redux/article.redux";
+import { ArticleSummary } from "components";
+import { uuid } from "utils";
 
 const ArticlesCollectionPage = () => {
   const classes = useStyles();
@@ -19,6 +21,11 @@ const ArticlesCollectionPage = () => {
     appBarTitle: getLabel("TXT_MOST_BORROWING_BOOK"),
   };
   const headRef = useRef();
+  const { pageNo, total, pageData } = useSelector(state => state.articleRedux.articleList);
+  const articleList = pageData ? pageData : [];
+  useEffect(() => {
+    dispatch(ArticleAction.requestArticleList());
+  }, []);
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container ref={headRef} className={classes.root}>
@@ -27,7 +34,11 @@ const ArticlesCollectionPage = () => {
           {getLabel("TXT_LATEST_ARTICLE")}
         </Typography>
         <Box className={classes.content}>
-          <Box className={classes.leftContent}>left</Box>
+          <Box className={classes.leftContent}>
+            {articleList.map(article => (
+              <ArticleSummary key={uuid()} data={article} />
+            ))}
+          </Box>
           <Box className={classes.rightContent}>right</Box>
         </Box>
       </Container>
@@ -50,11 +61,12 @@ const useStyles = makeStyles(theme => ({
   },
   leftContent: {
     width: 672,
-    background: "tomato",
+    "&>*": {
+      marginBottom: theme.spacing(3),
+    },
   },
   rightContent: {
     width: 324,
-    background: "tomato",
   },
 }));
 export default ArticlesCollectionPage;
