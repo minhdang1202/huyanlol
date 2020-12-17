@@ -125,7 +125,15 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
               <Typography variant="subtitle1" component="p">
                 {review.title}
               </Typography>
-              <CustomRating readOnly={true} value={review.rating || 0} size="small" />
+              <CustomRating
+                readOnly={true}
+                value={
+                  review.editions && review.editions[0].userRelation
+                    ? review.editions[0].userRelation.evaluation.rate
+                    : 0
+                }
+                size="small"
+              />
               <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
                 {review.intro}
               </Typography>

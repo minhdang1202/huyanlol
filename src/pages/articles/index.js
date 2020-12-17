@@ -6,7 +6,7 @@ import { LangConstant, AppConstant } from "const";
 import { CustomBreadcrumb } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
-import { ArticleSummary, CommonPagination } from "components";
+import { ArticleSummary, CommonPagination, ReviewSummary } from "components";
 import { uuid } from "utils";
 import { PopularArticles, MostMentionedBooks } from "components/collection-articles";
 

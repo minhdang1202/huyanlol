@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
@@ -35,4 +35,4 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-export default MostMentionedBooks;
+export default memo(MostMentionedBooks);
