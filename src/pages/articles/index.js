@@ -14,6 +14,7 @@ const ArticlesCollectionPage = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_ARTICLES);
   const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
   const appBarProps = {
@@ -39,21 +40,25 @@ const ArticlesCollectionPage = () => {
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container ref={headRef} className={classes.root}>
-        <CustomBreadcrumb className={classes.customBreadcrumb} />
-        <Typography variant="h4" component="h1" ref={headRef}>
-          {getLabel("TXT_LATEST_ARTICLE")}
-        </Typography>
+        {!isMobile && <CustomBreadcrumb className={classes.customBreadcrumb} />}
+        {!isMobile && (
+          <Typography variant="h4" component="h1" ref={headRef}>
+            {getLabel("TXT_LATEST_ARTICLE")}
+          </Typography>
+        )}
         <Box className={classes.content}>
           <Box className={classes.leftContent}>
             {articleList.map(article => (
               <ArticleSummary key={uuid()} data={article} />
             ))}
-            <CommonPagination count={totalPage} onChange={onChangePage} />
+            {!isMobile && <CommonPagination count={totalPage} onChange={onChangePage} />}
           </Box>
-          <Box className={classes.rightContent}>
-            <PopularArticles />
-            <MostMentionedBooks />
-          </Box>
+          {!isTablet && (
+            <Box className={classes.rightContent}>
+              <PopularArticles />
+              <MostMentionedBooks />
+            </Box>
+          )}
         </Box>
       </Container>
     </MainLayout>
@@ -63,6 +68,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: 1020,
     padding: 0,
+    [theme.breakpoints.down("md")]: {
+      marginLeft: theme.spacing(3),
+    },
+    [theme.breakpoints.down("xs")]: {
+      margin: 0,
+      width: "100%",
+    },
   },
   customBreadcrumb: {
     marginTop: theme.spacing(3),
@@ -70,19 +82,34 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     marginTop: theme.spacing(3),
+    [theme.breakpoints.down("xs")]: {
+      margin: 0,
+    },
   },
   leftContent: {
     width: 672,
+    marginRight: theme.spacing(3),
     "&>*": {
       marginBottom: theme.spacing(3),
+      [theme.breakpoints.down("xs")]: {
+        margin: 2,
+      },
+    },
+    [theme.breakpoints.down("md")]: {
+      width: 696,
+    },
+    [theme.breakpoints.down("xs")]: {
+      maxWidth: "100%",
+      margin: 0,
     },
   },
   rightContent: {
     width: 324,
     "&>:first-child": {
       marginBottom: theme.spacing(4),
+      paddingBottom: 0,
     },
   },
 }));

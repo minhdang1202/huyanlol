@@ -7,7 +7,7 @@ import { getImageById, getTitleNoMark } from "utils";
 import StringFormat from "string-format";
 import { PathConstant } from "const";
 
-const BookSummary = ({ data, classes }) => {
+const BookSummary = ({ data, classes, isHorizontal }) => {
   const defaultClasses = useStyles();
   const [book, setBook] = useState({});
 
@@ -26,7 +26,7 @@ const BookSummary = ({ data, classes }) => {
 
   return (
     <AppLink className={defaultClasses.link} to={book.link}>
-      <Box className={clsx(defaultClasses.root, classes.root)}>
+      <Box className={clsx(defaultClasses.root, classes.root, isHorizontal && defaultClasses.horizontalRoot)}>
         {book && (
           <>
             <CardMedia
@@ -55,6 +55,7 @@ const BookSummary = ({ data, classes }) => {
 BookSummary.propTypes = {
   data: PropTypes.object,
   classes: PropTypes.object,
+  isHorizontal: PropTypes.bool,
 };
 BookSummary.defaultProps = { classes: {} };
 
@@ -71,6 +72,22 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     minWidth: 94,
+  },
+  horizontalRoot: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-start",
+
+    marginBottom: theme.spacing(2),
+    "& .MuiCardMedia-media": {
+      width: "94px !important",
+      marginRight: theme.spacing(2),
+    },
+    "&>*:nth-child(2)": {
+      "&>*:first-child": {
+        height: "auto",
+      },
+    },
   },
   cover: {
     height: COVER_HEIGHT,

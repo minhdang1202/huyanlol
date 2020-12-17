@@ -21,7 +21,7 @@ const MostMentionedBooks = () => {
       <Typography variant="h6">{getLabel("TXT_MOST_MENTIONED_BOOK")}</Typography>
       <Box>
         {listBook.map(book => (
-          <BookSummary key={uuid()} data={book} />
+          <BookSummary key={uuid()} data={book} isHorizontal={true} />
         ))}
       </Box>
     </Box>
@@ -30,6 +30,9 @@ const MostMentionedBooks = () => {
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
+    "&>*:first-child": {
+      marginBottom: theme.spacing(2),
+    },
   },
 }));
 export default MostMentionedBooks;
