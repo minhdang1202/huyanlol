@@ -1,17 +1,28 @@
-import React from "react";
+import React, { useEffect, memo } from "react";
 import { Box, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 import { Section } from "components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { uuid } from "utils";
 import { ArticleSummary } from "components";
+import ArticleAction from "redux/article.redux";
 
 const PopularArticles = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_ARTICLES);
-  const articleList = useSelector(state => state.articleRedux.articleList.pageData);
-  const displayList = articleList ? articleList.slice(0, 2) : [];
+  const dispatch = useDispatch();
+  const articlePopularList = useSelector(state => state.articleRedux.articlePopularList);
+  const displayList = articlePopularList ? articlePopularList : [];
+
+  useEffect(() => {
+    dispatch(
+      ArticleAction.requestArticlePopularList({
+        pageSize: 2,
+        sorts: ["reactCount", "DESC"],
+      }),
+    );
+  }, []);
   return (
     <Section title={getLabel("TXT_POPULAR_ARTICLE")}>
       <Box className={classes.root}>
@@ -30,4 +41,4 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-export default PopularArticles;
+export default memo(PopularArticles);

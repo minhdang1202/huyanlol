@@ -12,6 +12,7 @@ const { Types, Creators } = createActions({
   requestPostComment: ["data"],
   requestPostReply: ["data"],
   requestArticleList: ["data"],
+  requestArticlePopularList: ["data"],
 
   getArticle: ["data"],
   replyComment: ["data"],
@@ -48,11 +49,12 @@ export const INITIAL_STATE = {
   isPostReplySuccess: false,
   newComment: {},
   articleList: {},
+  articlePopularList: [],
 };
 
 /* ------------- Reducers ------------- */
-export const request = () => ({
-  ...INITIAL_STATE,
+export const request = (state = INITIAL_STATE) => ({
+  ...state,
   isFetching: true,
   error: null,
 });
@@ -134,6 +136,7 @@ export const HANDLERS = {
   [Types.REQUEST_POST_COMMENT]: requestPostComment,
   [Types.REQUEST_POST_REPLY]: requestPostComment,
   [Types.REQUEST_ARTICLE_LIST]: request,
+  [Types.REQUEST_ARTICLE_POPULAR_LIST]: request,
 
   [Types.FINISH_POST_COMMENT]: finishPostComment,
   [Types.GET_ARTICLE]: getArticle,
