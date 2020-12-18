@@ -10,6 +10,7 @@ import { ArticleSummary, CommonPagination, ReviewSummary } from "components";
 import { uuid } from "utils";
 import { PopularArticles, MostMentionedBooks } from "components/collection-articles";
 import PropTypes from "prop-types";
+import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 const ArticlesCollectionPage = ({ categoryId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_ARTICLES);
@@ -26,7 +27,7 @@ const ArticlesCollectionPage = ({ categoryId }) => {
   const headRef = useRef();
   const { total, pageData } = useSelector(state => state.articleRedux.articleList);
   const pageSize = AppConstant.DATA_SIZES.collectionArticles;
-  const articleList = pageData ? pageData : [];
+  const [articleList, setArticleList] = useState();
   const totalPage = Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1);
   const [pageNum, setPageNum] = useState(1);
   const onChangePage = (event, value) => {
@@ -34,7 +35,37 @@ const ArticlesCollectionPage = ({ categoryId }) => {
     headRef.current.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
-    dispatch(ArticleAction.requestArticleList({ pageSize: pageSize, pageNum: pageNum, categoryIds: [categoryId] }));
+    if (isTablet) {
+      const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
+      if (mainLayout) {
+        mainLayout.addEventListener("scroll", onScroll);
+        return () => {
+          mainLayout.removeEventListener("scroll", onScroll);
+        };
+      }
+    }
+  });
+  const onScroll = e => {
+    const { scrollHeight, scrollTop, clientHeight } = e.target;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setPageNum(pageNum + 1);
+    }
+  };
+  useEffect(() => {
+    if (isTablet && articleList) {
+      setArticleList([...articleList, ...pageData]);
+    } else {
+      setArticleList(pageData);
+    }
+  }, [pageData]);
+  useEffect(() => {
+    dispatch(
+      ArticleAction.requestArticleList({
+        pageSize: pageSize,
+        pageNum: pageNum,
+        categoryIds: categoryId ? [categoryId] : null,
+      }),
+    );
   }, [pageNum]);
   return (
     <MainLayout appBarProps={appBarProps}>
@@ -46,12 +77,15 @@ const ArticlesCollectionPage = ({ categoryId }) => {
           </Typography>
         )}
         <Box className={classes.content}>
-          <Box className={classes.leftContent}>
-            {!isReview
-              ? articleList.map(article => <ArticleSummary key={uuid()} data={article} />)
-              : articleList.map(article => <ReviewSummary key={uuid()} data={article} />)}
-            {!isTablet && <CommonPagination count={totalPage} onChange={onChangePage} />}
-          </Box>
+          {articleList && articleList.length > 0 && (
+            <Box className={classes.leftContent}>
+              {!isReview
+                ? articleList.map(article => <ArticleSummary key={uuid()} data={article} />)
+                : articleList.map(article => <ReviewSummary key={uuid()} data={article} />)}
+              {!isTablet && <CommonPagination count={totalPage} onChange={onChangePage} />}
+            </Box>
+          )}
+
           {!isTablet && (
             <Box className={classes.rightContent}>
               <PopularArticles categoryId={categoryId} />
@@ -70,7 +104,7 @@ ArticlesCollectionPage.propTypes = {
 
 export async function getServerSideProps({ query }) {
   const isOnlyNumber = /^\d+$/.test(query.categoryId);
-  let categoryId = query && query.categoryId && isOnlyNumber ? query.categoryId : 1;
+  let categoryId = query && query.categoryId && isOnlyNumber ? query.categoryId : null;
   return { props: { categoryId } };
 }
 
@@ -80,6 +114,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     [theme.breakpoints.down("md")]: {
       marginLeft: theme.spacing(3),
+      maxWidth: "744px !important",
     },
     [theme.breakpoints.down("xs")]: {
       margin: 0,
@@ -121,6 +156,10 @@ const useStyles = makeStyles(theme => ({
       marginBottom: theme.spacing(4),
       paddingBottom: 0,
     },
+  },
+  scroll: {
+    width: 696,
+    height: 1284,
   },
 }));
 export default ArticlesCollectionPage;

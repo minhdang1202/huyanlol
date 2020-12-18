@@ -140,7 +140,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
             </Grid>
             <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
               <CardMedia
-                src={getImageById(review.thumbnailId ? review.thumbnailId : review.editions[0].imageId)}
+                src={getImageById(review.editions && review.editions[0].imageId)}
                 title={review.title}
                 component="img"
               />
