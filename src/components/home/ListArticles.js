@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { Section, ArticleSummary } from "components";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, PathConstant, AppConstant } from "const";
 import { uuid } from "utils";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
+import StringFormat from "string-format";
 
 const ListArticles = () => {
   const classes = useStyles();
@@ -27,7 +28,10 @@ const ListArticles = () => {
   }, []);
 
   return (
-    <Section title={getLabel("TXT_LIST_ARTICLES")}>
+    <Section
+      title={getLabel("TXT_LIST_ARTICLES")}
+      href={StringFormat(PathConstant.FM_ARTICLES_BY_CATEGORY, AppConstant.ARTICLE_CATEGORY.article)}
+    >
       <Box className={classes.root}>
         {list.map(article => (
           <Box key={uuid()} className={classes.item}>

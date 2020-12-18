@@ -11,3 +11,5 @@ export const ARTICLE_CREATE = "/articles/create";
 export const FM_ARTICLE_EDIT = "/articles/edit/{0}-{1}";
 export const FM_USER_DETAIL = "/users/{0}"; // Mock for tag user
 export const CHALLENGES = "/challenges";
+export const ARTICLES_COLLECTION = "/articles";
+export const FM_ARTICLES_BY_CATEGORY = "/articles?categoryId={0}";

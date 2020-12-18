@@ -9,8 +9,8 @@ import ArticleAction from "redux/article.redux";
 import { ArticleSummary, CommonPagination, ReviewSummary } from "components";
 import { uuid } from "utils";
 import { PopularArticles, MostMentionedBooks } from "components/collection-articles";
-
-const ArticlesCollectionPage = () => {
+import PropTypes from "prop-types";
+const ArticlesCollectionPage = ({ categoryId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_ARTICLES);
   const theme = useTheme();
@@ -22,20 +22,19 @@ const ArticlesCollectionPage = () => {
     className: classes.appBar,
     appBarTitle: getLabel("TXT_LATEST_ARTICLE"),
   };
+  const isReview = Boolean(categoryId === "0");
   const headRef = useRef();
   const { total, pageData } = useSelector(state => state.articleRedux.articleList);
   const pageSize = AppConstant.DATA_SIZES.collectionArticles;
   const articleList = pageData ? pageData : [];
   const totalPage = Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1);
   const [pageNum, setPageNum] = useState(1);
-
   const onChangePage = (event, value) => {
     setPageNum(value);
     headRef.current.scrollIntoView({ behavior: "smooth" });
   };
-
   useEffect(() => {
-    dispatch(ArticleAction.requestArticleList({ pageSize: pageSize, pageNum: pageNum }));
+    dispatch(ArticleAction.requestArticleList({ pageSize: pageSize, pageNum: pageNum, categoryIds: [categoryId] }));
   }, [pageNum]);
   return (
     <MainLayout appBarProps={appBarProps}>
@@ -48,14 +47,14 @@ const ArticlesCollectionPage = () => {
         )}
         <Box className={classes.content}>
           <Box className={classes.leftContent}>
-            {articleList.map(article => (
-              <ArticleSummary key={uuid()} data={article} />
-            ))}
-            {!isMobile && <CommonPagination count={totalPage} onChange={onChangePage} />}
+            {!isReview
+              ? articleList.map(article => <ArticleSummary key={uuid()} data={article} />)
+              : articleList.map(article => <ReviewSummary key={uuid()} data={article} />)}
+            {!isTablet && <CommonPagination count={totalPage} onChange={onChangePage} />}
           </Box>
           {!isTablet && (
             <Box className={classes.rightContent}>
-              <PopularArticles />
+              <PopularArticles categoryId={categoryId} />
               <MostMentionedBooks />
             </Box>
           )}
@@ -64,6 +63,17 @@ const ArticlesCollectionPage = () => {
     </MainLayout>
   );
 };
+
+ArticlesCollectionPage.propTypes = {
+  categoryId: PropTypes.string,
+};
+
+export async function getServerSideProps({ query }) {
+  const isOnlyNumber = /^\d+$/.test(query.categoryId);
+  let categoryId = query && query.categoryId && isOnlyNumber ? query.categoryId : 1;
+  return { props: { categoryId } };
+}
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: 1020,

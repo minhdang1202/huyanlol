@@ -7,8 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { uuid } from "utils";
 import { ArticleSummary } from "components";
 import ArticleAction from "redux/article.redux";
+import PropTypes from "prop-types";
 
-const PopularArticles = () => {
+const PopularArticles = ({ categoryId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_ARTICLES);
   const dispatch = useDispatch();
@@ -20,11 +21,12 @@ const PopularArticles = () => {
       ArticleAction.requestArticlePopularList({
         pageSize: 2,
         sorts: ["reactCount", "DESC"],
+        categoryIds: [categoryId],
       }),
     );
   }, []);
   return (
-    <Section title={getLabel("TXT_POPULAR_ARTICLE")}>
+    <Section title={getLabel("TXT_POPULAR_ARTICLE")} needMore={false}>
       <Box className={classes.root}>
         {displayList.map(article => (
           <ArticleSummary key={uuid()} data={article} isAction={false} isSummaryReact={false} />
@@ -33,6 +35,10 @@ const PopularArticles = () => {
     </Section>
   );
 };
+PopularArticles.propTypes = {
+  categoryId: PropTypes.string,
+};
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",

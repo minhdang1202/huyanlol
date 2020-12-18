@@ -119,3 +119,7 @@ export const COMMENT_DEFAULT_LENGTH = 250;
 export const AUTO_SAVE_WAIT_TIME = 30000;
 export const TYPING_WAIT_TIME = 500;
 export const MAX_LENGTH_ARTICLE_TITLE = 250;
+export const ARTICLE_CATEGORY = {
+  review: 0,
+  article: 1,
+};

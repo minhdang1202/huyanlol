@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { Section, ReviewSummary } from "components";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant, PathConstant } from "const";
 import { uuid } from "utils";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
-
+import StringFormat from "string-format";
 const ListReviews = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
@@ -27,7 +27,10 @@ const ListReviews = () => {
   }, []);
 
   return (
-    <Section title={getLabel("TXT_LIST_REVIEWS")}>
+    <Section
+      title={getLabel("TXT_LIST_REVIEWS")}
+      href={StringFormat(PathConstant.FM_ARTICLES_BY_CATEGORY, AppConstant.ARTICLE_CATEGORY.review)}
+    >
       <Box className={classes.root}>
         {list.map(review => (
           <Box key={uuid()} className={classes.item}>
