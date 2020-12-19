@@ -11,7 +11,7 @@ import { CustomRating, DialogAppDownload, Snackbar, Processing } from "component
 import { CreateToolbar, CustomEditor, SettingPopup, TitleInput } from "components/articles-create";
 import ArticleCreateActions from "redux/articleCreate.redux";
 import { ArticleService } from "services";
-import { getNumberIdFromCreateQuery, getRedirectPath, debounce } from "utils";
+import { getNumberIdFromCreateQuery, getRedirectPath, debounce, cutString } from "utils";
 
 const ArticleEdit = ({ article }) => {
   const classes = useStyles();
@@ -126,7 +126,7 @@ const ArticleEdit = ({ article }) => {
   const onChangeContent = ({ contentHtml, hasContent, intro }) => {
     setContentHtml(contentHtml);
     setHasContent(hasContent);
-    setIntro(intro);
+    setIntro(cutString(AppConstant.ARTICLE_INTRO_LENGTH_DEFAULT, intro));
   };
 
   const onChangeTitle = e => {
@@ -205,7 +205,7 @@ const ArticleEdit = ({ article }) => {
 
   return (
     <MainLayout className={classes.root}>
-      <Processing isShow={isFetching && hasSnackbar || isPostSuccess} />
+      {((isFetching && hasSnackbar) || isPostSuccess) && <Processing isShow={true} />}
       {hasSnackbar && message && <Snackbar open={true} error={isSaveFailure || isPostFailure} message={message} />}
       <Hidden smUp>
         <DialogAppDownload isOpen={true} onClose={onCloseDownload} />
@@ -237,7 +237,7 @@ const ArticleEdit = ({ article }) => {
       <Box position="relative">
         <Box position="sticky" top={0} zIndex={1000} bgcolor="white">
           <Container className={classes.container}>
-            <CreateToolbar onOpenSetting={onOpenSetting} title={title} hasContent={hasContent}/>
+            <CreateToolbar onOpenSetting={onOpenSetting} title={title} hasContent={hasContent} />
           </Container>
           <Divider />
         </Box>

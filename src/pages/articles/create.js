@@ -10,7 +10,7 @@ import MainLayout from "layouts/MainLayout";
 import { CustomRating, DialogAppDownload, AuthDialog, Snackbar, Processing } from "components";
 import { CreateToolbar, CustomEditor, SettingPopup, TitleInput } from "components/articles-create";
 import ArticleCreateActions from "redux/articleCreate.redux";
-import { getRandomDefaultArticleCoverId, getRedirectPath, debounce } from "utils";
+import { getRandomDefaultArticleCoverId, getRedirectPath, debounce, cutString } from "utils";
 
 const ArticleCreate = () => {
   const classes = useStyles();
@@ -43,7 +43,7 @@ const ArticleCreate = () => {
   const [hasContent, setHasContent] = useState();
   const [isOpenSetting, setIsOpenSetting] = useState(false);
   const [categoryId, setCategoryId] = useState();
-  const [defaultCoverId, setDefaultCoverId] = useState(getRandomDefaultArticleCoverId());
+  const [defaultCoverId] = useState(getRandomDefaultArticleCoverId());
   const [tagsList, setTagsList] = useState([]);
   const [booksList, setBooksList] = useState(isReviewType ? [reviewInfo] : []);
   const [thumbnailList, setThumbnailList] = useState([defaultCoverId]);
@@ -138,7 +138,7 @@ const ArticleCreate = () => {
   const onChangeContent = ({ contentHtml, hasContent, intro }) => {
     setContentHtml(contentHtml);
     setHasContent(hasContent);
-    setIntro(intro);
+    setIntro(cutString(AppConstant.ARTICLE_INTRO_LENGTH_DEFAULT, intro));
     onCreateArticle();
   };
 
@@ -240,7 +240,7 @@ const ArticleCreate = () => {
 
   return (
     <MainLayout className={classes.root}>
-      <Processing isShow={(isFetching && hasSnackbar) || isPostSuccess} />
+      {((isFetching && hasSnackbar) || isPostSuccess) && <Processing isShow={true} />}
       {hasSnackbar && message && <Snackbar open={true} error={isSaveFailure || isPostFailure} message={message} />}
       <Hidden smUp>
         <DialogAppDownload isOpen={true} onClose={onCloseDownload} />
