@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { Section, ArticleSummary } from "components";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, PathConstant } from "const";
 import { uuid } from "utils";
 import { useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
@@ -27,7 +27,7 @@ const PopularArticles = () => {
   }, []);
 
   return (
-    <Section title={getLabel("TXT_POPULAR_ARTICLE")}>
+    <Section title={getLabel("TXT_POPULAR_ARTICLE")} href={PathConstant.ARTICLES_COLLECTION}>
       <Box className={classes.root}>
         {list.map(article => (
           <Box key={uuid()} className={classes.item}>
