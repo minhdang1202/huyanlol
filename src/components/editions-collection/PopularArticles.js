@@ -12,7 +12,7 @@ const PopularArticles = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_BOOKS);
   const dispatch = useDispatch();
-  const listArticlesRedux = useSelector(({ articleRedux }) => articleRedux.homeArticles.pageData);
+  const listArticlesRedux = useSelector(({ articleRedux }) => articleRedux.articlePopularList);
 
   const [list, setList] = useState([]);
 
@@ -23,7 +23,7 @@ const PopularArticles = () => {
   }, [listArticlesRedux]);
 
   useEffect(() => {
-    dispatch(ArticleAction.requestHomeArticles(DEFAULT_PARAMS));
+    dispatch(ArticleAction.requestArticlePopularList(DEFAULT_PARAMS));
   }, []);
 
   return (
@@ -49,6 +49,7 @@ export default memo(PopularArticles);
 const DEFAULT_PARAMS = {
   pageNum: 1,
   pageSize: 2,
+  sorts: ["reactCount", "DESC"],
 };
 
 const useStyles = makeStyles(theme => ({

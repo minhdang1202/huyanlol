@@ -13,3 +13,5 @@ export const COLLECTION_BOOKS_CATEGORY_ID = "/editions?categoryId={0}";
 export const FM_ARTICLE_EDIT = "/articles/edit/{0}-{1}";
 export const FM_USER_DETAIL = "/users/{0}"; // Mock for tag user
 export const CHALLENGES = "/challenges";
+export const ARTICLES_COLLECTION = "/articles";
+export const FM_ARTICLES_BY_CATEGORY = "/articles?categoryId={0}";
