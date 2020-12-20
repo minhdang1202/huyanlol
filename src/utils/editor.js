@@ -186,3 +186,8 @@ export const addMention = replyInfo => {
   let newEditorState = EditorState.push(editorState, mentionReplacedContent, "insert-mention");
   return newEditorState;
 };
+
+export const focusCurrentEl = editorState => {
+  const currentEl = getCurrentEl(editorState);
+  if (currentEl) currentEl.scrollIntoView({ behavior: "smooth", block: "center" });
+};

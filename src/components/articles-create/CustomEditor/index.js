@@ -29,6 +29,7 @@ import {
   scrollWithSpecificSpace,
   getCurrentEl,
   getContentSelection,
+  focusCurrentEl,
 } from "utils/editor";
 import { getImageById } from "utils";
 import { WORD_BOX_ID } from "../CreateToolbar";
@@ -56,6 +57,7 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
   const [urlValue, setUrlValue] = useState("");
   const [hasHiddenPlaceholder, setHasHiddenPlaceholder] = useState(false);
   const [anchorSideToolbar, setAnchorSideToolbar] = useState(null);
+  const [hasFocusState, setHasFocusState] = useState(false);
 
   const classes = useStyles({ hasUrl: getEntityLink(editorState) });
 
@@ -110,6 +112,7 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
 
   const onChange = editorState => {
     setEditorState(editorState);
+    if (hasFocusState) focusCurrentEl(editorState);
     let newEditorState = removeLastBlankBlocks(editorState);
     const contentHtml = stateToHTML(newEditorState.getCurrentContent());
     const hasContent = editorState.getCurrentContent().hasText();
@@ -163,6 +166,16 @@ const CustomEditor = ({ onChangeContent, onChangeThumbnailList, initialHtml }) =
 
   useEffect(() => {
     onChange(EditorState.set(editorState, { decorator }));
+    if (window) {
+      window.addEventListener("keydown", e => {
+        const key = e.which || e.keyCode;
+        if (key === 38 || key === 40) {
+          setHasFocusState(true);
+          return;
+        }
+        setHasFocusState(false);
+      });
+    }
   }, []);
 
   useEffect(() => {

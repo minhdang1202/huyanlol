@@ -25,10 +25,11 @@ import TextField from "./TextField";
 import Autocomplete from "./Autocomplete";
 import Chip from "./Chip";
 import SliderButton from "./SliderButton";
+import CollectionTitle from "./CollectionTitle";
+import CommonPagination from "./CommonPagination";
 import AuthDialog from "./AuthDialog";
 import Snackbar from "./Snackbar";
 import BookmarkButton from "./BookmarkButton";
-import CommonPagination from "./CommonPagination";
 
 export {
   AppHead,
@@ -58,8 +59,9 @@ export {
   Autocomplete,
   Chip,
   SliderButton,
+  CollectionTitle,
+  CommonPagination,
   AuthDialog,
   Snackbar,
   BookmarkButton,
-  CommonPagination,
 };

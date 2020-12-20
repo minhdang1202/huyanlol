@@ -1,17 +1,22 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, Button, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { AppLink } from "components";
 import { uuid } from "utils";
 import StringFormat from "string-format";
-
+import { LangConstant, AppConstant, PathConstant } from "const";
+import { AppLink } from "components";
 const ListCategory = props => {
   const { classes } = props;
   const defaultClasses = useStyles();
-  const { t: getLabel } = useTranslation();
+  const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_BOOKS);
+  const [isFullCategory, setIsFullCategory] = useState(false);
+  const fullList = AppConstant.BOOK_SUGGESTION_CATEGORY;
+  const shortList = AppConstant.BOOK_SUGGESTION_CATEGORY.slice(0, 5);
+  const categoryList = isFullCategory ? fullList : shortList;
 
+  const onClickMore = () => setIsFullCategory(true);
   return (
     <Grid container className={clsx(defaultClasses.root, classes.root)}>
       <Grid item xs={12}>
@@ -22,22 +27,23 @@ const ListCategory = props => {
       <Grid item xs={12} className={clsx(defaultClasses.main, classes.main)}>
         <Paper className={clsx(defaultClasses.paper, classes.paper)}>
           <Box>
-            {MOCK_DATA.map(item => (
-              <Button
-                variant="contained"
-                color="primary"
-                key={uuid()}
-                className={clsx("light-blue-button", defaultClasses.item, classes.item)}
-              >
-                <Typography>{item}</Typography>
-              </Button>
+            {categoryList.map(item => (
+              <AppLink key={uuid()} to={StringFormat(PathConstant.COLLECTION_BOOKS_CATEGORY_ID, item.id)}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={clsx("light-blue-button", defaultClasses.item, classes.item)}
+                >
+                  <Typography>{getLabel(item.titleKey)}</Typography>
+                </Button>
+              </AppLink>
             ))}
           </Box>
-          <AppLink className={defaultClasses.seeMore}>
-            <Typography variant="button" component="p">
-              {StringFormat(getLabel("FM_SEE_MORE_CATEGORY"), 35)}
+          {!isFullCategory && (
+            <Typography variant="button" component="p" className={defaultClasses.seeMore} onClick={onClickMore}>
+              {StringFormat(getLabel("FM_SEE_MORE_CATEGORY"), fullList.length - shortList.length)}
             </Typography>
-          </AppLink>
+          )}
         </Paper>
       </Grid>
     </Grid>
@@ -66,14 +72,13 @@ const useStyles = makeStyles(theme => ({
   item: {
     padding: 11,
     borderRadius: 4,
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
     marginBottom: theme.spacing(1.5),
   },
   seeMore: {
     display: "block",
     color: theme.palette.primary.main,
     marginTop: theme.spacing(2.5),
+    cursor: "pointer",
   },
 }));
-
-const MOCK_DATA = ["Category 1", "Category 2", "Category 3", "Category catego 4", "Category 3"];

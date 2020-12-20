@@ -46,11 +46,11 @@ export const isString = string => string && typeof string === "string";
 
 export const onGoBack = () => window.history.back();
 
-export const cutString = (limitContent, content) => {
-  const trimmedContent = content.substring(0, limitContent);
+export const cutString = (maxLength, content) => {
+  const trimmedContent = content.substring(0, maxLength);
 
   const cutContent =
-    content.length < limitContent
+    content.length < maxLength
       ? content
       : `${trimmedContent.substring(0, Math.min(trimmedContent.length, trimmedContent.lastIndexOf(" ")))}...`;
 

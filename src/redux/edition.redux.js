@@ -23,12 +23,15 @@ const { Types, Creators } = createActions({
   getSelfReviewFailure: ["data"],
 
   requestGetBookSuggestion: ["data"],
+  requestGetBookSuggestionByCategory: ["data"],
   requestGetEditionSuggestion: ["data"],
 
   requestPostEditionRate: ["data"],
 
   requestEditionFailure: ["data"],
   requestEditionSuccess: ["data"],
+
+  setSuggestionsCategoryId: ["data"],
 });
 
 export const EditionTypes = Types;
@@ -40,6 +43,8 @@ export const INITIAL_STATE = {
   error: null,
 
   suggestions: [],
+  suggestionsByCategory: [],
+  suggestionsCategoryId: null,
 };
 
 /* ------------- Reducers ------------- */
@@ -57,6 +62,9 @@ export const requestEditionSuccess = (state = INITIAL_STATE, action) => {
 export const requestEditionFailure = (state = INITIAL_STATE, action) => {
   let data = action.data ? action.data : {};
   return { ...state, isFetching: false, ...data };
+};
+export const setSuggestionsCategoryId = (state = INITIAL_STATE, action) => {
+  return { ...state, suggestionsCategoryId: action.data };
 };
 
 /* ------------- Mapping ------------- */
@@ -76,12 +84,15 @@ export const HANDLERS = {
   [Types.GET_NEAREST_LENDERS_SUCCESS]: requestEditionSuccess,
 
   [Types.REQUEST_GET_BOOK_SUGGESTION]: request,
+  [Types.REQUEST_GET_BOOK_SUGGESTION_BY_CATEGORY]: request,
   [Types.REQUEST_GET_EDITION_SUGGESTION]: request,
 
   [Types.REQUEST_POST_EDITION_RATE]: request,
 
   [Types.REQUEST_EDITION_SUCCESS]: requestEditionSuccess,
   [Types.REQUEST_EDITION_FAILURE]: requestEditionFailure,
+
+  [Types.SET_SUGGESTIONS_CATEGORY_ID]: setSuggestionsCategoryId,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */
