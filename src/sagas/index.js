@@ -22,6 +22,7 @@ import {
   requestGetNearestLenders,
   requestGetBookSuggestion,
   requestGetEditionSuggestion,
+  requestGetBookSuggestionByCategory,
 } from "./edition.saga";
 import { requestGetTopWriter, requestGetUserProfile, requestImage, requestGetUserSuggestion } from "./user.saga";
 import {
@@ -34,6 +35,7 @@ import {
   requestGetChallengeArticles,
   requestPostComment,
   requestPostReply,
+  requestArticlePopularList,
 } from "./article.saga";
 import {
   requestGetCategoriesList,
@@ -67,6 +69,7 @@ export default function* root() {
     takeLatest(EditionTypes.REQUEST_GET_NEAREST_LENDERS, requestGetNearestLenders),
     takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION, requestGetBookSuggestion),
     takeLatest(EditionTypes.REQUEST_GET_EDITION_SUGGESTION, requestGetEditionSuggestion),
+    takeLatest(EditionTypes.REQUEST_GET_BOOK_SUGGESTION_BY_CATEGORY, requestGetBookSuggestionByCategory),
 
     // article
     takeLatest(ArticleTypes.REQUEST_HOME_ARTICLES, requestGetHomeArticles),
@@ -78,6 +81,7 @@ export default function* root() {
     takeLatest(ArticleTypes.REQUEST_CHALLENGE_ARTICLES, requestGetChallengeArticles),
     takeLatest(ArticleTypes.REQUEST_POST_COMMENT, requestPostComment),
     takeLatest(ArticleTypes.REQUEST_POST_REPLY, requestPostReply),
+    takeLatest(ArticleTypes.REQUEST_ARTICLE_POPULAR_LIST, requestArticlePopularList),
 
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),

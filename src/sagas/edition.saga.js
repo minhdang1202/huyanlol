@@ -198,6 +198,23 @@ export function* requestGetBookSuggestion(action) {
   }
 }
 
+export function* requestGetBookSuggestionByCategory(action) {
+  let response = yield call(EditionService.getBookSuggestionByCategory, action.data);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      let hasData = responseData.resultInfo && Array.isArray(responseData.resultInfo);
+      yield put(EditionAction.requestEditionSuccess({ suggestionsByCategory: hasData ? responseData.resultInfo : [] }));
+    } else {
+      yield put(EditionAction.requestEditionFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(EditionAction.requestEditionFailure(error));
+  }
+}
+
 export function* requestGetEditionSuggestion(action) {
   let response = yield call(EditionService.getEditionSuggestion, action.data);
   try {

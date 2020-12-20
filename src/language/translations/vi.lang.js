@@ -47,7 +47,12 @@ export default {
     TXT_REPLY: "Trả lời",
     TXT_ARRANGE: "Sắp xếp",
     TXT_NO_GIVER: "Bài viết chưa có giver",
+    TXT_MOST_BORROWING_BOOK: "Sách được mượn nhiều",
+    TXT_LIST_ARTICLES: "Danh sách đánh giá",
+    TXT_LIST_REVIEWS: "Danh sách review",
+    TXT_LIST_WRITERS: "Danh sách nhà văn",
     TXT_CHALLENGE: "Thử thách đọc sách",
+    TXT_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",
@@ -59,7 +64,6 @@ export default {
     L_COMMENT_ARRANGE: "Sắp xếp bình luận theo:",
 
     //FM: format
-    FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
     FM_NUMBER_COMMENTS: "{0} bình luận",
     FM_GIVERS_BY: "{0} ghi nhận bởi {1} thành viên",
     FM_GIVERS: "{0} ghi nhận",
@@ -274,5 +278,27 @@ export default {
     FM_DAYS_LEFT: "Còn {0} ngày",
     FM_DUE_TIME: "{0} đến {1}",
     FM_JOINED: "{0} người",
+  },
+  collectionBooks: {
+    TXT_POPULAR_ARTICLE: "Đánh giá phổ biến",
+    TXT_MOST_BORROWING_BOOK: "Sách được mượn nhiều",
+    TXT_LIST_CATEGORY: "Khám phá thêm chủ đề",
+    TXT_LITERATURE_CATEGORY_TITLE: "Văn Học",
+    TXT_SKILL_CATEGORY_TITLE: "Kỹ Năng",
+    TXT_ECONOMIC_CATEGORY_TITLE: "Kinh Tế",
+    TXT_ART_CATEGORY_TITLE: "Sách nghệ thuật",
+    TXT_RELIGION_CATEGORY_TITLE: "Sách Tôn Giáo",
+    TXT_HISTORY_AND_GEOGRAPHY_CATEGORY_TITLE: "Lịch sử - Địa lý",
+    TXT_SCIENCE_CATEGORY_TITLE: "Sách Khoa học",
+    TXT_CHILDREN_CATEGORY_TITLE: "Thiếu Nhi",
+    TXT_COMIC_CATEGORY_TITLE: "Truyện Tranh",
+    TXT_TEXTBOOK_CATEGORY_TITLE: "Sách Giáo Khoa",
+    TXT_FOREIGN_LANGUAGE_CATEGORY_TITLE: "Sách Ngoại Ngữ",
+    TXT_SYLLABUS_CATEGORY_TITLE: "Sách Giáo Trình ĐH",
+    TXT_SYNTHESIS_CATEGORY_TITLE: "Sách Tổng Hợp",
+    TXT_MAGAZINE_CATEGORY_TITLE: "Tạp Chí",
+    TXT_MOM_AND_BABY_CATEGORY_TITLE: "Mẹ và Bé",
+
+    FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
   },
 };

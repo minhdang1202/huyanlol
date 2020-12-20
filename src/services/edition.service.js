@@ -1,4 +1,4 @@
-import { ApiConstant } from "const";
+import { ApiConstant, AppConstant } from "const";
 import { createApi, defaultConfigV1 } from "api";
 
 export const getBookDetail = editionId => {
@@ -17,8 +17,12 @@ export const getBookReviews = params => {
   return createApi().get(ApiConstant.GET_BOOK_REVIEWS, params);
 };
 
-export const getBookSuggestion = bodyReq => {
-  return createApi(defaultConfigV1).get(ApiConstant.GET_BOOK_SUGGESTION, bodyReq);
+export const getBookSuggestion = data => {
+  return createApi(defaultConfigV1).get(ApiConstant.GET_BOOK_SUGGESTION, getBookSuggestionParams(data));
+};
+
+export const getBookSuggestionByCategory = data => {
+  return createApi(defaultConfigV1).get(ApiConstant.GET_BOOK_SUGGESTION_BY_CATEGORY, getBookSuggestionParams(data));
 };
 
 export const getEditionSuggestion = params => {
@@ -27,4 +31,15 @@ export const getEditionSuggestion = params => {
 
 export const postEditionRate = params => {
   return createApi(defaultConfigV1).post(ApiConstant.POST_EDITION_RATE, null, { params: params });
+};
+
+const getBookSuggestionParams = data => {
+  let defaultData = data || {};
+  const { pageNum, pageSize, ...otherParams } = defaultData;
+  let queryParams = {
+    page: pageNum ? pageNum : 1,
+    per_page: pageSize ? pageSize : AppConstant.DATA_SIZES.editions,
+    ...otherParams,
+  };
+  return queryParams;
 };

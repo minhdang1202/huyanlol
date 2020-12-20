@@ -1,7 +1,5 @@
 import { ApiConstant, AppConstant } from "const";
 import { createApi, defaultConfigV2 } from "api";
-import { defaults } from "js-cookie";
-import { join } from "redux-saga/effects";
 
 export const getChallengeInfo = (challengeId, token) => {
   return createApi(defaultConfigV2, token).get(ApiConstant.GET_CHALLENGE_INFO(challengeId));
