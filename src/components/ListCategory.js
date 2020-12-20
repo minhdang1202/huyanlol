@@ -34,7 +34,7 @@ const ListCategory = props => {
                   color="primary"
                   className={clsx("light-blue-button", defaultClasses.item, classes.item)}
                 >
-                  <Typography>{getLabel(item.title)}</Typography>
+                  <Typography>{getLabel(item.titleKey)}</Typography>
                 </Button>
               </AppLink>
             ))}

@@ -225,6 +225,22 @@ export function* requestPostReply(action) {
   }
 }
 
+export function* requestArticleList(action) {
+  let response = yield call(ArticleService.getListArticles, action.data);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      yield put(ArticleAction.articleSuccess({ articleList: responseData }));
+    } else {
+      yield put(ArticleAction.articleFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(ArticleAction.articleFailure(error));
+  }
+}
+
 export function* requestArticlePopularList(action) {
   let response = yield call(ArticleService.getListArticles, action.data);
 

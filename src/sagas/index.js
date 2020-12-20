@@ -35,6 +35,7 @@ import {
   requestGetChallengeArticles,
   requestPostComment,
   requestPostReply,
+  requestArticleList,
   requestArticlePopularList,
 } from "./article.saga";
 import {
@@ -81,6 +82,7 @@ export default function* root() {
     takeLatest(ArticleTypes.REQUEST_CHALLENGE_ARTICLES, requestGetChallengeArticles),
     takeLatest(ArticleTypes.REQUEST_POST_COMMENT, requestPostComment),
     takeLatest(ArticleTypes.REQUEST_POST_REPLY, requestPostReply),
+    takeLatest(ArticleTypes.REQUEST_ARTICLE_LIST, requestArticleList),
     takeLatest(ArticleTypes.REQUEST_ARTICLE_POPULAR_LIST, requestArticlePopularList),
 
     // user

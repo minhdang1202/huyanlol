@@ -125,13 +125,25 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
               <Typography variant="subtitle1" component="p">
                 {review.title}
               </Typography>
-              <CustomRating readOnly={true} value={review.rating || 0} size="small" />
+              <CustomRating
+                readOnly={true}
+                value={
+                  review.editions && review.editions[0] && review.editions[0].userRelation
+                    ? review.editions[0].userRelation.evaluation.rate
+                    : 0
+                }
+                size="small"
+              />
               <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
                 {review.intro}
               </Typography>
             </Grid>
             <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-              <CardMedia src={getImageById(review.thumbnailId)} title={review.title} component="img" />
+              <CardMedia
+                src={getImageById(review.editions && review.editions[0] && review.editions[0].imageId)}
+                title={review.title}
+                component="img"
+              />
             </Grid>
 
             <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>

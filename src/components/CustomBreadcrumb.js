@@ -13,7 +13,7 @@ const CustomBreadcrumb = ({ bookName, articleName, className, challengeName }) =
   const BREADCRUMB_NAME_MAP = {
     editions: getLabel("TXT_MOST_BORROWING_BOOK"),
     edition: bookName,
-    articles: null,
+    articles: getLabel("TXT_LATEST_ARTICLE"),
     article: articleName,
     challenges: getLabel("TXT_CHALLENGE_WITH_GAT"),
     challenge: challengeName,

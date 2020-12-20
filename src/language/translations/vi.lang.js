@@ -52,6 +52,7 @@ export default {
     TXT_LIST_REVIEWS: "Danh sách review",
     TXT_LIST_WRITERS: "Danh sách nhà văn",
     TXT_CHALLENGE: "Thử thách đọc sách",
+    TXT_LATEST_ARTICLE: "Bài viết mới nhất",
     TXT_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
 
     //P: Placeholder
@@ -278,6 +279,11 @@ export default {
     FM_DAYS_LEFT: "Còn {0} ngày",
     FM_DUE_TIME: "{0} đến {1}",
     FM_JOINED: "{0} người",
+  },
+  collectionArticles: {
+    TXT_POPULAR_ARTICLE: "Bài viết phổ biến",
+    TXT_LATEST_ARTICLE: "Bài viết mới nhất",
+    TXT_MOST_MENTIONED_BOOK: "Cuốn sách được nói đến nhiều nhất",
   },
   collectionBooks: {
     TXT_POPULAR_ARTICLE: "Đánh giá phổ biến",
