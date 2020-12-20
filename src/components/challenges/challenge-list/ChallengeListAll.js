@@ -6,6 +6,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import { useSelector, useDispatch } from "react-redux";
 import ChallengeDetailCard from "./ChallengeListDetailCard";
 import ChallengeAction from "redux/challenge.redux";
+import { CommonPagination } from "components";
 const ChallengeListAll = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_CHALLENGE_LIST);
@@ -50,7 +51,7 @@ const ChallengeListAll = () => {
           </Grid>
         ))}
       </Grid>
-      <Pagination
+      <CommonPagination
         count={getTotalPage(total, AppConstant.DATA_SIZES.challenges)}
         shape="rounded"
         siblingCount={1}
@@ -71,22 +72,6 @@ const useStyles = makeStyles(theme => ({
       color: `${theme.palette.text.primary} !important`,
       textDecoration: "none !important",
       outline: "none !important",
-    },
-    "&>:nth-child(3)": {
-      marginTop: theme.spacing(4),
-
-      "& .MuiPaginationItem-root": {
-        color: theme.palette.grey[500],
-        margin: "0px 8px 0px 0px",
-      },
-      "& .MuiPaginationItem-page.Mui-selected": {
-        background: theme.palette.text.link,
-        color: theme.palette.white,
-        border: "none",
-      },
-      "& .MuiPaginationItem-outlined ": {
-        border: `1px solid ${theme.palette.grey[300]}`,
-      },
     },
   },
 }));

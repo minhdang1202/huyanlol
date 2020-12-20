@@ -31,9 +31,9 @@ const CollectionBooksPage = ({ categoryId }) => {
   const getTitle = categoryId => {
     let category = AppConstant.BOOK_SUGGESTION_CATEGORY.find(category => category.id === suggestionsCategoryId);
     if (categoryId && category) {
-      return category.title;
+      return getLabel(category.titleKey);
     }
-    return "TXT_MOST_BORROWING_BOOK";
+    return getLabel("TXT_MOST_BORROWING_BOOK");
   };
   useEffect(() => {
     if (categoryId) {
@@ -48,7 +48,7 @@ const CollectionBooksPage = ({ categoryId }) => {
           <Grid item xs={12} md={12} lg={12}>
             <CustomBreadcrumb />
             <Typography variant="h4" component="h1" ref={headRef}>
-              {getLabel(getTitle(suggestionsCategoryId))}
+              {getTitle(suggestionsCategoryId)}
             </Typography>
           </Grid>
         )}

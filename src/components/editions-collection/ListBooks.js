@@ -4,8 +4,8 @@ import { BookSummary, CommonPagination } from "components";
 import { uuid } from "utils";
 import { useDispatch, useSelector } from "react-redux";
 import EditionAction from "redux/edition.redux";
-
 import PropTypes from "prop-types";
+
 const ListBooks = ({ onChangePage, pageNum }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
