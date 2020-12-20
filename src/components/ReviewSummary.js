@@ -128,7 +128,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
               <CustomRating
                 readOnly={true}
                 value={
-                  review.editions && review.editions[0].userRelation
+                  review.editions && review.editions[0] && review.editions[0].userRelation
                     ? review.editions[0].userRelation.evaluation.rate
                     : 0
                 }
@@ -140,7 +140,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
             </Grid>
             <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
               <CardMedia
-                src={getImageById(review.editions && review.editions[0].imageId)}
+                src={getImageById(review.editions && review.editions[0] && review.editions[0].imageId)}
                 title={review.title}
                 component="img"
               />

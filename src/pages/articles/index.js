@@ -34,6 +34,12 @@ const ArticlesCollectionPage = ({ categoryId }) => {
     setPageNum(value);
     headRef.current.scrollIntoView({ behavior: "smooth" });
   };
+  const onScroll = e => {
+    const { scrollHeight, scrollTop, clientHeight } = e.target;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setPageNum(pageNum + 1);
+    }
+  };
   useEffect(() => {
     if (isTablet) {
       const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
@@ -45,12 +51,6 @@ const ArticlesCollectionPage = ({ categoryId }) => {
       }
     }
   });
-  const onScroll = e => {
-    const { scrollHeight, scrollTop, clientHeight } = e.target;
-    if (scrollTop + clientHeight >= scrollHeight) {
-      setPageNum(pageNum + 1);
-    }
-  };
   useEffect(() => {
     if (isTablet && articleList) {
       setArticleList([...articleList, ...pageData]);
@@ -103,8 +103,8 @@ ArticlesCollectionPage.propTypes = {
 };
 
 export async function getServerSideProps({ query }) {
-  const isOnlyNumber = /^\d+$/.test(query.categoryId);
-  let categoryId = query && query.categoryId && isOnlyNumber ? query.categoryId : null;
+  const isValidCategoryId = /^\d+$/.test(query.categoryId);
+  let categoryId = isValidCategoryId ? query.categoryId : "1";
   return { props: { categoryId } };
 }
 
