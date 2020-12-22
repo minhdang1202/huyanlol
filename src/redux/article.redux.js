@@ -21,6 +21,8 @@ const { Types, Creators } = createActions({
 
   articleFailure: ["data"],
   articleSuccess: ["data"],
+
+  setIsOpenCommentDetail: ["data"],
 });
 
 export const ArticleTypes = Types;
@@ -50,6 +52,7 @@ export const INITIAL_STATE = {
   newComment: {},
   articleList: {},
   articlePopularList: [],
+  isOpenCommentDetail: false,
 };
 
 /* ------------- Reducers ------------- */
@@ -124,6 +127,11 @@ export const finish = (state = INITIAL_STATE, action) => {
   };
 };
 
+export const setIsOpenCommentDetail = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isOpenCommentDetail: action.data,
+});
+
 /* ------------- Mapping ------------- */
 export const HANDLERS = {
   [Types.REQUEST_HOME_ARTICLES]: request,
@@ -145,6 +153,8 @@ export const HANDLERS = {
 
   [Types.ARTICLE_SUCCESS]: finish,
   [Types.ARTICLE_FAILURE]: finish,
+
+  [Types.SET_IS_OPEN_COMMENT_DETAIL]: setIsOpenCommentDetail,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

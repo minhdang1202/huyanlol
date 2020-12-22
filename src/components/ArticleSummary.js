@@ -26,17 +26,20 @@ import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { useRouter } from "next/router";
 import AppLink from "./AppLink";
+import { useDispatch } from "react-redux";
+import ArticleActions from "redux/article.redux";
 
 const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classes }) => {
   const defaultClasses = useStyles({ isHeader: isHeaderAction, isAction: isAction });
   const { t: getLabel } = useTranslation();
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const [creator, setCreator] = useState({});
   const [article, setArticle] = useState({});
   const [linkToDetail, setLinkToDetail] = useState();
 
   const onGoToDetail = () => {
+    dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
   };
 
@@ -50,9 +53,9 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
     console.log("onSetting");
   };
 
-  const onSendHear = event => {
+  const onSendHeart = event => {
     event.stopPropagation();
-    console.log("onSendHear");
+    console.log("onSendHeart");
   };
 
   const onStopTriggerParent = event => {
@@ -173,7 +176,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
         <Button
           startIcon={<HeartIcon isActive={isHeart} />}
           className={clsx(isHeart && defaultClasses.heartColor)}
-          onClick={onSendHear}
+          onClick={onSendHeart}
         >
           {getLabel("TXT_LOVE")}
         </Button>
