@@ -53,11 +53,6 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
     console.log("onSetting");
   };
 
-  const onSendHeart = event => {
-    event.stopPropagation();
-    console.log("onSendHeart");
-  };
-
   const onStopTriggerParent = event => {
     event.stopPropagation();
   };

@@ -23,7 +23,7 @@ import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { getImageById, getTitleNoMark, getAbsolutePath } from "utils";
 import { useRouter } from "next/router";
-import { FBShareButton, AppLink, CustomRating } from "components";
+import { FBShareButton, AppLink, CustomRating, ReactButton } from "components";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
@@ -45,10 +45,6 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const onSetting = event => {
     event.stopPropagation();
     console.log("onSetting");
-  };
-  const onSendHear = event => {
-    event.stopPropagation();
-    console.log("onSendHear");
   };
   const onStopTriggerParent = event => {
     event.stopPropagation();
@@ -163,13 +159,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
 
       {!isHiddenAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
-        <Button
-          startIcon={<HeartIcon isActive={isHeart} />}
-          className={clsx(isHeart && defaultClasses.heartColor)}
-          onClick={onSendHear}
-        >
-          {getLabel("TXT_LOVE")}
-        </Button>
+        <ReactButton />
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>
