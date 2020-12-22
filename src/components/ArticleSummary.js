@@ -15,7 +15,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { CategoryTag, FBShareButton, Hashtag } from "components";
+import { CategoryTag, FBShareButton, Hashtag, ReactButton } from "components";
 import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
 import { AppConstant, PathConstant } from "const";
@@ -173,13 +173,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
 
       {isAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
-        <Button
-          startIcon={<HeartIcon isActive={isHeart} />}
-          className={clsx(isHeart && defaultClasses.heartColor)}
-          onClick={onSendHeart}
-        >
-          {getLabel("TXT_LOVE")}
-        </Button>
+        <ReactButton />
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>

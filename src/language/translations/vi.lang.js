@@ -77,6 +77,7 @@ export default {
     FM_BOOK_AUTHOR: "{0} của {1}",
     FM_COMMENT: "{0} Bình luận",
     FM_LOVE: "{0} Ghi nhận",
+    FM_ADD_REACT: "+ {0}",
 
     //ERR: Error
     ERR_INVALID_INPUT: "Vui lòng nhập đúng định dạng",
