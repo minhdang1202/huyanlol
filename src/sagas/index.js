@@ -37,6 +37,7 @@ import {
   requestPostReply,
   requestArticleList,
   requestArticlePopularList,
+  requestAddArticleReact,
 } from "./article.saga";
 import {
   requestGetCategoriesList,
@@ -84,6 +85,7 @@ export default function* root() {
     takeLatest(ArticleTypes.REQUEST_POST_REPLY, requestPostReply),
     takeLatest(ArticleTypes.REQUEST_ARTICLE_LIST, requestArticleList),
     takeLatest(ArticleTypes.REQUEST_ARTICLE_POPULAR_LIST, requestArticlePopularList),
+    takeLatest(ArticleTypes.REQUEST_ADD_ARTICLE_REACT, requestAddArticleReact),
 
     // user
     takeLatest(UserTypes.REQUEST_TOP_WRITER, requestGetTopWriter),

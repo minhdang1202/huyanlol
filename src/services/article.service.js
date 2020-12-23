@@ -39,6 +39,14 @@ export const postReply = (commentId, params) => {
   return createApi().post(ApiConstant.POST_REPLY(commentId), params);
 };
 
+export const postReactArticle = (articleId, bodyReq) => {
+  return createApi().post(ApiConstant.POST_REACT_ARTICLE(articleId), bodyReq);
+};
+
+export const postReactComment = commentId => {
+  return createApi().post(ApiConstant.POST_REACT_COMMENT(commentId));
+};
+
 const getQueryPrams = data => {
   let defaultData = data || {};
   const { categoryIds, sorts, ...otherParams } = defaultData;

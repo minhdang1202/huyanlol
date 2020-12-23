@@ -256,3 +256,19 @@ export function* requestArticlePopularList(action) {
     yield put(ArticleAction.articleFailure(error));
   }
 }
+
+export function* requestAddArticleReact(action) {
+  const { articleId, bodyReq } = action.data;
+  let response = yield call(ArticleService.postReactArticle, articleId, bodyReq);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      yield put(ArticleAction.articleSuccess());
+    } else {
+      yield put(ArticleAction.articleFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(ArticleAction.articleFailure(error));
+  }
+}

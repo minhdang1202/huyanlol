@@ -168,7 +168,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
 
       {isAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
-        <ReactButton />
+        <ReactButton articleId={article.articleId} userRelation={data.userRelation} />
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>

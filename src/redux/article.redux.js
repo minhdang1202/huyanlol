@@ -13,6 +13,8 @@ const { Types, Creators } = createActions({
   requestPostReply: ["data"],
   requestArticleList: ["data"],
   requestArticlePopularList: ["data"],
+  requestAddArticleReact: ["data"],
+  requestAddCommentReact: ["data"],
 
   getArticle: ["data"],
   replyComment: ["data"],
@@ -35,6 +37,7 @@ export const INITIAL_STATE = {
   isFetchingReplies: false,
   isFetchingGivers: false,
   isPostingComment: false,
+  isAddingReact: false,
   error: null,
   article: {},
   articleGivers: [],
@@ -122,6 +125,7 @@ export const finish = (state = INITIAL_STATE, action) => {
     isFetchingGivers: false,
     isPostingComment: false,
     isTypingReply: false,
+    isAddingReact: false,
     replyInfo: null,
     ...data,
   };
@@ -130,6 +134,11 @@ export const finish = (state = INITIAL_STATE, action) => {
 export const setIsOpenCommentDetail = (state = INITIAL_STATE, action) => ({
   ...state,
   isOpenCommentDetail: action.data,
+});
+
+export const requestAddReact = (state = INITIAL_STATE) => ({
+  ...state,
+  isAddingReact: true,
 });
 
 /* ------------- Mapping ------------- */
@@ -155,6 +164,8 @@ export const HANDLERS = {
   [Types.ARTICLE_FAILURE]: finish,
 
   [Types.SET_IS_OPEN_COMMENT_DETAIL]: setIsOpenCommentDetail,
+  [Types.REQUEST_ADD_ARTICLE_REACT]: requestAddReact,
+  [Types.REQUEST_ADD_COMMENT_REACT]: requestAddReact,
 };
 
 /* ------------- Hookup Reducers To Types ------------- */

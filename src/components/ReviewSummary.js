@@ -24,17 +24,20 @@ import { parseISO } from "date-fns";
 import { getImageById, getTitleNoMark, getAbsolutePath } from "utils";
 import { useRouter } from "next/router";
 import { FBShareButton, AppLink, CustomRating, ReactButton } from "components";
+import { useDispatch } from "react-redux";
+import ArticleActions from "redux/article.redux";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const [creator, setCreator] = useState({});
   const [review, setReview] = useState({});
   const [linkToDetail, setLinkToDetail] = useState();
 
   const onGoToDetail = () => {
+    dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
   };
 
@@ -159,7 +162,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
 
       {!isHiddenAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
-        <ReactButton />
+        <ReactButton articleId={review.articleId} userRelation={data.userRelation} />
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>

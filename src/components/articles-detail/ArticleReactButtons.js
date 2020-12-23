@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { shallowEqual, useSelector } from "react-redux";
 import { Button, Box, Hidden, Divider, useTheme, useMediaQuery, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { FBShareButton, DialogAppDownload, BookmarkButton, AuthDialog } from "components";
+import { FBShareButton, DialogAppDownload, BookmarkButton, AuthDialog, ReactButton } from "components";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 import { MOBILE_INPUT_ID } from "./ArticleComments/MobileCommentInput";
 
-const ArticleReactButtons = ({ shareUrl }) => {
+const ArticleReactButtons = ({ shareUrl, articleId }) => {
   const { t: getLabel } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
@@ -41,14 +41,15 @@ const ArticleReactButtons = ({ shareUrl }) => {
       {isOpenDownload && <DialogAppDownload isOpen={true} onClose={onCloseDownload} />}
       <Divider className={classes.divider} />
       <Box bgcolor="white" display="flex" justifyContent={{ xs: "space-around", sm: "space-between" }} py={1}>
-        <Button
+        {/* <Button
           size={isMobile ? "small" : "large"}
           className="grey-text"
           startIcon={<Box className="ic-heart-empty" />}
           onClick={onOpenDownload}
         >
           {getLabel("TXT_LOVE")}
-        </Button>
+        </Button> */}
+        <ReactButton isDetail={true} articleId={articleId} />
         <Hidden smUp>
           <Button size="small" className="grey-text" startIcon={<Box className="ic-comment" />} onClick={onGotoComment}>
             {getLabel("TXT_COMMENT")}
@@ -70,6 +71,7 @@ const ArticleReactButtons = ({ shareUrl }) => {
 
 ArticleReactButtons.propTypes = {
   shareUrl: PropTypes.string,
+  articleId: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({

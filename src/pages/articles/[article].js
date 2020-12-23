@@ -82,7 +82,7 @@ const ArticleDetail = ({ article }) => {
           <ArticleAuthor creator={creator} date={displayDate} />
           <ArticleReacts />
         </Grid>
-        <ArticleReactButtons shareUrl={shareUrl} saved={saved} />
+        <ArticleReactButtons shareUrl={shareUrl} saved={saved} articleId={articleId} />
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           <ArticleComments commentCount={commentCount} articleId={articleId} />
         </Grid>

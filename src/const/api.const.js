@@ -52,6 +52,8 @@ export const GET_ARTICLE_REPLIES = commentId => `/articles/comments/${commentId}
 export const GET_ARTICLE_COMMENT_GIVERS = commentId => `/articles/comments/${commentId}/reaction`;
 export const POST_COMMENT = articleId => `/articles/${articleId}/comments`;
 export const POST_REPLY = commentId => `/articles/comments/${commentId}/replies`;
+export const POST_REACT_ARTICLE = articleId => `/articles/${articleId}/reaction`;
+export const POST_REACT_COMMENT = commentId => `/articles/comments/${commentId}/reaction`;
 
 //Article-create
 export const GET_HASHTAGS = "/hashtags";
