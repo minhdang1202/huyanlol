@@ -15,7 +15,8 @@ import ArticleActions from "redux/article.redux";
 const POP_COUNT_SIZE = 30;
 const ANIMATION_TIME = 750;
 
-const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation }) => {
+const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, changeParentTempCount }) => {
+  //todo: react in article detail & react to comment
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -47,7 +48,9 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation }
     setIsPlayingAnimation(true);
     if (userReactCount + baseReactCount < AppConstant.USER_MAX_REACT_COUNT) {
       setUserReactCount(userReactCount + 1);
+      changeParentTempCount();
     }
+    console.log(isPlayingAnimation);
   };
   const stopAnimation = () => {
     setIsPlayingAnimation(false);
@@ -58,6 +61,7 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation }
         setIsPlayingAnimation(true);
         if (userReactCount + baseReactCount < AppConstant.USER_MAX_REACT_COUNT) {
           setUserReactCount(userReactCount => userReactCount + 1);
+          changeParentTempCount();
         }
       }, ANIMATION_TIME);
       return () => clearInterval(interval);
@@ -146,6 +150,7 @@ ReactButton.propTypes = {
   isComment: PropTypes.bool,
   isDetail: PropTypes.bool,
   userRelation: PropTypes.object,
+  changeParentTempCount: PropTypes.func,
 };
 ReactButton.defaultProps = {
   isDetail: false,

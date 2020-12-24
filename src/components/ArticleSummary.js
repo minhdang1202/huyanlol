@@ -37,6 +37,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
   const [creator, setCreator] = useState({});
   const [article, setArticle] = useState({});
   const [linkToDetail, setLinkToDetail] = useState();
+  const [tempReactAddition, setTempReactAddition] = useState(0);
 
   const onGoToDetail = () => {
     dispatch(ArticleActions.setIsOpenCommentDetail(true));
@@ -55,6 +56,13 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
 
   const onStopTriggerParent = event => {
     event.stopPropagation();
+  };
+  const onAddReactTemp = () => {
+    setTempReactAddition(tempReactAddition => tempReactAddition + 1);
+  };
+  const getTotalReactCount = (base, temp) => {
+    if (!base) base = 0;
+    return temp <= AppConstant.USER_MAX_REACT_COUNT ? base + temp : base + AppConstant.USER_MAX_REACT_COUNT;
   };
 
   useEffect(() => {
@@ -83,7 +91,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
     }
   }, [data]);
 
-  let isHeart = Boolean(article.reactCount && article.reactCount > 0);
+  let isHeart = Boolean(getTotalReactCount(article.reactCount, tempReactAddition) > 0);
   return (
     <Card className={clsx(defaultClasses.root, classes && classes.root)}>
       <CardHeader
@@ -152,7 +160,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
                 <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
                   <HeartIcon isActive={isHeart} width={12} height={12} />
                   <Typography variant="body2" color="textSecondary" component="p">
-                    {article.reactCount}
+                    {getTotalReactCount(article.reactCount, tempReactAddition)}
                   </Typography>
                 </Grid>
                 <Grid item xs={4} md={3}>
@@ -168,7 +176,11 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
 
       {isAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
-        <ReactButton articleId={article.articleId} userRelation={data.userRelation} />
+        <ReactButton
+          articleId={article.articleId}
+          userRelation={data.userRelation}
+          changeParentTempCount={onAddReactTemp}
+        />
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>

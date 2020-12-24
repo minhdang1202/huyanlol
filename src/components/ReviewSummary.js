@@ -35,7 +35,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const [creator, setCreator] = useState({});
   const [review, setReview] = useState({});
   const [linkToDetail, setLinkToDetail] = useState();
-
+  const [tempReactAddition, setTempReactAddition] = useState(0);
   const onGoToDetail = () => {
     dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
@@ -51,6 +51,13 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   };
   const onStopTriggerParent = event => {
     event.stopPropagation();
+  };
+  const onAddReactTemp = () => {
+    setTempReactAddition(tempReactAddition => tempReactAddition + 1);
+  };
+  const getTotalReactCount = (base, temp) => {
+    if (!base) base = 0;
+    return temp <= AppConstant.USER_MAX_REACT_COUNT ? base + temp : base + AppConstant.USER_MAX_REACT_COUNT;
   };
 
   useEffect(() => {
@@ -80,7 +87,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
     }
   }, [data]);
 
-  let isHeart = Boolean(review.reactCount && review.reactCount > 0);
+  let isHeart = Boolean(getTotalReactCount(review.reactCount, tempReactAddition) > 0);
 
   return (
     <Card className={clsx(defaultClasses.root, classes && classes.root)}>
@@ -148,7 +155,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
             <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
               <HeartIcon isActive={isHeart} width={12} height={12} />
               <Typography variant="body2" color="textSecondary" component="p">
-                {review.reactCount}
+                {getTotalReactCount(review.reactCount, tempReactAddition)}
               </Typography>
             </Grid>
             <Grid item xs={4} md={3}>
@@ -162,7 +169,11 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
 
       {!isHiddenAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
-        <ReactButton articleId={review.articleId} userRelation={data.userRelation} />
+        <ReactButton
+          articleId={review.articleId}
+          userRelation={data.userRelation}
+          changeParentTempCount={onAddReactTemp}
+        />
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>
