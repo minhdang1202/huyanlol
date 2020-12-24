@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
-import { AppConstant, PathConstant } from "const";
+import { AppConstant, PathConstant, ApiConstant } from "const";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import { getCreatedTime } from "utils/date";
@@ -26,6 +26,7 @@ import { useRouter } from "next/router";
 import { FBShareButton, AppLink, CustomRating, ReactButton } from "components";
 import { useDispatch } from "react-redux";
 import ArticleActions from "redux/article.redux";
+import { ArticleService } from "services";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
@@ -36,14 +37,16 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const [review, setReview] = useState({});
   const [linkToDetail, setLinkToDetail] = useState();
   const [tempReactAddition, setTempReactAddition] = useState(0);
+  const [isBookmarked, setIsBookmarked] = useState();
   const onGoToDetail = () => {
     dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
   };
 
-  const onBookmark = event => {
+  const onBookmark = async event => {
     event.stopPropagation();
-    console.log("Bookmark");
+    const { status } = await ArticleService.postBookmarkArticle(review.articleId);
+    if (status === ApiConstant.STT_OK) setIsBookmarked(true);
   };
   const onSetting = event => {
     event.stopPropagation();
@@ -83,11 +86,12 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
           linkToReview = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, newReview.articleId);
         }
         setLinkToDetail(linkToReview);
+        setIsBookmarked(review.saved);
       }
     }
   }, [data]);
 
-  let isHeart = Boolean(getTotalReactCount(review.reactCount, tempReactAddition) > 0);
+  let isHeart = Boolean(review.reactCount && review.reactCount > 0);
 
   return (
     <Card className={clsx(defaultClasses.root, classes && classes.root)}>
@@ -103,7 +107,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
         action={
           <>
             <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }} onClick={onBookmark}>
-              <BookmarkIcon color="white" stroke="currentColor" />
+              <BookmarkIcon color="white" stroke={isBookmarked ? "#001a39" : "currentColor"} />
             </IconButton>
             <IconButton aria-label="settings" onClick={onSetting}>
               <DotIcon />

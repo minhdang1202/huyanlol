@@ -54,6 +54,7 @@ export const POST_COMMENT = articleId => `/articles/${articleId}/comments`;
 export const POST_REPLY = commentId => `/articles/comments/${commentId}/replies`;
 export const POST_REACT_ARTICLE = articleId => `/articles/${articleId}/reaction`;
 export const POST_REACT_COMMENT = commentId => `/articles/comments/${commentId}/reaction`;
+export const POST_BOOKMARK_ARTICLE = articleId => `/articles/${articleId}/bookmarks`;
 
 //Article-create
 export const GET_HASHTAGS = "/hashtags";

@@ -18,7 +18,7 @@ import {
 import { CategoryTag, FBShareButton, Hashtag, ReactButton } from "components";
 import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
-import { AppConstant, PathConstant } from "const";
+import { AppConstant, PathConstant, ApiConstant } from "const";
 import StringFormat from "string-format";
 import { getImageById, getTitleNoMark, uuid, getAbsolutePath } from "utils";
 import clsx from "clsx";
@@ -28,6 +28,7 @@ import { useRouter } from "next/router";
 import AppLink from "./AppLink";
 import { useDispatch } from "react-redux";
 import ArticleActions from "redux/article.redux";
+import { ArticleService } from "services";
 
 const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classes }) => {
   const defaultClasses = useStyles({ isHeader: isHeaderAction, isAction: isAction });
@@ -38,15 +39,17 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
   const [article, setArticle] = useState({});
   const [linkToDetail, setLinkToDetail] = useState();
   const [tempReactAddition, setTempReactAddition] = useState(0);
+  const [isBookmarked, setIsBookmarked] = useState();
 
   const onGoToDetail = () => {
     dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
   };
 
-  const onBookmark = event => {
+  const onBookmark = async event => {
     event.stopPropagation();
-    console.log("Bookmark");
+    const { status } = await ArticleService.postBookmarkArticle(article.articleId);
+    if (status === ApiConstant.STT_OK) setIsBookmarked(true);
   };
 
   const onSetting = event => {
@@ -87,6 +90,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
           linkToArticle = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, newArticle.articleId);
         }
         setLinkToDetail(linkToArticle);
+        setIsBookmarked(article.saved);
       }
     }
   }, [data]);
@@ -106,7 +110,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
         action={
           <>
             <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }} onClick={onBookmark}>
-              <BookmarkIcon color="white" stroke="currentColor" />
+              <BookmarkIcon color="white" stroke={isBookmarked ? "#001a39" : "currentColor"} />
             </IconButton>
             <IconButton aria-label="settings" onClick={onSetting}>
               <DotIcon />
