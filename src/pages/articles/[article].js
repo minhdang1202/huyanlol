@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { makeStyles, Container, Hidden, Box, Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
@@ -40,6 +40,7 @@ const ArticleDetail = ({ article }) => {
     body,
     hashtags,
     saved,
+    userRelation,
   } = article;
   const isReviewType = categories[0].categoryId === AppConstant.CATEGORY_REVIEW;
   const rate = isReviewType && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
@@ -48,6 +49,12 @@ const ArticleDetail = ({ article }) => {
   const shareUrl = getAbsolutePath(getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title));
   const appBarProps = { isDetail: true, shareUrl, appBarTitle: title, hasBookmark: true, isBookmarked: saved };
   const headProps = { title: title, description: intro, ogImage: getImageById(coverId) };
+
+  const [tempReactCount, setTempReactCount] = useState(0);
+
+  const onAddTempReact = () => {
+    setTempReactCount(tempReactCount + 1);
+  };
 
   useEffect(() => {
     dispatch(ArticleActions.getArticle(article));
@@ -80,9 +87,15 @@ const ArticleDetail = ({ article }) => {
           )}
           <ArticleHashtagButtons className="mt-16" hashtags={hashtags} category={categories[0].title} />
           <ArticleAuthor creator={creator} date={displayDate} />
-          <ArticleReacts />
+          <ArticleReacts tempReactCount={tempReactCount} />
         </Grid>
-        <ArticleReactButtons shareUrl={shareUrl} saved={saved} articleId={articleId} />
+        <ArticleReactButtons
+          shareUrl={shareUrl}
+          saved={saved}
+          articleId={articleId}
+          onAddTempReact={onAddTempReact}
+          userRelation={userRelation}
+        />
         <Grid container item xs={12} md={8} className={classes.subContainer}>
           <ArticleComments commentCount={commentCount} articleId={articleId} />
         </Grid>

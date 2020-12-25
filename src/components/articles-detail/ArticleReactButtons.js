@@ -7,7 +7,7 @@ import { FBShareButton, DialogAppDownload, BookmarkButton, AuthDialog, ReactButt
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 import { MOBILE_INPUT_ID } from "./ArticleComments/MobileCommentInput";
 
-const ArticleReactButtons = ({ shareUrl, articleId }) => {
+const ArticleReactButtons = ({ shareUrl, articleId, onAddTempReact, userRelation }) => {
   const { t: getLabel } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
@@ -44,10 +44,8 @@ const ArticleReactButtons = ({ shareUrl, articleId }) => {
         <ReactButton
           isDetail={true}
           articleId={articleId}
-          changeParentTempCount={() => {
-            console.log("todo");
-          }}
-          // todo:pass user relations to get baseReactCount, pass changeParentTempCount
+          changeParentTempCount={onAddTempReact}
+          userRelation={userRelation}
         />
         <Hidden smUp>
           <Button size="small" className="grey-text" startIcon={<Box className="ic-comment" />} onClick={onGotoComment}>
@@ -71,6 +69,8 @@ const ArticleReactButtons = ({ shareUrl, articleId }) => {
 ArticleReactButtons.propTypes = {
   shareUrl: PropTypes.string,
   articleId: PropTypes.number,
+  onAddTempReact: PropTypes.func,
+  userRelation: PropTypes.object,
 };
 
 const useStyles = makeStyles(theme => ({

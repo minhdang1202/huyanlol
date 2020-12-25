@@ -17,13 +17,14 @@ import { hasLogged } from "utils/auth";
 const POP_COUNT_SIZE = 30;
 const ANIMATION_TIME = 750;
 
-const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, changeParentTempCount }) => {
+const ReactButton = ({ articleId, commentId, isDetail, userRelation, changeParentTempCount }) => {
   //todo: react in article detail & react to comment
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const { t: getLabel } = useTranslation();
   const dispatch = useDispatch();
+  const isComment = Boolean(commentId);
   const animationOptions = {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
@@ -101,7 +102,7 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, 
   return (
     <Box className={classes.root}>
       {isPlayingAnimation && (
-        <Box className={classes.animationContainer}>
+        <Box className={isDetail ? classes.detailAnimationContainer : classes.animationContainer}>
           <Lottie
             options={animationOptions}
             height={2 * POP_COUNT_SIZE}
@@ -117,12 +118,12 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, 
         </Box>
       )}
       {isPlayingAnimation && !isLongPress && (
-        <Box className={clsx(classes.popCount, classes.popCountOnePress)}>
+        <Box className={clsx(isDetail ? classes.detailPopCount : classes.popCount, classes.popCountOnePress)}>
           {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
         </Box>
       )}
       {isLongPress && (
-        <Box className={classes.popCount}>
+        <Box className={isDetail ? classes.detailPopCount : classes.popCount}>
           {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
         </Box>
       )}
@@ -152,7 +153,6 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, 
 ReactButton.propTypes = {
   articleId: PropTypes.number,
   commentId: PropTypes.number,
-  isComment: PropTypes.bool,
   isDetail: PropTypes.bool,
   userRelation: PropTypes.object,
   changeParentTempCount: PropTypes.func,
@@ -206,6 +206,24 @@ const useStyles = makeStyles(theme => ({
     width: POP_COUNT_SIZE,
     bottom: 2 * POP_COUNT_SIZE,
     left: -POP_COUNT_SIZE / 4,
+  },
+  detailPopCount: {
+    color: theme.palette.white,
+    background: theme.palette.error.main,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    width: POP_COUNT_SIZE,
+    height: POP_COUNT_SIZE,
+    borderRadius: POP_COUNT_SIZE / 2,
+    bottom: POP_COUNT_SIZE,
+  },
+  detailAnimationContainer: {
+    position: "absolute",
+    zIndex: 2,
+    width: POP_COUNT_SIZE,
+    bottom: 2 * POP_COUNT_SIZE,
   },
 }));
 

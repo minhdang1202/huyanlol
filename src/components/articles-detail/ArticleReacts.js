@@ -5,14 +5,15 @@ import StringFormat from "string-format";
 import { useTranslation } from "react-i18next";
 import { Button, Typography, Box, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
 import GiversList from "./GiversList";
+import PropTypes from "prop-types";
+import { AppConstant } from "const";
 
-const ArticleReacts = () => {
+const ArticleReacts = ({ tempReactCount }) => {
   const classes = useStyles();
   const theme = useTheme();
   const { reactCount, commentCount, articleId } = useSelector(({ articleRedux }) => articleRedux.article, shallowEqual);
   const { t: getLabel } = useTranslation();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const loveButton = StringFormat(getLabel("FM_LOVE"), reactCount);
 
   const [isOpenGivers, setIsOpenGivers] = useState(false);
 
@@ -25,6 +26,11 @@ const ArticleReacts = () => {
     localStorage.removeItem("isOpenGiversList");
   };
 
+  const getTotalReactCount = (base, temp) => {
+    if (!base) base = 0;
+    return temp <= AppConstant.USER_MAX_REACT_COUNT ? base + temp : base + AppConstant.USER_MAX_REACT_COUNT;
+  };
+
   useEffect(() => {
     const hasOpenGivers = localStorage.getItem("isOpenGiversList");
     if (hasOpenGivers) setIsOpenGivers(true);
@@ -33,7 +39,12 @@ const ArticleReacts = () => {
   return (
     <>
       {isOpenGivers && (
-        <GiversList isOpen={true} onClose={onCloseGiversList} reactCount={reactCount} articleId={articleId} />
+        <GiversList
+          isOpen={true}
+          onClose={onCloseGiversList}
+          reactCount={getTotalReactCount(reactCount, tempReactCount)}
+          articleId={articleId}
+        />
       )}
       {isMobile ? (
         <Box display="flex" justifyContent="space-between" width="100%">
@@ -43,7 +54,7 @@ const ArticleReacts = () => {
             onClick={onOpenGiversList}
           >
             <Typography variant="body2" className="grey-text">
-              {reactCount}
+              {getTotalReactCount(reactCount, tempReactCount)}
             </Typography>
           </Button>
           <Button className={classes.button}>
@@ -58,13 +69,16 @@ const ArticleReacts = () => {
           startIcon={<Box className="ic-heart" />}
           onClick={onOpenGiversList}
         >
-          <Typography>{loveButton}</Typography>
+          <Typography>{StringFormat(getLabel("FM_LOVE"), getTotalReactCount(reactCount, tempReactCount))}</Typography>
         </Button>
       )}
     </>
   );
 };
 
+ArticleReacts.propTypes = {
+  tempReactCount: PropTypes.number,
+};
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(2, 0, 1, 0),
