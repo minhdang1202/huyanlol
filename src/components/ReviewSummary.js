@@ -23,10 +23,11 @@ import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { getImageById, getTitleNoMark, getAbsolutePath } from "utils";
 import { useRouter } from "next/router";
-import { FBShareButton, AppLink, CustomRating, ReactButton } from "components";
+import { FBShareButton, AppLink, CustomRating, ReactButton, AuthDialog } from "components";
 import { useDispatch } from "react-redux";
 import ArticleActions from "redux/article.redux";
 import { ArticleService } from "services";
+import { hasLogged } from "utils/auth";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
@@ -38,6 +39,8 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const [linkToDetail, setLinkToDetail] = useState();
   const [tempReactAddition, setTempReactAddition] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState();
+  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
+
   const onGoToDetail = () => {
     dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
@@ -45,8 +48,12 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
 
   const onBookmark = async event => {
     event.stopPropagation();
-    const { status } = await ArticleService.postBookmarkArticle(review.articleId);
-    if (status === ApiConstant.STT_OK) setIsBookmarked(true);
+    if (hasLogged()) {
+      const { status } = await ArticleService.postBookmarkArticle(review.articleId);
+      if (status === ApiConstant.STT_OK) setIsBookmarked(true);
+    } else {
+      setIsOpenAuthDialog(true);
+    }
   };
   const onSetting = event => {
     event.stopPropagation();
@@ -58,6 +65,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const onAddReactTemp = () => {
     setTempReactAddition(tempReactAddition => tempReactAddition + 1);
   };
+  const onCloseAuthDialog = () => setIsOpenAuthDialog(false);
   const getTotalReactCount = (base, temp) => {
     if (!base) base = 0;
     return temp <= AppConstant.USER_MAX_REACT_COUNT ? base + temp : base + AppConstant.USER_MAX_REACT_COUNT;
@@ -91,7 +99,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
     }
   }, [data]);
 
-  let isHeart = Boolean(review.reactCount && review.reactCount > 0);
+  let isHeart = Boolean(getTotalReactCount(review.reactCount, tempReactAddition) > 0);
 
   return (
     <Card className={clsx(defaultClasses.root, classes && classes.root)}>
@@ -183,6 +191,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
         </Button>
         <FBShareButton url={getAbsolutePath(linkToDetail)} />
       </CardActions>
+      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
     </Card>
   );
 };

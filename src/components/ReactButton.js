@@ -11,6 +11,8 @@ import Lottie from "react-lottie";
 import heartAnimation from "../../public/animations/heartAnimation.json";
 import { useDispatch } from "react-redux";
 import ArticleActions from "redux/article.redux";
+import { AuthDialog } from "components";
+import { hasLogged } from "utils/auth";
 
 const POP_COUNT_SIZE = 30;
 const ANIMATION_TIME = 750;
@@ -35,6 +37,7 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, 
   const [userReactCount, setUserReactCount] = useState(0);
   const [isPlayingAnimation, setIsPlayingAnimation] = useState(false);
   const [isLongPress, setIsLongPress] = useState(false);
+  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
 
   const pressBind = useLongPress(() => setIsLongPress(true), {
     onStart: () => onReact(),
@@ -44,17 +47,21 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, 
     detect: LongPressDetectEvents.BOTH,
   });
   const onReact = () => {
-    setIsHeart(true);
-    setIsPlayingAnimation(true);
-    if (userReactCount + baseReactCount < AppConstant.USER_MAX_REACT_COUNT) {
-      setUserReactCount(userReactCount + 1);
-      changeParentTempCount();
+    if (hasLogged()) {
+      setIsHeart(true);
+      setIsPlayingAnimation(true);
+      if (userReactCount + baseReactCount < AppConstant.USER_MAX_REACT_COUNT) {
+        setUserReactCount(userReactCount + 1);
+        changeParentTempCount();
+      }
+    } else {
+      setIsOpenAuthDialog(true);
     }
-    console.log(isPlayingAnimation);
   };
-  const stopAnimation = () => {
+  const onStopAnimation = () => {
     setIsPlayingAnimation(false);
   };
+  const onCloseAuthDialog = () => setIsOpenAuthDialog(false);
   useEffect(() => {
     if (isLongPress) {
       const interval = setInterval(() => {
@@ -93,18 +100,7 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, 
 
   return (
     <Box className={classes.root}>
-      {userReactCount > 0 && isPlayingAnimation && !isLongPress && (
-        <Box className={classes.popCount}>
-          {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
-        </Box>
-      )}
-      {isLongPress && (
-        <Box className={classes.popCount}>
-          {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
-        </Box>
-      )}
-
-      {userReactCount > 0 && isPlayingAnimation && (
+      {isPlayingAnimation && (
         <Box className={classes.animationContainer}>
           <Lottie
             options={animationOptions}
@@ -113,33 +109,42 @@ const ReactButton = ({ articleId, commentId, isDetail, isComment, userRelation, 
             eventListeners={[
               {
                 eventName: "complete",
-                callback: () => stopAnimation(),
+                callback: () => onStopAnimation(),
               },
             ]}
             isStopped={!isPlayingAnimation}
           />
         </Box>
       )}
-
-      {!isDetail && (
-        <Button
-          startIcon={<HeartIcon isActive={isHeart} />}
-          className={clsx(isHeart && classes.heart, classes.summaryHeart)}
-          {...pressBind}
-        >
-          {getLabel("TXT_LOVE")}
-        </Button>
+      {isPlayingAnimation && !isLongPress && (
+        <Box className={clsx(classes.popCount, classes.popCountOnePress)}>
+          {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
+        </Box>
       )}
-      {isDetail && (
+      {isLongPress && (
+        <Box className={classes.popCount}>
+          {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
+        </Box>
+      )}
+      {isDetail ? (
         <Button
           startIcon={<HeartIcon isActive={isHeart} />}
-          className={clsx(isHeart && classes.heart, "grey-text")}
+          className={clsx(isHeart && classes.heart, "grey-text", classes.heartButton)}
           size={isMobile ? "small" : "large"}
           {...pressBind}
         >
           {getLabel("TXT_LOVE")}
         </Button>
+      ) : (
+        <Button
+          startIcon={<HeartIcon isActive={isHeart} />}
+          className={clsx(isHeart && classes.heart, classes.summaryHeart, classes.heartButton)}
+          {...pressBind}
+        >
+          {getLabel("TXT_LOVE")}
+        </Button>
       )}
+      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
     </Box>
   );
 };
@@ -156,6 +161,7 @@ ReactButton.defaultProps = {
   isDetail: false,
 };
 const useStyles = makeStyles(theme => ({
+  root: { position: "relative", maxHeight: "35px !important" },
   heart: {
     "&, & *": {
       color: theme.palette.error.main,
@@ -170,19 +176,36 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    position: "relative",
-    marginTop: -POP_COUNT_SIZE,
+    position: "absolute",
     width: POP_COUNT_SIZE,
     height: POP_COUNT_SIZE,
     borderRadius: POP_COUNT_SIZE / 2,
-    marginLeft: POP_COUNT_SIZE,
-    fontSize: "12px",
+    bottom: POP_COUNT_SIZE,
+    left: -POP_COUNT_SIZE / 4,
+  },
+  popCountOnePress: {
+    animation: "$fadeIn .2s ease-in-out",
+  },
+  "@keyframes fadeIn": {
+    "0%": {
+      opacity: 0,
+      transform: "scale(0.8)",
+    },
+    "50%": {
+      opacity: 0.5,
+      transform: "scale(1.2)",
+    },
+    "100%": {
+      opacity: 1,
+      transform: "scale(1)",
+    },
   },
   animationContainer: {
-    position: "relative",
-    marginLeft: -80,
-    zIndex: 10,
-    marginTop: -60,
+    position: "absolute",
+    zIndex: 2,
+    width: POP_COUNT_SIZE,
+    bottom: 2 * POP_COUNT_SIZE,
+    left: -POP_COUNT_SIZE / 4,
   },
 }));
 

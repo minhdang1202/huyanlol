@@ -15,7 +15,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { CategoryTag, FBShareButton, Hashtag, ReactButton } from "components";
+import { CategoryTag, FBShareButton, Hashtag, ReactButton, AuthDialog } from "components";
 import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
 import { AppConstant, PathConstant, ApiConstant } from "const";
@@ -29,6 +29,7 @@ import AppLink from "./AppLink";
 import { useDispatch } from "react-redux";
 import ArticleActions from "redux/article.redux";
 import { ArticleService } from "services";
+import { hasLogged } from "utils/auth";
 
 const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classes }) => {
   const defaultClasses = useStyles({ isHeader: isHeaderAction, isAction: isAction });
@@ -40,6 +41,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
   const [linkToDetail, setLinkToDetail] = useState();
   const [tempReactAddition, setTempReactAddition] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState();
+  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
 
   const onGoToDetail = () => {
     dispatch(ArticleActions.setIsOpenCommentDetail(true));
@@ -48,8 +50,12 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
 
   const onBookmark = async event => {
     event.stopPropagation();
-    const { status } = await ArticleService.postBookmarkArticle(article.articleId);
-    if (status === ApiConstant.STT_OK) setIsBookmarked(true);
+    if (hasLogged()) {
+      const { status } = await ArticleService.postBookmarkArticle(article.articleId);
+      if (status === ApiConstant.STT_OK) setIsBookmarked(true);
+    } else {
+      setIsOpenAuthDialog(true);
+    }
   };
 
   const onSetting = event => {
@@ -60,9 +66,17 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
   const onStopTriggerParent = event => {
     event.stopPropagation();
   };
+  const onClickHashtag = event => {
+    event.stopPropagation();
+  };
+  const onClickCategory = categoryId => {
+    console.log(categoryId);
+  };
   const onAddReactTemp = () => {
     setTempReactAddition(tempReactAddition => tempReactAddition + 1);
   };
+  const onCloseAuthDialog = () => setIsOpenAuthDialog(false);
+
   const getTotalReactCount = (base, temp) => {
     if (!base) base = 0;
     return temp <= AppConstant.USER_MAX_REACT_COUNT ? base + temp : base + AppConstant.USER_MAX_REACT_COUNT;
@@ -132,50 +146,61 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
       />
 
       <CardContent className={defaultClasses.main}>
-        <AppLink className="no-style-link" to={linkToDetail}>
-          <Grid container>
-            <Grid item xs={8} md={9}>
+        <Grid container>
+          <Grid item xs={8} md={9}>
+            <AppLink className="no-style-link" to={linkToDetail}>
               <Typography variant="subtitle1" component="p">
                 {article.title}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
                 {article.intro}
               </Typography>
-              {article.hashtags && (
-                <Box>
-                  {article.hashtags.map(hashtag => (
-                    <Hashtag content={hashtag.tagName} key={uuid()} />
-                  ))}
-                </Box>
-              )}
-              {article.categories && (
-                <Box ml="-6px">
-                  {article.categories.map(category => (
-                    <CategoryTag content={category.title} key={uuid()} />
-                  ))}
-                </Box>
-              )}
-            </Grid>
-            <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-              <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
-            </Grid>
-            {isSummaryReact && (
-              <>
-                <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
-                  <HeartIcon isActive={isHeart} width={12} height={12} />
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {getTotalReactCount(article.reactCount, tempReactAddition)}
-                  </Typography>
-                </Grid>
-                <Grid item xs={4} md={3}>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
-                  </Typography>
-                </Grid>
-              </>
+            </AppLink>
+
+            {article.hashtags && (
+              <Box>
+                {article.hashtags.map(hashtag => (
+                  <AppLink key={uuid()} className="no-style-link">
+                    <Hashtag content={hashtag.tagName} onClick={onClickHashtag} />
+                  </AppLink>
+                ))}
+              </Box>
+            )}
+            {article.categories && (
+              <Box ml="-6px">
+                {article.categories.map(category => (
+                  <AppLink
+                    key={uuid()}
+                    className="no-style-link"
+                    to={StringFormat(PathConstant.FM_ARTICLES_BY_CATEGORY, category.categoryId)}
+                  >
+                    <CategoryTag content={category.title} onClick={() => onClickCategory(category)} />
+                  </AppLink>
+                ))}
+              </Box>
             )}
           </Grid>
-        </AppLink>
+          <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
+            <AppLink className="no-style-link" to={linkToDetail}>
+              <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
+            </AppLink>
+          </Grid>
+          {isSummaryReact && (
+            <>
+              <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
+                <HeartIcon isActive={isHeart} width={12} height={12} />
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {getTotalReactCount(article.reactCount, tempReactAddition)}
+                </Typography>
+              </Grid>
+              <Grid item xs={4} md={3}>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
+                </Typography>
+              </Grid>
+            </>
+          )}
+        </Grid>
       </CardContent>
 
       {isAction && <Divider />}
@@ -190,6 +215,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
         </Button>
         <FBShareButton url={getAbsolutePath(linkToDetail)} />
       </CardActions>
+      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
     </Card>
   );
 };

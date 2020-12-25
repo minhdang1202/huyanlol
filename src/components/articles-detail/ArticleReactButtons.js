@@ -41,15 +41,14 @@ const ArticleReactButtons = ({ shareUrl, articleId }) => {
       {isOpenDownload && <DialogAppDownload isOpen={true} onClose={onCloseDownload} />}
       <Divider className={classes.divider} />
       <Box bgcolor="white" display="flex" justifyContent={{ xs: "space-around", sm: "space-between" }} py={1}>
-        {/* <Button
-          size={isMobile ? "small" : "large"}
-          className="grey-text"
-          startIcon={<Box className="ic-heart-empty" />}
-          onClick={onOpenDownload}
-        >
-          {getLabel("TXT_LOVE")}
-        </Button> */}
-        <ReactButton isDetail={true} articleId={articleId} />
+        <ReactButton
+          isDetail={true}
+          articleId={articleId}
+          changeParentTempCount={() => {
+            console.log("todo");
+          }}
+          // todo:pass user relations to get baseReactCount, pass changeParentTempCount
+        />
         <Hidden smUp>
           <Button size="small" className="grey-text" startIcon={<Box className="ic-comment" />} onClick={onGotoComment}>
             {getLabel("TXT_COMMENT")}

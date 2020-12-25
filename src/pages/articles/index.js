@@ -3,7 +3,7 @@ import MainLayout from "layouts/MainLayout";
 import { Box, makeStyles, useTheme, useMediaQuery, Typography, Container } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant } from "const";
-import { CustomBreadcrumb } from "components";
+import { CustomBreadcrumb, Processing } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
 import { ArticleSummary, CommonPagination, ReviewSummary } from "components";
@@ -26,6 +26,7 @@ const ArticlesCollectionPage = ({ categoryId }) => {
   const isReview = Boolean(categoryId === "0");
   const headRef = useRef();
   const { total, pageData } = useSelector(state => state.articleRedux.articleList);
+  const isFetching = useSelector(state => state.articleRedux.isFetching);
   const pageSize = AppConstant.DATA_SIZES.collectionArticles;
   const [articleList, setArticleList] = useState();
   const totalPage = Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1);
@@ -94,6 +95,7 @@ const ArticlesCollectionPage = ({ categoryId }) => {
           )}
         </Box>
       </Container>
+      <Processing isShow={isFetching} />
     </MainLayout>
   );
 };
