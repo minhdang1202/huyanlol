@@ -52,7 +52,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
     event.stopPropagation();
     if (hasLogged()) {
       const { status } = await ArticleService.postBookmarkArticle(article.articleId);
-      if (status === ApiConstant.STT_OK) setIsBookmarked(true);
+      if (status === ApiConstant.STT_OK) setIsBookmarked(!isBookmarked);
     } else {
       setIsOpenAuthDialog(true);
     }

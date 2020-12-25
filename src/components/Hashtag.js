@@ -1,7 +1,8 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
 
-import { makeStyles, Typography, Box } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
+import { AppLink } from "components";
 
 const Hashtag = ({ content, ...otherProps }) => {
   const classes = useStyles();
@@ -15,9 +16,9 @@ const Hashtag = ({ content, ...otherProps }) => {
   );
 
   return (
-    <Box className={classes.root} {...otherProps}>
+    <AppLink className={classes.root} {...otherProps}>
       {primaryContent}
-    </Box>
+    </AppLink>
   );
 };
 const useStyles = makeStyles(theme => ({

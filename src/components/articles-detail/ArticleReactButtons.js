@@ -6,16 +6,20 @@ import { useTranslation } from "react-i18next";
 import { FBShareButton, DialogAppDownload, BookmarkButton, AuthDialog, ReactButton } from "components";
 import { PADDING_X_CONTAINER_MOBILE } from "pages/articles/[article]";
 import { MOBILE_INPUT_ID } from "./ArticleComments/MobileCommentInput";
+import { ApiConstant } from "const";
+import { ArticleService } from "services";
+import { hasLogged } from "utils/auth";
 
 const ArticleReactButtons = ({ shareUrl, articleId, onAddTempReact, userRelation }) => {
   const { t: getLabel } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const { saved: isBookmarked } = useSelector(({ articleRedux }) => articleRedux.article, shallowEqual);
+  const { saved } = useSelector(({ articleRedux }) => articleRedux.article, shallowEqual);
   const { isAuth } = useSelector(({ authRedux }) => authRedux);
   const [isOpenDownload, setIsOpenDownload] = useState(false);
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(saved);
   const onOpenDownload = () => {
     setIsOpenDownload(true);
   };
@@ -33,6 +37,14 @@ const ArticleReactButtons = ({ shareUrl, articleId, onAddTempReact, userRelation
     const mobileInput = document.getElementById(MOBILE_INPUT_ID);
     console.log(mobileInput);
     mobileInput.click();
+  };
+  const onBookmark = async () => {
+    if (hasLogged()) {
+      const { status } = await ArticleService.postBookmarkArticle(articleId);
+      if (status === ApiConstant.STT_OK) setIsBookmarked(!isBookmarked);
+    } else {
+      setIsOpenAuthDialog(true);
+    }
   };
 
   return (
@@ -54,7 +66,7 @@ const ArticleReactButtons = ({ shareUrl, articleId, onAddTempReact, userRelation
         </Hidden>
         <Hidden xsDown>
           <Box display="flex">
-            <BookmarkButton size="large" isBookmarked={isBookmarked} className="mr-24" onClick={onOpenDownload}>
+            <BookmarkButton size="large" isBookmarked={isBookmarked} className="mr-24" onClick={onBookmark}>
               {getLabel("TXT_BOOKMARK")}
             </BookmarkButton>
             <FBShareButton size="large" url={shareUrl} />

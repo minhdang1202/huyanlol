@@ -50,7 +50,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
     event.stopPropagation();
     if (hasLogged()) {
       const { status } = await ArticleService.postBookmarkArticle(review.articleId);
-      if (status === ApiConstant.STT_OK) setIsBookmarked(true);
+      if (status === ApiConstant.STT_OK) setIsBookmarked(!isBookmarked);
     } else {
       setIsOpenAuthDialog(true);
     }
