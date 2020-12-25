@@ -272,3 +272,19 @@ export function* requestAddArticleReact(action) {
     yield put(ArticleAction.articleFailure(error));
   }
 }
+
+export function* requestAddCommentReact(action) {
+  const { commentId, bodyReq } = action.data;
+  let response = yield call(ArticleService.postReactComment, commentId, bodyReq);
+
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      yield put(ArticleAction.articleSuccess());
+    } else {
+      yield put(ArticleAction.articleFailure());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(ArticleAction.articleFailure(error));
+  }
+}

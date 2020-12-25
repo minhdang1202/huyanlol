@@ -9,9 +9,10 @@ import ArticleActions from "redux/article.redux";
 import GiversList from "../../../GiversList";
 import { AuthDialog, DialogAppDownload } from "components";
 import { MOBILE_INPUT_ID } from "../../MobileCommentInput";
+import CommentReact from "./CommentReact";
 
 const CommentButtons = ({ comment, onOpenReplyDialog, isDesktopComment }) => {
-  const { reactCount, replyCount, commentId } = comment;
+  const { reactCount, replyCount, commentId, userReaction } = comment;
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -71,13 +72,18 @@ const CommentButtons = ({ comment, onOpenReplyDialog, isDesktopComment }) => {
         </Box>
       ) : (
         <Box display="flex">
-          <Button
+          {/* <Button
             className={clsx("grey-text", "mr-16")}
             startIcon={<Box className="ic-heart-empty" />}
             onClick={onOpenDownload}
           >
             {StringFormat(getLabel("FM_LOVE"), reactCount)}
-          </Button>
+          </Button> */}
+          <CommentReact
+            commentId={commentId}
+            totalReactCount={reactCount}
+            baseReactCount={userReaction ? userReaction.reactCount : 0}
+          />
           <Button className="grey-text" startIcon={<Box className="ic-comment" />} onClick={onOpenReplyDialog}>
             {StringFormat(getLabel("FM_COMMENT"), replyCount)}
           </Button>

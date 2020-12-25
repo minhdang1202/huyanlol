@@ -43,8 +43,8 @@ export const postReactArticle = (articleId, bodyReq) => {
   return createApi().post(ApiConstant.POST_REACT_ARTICLE(articleId), bodyReq);
 };
 
-export const postReactComment = commentId => {
-  return createApi().post(ApiConstant.POST_REACT_COMMENT(commentId));
+export const postReactComment = (commentId, bodyReq) => {
+  return createApi().post(ApiConstant.POST_REACT_COMMENT(commentId), bodyReq);
 };
 
 export const postBookmarkArticle = articleId => {
