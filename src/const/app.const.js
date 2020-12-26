@@ -143,3 +143,7 @@ export const ARTICLE_CATEGORY = {
   article: 1,
 };
 export const ARTICLE_INTRO_LENGTH_DEFAULT = 1021;
+export const HOME_SCREEN_VALUE = {
+  main: 0,
+  search: 1,
+};
