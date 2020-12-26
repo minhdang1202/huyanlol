@@ -17,7 +17,7 @@ import { hasLogged } from "utils/auth";
 const POP_COUNT_SIZE = 24;
 const ANIMATION_TIME = 750;
 
-const CommentReact = ({ commentId, isSide, baseReactCount, totalReactCount }) => {
+const CommentReact = ({ commentId, isSide, baseReactCount, totalReactCount, changeSideParentCount }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const CommentReact = ({ commentId, isSide, baseReactCount, totalReactCount }) =>
     autoplay: true,
     loop: false,
   };
-  const [isHeart, setIsHeart] = useState(baseReactCount);
+  const [isHeart, setIsHeart] = useState(Boolean(baseReactCount > 0));
   const [userReactCount, setUserReactCount] = useState(0);
   const [isPlayingAnimation, setIsPlayingAnimation] = useState(false);
   const [isLongPress, setIsLongPress] = useState(false);
@@ -48,6 +48,7 @@ const CommentReact = ({ commentId, isSide, baseReactCount, totalReactCount }) =>
       setIsPlayingAnimation(true);
       if (userReactCount + baseReactCount < AppConstant.USER_MAX_REACT_COUNT) {
         setUserReactCount(userReactCount + 1);
+        if (isSide) changeSideParentCount();
       }
     } else {
       setIsOpenAuthDialog(true);
@@ -63,6 +64,7 @@ const CommentReact = ({ commentId, isSide, baseReactCount, totalReactCount }) =>
         setIsPlayingAnimation(true);
         if (userReactCount + baseReactCount < AppConstant.USER_MAX_REACT_COUNT) {
           setUserReactCount(userReactCount => userReactCount + 1);
+          if (isSide) changeSideParentCount();
         }
       }, ANIMATION_TIME);
       return () => clearInterval(interval);
@@ -95,7 +97,7 @@ const CommentReact = ({ commentId, isSide, baseReactCount, totalReactCount }) =>
   return (
     <Box className={classes.root}>
       {isPlayingAnimation && (
-        <Box className={classes.detailAnimationContainer}>
+        <Box className={isSide ? classes.sideAnimationContainer : classes.detailAnimationContainer}>
           <Lottie
             options={animationOptions}
             height={2 * POP_COUNT_SIZE}
@@ -111,17 +113,17 @@ const CommentReact = ({ commentId, isSide, baseReactCount, totalReactCount }) =>
         </Box>
       )}
       {isPlayingAnimation && !isLongPress && (
-        <Box className={clsx(classes.detailPopCount, classes.popCountOnePress)}>
+        <Box className={clsx(isSide ? classes.sidePopCount : classes.detailPopCount, classes.popCountOnePress)}>
           {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
         </Box>
       )}
       {isLongPress && (
-        <Box className={classes.detailPopCount}>
+        <Box className={clsx(isSide ? classes.sidePopCount : classes.detailPopCount)}>
           {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
         </Box>
       )}
       {isSide ? (
-        <IconButton className={clsx(classes.heartButtonSmall)} {...pressBind}>
+        <IconButton className={clsx(isHeart && classes.reactedButtonSmall, classes.heartButtonSmall)} {...pressBind}>
           <Box className="ic-heart" />
         </IconButton>
       ) : (
@@ -139,10 +141,11 @@ const CommentReact = ({ commentId, isSide, baseReactCount, totalReactCount }) =>
 };
 
 CommentReact.propTypes = {
-  commentId: PropTypes.string,
+  commentId: PropTypes.number,
   isSide: PropTypes.bool,
   baseReactCount: PropTypes.number,
   totalReactCount: PropTypes.number,
+  changeSideParentCount: PropTypes.func,
 };
 CommentReact.defaultProps = {
   isSide: false,
@@ -175,6 +178,16 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.error.main,
     },
   },
+  reactedButtonSmall: {
+    background: "none",
+    color: theme.palette.error.main,
+    "& .ic-heart": {
+      fontSize: 20,
+      color: theme.palette.error.main,
+      WebkitTextStroke: `2px ${theme.palette.error.main}`,
+    },
+  },
+
   popCountOnePress: {
     animation: "$fadeIn .2s ease-in-out",
   },
@@ -209,6 +222,27 @@ const useStyles = makeStyles(theme => ({
     zIndex: 2,
     width: POP_COUNT_SIZE,
     bottom: 2.4 * POP_COUNT_SIZE,
+  },
+  sidePopCount: {
+    color: theme.palette.white,
+    background: theme.palette.error.main,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    width: POP_COUNT_SIZE,
+    height: POP_COUNT_SIZE,
+    borderRadius: POP_COUNT_SIZE,
+    bottom: 1.8 * POP_COUNT_SIZE,
+    left: 0.25 * POP_COUNT_SIZE,
+    fontSize: "12px",
+  },
+  sideAnimationContainer: {
+    position: "absolute",
+    zIndex: 2,
+    width: POP_COUNT_SIZE,
+    bottom: 2.8 * POP_COUNT_SIZE,
+    left: 0.25 * POP_COUNT_SIZE,
   },
 }));
 

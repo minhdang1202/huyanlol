@@ -8,7 +8,7 @@ import BookBox from "../../../BookBox";
 import { cutString } from "utils";
 import CommentReact from "./CommentReact";
 
-const CommentContent = ({ comment, isDesktopComment }) => {
+const CommentContent = ({ comment, isDesktopComment, changeParentReactCount }) => {
   const { content, commentToEditions, reactCount, replyCount, commentId, userReaction } = comment;
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
@@ -38,6 +38,7 @@ const CommentContent = ({ comment, isDesktopComment }) => {
             totalReactCount={reactCount}
             baseReactCount={userReaction ? userReaction.reactCount : 0}
             isSide={true}
+            changeSideParentCount={changeParentReactCount}
           />
         )}
       </Box>
@@ -49,6 +50,7 @@ const CommentContent = ({ comment, isDesktopComment }) => {
 CommentContent.propTypes = {
   comment: PropTypes.object,
   isDesktopComment: PropTypes.bool,
+  changeParentReactCount: PropTypes.func,
 };
 
 export default CommentContent;
