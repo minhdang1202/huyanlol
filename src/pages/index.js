@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import MainLayout from "layouts/MainLayout";
-import { Box, Grid, Hidden, makeStyles, Container } from "@material-ui/core";
-import { HomeAppDownload, QuickAction, MostBorrowing, ListArticles, ListReviews, TopWriter } from "components/home";
+import { Box, Grid, Hidden, makeStyles, Container, useTheme, useMediaQuery } from "@material-ui/core";
+import {
+  HomeAppDownload,
+  QuickAction,
+  MostBorrowing,
+  ListArticles,
+  ListReviews,
+  TopWriter,
+  MobileTabBar,
+} from "components/home";
 import { ListCategory } from "components";
 
 const Home = () => {
   const classes = useStyles();
-
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const [screenValue, setScreenValue] = useState(0);
+  const onChangeScreen = (event, newValue) => {
+    setScreenValue(newValue);
+  };
   return (
     <MainLayout classes={{ main: classes.mainLayout }}>
       <Container>
@@ -34,6 +47,7 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
+      {isMobile && <MobileTabBar screenValue={screenValue} onChangeScreen={onChangeScreen} />}
     </MainLayout>
   );
 };
