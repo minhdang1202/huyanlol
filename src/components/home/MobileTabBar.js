@@ -60,6 +60,7 @@ const useStyles = makeStyles(theme => ({
         },
       },
     },
+    boxShadow: `0 1px 0 0 ${theme.palette.grey[100]}, 0 -1px 0 0 ${theme.palette.grey[100]}`,
   },
   indicator: {
     display: "none",

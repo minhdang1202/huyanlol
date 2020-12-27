@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <Box className={classes.root}>
       {screenValue === AppConstant.HOME_SCREEN_VALUE.main && <MainScreen />}
-      {screenValue === AppConstant.HOME_SCREEN_VALUE.search && <MobileSearchScreen />}
+      {screenValue === AppConstant.HOME_SCREEN_VALUE.search && <MobileSearchScreen onChangeScreen={onChangeScreen} />}
       {isMobile && <MobileTabBar screenValue={screenValue} onChangeScreen={onChangeScreen} />}
       <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
       <DialogAppDownload isOpen={isOpenDownloadDialog} onClose={onCloseDownloadDialog} />
