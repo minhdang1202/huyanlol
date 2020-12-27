@@ -6,5 +6,16 @@ import ListReviews from "./ListReviews";
 import TopWriter from "./TopWriter";
 import MobileTabBar from "./MobileTabBar";
 import MainScreen from "./MainScreen";
+import MobileSearchScreen from "./MobileSearchScreen";
 
-export { HomeAppDownload, QuickAction, MostBorrowing, ListArticles, ListReviews, TopWriter, MobileTabBar, MainScreen };
+export {
+  HomeAppDownload,
+  QuickAction,
+  MostBorrowing,
+  ListArticles,
+  ListReviews,
+  TopWriter,
+  MobileTabBar,
+  MainScreen,
+  MobileSearchScreen,
+};
