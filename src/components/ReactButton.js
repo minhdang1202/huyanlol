@@ -125,24 +125,14 @@ const ReactButton = ({ articleId, isDetail, userRelation, changeParentTempCount 
           {StringFormat(getLabel("FM_REACT_HEART_COUNT"), userReactCount + baseReactCount)}
         </Box>
       )}
-      {isDetail ? (
-        <Button
-          startIcon={<HeartIcon isActive={isHeart} />}
-          className={clsx(isHeart && classes.heart, "grey-text", classes.heartButton)}
-          size={isMobile ? "small" : "large"}
-          {...pressBind}
-        >
-          {getLabel("TXT_LOVE")}
-        </Button>
-      ) : (
-        <Button
-          startIcon={<HeartIcon isActive={isHeart} />}
-          className={clsx(isHeart && classes.heart, classes.summaryHeart, classes.heartButton)}
-          {...pressBind}
-        >
-          {getLabel("TXT_LOVE")}
-        </Button>
-      )}
+      <Button
+        startIcon={<HeartIcon isActive={isHeart} />}
+        className={clsx(isHeart && classes.heart, isDetail ? "grey-text" : classes.summaryHeart, classes.heartButton)}
+        size={isDetail ? (isMobile ? "small" : "large") : "medium"}
+        {...pressBind}
+      >
+        {getLabel("TXT_LOVE")}
+      </Button>
       <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
     </Box>
   );

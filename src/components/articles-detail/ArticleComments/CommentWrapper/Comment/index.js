@@ -10,7 +10,6 @@ const Comment = ({ comment, onOpenReplyDialog, isDesktopComment, ...otherProps }
   const [tempReactCount, setTempReactCount] = useState(0);
   const addTempReactCount = () => {
     setTempReactCount(tempReactCount + 1);
-    console.log(1);
   };
   return (
     <Box id={commentId} {...otherProps}>
