@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { Section, BookSummary } from "components";
 import { useTranslation } from "react-i18next";
-import { LangConstant } from "const";
+import { LangConstant, PathConstant } from "const";
 import { uuid } from "utils";
 import { useDispatch, useSelector } from "react-redux";
 import EditionAction from "redux/edition.redux";
@@ -27,7 +27,7 @@ const MostBorrowing = () => {
   }, []);
 
   return (
-    <Section title={getLabel("TXT_MOST_BORROWING_BOOK")}>
+    <Section title={getLabel("TXT_MOST_BORROWING_BOOK")} href={PathConstant.COLLECTION_BOOKS}>
       <Box className={classes.root}>
         {list.map(book => (
           <Box key={uuid()} className={classes.item}>

@@ -5,7 +5,7 @@ import CommonSelect from "components/CommonSelect";
 import { HEIGHT_APP_BAR } from "layouts/MainLayout/components/CustomAppBar";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-const SearchBar = ({ isTransparent }) => {
+const SearchBar = ({ isTransparent, haveSelect }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const SELECT_LIST = [
@@ -31,28 +31,32 @@ const SearchBar = ({ isTransparent }) => {
     <Box className={clsx(classes.root, isTransparent && classes.transparentBackground)}>
       <Box className="ic-search" />
       <InputBase placeholder={getLabel("P_APPBAR_SEARCH")} />
-      <Box>
-        <Divider orientation="vertical" className={classes.divider} />
-        <FormControl>
-          <CommonSelect
-            selectList={SELECT_LIST}
-            value={searchFilter}
-            onChange={onChangeSearchFilter}
-            menuPropsClasses={menuPropsClasses}
-            inputPropsClasses={inputPropsClasses}
-            selectPropsClasses={selectPropsClasses}
-          />
-        </FormControl>
-      </Box>
+      {haveSelect && (
+        <Box>
+          <Divider orientation="vertical" className={classes.divider} />
+          <FormControl>
+            <CommonSelect
+              selectList={SELECT_LIST}
+              value={searchFilter}
+              onChange={onChangeSearchFilter}
+              menuPropsClasses={menuPropsClasses}
+              inputPropsClasses={inputPropsClasses}
+              selectPropsClasses={selectPropsClasses}
+            />
+          </FormControl>
+        </Box>
+      )}
     </Box>
   );
 };
 
 SearchBar.propTypes = {
   isTransparent: PropTypes.bool,
+  haveSelect: PropTypes.bool,
 };
 SearchBar.defaultProps = {
   isTransparent: false,
+  haveSelect: true,
 };
 
 const useStyles = makeStyles(theme => ({

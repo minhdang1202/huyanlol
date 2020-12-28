@@ -154,3 +154,8 @@ export const ARTICLE_CATEGORY = {
 };
 export const ARTICLE_INTRO_LENGTH_DEFAULT = 1021;
 export const USER_MAX_REACT_COUNT = 10;
+export const HOME_SCREEN_VALUE = {
+  main: 0,
+  search: 1,
+  user: 2,
+};

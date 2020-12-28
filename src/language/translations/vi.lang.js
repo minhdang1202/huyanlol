@@ -78,6 +78,7 @@ export default {
     FM_COMMENT: "{0} Bình luận",
     FM_LOVE: "{0} Ghi nhận",
     FM_REACT_HEART_COUNT: "+{0}",
+    FM_RESULT: "{0} kết quả",
 
     //ERR: Error
     ERR_INVALID_INPUT: "Vui lòng nhập đúng định dạng",
