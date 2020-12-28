@@ -172,7 +172,11 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
                   <AppLink
                     key={uuid()}
                     className="no-style-link"
-                    to={StringFormat(PathConstant.FM_ARTICLES_BY_CATEGORY, category.categoryId)}
+                    to={StringFormat(
+                      PathConstant.FM_ARTICLES_FULL,
+                      getTitleNoMark(category.title),
+                      category.categoryId,
+                    )}
                   >
                     <CategoryTag content={category.title} onClick={() => onClickCategory(category)} />
                   </AppLink>

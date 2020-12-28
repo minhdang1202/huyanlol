@@ -69,14 +69,9 @@ const CollectionBooksPage = ({ categoryId }) => {
 };
 export const getServerSideProps = ({ query }) => {
   const categoryList = AppConstant.BOOK_SUGGESTION_CATEGORY;
-  let isValidCategory = false;
-  categoryList.forEach(async category => {
-    if (category.id === parseInt(query.categoryId)) {
-      isValidCategory = true;
-    }
-  });
-
-  const categoryId = isValidCategory ? parseInt(query.categoryId) : null;
+  const tempId = query.category ? query.category.charAt(query.category.indexOf("-") + 1) : null;
+  const category = categoryList.find(category => category.id === parseInt(tempId));
+  const categoryId = category ? category.id : null;
   return {
     props: {
       categoryId: categoryId,

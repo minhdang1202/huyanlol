@@ -139,8 +139,18 @@ export const AUTO_SAVE_WAIT_TIME = 30000;
 export const TYPING_WAIT_TIME = 500;
 export const MAX_LENGTH_ARTICLE_TITLE = 250;
 export const ARTICLE_CATEGORY = {
-  review: 0,
-  article: 1,
+  review: {
+    id: 0,
+    title: "Review",
+  },
+  discussion: {
+    id: 1,
+    title: "Discussion",
+  },
+  tipAndTrick: {
+    id: 2,
+    title: "Tip and Trick",
+  },
 };
 export const ARTICLE_INTRO_LENGTH_DEFAULT = 1021;
 export const USER_MAX_REACT_COUNT = 10;

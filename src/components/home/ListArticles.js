@@ -30,7 +30,11 @@ const ListArticles = () => {
   return (
     <Section
       title={getLabel("TXT_LIST_ARTICLES")}
-      href={StringFormat(PathConstant.FM_ARTICLES_BY_CATEGORY, AppConstant.ARTICLE_CATEGORY.article)}
+      href={StringFormat(
+        PathConstant.FM_ARTICLES_FULL,
+        AppConstant.ARTICLE_CATEGORY.discussion.title,
+        AppConstant.ARTICLE_CATEGORY.discussion.id,
+      )}
     >
       <Box className={classes.root}>
         {list.map(article => (

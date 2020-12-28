@@ -29,7 +29,7 @@ const ArticlesCollectionPage = ({ categoryId }) => {
   const isFetching = useSelector(state => state.articleRedux.isFetching);
   const pageSize = AppConstant.DATA_SIZES.collectionArticles;
   const [articleList, setArticleList] = useState();
-  const totalPage = Math.floor(total / pageSize) + (total % pageSize === 0 ? 0 : 1);
+  const totalPage = Math.ceil(total / pageSize);
   const [pageNum, setPageNum] = useState(1);
   const onChangePage = (event, value) => {
     setPageNum(value);
@@ -105,8 +105,9 @@ ArticlesCollectionPage.propTypes = {
 };
 
 export async function getServerSideProps({ query }) {
-  const isValidCategoryId = /^\d+$/.test(query.categoryId);
-  let categoryId = isValidCategoryId ? query.categoryId : "1";
+  const tempId = query.category.charAt(query.category.indexOf("-") + 1);
+  const isValidCategoryId = /^\d+$/.test(tempId);
+  let categoryId = isValidCategoryId ? tempId : "1";
   return { props: { categoryId } };
 }
 

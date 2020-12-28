@@ -29,7 +29,11 @@ const ListReviews = () => {
   return (
     <Section
       title={getLabel("TXT_LIST_REVIEWS")}
-      href={StringFormat(PathConstant.FM_ARTICLES_BY_CATEGORY, AppConstant.ARTICLE_CATEGORY.review)}
+      href={StringFormat(
+        PathConstant.FM_ARTICLES_FULL,
+        AppConstant.ARTICLE_CATEGORY.review.title,
+        AppConstant.ARTICLE_CATEGORY.review.id,
+      )}
     >
       <Box className={classes.root}>
         {list.map(review => (

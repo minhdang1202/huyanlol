@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box, Button, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { uuid } from "utils";
+import { getTitleNoMark, uuid } from "utils";
 import StringFormat from "string-format";
 import { LangConstant, AppConstant, PathConstant } from "const";
 import { AppLink } from "components";
@@ -28,7 +28,14 @@ const ListCategory = props => {
         <Paper className={clsx(defaultClasses.paper, classes.paper)}>
           <Box>
             {categoryList.map(item => (
-              <AppLink key={uuid()} to={StringFormat(PathConstant.COLLECTION_BOOKS_CATEGORY_ID, item.id)}>
+              <AppLink
+                key={uuid()}
+                to={StringFormat(
+                  PathConstant.COLLECTION_BOOKS_CATEGORY,
+                  getTitleNoMark(getLabel(item.titleKey)),
+                  item.id,
+                )}
+              >
                 <Button
                   variant="contained"
                   color="primary"
