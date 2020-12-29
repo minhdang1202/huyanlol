@@ -10,12 +10,12 @@ import MobileCommentInput from "./MobileCommentInput";
 import SortPopup from "./SortPopup";
 import CommentWrapper from "./CommentWrapper";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
-import { AvatarIcon } from "icons";
-import { scrollToCenterEl, scrollToTop } from "utils";
-import ArticleReplyDialog, { ARTICLE_REPLY_DIALOG_ID } from "./ArticleReplyDialog";
+import { scrollToCenterEl } from "utils";
+import ArticleReplyDialog from "./ArticleReplyDialog";
 import { getLabel } from "language";
 import { AuthDialog } from "components";
-import DesktopCommentWrapper from "./DesktopCommentWrapper";
+import SortSelect from "./ArticleReplyDialog/SortSelect";
+import AddingReply from "./ArticleReplyDialog/AddingReply";
 
 const ArticleComments = () => {
   const classes = useStyles();
@@ -40,10 +40,6 @@ const ArticleComments = () => {
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
   const [hasSortChange, setHasSortChange] = useState(false);
-
-  const onOpenReplyDialog = () => {
-    dispatch(ArticleActions.setIsOpenCommentDetail(true));
-  };
 
   const onCloseReplyDialog = () => {
     dispatch(ArticleActions.setIsOpenCommentDetail(false));
@@ -128,7 +124,6 @@ const ArticleComments = () => {
         return;
       }
       if (isPostReplySuccess) return;
-      // scrollToTop(ARTICLE_REPLY_DIALOG_ID);
     }
   }, [newComment, isPostReplySuccess]);
 
@@ -154,41 +149,33 @@ const ArticleComments = () => {
           onChangeSort={onChangeSort}
         />
       )}
-      <Hidden smUp>
+      {!isMobile && (
+        <Box mt={2}>
+          <AddingReply />
+        </Box>
+      )}
+
+      {isMobile ? (
         <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" mt={2}>
           <Typography variant="h5">{getLabel(getCommonKey("TXT_COMMENT"))}</Typography>
           <Button endIcon={<Box className="ic-chevron-down" fontSize={14} />} onClick={onOpenSort}>
             <Typography variant="body2">{displaySort}</Typography>
           </Button>
         </Box>
-      </Hidden>
+      ) : (
+        <Box className="space-between-root">
+          <Typography variant="subtitle1" className={classes.listComments}>
+            {getLabel("TXT_ARTICLE_LIST_COMMENTS")}
+          </Typography>
+          <SortSelect value={sortValue} onChange={e => onChangeSort(e.target.value)} />
+        </Box>
+      )}
+
       <Box position="relative">
-        {/* <Hidden xsDown>
-          <Button
-            variant="outlined"
-            className={clsx("grey-text", "mt-16", classes.commentButton)}
-            startIcon={<AvatarIcon />}
-            onClick={isAuth ? onOpenReplyDialog : onOpenAuthDialog}
-          >
-            <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
-          </Button>
-        </Hidden> */}
-        {!isMobile ? (
-          <DesktopCommentWrapper
-            onOpenReplyDialog={onOpenReplyDialog}
-            sortValue={sortValue}
-            onChangeSort={onChangeSort}
-          />
-        ) : (
-          <CommentWrapper hasSortChange={hasSortChange} />
-        )}
+        <CommentWrapper hasSortChange={hasSortChange} />
         {commentCount > 2 && (
           <Hidden xsDown>
-            <Button
-              variant="contained"
-              className={clsx("light-blue-button", classes.seeAllButton)}
-              onClick={onOpenReplyDialog}
-            >
+            <Button variant="contained" className={clsx("light-blue-button", classes.seeAllButton)}>
               {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
             </Button>
           </Hidden>
