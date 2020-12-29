@@ -43,7 +43,8 @@ const ArticleDetail = ({ article }) => {
     userRelation,
   } = article;
   const isReviewType = categories[0].categoryId === AppConstant.CATEGORY_REVIEW;
-  const rate = isReviewType && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
+  const rate =
+    isReviewType && editions[0] && editions[0].userRelation ? editions[0].userRelation.evaluation.rate : null;
   const bookMentioned = isReviewType ? editions[0] : null;
   const displayDate = convertDistanceDate(new Date(lastUpdate ? lastUpdate : publishedDate), new Date(), i18n.language);
   const shareUrl = getAbsolutePath(getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title));

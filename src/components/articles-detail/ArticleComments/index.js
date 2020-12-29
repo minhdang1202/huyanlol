@@ -128,7 +128,7 @@ const ArticleComments = () => {
         return;
       }
       if (isPostReplySuccess) return;
-      scrollToTop(ARTICLE_REPLY_DIALOG_ID);
+      // scrollToTop(ARTICLE_REPLY_DIALOG_ID);
     }
   }, [newComment, isPostReplySuccess]);
 
@@ -163,7 +163,7 @@ const ArticleComments = () => {
         </Box>
       </Hidden>
       <Box position="relative">
-        <Hidden xsDown>
+        {/* <Hidden xsDown>
           <Button
             variant="outlined"
             className={clsx("grey-text", "mt-16", classes.commentButton)}
@@ -172,9 +172,13 @@ const ArticleComments = () => {
           >
             <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
           </Button>
-        </Hidden>
+        </Hidden> */}
         {!isMobile ? (
-          <DesktopCommentWrapper onOpenReplyDialog={onOpenReplyDialog} />
+          <DesktopCommentWrapper
+            onOpenReplyDialog={onOpenReplyDialog}
+            sortValue={sortValue}
+            onChangeSort={onChangeSort}
+          />
         ) : (
           <CommentWrapper hasSortChange={hasSortChange} />
         )}
