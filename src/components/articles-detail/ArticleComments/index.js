@@ -10,12 +10,8 @@ import MobileCommentInput from "./MobileCommentInput";
 import SortPopup from "./SortPopup";
 import CommentWrapper from "./CommentWrapper";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
-import { AvatarIcon } from "icons";
-import { scrollToCenterEl, scrollToTop } from "utils";
-import ArticleReplyDialog, { ARTICLE_REPLY_DIALOG_ID } from "./ArticleReplyDialog";
+import { scrollToCenterEl } from "utils";
 import { getLabel } from "language";
-import { AuthDialog } from "components";
-import DesktopCommentWrapper from "./DesktopCommentWrapper";
 import SortSelect from "./ArticleReplyDialog/SortSelect";
 import AddingReply from "./ArticleReplyDialog/AddingReply";
 
@@ -30,7 +26,6 @@ const ArticleComments = () => {
     ({ articleRedux }) => articleRedux,
     shallowEqual,
   );
-  const isOpenComment = useSelector(state => state.articleRedux.isOpenCommentDetail);
   const { commentCount, articleId } = article;
   const dispatch = useDispatch();
   const dispatchGetComments = () => {
@@ -40,24 +35,8 @@ const ArticleComments = () => {
   const [isOpenSort, setIsOpenSort] = useState(false);
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
-  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
   const [hasSortChange, setHasSortChange] = useState(false);
-
-  const onOpenReplyDialog = () => {
-    dispatch(ArticleActions.setIsOpenCommentDetail(true));
-  };
-
-  const onCloseReplyDialog = () => {
-    dispatch(ArticleActions.setIsOpenCommentDetail(false));
-  };
-
-  const onOpenAuthDialog = () => {
-    setIsOpenAuthDialog(true);
-  };
-
-  const onCloseAuthDialog = () => {
-    setIsOpenAuthDialog(false);
-  };
+  const [isOnlyShowTopComment, setIsOnlyShowTopComment] = useState(true);
 
   const onScroll = e => {
     if (scrollTimeoutEvent) {
@@ -95,6 +74,9 @@ const ArticleComments = () => {
     setSortValue(value);
     setHasSortChange(true);
     setDisplaySort(RADIO_LIST[value].displayLabel);
+  };
+  const onShowMoreComment = () => {
+    setIsOnlyShowTopComment(false);
   };
 
   useEffect(() => {
@@ -135,7 +117,6 @@ const ArticleComments = () => {
 
   return (
     <Box width="100%" id={ARTICLE_COMMENT_CONTAINER_ID}>
-      {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
       {isOpenSort && (
         <SortPopup
           sortValue={sortValue}
@@ -163,13 +144,13 @@ const ArticleComments = () => {
       )}
 
       <Box position="relative">
-        <CommentWrapper hasSortChange={hasSortChange} />
-        {commentCount > 2 && (
+        <CommentWrapper hasSortChange={hasSortChange} showMore={!isOnlyShowTopComment} />
+        {commentCount > 2 && isOnlyShowTopComment && (
           <Hidden xsDown>
             <Button
               variant="contained"
               className={clsx("light-blue-button", classes.seeAllButton)}
-              // onClick={onOpenReplyDialog}
+              onClick={onShowMoreComment}
             >
               {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
             </Button>
