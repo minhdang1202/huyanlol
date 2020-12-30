@@ -194,6 +194,7 @@ export default {
     TXT_ARTICLE_REPLY_BUTTON: "Phản hồi",
     TXT_ARTICLE_CANCEL: "Huỷ",
     TXT_ARTICLE_LOGIN_TO_COMMENT: "Đăng nhập để bình luận",
+    TXT_ARTICLE_SEE_MORE_COMMENTS: "Xem thêm {0} bình luận",
 
     //P
     P_ARTICLE_WRITE_REPLY: "Phản hồi của bạn...",

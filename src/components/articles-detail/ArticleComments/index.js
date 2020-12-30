@@ -10,12 +10,9 @@ import MobileCommentInput from "./MobileCommentInput";
 import SortPopup from "./SortPopup";
 import CommentWrapper from "./CommentWrapper";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
-import { AvatarIcon } from "icons";
-import { scrollToCenterEl, scrollToTop } from "utils";
-import ArticleReplyDialog, { ARTICLE_REPLY_DIALOG_ID } from "./ArticleReplyDialog";
+import { scrollToCenterEl } from "utils";
 import { getLabel } from "language";
 import { AuthDialog } from "components";
-import DesktopCommentWrapper from "./DesktopCommentWrapper";
 import SortSelect from "./ArticleReplyDialog/SortSelect";
 import AddingReply from "./ArticleReplyDialog/AddingReply";
 
@@ -30,7 +27,6 @@ const ArticleComments = () => {
     ({ articleRedux }) => articleRedux,
     shallowEqual,
   );
-  const isOpenComment = useSelector(state => state.articleRedux.isOpenCommentDetail);
   const { commentCount, articleId } = article;
   const dispatch = useDispatch();
   const dispatchGetComments = () => {
@@ -42,21 +38,13 @@ const ArticleComments = () => {
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
   const [hasSortChange, setHasSortChange] = useState(false);
-
-  const onOpenReplyDialog = () => {
-    dispatch(ArticleActions.setIsOpenCommentDetail(true));
-  };
-
-  const onCloseReplyDialog = () => {
-    dispatch(ArticleActions.setIsOpenCommentDetail(false));
-  };
-
-  const onOpenAuthDialog = () => {
-    setIsOpenAuthDialog(true);
-  };
+  const [isOpenComment, setIsOpenComment] = useState(false);
 
   const onCloseAuthDialog = () => {
     setIsOpenAuthDialog(false);
+  };
+  const onOpenComment = () => {
+    if (!isOpenComment) setIsOpenComment(true);
   };
 
   const onScroll = e => {
@@ -163,15 +151,17 @@ const ArticleComments = () => {
       )}
 
       <Box position="relative">
-        <CommentWrapper hasSortChange={hasSortChange} />
+        <CommentWrapper hasSortChange={hasSortChange} isOpenComment={isOpenComment} />
         {commentCount > 2 && (
           <Hidden xsDown>
             <Button
               variant="contained"
               className={clsx("light-blue-button", classes.seeAllButton)}
-              // onClick={onOpenReplyDialog}
+              onClick={onOpenComment}
             >
-              {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
+              {isOpenComment
+                ? getLabel("TXT_ARTICLE_SEE_ALL_COMMENTS")
+                : StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
             </Button>
           </Hidden>
         )}

@@ -48,7 +48,7 @@ const ArticleReactButtons = ({ shareUrl, articleId, onAddTempReact, userRelation
   };
 
   return (
-    <Box className={classes.root} id={ARTICLE_REACT_BUTTON}>
+    <Box className={classes.root} id={ARTICLE_REACT_BUTTON_ID}>
       {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
       {isOpenDownload && <DialogAppDownload isOpen={true} onClose={onCloseDownload} />}
       <Divider className={classes.divider} />
@@ -84,7 +84,7 @@ ArticleReactButtons.propTypes = {
   onAddTempReact: PropTypes.func,
   userRelation: PropTypes.object,
 };
-export const ARTICLE_REACT_BUTTON = "article-react-button";
+export const ARTICLE_REACT_BUTTON_ID = "article-react-button";
 const useStyles = makeStyles(theme => ({
   root: {
     position: "relative",
