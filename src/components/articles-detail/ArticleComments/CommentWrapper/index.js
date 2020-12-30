@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import { shallowEqual, useSelector } from "react-redux";
 import { Box, CircularProgress, makeStyles, Hidden } from "@material-ui/core";
@@ -8,6 +8,8 @@ import NoCommentWrapper from "../NoCommentWrapper";
 import { uuid } from "utils";
 import PopupReplyInput from "../PopupReplyInput";
 
+import { ARTICLE_COMMENT_CONTAINER_ID } from "../../ArticleComments";
+import { ARTICLE_REACT_BUTTON } from "../../ArticleReactButtons";
 const CommentWrapper = ({ hasSortChange }) => {
   const classes = useStyles();
   const [comments, commentCount, isFetchingComments] = useSelector(
@@ -18,7 +20,14 @@ const CommentWrapper = ({ hasSortChange }) => {
     ],
     shallowEqual,
   );
+  const isOpenCommentDetail = useSelector(state => state.articleRedux.isOpenCommentDetail);
 
+  useEffect(() => {
+    if (isOpenCommentDetail) {
+      const element = document.getElementById(ARTICLE_REACT_BUTTON);
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isOpenCommentDetail]);
   return commentCount === 0 ? (
     <NoCommentWrapper />
   ) : (

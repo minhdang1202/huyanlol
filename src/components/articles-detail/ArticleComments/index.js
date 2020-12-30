@@ -130,23 +130,12 @@ const ArticleComments = () => {
         return;
       }
       if (isPostReplySuccess) return;
-      // scrollToTop(ARTICLE_REPLY_DIALOG_ID);
     }
   }, [newComment, isPostReplySuccess]);
 
   return (
-    <Box width="100%">
+    <Box width="100%" id={ARTICLE_COMMENT_CONTAINER_ID}>
       {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
-      {isOpenComment && (
-        <ArticleReplyDialog
-          open={true}
-          onBackdropClick={onCloseReplyDialog}
-          sortValue={sortValue}
-          onChangeSort={onChangeSort}
-          hasSortChange={hasSortChange}
-          onScroll={onScroll}
-        />
-      )}
       {isOpenSort && (
         <SortPopup
           sortValue={sortValue}
@@ -180,7 +169,7 @@ const ArticleComments = () => {
             <Button
               variant="contained"
               className={clsx("light-blue-button", classes.seeAllButton)}
-              onClick={onOpenReplyDialog}
+              // onClick={onOpenReplyDialog}
             >
               {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
             </Button>
@@ -206,7 +195,7 @@ export const RADIO_LIST = [
     title: getLabel("TXT_FRIEND_COMMENT"),
   },
 ];
-
+export const ARTICLE_COMMENT_CONTAINER_ID = "article_comment_container";
 export default memo(ArticleComments);
 
 var scrollTimeoutEvent;

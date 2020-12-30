@@ -10,7 +10,7 @@ import SortSelect from "./ArticleReplyDialog/SortSelect";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
 
-const DesktopCommentWrapper = ({ onOpenReplyDialog, sortValue, onChangeSort }) => {
+const DesktopCommentWrapper = ({ sortValue, onChangeSort }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   const [comments, commentCount] = useSelector(
@@ -38,7 +38,6 @@ const DesktopCommentWrapper = ({ onOpenReplyDialog, sortValue, onChangeSort }) =
 };
 
 DesktopCommentWrapper.propTypes = {
-  onOpenReplyDialog: PropTypes.func,
   sortValue: PropTypes.number,
   hasSortChange: PropTypes.bool,
   onChangeSort: PropTypes.func,

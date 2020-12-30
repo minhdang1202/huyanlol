@@ -44,8 +44,8 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
 
   const onGoToDetail = () => {
-    dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
+    dispatch(ArticleActions.setIsOpenCommentDetail(true));
   };
 
   const onBookmark = async event => {
