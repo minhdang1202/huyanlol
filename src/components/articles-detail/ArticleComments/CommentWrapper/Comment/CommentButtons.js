@@ -11,7 +11,7 @@ import { AuthDialog, DialogAppDownload } from "components";
 import { MOBILE_INPUT_ID } from "../../MobileCommentInput";
 import CommentReact from "./CommentReact";
 
-const CommentButtons = ({ comment, isDesktopComment, tempReactCount }) => {
+const CommentButtons = ({ comment, onOpenReplyDialog, isDesktopComment, tempReactCount }) => {
   const { reactCount, replyCount, commentId, userReaction } = comment;
   const classes = useStyles();
   const theme = useTheme();
@@ -82,7 +82,7 @@ const CommentButtons = ({ comment, isDesktopComment, tempReactCount }) => {
             totalReactCount={reactCount}
             baseReactCount={userReaction ? userReaction.reactCount : 0}
           />
-          <Button className="grey-text" startIcon={<Box className="ic-comment" />}>
+          <Button className="grey-text" startIcon={<Box className="ic-comment" />} onClick={onOpenReplyDialog}>
             {StringFormat(getLabel("FM_COMMENT"), replyCount)}
           </Button>
         </Box>
@@ -93,6 +93,7 @@ const CommentButtons = ({ comment, isDesktopComment, tempReactCount }) => {
 
 CommentButtons.propTypes = {
   comment: PropTypes.object,
+  onOpenReplyDialog: PropTypes.func,
   isDesktopComment: PropTypes.bool,
   tempReactCount: PropTypes.number,
 };

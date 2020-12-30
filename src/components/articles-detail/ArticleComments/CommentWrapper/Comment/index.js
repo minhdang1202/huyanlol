@@ -5,7 +5,7 @@ import CommentAuthor from "./CommentAuthor";
 import CommentContent from "./CommentContent";
 import CommentButtons from "./CommentButtons";
 
-const Comment = ({ comment, isDesktopComment, ...otherProps }) => {
+const Comment = ({ comment, onOpenReplyDialog, isDesktopComment, ...otherProps }) => {
   const { commentId } = comment;
   const [tempReactCount, setTempReactCount] = useState(0);
   const addTempReactCount = () => {
@@ -19,7 +19,12 @@ const Comment = ({ comment, isDesktopComment, ...otherProps }) => {
         isDesktopComment={isDesktopComment}
         changeParentReactCount={addTempReactCount}
       />
-      <CommentButtons comment={comment} isDesktopComment={isDesktopComment} tempReactCount={tempReactCount} />
+      <CommentButtons
+        onOpenReplyDialog={onOpenReplyDialog}
+        comment={comment}
+        isDesktopComment={isDesktopComment}
+        tempReactCount={tempReactCount}
+      />
     </Box>
   );
 };
@@ -27,6 +32,7 @@ const Comment = ({ comment, isDesktopComment, ...otherProps }) => {
 Comment.propTypes = {
   comment: PropTypes.object,
   className: PropTypes.string,
+  onOpenReplyDialog: PropTypes.func,
   isDesktopComment: PropTypes.bool,
 };
 

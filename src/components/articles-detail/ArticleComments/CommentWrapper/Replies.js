@@ -28,7 +28,7 @@ const Replies = ({ commentId }) => {
   });
 
   return (
-    replies && (
+    replies  && (
       <Box display="flex" mt={1} width="100%">
         <Divider orientation="vertical" className="mr-12" flexItem />
         <Box flexGrow={1}>
@@ -39,7 +39,11 @@ const Replies = ({ commentId }) => {
           )}
           {isFetchingReplies && <CircularProgress size={20} className={clsx("mt-4", "mb-4", "blue-text")} />}
           {replies.map((reply, index) => (
-            <Comment key={uuid()} comment={reply} className={index === replies.length - 1 ? null : "mb-8"} />
+            <Comment
+              key={uuid()}
+              comment={reply}
+              className={index === replies.length - 1 ? null : "mb-8"}
+            />
           ))}
         </Box>
       </Box>
