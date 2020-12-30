@@ -77,6 +77,7 @@ export default {
     FM_BOOK_AUTHOR: "{0} của {1}",
     FM_COMMENT: "{0} Bình luận",
     FM_LOVE: "{0} Ghi nhận",
+    FM_REACT_HEART_COUNT: "+{0}",
     FM_RESULT: "{0} kết quả",
 
     //ERR: Error

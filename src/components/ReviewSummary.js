@@ -16,42 +16,59 @@ import {
 } from "@material-ui/core";
 import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
-import { AppConstant, PathConstant } from "const";
+import { AppConstant, PathConstant, ApiConstant } from "const";
 import StringFormat from "string-format";
 import clsx from "clsx";
 import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { getImageById, getTitleNoMark, getAbsolutePath } from "utils";
 import { useRouter } from "next/router";
-import { FBShareButton, AppLink, CustomRating } from "components";
+import { FBShareButton, AppLink, CustomRating, ReactButton, AuthDialog } from "components";
+import { useDispatch } from "react-redux";
+import ArticleActions from "redux/article.redux";
+import { ArticleService } from "services";
+import { hasLogged } from "utils/auth";
 
 const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   const defaultClasses = useStyles({ isHidden: isHiddenAction });
   const { t: getLabel } = useTranslation();
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const [creator, setCreator] = useState({});
   const [review, setReview] = useState({});
   const [linkToDetail, setLinkToDetail] = useState();
+  const [tempReactAddition, setTempReactAddition] = useState(0);
+  const [isBookmarked, setIsBookmarked] = useState();
+  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
 
   const onGoToDetail = () => {
+    dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
   };
 
-  const onBookmark = event => {
+  const onBookmark = async event => {
     event.stopPropagation();
-    console.log("Bookmark");
+    if (hasLogged()) {
+      const { status } = await ArticleService.postBookmarkArticle(review.articleId);
+      if (status === ApiConstant.STT_OK) setIsBookmarked(!isBookmarked);
+    } else {
+      setIsOpenAuthDialog(true);
+    }
   };
   const onSetting = event => {
     event.stopPropagation();
     console.log("onSetting");
   };
-  const onSendHear = event => {
-    event.stopPropagation();
-    console.log("onSendHear");
-  };
   const onStopTriggerParent = event => {
     event.stopPropagation();
+  };
+  const onAddReactTemp = () => {
+    setTempReactAddition(tempReactAddition => tempReactAddition + 1);
+  };
+  const onCloseAuthDialog = () => setIsOpenAuthDialog(false);
+  const getTotalReactCount = (base, temp) => {
+    if (!base) base = 0;
+    return temp <= AppConstant.USER_MAX_REACT_COUNT ? base + temp : base + AppConstant.USER_MAX_REACT_COUNT;
   };
 
   useEffect(() => {
@@ -77,11 +94,12 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
           linkToReview = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, newReview.articleId);
         }
         setLinkToDetail(linkToReview);
+        setIsBookmarked(review.saved);
       }
     }
   }, [data]);
 
-  let isHeart = Boolean(review.reactCount && review.reactCount > 0);
+  let isHeart = Boolean(getTotalReactCount(review.reactCount, tempReactAddition) > 0);
 
   return (
     <Card className={clsx(defaultClasses.root, classes && classes.root)}>
@@ -97,7 +115,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
         action={
           <>
             <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }} onClick={onBookmark}>
-              <BookmarkIcon color="white" stroke="currentColor" />
+              <BookmarkIcon color="white" stroke={isBookmarked ? "#001a39" : "currentColor"} />
             </IconButton>
             <IconButton aria-label="settings" onClick={onSetting}>
               <DotIcon />
@@ -149,7 +167,7 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
             <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
               <HeartIcon isActive={isHeart} width={12} height={12} />
               <Typography variant="body2" color="textSecondary" component="p">
-                {review.reactCount}
+                {getTotalReactCount(review.reactCount, tempReactAddition)}
               </Typography>
             </Grid>
             <Grid item xs={4} md={3}>
@@ -163,18 +181,17 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
 
       {!isHiddenAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
-        <Button
-          startIcon={<HeartIcon isActive={isHeart} />}
-          className={clsx(isHeart && defaultClasses.heartColor)}
-          onClick={onSendHear}
-        >
-          {getLabel("TXT_LOVE")}
-        </Button>
+        <ReactButton
+          articleId={review.articleId}
+          userRelation={data.userRelation}
+          changeParentTempCount={onAddReactTemp}
+        />
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>
         <FBShareButton url={getAbsolutePath(linkToDetail)} />
       </CardActions>
+      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
     </Card>
   );
 };

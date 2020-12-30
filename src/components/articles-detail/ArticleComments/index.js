@@ -28,6 +28,7 @@ const ArticleComments = () => {
     ({ articleRedux }) => articleRedux,
     shallowEqual,
   );
+  const isOpenComment = useSelector(state => state.articleRedux.isOpenCommentDetail);
   const { commentCount, articleId } = article;
   const dispatch = useDispatch();
   const dispatchGetComments = () => {
@@ -37,16 +38,15 @@ const ArticleComments = () => {
   const [isOpenSort, setIsOpenSort] = useState(false);
   const [sortValue, setSortValue] = useState(RADIO_LIST[0].value);
   const [displaySort, setDisplaySort] = useState(RADIO_LIST[sortValue].displayLabel);
-  const [isOpenReplyDialog, setIsOpenReplyDialog] = useState(false);
   const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
   const [hasSortChange, setHasSortChange] = useState(false);
 
   const onOpenReplyDialog = () => {
-    setIsOpenReplyDialog(true);
+    dispatch(ArticleActions.setIsOpenCommentDetail(true));
   };
 
   const onCloseReplyDialog = () => {
-    setIsOpenReplyDialog(false);
+    dispatch(ArticleActions.setIsOpenCommentDetail(false));
   };
 
   const onOpenAuthDialog = () => {
@@ -135,7 +135,7 @@ const ArticleComments = () => {
   return (
     <Box width="100%">
       {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
-      {isOpenReplyDialog && (
+      {isOpenComment && (
         <ArticleReplyDialog
           open={true}
           onBackdropClick={onCloseReplyDialog}

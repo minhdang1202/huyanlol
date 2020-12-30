@@ -15,10 +15,10 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { CategoryTag, FBShareButton, Hashtag } from "components";
+import { CategoryTag, FBShareButton, Hashtag, ReactButton, AuthDialog } from "components";
 import { BookmarkIcon, DotIcon, HeartIcon, MessageIcon } from "icons";
 import { useTranslation } from "react-i18next";
-import { AppConstant, PathConstant } from "const";
+import { AppConstant, PathConstant, ApiConstant } from "const";
 import StringFormat from "string-format";
 import { getImageById, getTitleNoMark, uuid, getAbsolutePath } from "utils";
 import clsx from "clsx";
@@ -26,23 +26,36 @@ import { getCreatedTime } from "utils/date";
 import { parseISO } from "date-fns";
 import { useRouter } from "next/router";
 import AppLink from "./AppLink";
+import { useDispatch } from "react-redux";
+import ArticleActions from "redux/article.redux";
+import { ArticleService } from "services";
+import { hasLogged } from "utils/auth";
 
 const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classes }) => {
   const defaultClasses = useStyles({ isHeader: isHeaderAction, isAction: isAction });
   const { t: getLabel } = useTranslation();
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const [creator, setCreator] = useState({});
   const [article, setArticle] = useState({});
   const [linkToDetail, setLinkToDetail] = useState();
+  const [tempReactAddition, setTempReactAddition] = useState(0);
+  const [isBookmarked, setIsBookmarked] = useState();
+  const [isOpenAuthDialog, setIsOpenAuthDialog] = useState(false);
 
   const onGoToDetail = () => {
+    dispatch(ArticleActions.setIsOpenCommentDetail(true));
     router.push(linkToDetail);
   };
 
-  const onBookmark = event => {
+  const onBookmark = async event => {
     event.stopPropagation();
-    console.log("Bookmark");
+    if (hasLogged()) {
+      const { status } = await ArticleService.postBookmarkArticle(article.articleId);
+      if (status === ApiConstant.STT_OK) setIsBookmarked(!isBookmarked);
+    } else {
+      setIsOpenAuthDialog(true);
+    }
   };
 
   const onSetting = event => {
@@ -50,13 +63,23 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
     console.log("onSetting");
   };
 
-  const onSendHear = event => {
-    event.stopPropagation();
-    console.log("onSendHear");
-  };
-
   const onStopTriggerParent = event => {
     event.stopPropagation();
+  };
+  const onClickHashtag = event => {
+    event.stopPropagation();
+  };
+  const onClickCategory = categoryId => {
+    console.log(categoryId);
+  };
+  const onAddReactTemp = () => {
+    setTempReactAddition(tempReactAddition => tempReactAddition + 1);
+  };
+  const onCloseAuthDialog = () => setIsOpenAuthDialog(false);
+
+  const getTotalReactCount = (base, temp) => {
+    if (!base) base = 0;
+    return temp <= AppConstant.USER_MAX_REACT_COUNT ? base + temp : base + AppConstant.USER_MAX_REACT_COUNT;
   };
 
   useEffect(() => {
@@ -81,11 +104,12 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
           linkToArticle = StringFormat(PathConstant.FM_ARTICLE_DETAIL_ID, newArticle.articleId);
         }
         setLinkToDetail(linkToArticle);
+        setIsBookmarked(article.saved);
       }
     }
   }, [data]);
 
-  let isHeart = Boolean(article.reactCount && article.reactCount > 0);
+  let isHeart = Boolean(getTotalReactCount(article.reactCount, tempReactAddition) > 0);
   return (
     <Card className={clsx(defaultClasses.root, classes && classes.root)}>
       <CardHeader
@@ -100,7 +124,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
         action={
           <>
             <IconButton aria-label="bookmark" classes={{ label: defaultClasses.bookmarkButton }} onClick={onBookmark}>
-              <BookmarkIcon color="white" stroke="currentColor" />
+              <BookmarkIcon color="white" stroke={isBookmarked ? "#001a39" : "currentColor"} />
             </IconButton>
             <IconButton aria-label="settings" onClick={onSetting}>
               <DotIcon />
@@ -122,66 +146,80 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
       />
 
       <CardContent className={defaultClasses.main}>
-        <AppLink className="no-style-link" to={linkToDetail}>
-          <Grid container>
-            <Grid item xs={8} md={9}>
+        <Grid container>
+          <Grid item xs={8} md={9}>
+            <AppLink className="no-style-link" to={linkToDetail}>
               <Typography variant="subtitle1" component="p">
                 {article.title}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p" className="eclipse-2">
                 {article.intro}
               </Typography>
-              {article.hashtags && (
-                <Box>
-                  {article.hashtags.map(hashtag => (
-                    <Hashtag content={hashtag.tagName} key={uuid()} />
-                  ))}
-                </Box>
-              )}
-              {article.categories && (
-                <Box ml="-6px">
-                  {article.categories.map(category => (
-                    <CategoryTag content={category.title} key={uuid()} />
-                  ))}
-                </Box>
-              )}
-            </Grid>
-            <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
-              <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
-            </Grid>
-            {isSummaryReact && (
-              <>
-                <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
-                  <HeartIcon isActive={isHeart} width={12} height={12} />
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {article.reactCount}
-                  </Typography>
-                </Grid>
-                <Grid item xs={4} md={3}>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
-                  </Typography>
-                </Grid>
-              </>
+            </AppLink>
+
+            {article.hashtags && (
+              <Box>
+                {article.hashtags.map(hashtag => (
+                  <AppLink key={uuid()} className="no-style-link">
+                    <Hashtag content={hashtag.tagName} onClick={onClickHashtag} />
+                  </AppLink>
+                ))}
+              </Box>
+            )}
+            {article.categories && (
+              <Box ml="-6px">
+                {article.categories.map(category => (
+                  <AppLink
+                    key={uuid()}
+                    className="no-style-link"
+                    to={StringFormat(
+                      PathConstant.FM_ARTICLES_FULL,
+                      getTitleNoMark(category.title),
+                      category.categoryId,
+                    )}
+                  >
+                    <CategoryTag content={category.title} onClick={() => onClickCategory(category)} />
+                  </AppLink>
+                ))}
+              </Box>
             )}
           </Grid>
-        </AppLink>
+          <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
+            <AppLink className="no-style-link" to={linkToDetail}>
+              <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
+            </AppLink>
+          </Grid>
+          {isSummaryReact && (
+            <>
+              <Grid item xs={8} md={9} className={defaultClasses.mainTotalHeart}>
+                <HeartIcon isActive={isHeart} width={12} height={12} />
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {getTotalReactCount(article.reactCount, tempReactAddition)}
+                </Typography>
+              </Grid>
+              <Grid item xs={4} md={3}>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {StringFormat(getLabel("FM_NUMBER_COMMENTS"), article.commentCount || 0)}
+                </Typography>
+              </Grid>
+            </>
+          )}
+        </Grid>
       </CardContent>
 
       {isAction && <Divider />}
       <CardActions disableSpacing className={defaultClasses.action} onClick={onStopTriggerParent}>
-        <Button
-          startIcon={<HeartIcon isActive={isHeart} />}
-          className={clsx(isHeart && defaultClasses.heartColor)}
-          onClick={onSendHear}
-        >
-          {getLabel("TXT_LOVE")}
-        </Button>
+        <ReactButton
+          articleId={article.articleId}
+          userRelation={data.userRelation}
+          changeParentTempCount={onAddReactTemp}
+        />
         <Button startIcon={<MessageIcon />} onClick={onGoToDetail}>
           {getLabel("TXT_COMMENT")}
         </Button>
         <FBShareButton url={getAbsolutePath(linkToDetail)} />
       </CardActions>
+      <AuthDialog isOpen={isOpenAuthDialog} onClose={onCloseAuthDialog} />
     </Card>
   );
 };

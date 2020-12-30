@@ -9,9 +9,10 @@ import ArticleActions from "redux/article.redux";
 import GiversList from "../../../GiversList";
 import { AuthDialog, DialogAppDownload } from "components";
 import { MOBILE_INPUT_ID } from "../../MobileCommentInput";
+import CommentReact from "./CommentReact";
 
-const CommentButtons = ({ comment, onOpenReplyDialog, isDesktopComment }) => {
-  const { reactCount, replyCount, commentId } = comment;
+const CommentButtons = ({ comment, onOpenReplyDialog, isDesktopComment, tempReactCount }) => {
+  const { reactCount, replyCount, commentId, userReaction } = comment;
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -56,7 +57,12 @@ const CommentButtons = ({ comment, onOpenReplyDialog, isDesktopComment }) => {
   return (
     <>
       {isOpenGivers && (
-        <GiversList isOpen={true} onClose={onCloseGiversList} reactCount={reactCount} commentId={commentId} />
+        <GiversList
+          isOpen={true}
+          onClose={onCloseGiversList}
+          reactCount={reactCount + tempReactCount}
+          commentId={commentId}
+        />
       )}
       {isOpenAuthDialog && <AuthDialog isOpen={true} onClose={onCloseAuthDialog} />}
       {isOpenDownload && <DialogAppDownload isOpen={true} onClose={onCloseDownload} />}
@@ -66,18 +72,16 @@ const CommentButtons = ({ comment, onOpenReplyDialog, isDesktopComment }) => {
             {getLabel("TXT_REPLY")}
           </Button>
           <Button size="small" className={clsx(classes.buttonMobile, "grey-text")} onClick={onOpenGiversList}>
-            {StringFormat(getLabel("FM_LOVE"), reactCount)}
+            {StringFormat(getLabel("FM_LOVE"), reactCount + tempReactCount)}
           </Button>
         </Box>
       ) : (
         <Box display="flex">
-          <Button
-            className={clsx("grey-text", "mr-16")}
-            startIcon={<Box className="ic-heart-empty" />}
-            onClick={onOpenDownload}
-          >
-            {StringFormat(getLabel("FM_LOVE"), reactCount)}
-          </Button>
+          <CommentReact
+            commentId={commentId}
+            totalReactCount={reactCount}
+            baseReactCount={userReaction ? userReaction.reactCount : 0}
+          />
           <Button className="grey-text" startIcon={<Box className="ic-comment" />} onClick={onOpenReplyDialog}>
             {StringFormat(getLabel("FM_COMMENT"), replyCount)}
           </Button>
@@ -91,6 +95,7 @@ CommentButtons.propTypes = {
   comment: PropTypes.object,
   onOpenReplyDialog: PropTypes.func,
   isDesktopComment: PropTypes.bool,
+  tempReactCount: PropTypes.number,
 };
 
 export default memo(CommentButtons);

@@ -3,7 +3,7 @@ import MainLayout from "layouts/MainLayout";
 import { Box, Grid, makeStyles, useTheme, useMediaQuery, Hidden, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant, AppConstant } from "const";
-import { ListCategory, CustomBreadcrumb } from "components";
+import { ListCategory, CustomBreadcrumb, Processing } from "components";
 import { PopularArticles, ListBooks } from "components/editions-collection";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -21,7 +21,8 @@ const CollectionBooksPage = ({ categoryId }) => {
     appBarTitle: getLabel("TXT_MOST_BORROWING_BOOK"),
   };
   const headRef = useRef();
-  const suggestionsCategoryId = useSelector(state => state.editionRedux.suggestionsCategoryId);
+  const { suggestionsCategoryId, isFetching } = useSelector(state => state.editionRedux);
+
   const [pageNum, setPageNum] = useState(1);
   const onChangePage = (event, value) => {
     setPageNum(value);
@@ -64,19 +65,15 @@ const CollectionBooksPage = ({ categoryId }) => {
           </Hidden>
         </Grid>
       </Grid>
+      <Processing isShow={isFetching} />
     </MainLayout>
   );
 };
 export const getServerSideProps = ({ query }) => {
   const categoryList = AppConstant.BOOK_SUGGESTION_CATEGORY;
-  let isValidCategory = false;
-  categoryList.forEach(async category => {
-    if (category.id === parseInt(query.categoryId)) {
-      isValidCategory = true;
-    }
-  });
-
-  const categoryId = isValidCategory ? parseInt(query.categoryId) : null;
+  const tempId = query.category ? query.category.charAt(query.category.indexOf("-") + 1) : null;
+  const category = categoryList.find(category => category.id === parseInt(tempId));
+  const categoryId = category ? category.id : null;
   return {
     props: {
       categoryId: categoryId,

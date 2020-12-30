@@ -6,9 +6,10 @@ import { useTranslation } from "react-i18next";
 import { AppConstant } from "const";
 import BookBox from "../../../BookBox";
 import { cutString } from "utils";
+import CommentReact from "./CommentReact";
 
-const CommentContent = ({ comment, isDesktopComment }) => {
-  const { content, commentToEditions } = comment;
+const CommentContent = ({ comment, isDesktopComment, changeParentReactCount }) => {
+  const { content, commentToEditions, reactCount, replyCount, commentId, userReaction } = comment;
   const classes = useStyles();
   const { t: getLabel } = useTranslation();
   const shortComment = cutString(AppConstant.COMMENT_DEFAULT_LENGTH, content);
@@ -32,9 +33,13 @@ const CommentContent = ({ comment, isDesktopComment }) => {
           )}
         </Box>
         {!isDesktopComment && (
-          <IconButton className={clsx(classes.loveBtn)}>
-            <Box className="ic-heart" />
-          </IconButton>
+          <CommentReact
+            commentId={commentId}
+            totalReactCount={reactCount}
+            baseReactCount={userReaction ? userReaction.reactCount : 0}
+            isSide={true}
+            changeSideParentCount={changeParentReactCount}
+          />
         )}
       </Box>
       {commentToEditions[0] && <BookBox className="mt-12" data={commentToEditions[0]} />}
@@ -45,6 +50,7 @@ const CommentContent = ({ comment, isDesktopComment }) => {
 CommentContent.propTypes = {
   comment: PropTypes.object,
   isDesktopComment: PropTypes.bool,
+  changeParentReactCount: PropTypes.func,
 };
 
 export default CommentContent;
@@ -73,22 +79,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(-1),
     "&:hover": {
       background: "none",
-    },
-  },
-  loveBtn: {
-    marginTop: theme.spacing(-1),
-    "& .ic-heart": {
-      WebkitTextStroke: `2px ${theme.palette.grey[500]}`,
-      color: theme.palette.white,
-      fontSize: 20,
-    },
-    "&:hover .ic-heart": {
-      color: theme.palette.error.main,
-      WebkitTextStroke: "0px",
-    },
-    "&:hover": {
-      background: "none",
-      color: theme.palette.error.main,
     },
   },
   reactCount: {
