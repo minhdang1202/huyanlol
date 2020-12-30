@@ -7,8 +7,10 @@ import Replies from "./Replies";
 import NoCommentWrapper from "../NoCommentWrapper";
 import { uuid } from "utils";
 import PopupReplyInput from "../PopupReplyInput";
+
+import { ARTICLE_COMMENT_CONTAINER_ID } from "../../ArticleComments";
 import { ARTICLE_REACT_BUTTON } from "../../ArticleReactButtons";
-const CommentWrapper = ({ hasSortChange, showMore }) => {
+const CommentWrapper = ({ hasSortChange }) => {
   const classes = useStyles();
   const [comments, commentCount, isFetchingComments] = useSelector(
     ({ articleRedux }) => [
@@ -18,7 +20,6 @@ const CommentWrapper = ({ hasSortChange, showMore }) => {
     ],
     shallowEqual,
   );
-  const commentList = showMore ? [...comments] : [...comments].slice(0, 2);
   const isOpenCommentDetail = useSelector(state => state.articleRedux.isOpenCommentDetail);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const CommentWrapper = ({ hasSortChange, showMore }) => {
     <Box mb={{ xs: 4, sm: 2 }} mt={{ xs: 3, sm: 2 }} className={classes.commentWrapper}>
       {comments &&
         !hasSortChange &&
-        commentList.map(comment => {
+        comments.map(comment => {
           const { commentId } = comment;
           return (
             <Box key={uuid()}>
@@ -52,7 +53,6 @@ const CommentWrapper = ({ hasSortChange, showMore }) => {
 
 CommentWrapper.propTypes = {
   hasSortChange: PropTypes.bool,
-  showMore: PropTypes.bool,
 };
 
 export default memo(CommentWrapper);
