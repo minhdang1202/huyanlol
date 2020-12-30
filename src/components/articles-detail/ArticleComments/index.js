@@ -152,16 +152,25 @@ const ArticleComments = () => {
 
       <Box position="relative">
         <CommentWrapper hasSortChange={hasSortChange} isOpenComment={isOpenComment} />
-        {commentCount > 2 && (
+        {!isOpenComment && (
           <Hidden xsDown>
             <Button
               variant="contained"
               className={clsx("light-blue-button", classes.seeAllButton)}
               onClick={onOpenComment}
             >
-              {isOpenComment
-                ? getLabel("TXT_ARTICLE_SEE_ALL_COMMENTS")
-                : StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
+              {StringFormat(getLabel("FM_ARTICLE_SEE_ALL_COMMENTS"), commentCount)}
+            </Button>
+          </Hidden>
+        )}
+        {!comments.isLastPage && isOpenComment && (
+          <Hidden xsDown>
+            <Button
+              variant="contained"
+              className={clsx("light-blue-button", classes.seeAllButton)}
+              onClick={() => dispatchGetComments()}
+            >
+              {getLabel("TXT_ARTICLE_SEE_MORE_COMMENTS")}
             </Button>
           </Hidden>
         )}
