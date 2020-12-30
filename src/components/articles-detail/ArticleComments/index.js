@@ -16,6 +16,8 @@ import ArticleReplyDialog, { ARTICLE_REPLY_DIALOG_ID } from "./ArticleReplyDialo
 import { getLabel } from "language";
 import { AuthDialog } from "components";
 import DesktopCommentWrapper from "./DesktopCommentWrapper";
+import SortSelect from "./ArticleReplyDialog/SortSelect";
+import AddingReply from "./ArticleReplyDialog/AddingReply";
 
 const ArticleComments = () => {
   const classes = useStyles();
@@ -154,34 +156,25 @@ const ArticleComments = () => {
           onChangeSort={onChangeSort}
         />
       )}
-      <Hidden smUp>
+      {!isMobile && <AddingReply />}
+      {isMobile ? (
         <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" mt={2}>
           <Typography variant="h5">{getLabel(getCommonKey("TXT_COMMENT"))}</Typography>
           <Button endIcon={<Box className="ic-chevron-down" fontSize={14} />} onClick={onOpenSort}>
             <Typography variant="body2">{displaySort}</Typography>
           </Button>
         </Box>
-      </Hidden>
+      ) : (
+        <Box className="space-between-root">
+          <Typography variant="subtitle1" className={classes.listComments}>
+            {getLabel("TXT_ARTICLE_LIST_COMMENTS")}
+          </Typography>
+          <SortSelect value={sortValue} onChange={e => onChangeSort(e.target.value)} />
+        </Box>
+      )}
+
       <Box position="relative">
-        {/* <Hidden xsDown>
-          <Button
-            variant="outlined"
-            className={clsx("grey-text", "mt-16", classes.commentButton)}
-            startIcon={<AvatarIcon />}
-            onClick={isAuth ? onOpenReplyDialog : onOpenAuthDialog}
-          >
-            <Typography variant="subtitle1">{getLabel("TXT_ARTICLE_WRITE_COMMENT")}</Typography>
-          </Button>
-        </Hidden> */}
-        {!isMobile ? (
-          <DesktopCommentWrapper
-            onOpenReplyDialog={onOpenReplyDialog}
-            sortValue={sortValue}
-            onChangeSort={onChangeSort}
-          />
-        ) : (
-          <CommentWrapper hasSortChange={hasSortChange} />
-        )}
+        <CommentWrapper hasSortChange={hasSortChange} />
         {commentCount > 2 && (
           <Hidden xsDown>
             <Button
@@ -222,6 +215,7 @@ var TIMEOUT_SCROLL = 600;
 const useStyles = makeStyles(theme => ({
   seeAllButton: {
     width: "100%",
+    marginBottom: theme.spacing(5),
   },
   commentButton: {
     borderRadius: "6px !important",
