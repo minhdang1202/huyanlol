@@ -34,7 +34,6 @@ export const DATA_SIZES = {
 
 // Base url
 export const WEBSITE_URL = "http://gatbook.ddsolution.co";
-export const BASE_IMAGE_URL = "https://fordev.gatbook.org/rest/api/common/get_image/{0}";
 
 // App download url
 export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat";

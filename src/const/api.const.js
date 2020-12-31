@@ -1,6 +1,7 @@
 // Base Api
 export const BASE_API = "https://fordevv2.gatbook.org/api/v1";
 export const BASE_API_V1 = "https://fordev.gatbook.org/rest/api";
+
 export const HEADER_DEFAULT = {
   Accept: "application/json",
   "Content-Type": "application/json",
@@ -71,3 +72,6 @@ export const GET_CHALLENGE_FRIEND_LEADER_BOARD = challengeId => `/challenges/${c
 export const GET_CHALLENGE_ACTIVITY = challengeId => `/challenges/${challengeId}/activities`;
 export const PUT_JOIN_CHALLENGE = challengeId => `/challenges/${challengeId}/_join`;
 export const GET_CHALLENGE_LIST_ALL = "/challenges";
+
+// Image
+export const BASE_IMAGE_API = BASE_API_V1 + "/common/get_image/{0}";
