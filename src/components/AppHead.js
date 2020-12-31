@@ -1,12 +1,11 @@
 import React from "react";
 import NextHead from "next/head";
 import { string } from "prop-types";
-import { AppConstant } from "../const";
+import { AppConstant } from "const";
 import { getAbsolutePath } from "utils";
 
 const getTitle = title => {
-  if (title) return `${AppConstant.APP_NAME} - ${title}`;
-  else return AppConstant.APP_NAME;
+  return title || AppConstant.APP_NAME;
 };
 
 const AppHead = props => {
@@ -42,11 +41,13 @@ AppHead.propTypes = {
 };
 
 AppHead.defaultProps = {
-  description: "A powerful, high-end and up-to-date Augmented Reality template for product visualization",
+  title: "GAT - Mạng xã hội về sách",
+  description:
+    "GAT, từ Ứng dụng cho mượn sách giấy miễn phí, nay đã trở thành Mạng xã hội cho người mê sách. Chúng tôi là nơi sách dừng chân, là ngôi nhà cho những câu chuyện của bạn, và là nơi “mọt” sách gặp nhau. Nếu bạn là một người thích đọc, thích viết, thích sách, hãy đến với GAT. GAT, tại sao không?",
   url: "",
-  ogImage: "/images/logo.png",
+  ogImage: getAbsolutePath("/images/img-gat-cover.jpg"),
 };
 
 export default AppHead;
 
-const ICON_PATH = "/images/favicon.ico";
+const ICON_PATH = getAbsolutePath("/images/favicon.ico");
