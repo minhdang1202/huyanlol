@@ -23,7 +23,6 @@ const ReplyItem = ({ data, onReply }) => {
 
   const onSendHear = event => {
     event.stopPropagation();
-    console.log("onSendHear");
   };
   let isHeart = true;
   let isPreviewBook = true;
