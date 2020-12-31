@@ -15,7 +15,6 @@ export function* requestGetTopWriter(action) {
       yield put(UserAction.userFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(UserAction.userFailure(error));
   }
 }
@@ -31,7 +30,6 @@ export function* requestGetUserProfile() {
       yield put(UserAction.userFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(UserAction.userFailure(error));
   }
 }
@@ -47,7 +45,6 @@ export function* requestImage(action) {
       yield put(UserAction.userFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(UserAction.userFailure(error));
   }
 }
@@ -62,7 +59,6 @@ export function* requestGetUserSuggestion(action) {
       yield put(UserAction.userFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(UserAction.userFailure(error));
   }
 }

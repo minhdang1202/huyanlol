@@ -27,7 +27,6 @@ export function* requestLogin(action) {
       }
     }
   } catch (error) {
-    console.log(error);
     yield put(AuthAction.authFailure(error));
   }
   if (!isSuccess) {
@@ -45,7 +44,6 @@ export function* requestRegister(action) {
       yield put(AuthAction.authFailure({ errors: { details: getLabel("ERR_REGISTER") } }));
     }
   } catch (error) {
-    console.log(error);
     yield put(AuthAction.authFailure(error));
   }
 }

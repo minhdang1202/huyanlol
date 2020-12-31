@@ -31,9 +31,7 @@ export const createDate = timestamp => {
 export const convertFormat = (date, strFormat, options = {}) => {
   try {
     return format(date, strFormat, options);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
   return "";
 };
 

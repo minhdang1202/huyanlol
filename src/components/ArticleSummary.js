@@ -60,7 +60,6 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
 
   const onSetting = event => {
     event.stopPropagation();
-    console.log("onSetting");
   };
 
   const onStopTriggerParent = event => {
@@ -69,9 +68,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
   const onClickHashtag = event => {
     event.stopPropagation();
   };
-  const onClickCategory = categoryId => {
-    console.log(categoryId);
-  };
+  const onClickCategory = categoryId => {};
   const onAddReactTemp = () => {
     setTempReactAddition(tempReactAddition => tempReactAddition + 1);
   };
