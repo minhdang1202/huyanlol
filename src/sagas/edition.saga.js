@@ -40,7 +40,6 @@ export function* requestGetLendersList(action) {
       yield put(EditionAction.getLendersListSuccess({ lendersList: lendersList, totalLenders: total }));
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.getLendersListFailure(error));
   }
 }
@@ -82,7 +81,6 @@ export function* requestGetNearestLenders(action) {
       yield put(EditionAction.getNearestLendersSuccess({ nearestLenders: nearestLenders, totalLenders: total }));
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.getNearestLendersFailure(error));
   }
 }
@@ -103,7 +101,6 @@ export function* requestGetTotalLenders(action) {
       yield put(EditionAction.getTotalLendersSuccess({ totalLenders: total }));
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.getTotalLendersFailure(error));
   }
 }
@@ -121,7 +118,6 @@ export function* requestGetSelfReview(action) {
       yield put(EditionAction.requestEditionSuccess({ rate, review, name, avatar }));
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.requestEditionFailure(error));
   }
 }
@@ -176,7 +172,6 @@ export function* requestGetReviews(action) {
       yield put(EditionAction.getReviewsSuccess({ reviewsList, totalReviews: total }));
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.getReviewsFailure(error));
   }
 }
@@ -193,7 +188,6 @@ export function* requestGetBookSuggestion(action) {
       yield put(EditionAction.requestEditionFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.requestEditionFailure(error));
   }
 }
@@ -210,7 +204,6 @@ export function* requestGetBookSuggestionByCategory(action) {
       yield put(EditionAction.requestEditionFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.requestEditionFailure(error));
   }
 }
@@ -225,7 +218,6 @@ export function* requestGetEditionSuggestion(action) {
       yield put(EditionAction.requestEditionFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.requestEditionFailure(error));
   }
 }
@@ -240,7 +232,6 @@ export function* requestPostEditionRate(action) {
       yield put(EditionAction.requestEditionFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(EditionAction.requestEditionFailure(error));
   }
 }

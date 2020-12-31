@@ -35,7 +35,6 @@ const ArticleReactButtons = ({ shareUrl, articleId, onAddTempReact, userRelation
       return;
     }
     const mobileInput = document.getElementById(MOBILE_INPUT_ID);
-    console.log(mobileInput);
     mobileInput.click();
   };
   const onBookmark = async () => {

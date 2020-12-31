@@ -19,7 +19,6 @@ export function* requestGetHashTagsList(action) {
       yield put(ArticleCreateAction.articleCreateFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleCreateAction.articleCreateFailure(error));
   }
 }
@@ -39,7 +38,6 @@ export function* requestGetCategoriesList(action) {
       yield put(ArticleCreateAction.articleCreateFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleCreateAction.articleCreateFailure(error));
   }
 }
@@ -72,7 +70,6 @@ export function* requestPostArticle(action) {
       yield put(ArticleCreateAction.articleCreateFailure({ isSaveFailure: true }));
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleCreateAction.articleCreateFailure({ error, isSaveFailure: true }));
   }
 }
@@ -106,7 +103,6 @@ export function* requestPatchArticle(action) {
         yield put(ArticleCreateAction.articleCreateFailure({ isSaveFailure, isPostFailure }));
       }
     } catch (error) {
-      console.log(error);
       yield put(
         ArticleCreateAction.articleCreateFailure({
           error,

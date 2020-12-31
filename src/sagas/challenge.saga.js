@@ -12,10 +12,8 @@ export function* requestGetChallengeInfo(action) {
       yield put(ChallengeAction.getChallengeInfoSuccess({ ...responseData }));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
-      console.log(response.data);
     }
   } catch (error) {
-    console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }
@@ -28,10 +26,8 @@ export function* requestGetLeaderBoard(action) {
       yield put(ChallengeAction.getChallengeLeaderBoardSuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
-      console.log(response.data);
     }
   } catch (error) {
-    console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }
@@ -44,10 +40,8 @@ export function* requestGetFriendLeaderBoard(action) {
       yield put(ChallengeAction.getChallengeFriendLeaderBoardSuccess(responseData));
     } else {
       yield put(ChallengeAction.getChallengeInfoFailure());
-      console.log(response.data);
     }
   } catch (error) {
-    console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }
@@ -62,7 +56,6 @@ export function* requestGetActivity(action) {
       yield put(ChallengeAction.getChallengeInfoFailure());
     }
   } catch (error) {
-    yield console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }
@@ -77,7 +70,6 @@ export function* requestGetChallengeList(action) {
       yield put(ChallengeAction.getChallengeInfoFailure());
     }
   } catch (error) {
-    yield console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }
@@ -92,7 +84,6 @@ export function* requestGetChallengeJoinedList(action) {
       yield put(ChallengeAction.getChallengeInfoFailure());
     }
   } catch (error) {
-    yield console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }
@@ -107,7 +98,6 @@ export function* requestGetChallengeRecommendList(action) {
       yield put(ChallengeAction.getChallengeInfoFailure());
     }
   } catch (error) {
-    yield console.log(error);
     yield put(ChallengeAction.getChallengeInfoFailure(error));
   }
 }

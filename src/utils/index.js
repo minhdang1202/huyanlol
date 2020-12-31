@@ -1,4 +1,4 @@
-import { AppConstant, PathConstant } from "const";
+import { ApiConstant, AppConstant, PathConstant } from "const";
 import StringFormat from "string-format";
 
 export const uuid = () => {
@@ -115,7 +115,7 @@ export const convertUnitToKm = distance => {
 };
 
 export const getImageById = imageId => {
-  return StringFormat(AppConstant.BASE_IMAGE_URL, imageId);
+  return StringFormat(ApiConstant.BASE_IMAGE_API, imageId);
 };
 
 export const getRandomDefaultArticleCoverId = () => {

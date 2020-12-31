@@ -57,7 +57,6 @@ const ReviewSummary = ({ data, isHiddenAction, classes }) => {
   };
   const onSetting = event => {
     event.stopPropagation();
-    console.log("onSetting");
   };
   const onStopTriggerParent = event => {
     event.stopPropagation();

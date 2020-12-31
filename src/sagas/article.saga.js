@@ -14,7 +14,6 @@ export function* requestGetHomeArticles(action) {
       yield put(ArticleAction.articleFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -30,7 +29,6 @@ export function* requestGetHomeReviews(action) {
       yield put(ArticleAction.articleFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -45,7 +43,6 @@ export function* requestGetChallengeArticles(action) {
       yield put(ArticleAction.articleFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -67,7 +64,6 @@ export function* requestGetGivers(action) {
       yield put(ArticleAction.articleSuccess({ articleGivers }));
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -89,7 +85,6 @@ export function* requestGetCommentGivers(action) {
       yield put(ArticleAction.articleSuccess({ commentGivers }));
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -123,7 +118,6 @@ export function* requestGetComments(action) {
       yield put(ArticleAction.articleSuccess({ comments, replies: currentReplies }));
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -145,7 +139,6 @@ export function* requestGetReplies(action) {
       yield put(ArticleAction.articleSuccess({ replies: currentReplies }));
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -179,7 +172,6 @@ export function* requestPostComment(action) {
       );
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure({ isPostCommentFailure: true }));
   }
   if (!isSuccess) {
@@ -217,7 +209,6 @@ export function* requestPostReply(action) {
       );
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure({ isPostCommentFailure: true }));
   }
   if (!isSuccess) {
@@ -236,7 +227,6 @@ export function* requestArticleList(action) {
       yield put(ArticleAction.articleFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -252,7 +242,6 @@ export function* requestArticlePopularList(action) {
       yield put(ArticleAction.articleFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -268,7 +257,6 @@ export function* requestAddArticleReact(action) {
       yield put(ArticleAction.articleFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
@@ -284,7 +272,6 @@ export function* requestAddCommentReact(action) {
       yield put(ArticleAction.articleFailure());
     }
   } catch (error) {
-    console.log(error);
     yield put(ArticleAction.articleFailure(error));
   }
 }
