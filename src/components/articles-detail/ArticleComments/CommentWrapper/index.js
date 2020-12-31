@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { shallowEqual, useSelector } from "react-redux";
 import { Box, CircularProgress, makeStyles, Hidden } from "@material-ui/core";
@@ -20,8 +20,13 @@ const CommentWrapper = ({ hasSortChange, isOpenComment }) => {
     ],
     shallowEqual,
   );
-  const commentList = comments ? (isOpenComment ? comments : comments.slice(0, 2)) : null;
+
   const isOpenCommentDetail = useSelector(state => state.articleRedux.isOpenCommentDetail);
+  const [commentList, setCommentList] = useState([]);
+
+  useEffect(() => {
+    setCommentList(comments ? (isOpenComment ? comments : comments.slice(0, 2)) : []);
+  }, [isOpenComment]);
 
   useEffect(() => {
     if (isOpenCommentDetail) {
