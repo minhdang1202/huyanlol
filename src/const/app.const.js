@@ -33,7 +33,7 @@ export const DATA_SIZES = {
 };
 
 // Base url
-export const WEBSITE_URL = "http://gatbook.ddsolution.co";
+export const WEBSITE_URL = "https://gatbook.org";
 
 // App download url
 export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat";
