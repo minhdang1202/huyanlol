@@ -1,4 +1,4 @@
-import { ApiConstant, AppConstant, PathConstant } from "const";
+import { ApiConstant, AppConstant } from "const";
 import StringFormat from "string-format";
 
 export const uuid = () => {
