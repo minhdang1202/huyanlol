@@ -17,12 +17,15 @@ const AppHead = props => {
     <NextHead>
       <meta charSet="UTF-8" />
       <title>{primaryTitle}</title>
-      <meta name="description" content={props.description} />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" sizes="192x192" href={ICON_PATH} />
       <link rel="apple-touch-icon" href={ICON_PATH} />
       <link rel="icon" href={ICON_PATH} />
 
+      <meta name="description" content={props.description} />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <meta property="fb:app_id" content={AppConstant.APP_FACEBOOK} />
+      <meta property="og:type" content="website" />
       <meta property="og:url" content={primaryUrl} />
       <meta property="og:title" content={primaryTitle} />
       <meta property="og:description" content={props.description} />

@@ -92,13 +92,19 @@ const useStyles = makeStyles(theme => ({
   root: {
     boxShadow: "unset",
     "&, & > *": {
-      padding: 0,
+      padding: theme.spacing(1),
     },
+    height: 252,
+    display: "flex",
+    flexDirection: "column",
+    border: `solid 1px ${theme.palette.grey[100]}`,
+    marginBottom: theme.spacing(3),
   },
   headerAvatar: { marginRight: 12 },
   headerTitle: { fontSize: 18 },
   main: {
     paddingTop: theme.spacing(1),
+
     "& > *": {
       display: "flex",
       marginBottom: 8,
@@ -106,20 +112,24 @@ const useStyles = makeStyles(theme => ({
     "&>:last-child": {
       background: theme.palette.grey[100],
     },
+    height: "100%",
   },
   sendBtn: {
     width: 132,
     minHeight: 33,
     marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
   input: {
     padding: theme.spacing(1.5, 0),
     width: "100%",
+    height: "100%",
     "& .DraftEditor-root": {
       width: "100%",
       overflow: "auto",
-      maxHeight: 88,
+      height: 65,
+      maxHeight: 65,
       fontSize: 16,
     },
   },
