@@ -214,9 +214,9 @@ export default {
     TXT_BOOKSTOP_GAT: "Tham gia Trạm GAT",
     TXT_PROFILE: "Hoàn thiện Profile",
     TXT_MOST_BORROWING_BOOK: "Sách được mượn nhiều",
-    TXT_LIST_ARTICLES: "Danh sách đánh giá",
+    TXT_LIST_ARTICLES: "Danh sách bài viết",
     TXT_LIST_REVIEWS: "Danh sách review",
-    TXT_LIST_WRITERS: "Danh sách nhà văn",
+    TXT_TOP_WRITERS: "Tác giả nổi tiếng",
     TXT_CREATE_ARTICLE: "Tạo bài viết mới",
   },
   articleCreate: {

@@ -34,7 +34,7 @@ const TopWriter = () => {
   }, []);
 
   return (
-    <Section title={getLabel("TXT_LIST_REVIEWS")}>
+    <Section title={getLabel("TXT_TOP_WRITERS")}>
       <TabUsers data={list} value={selectedTab} onChange={onSelectedTab} />
 
       <Box className={classes.root}>
