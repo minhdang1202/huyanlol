@@ -8,8 +8,8 @@ const Home = () => {
   const classes = useStyles();
   return (
     <MainLayout classes={{ main: classes.mainLayout }}>
-      <Container>
-        <Grid container className={classes.root}>
+      <Container className={classes.root}>
+        <Grid container className={classes.container}>
           <Hidden smDown>
             <Grid item xs="auto" sm={8} md={2} className={classes.leftContainer}>
               <Box className={classes.fixedPosition}>
@@ -44,6 +44,11 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(3),
   },
   root: {
+    [theme.breakpoints.down("xs")]: {
+      paddingBottom: 72,
+    },
+  },
+  container: {
     [theme.breakpoints.down("xs")]: {
       flexDirection: "column-reverse",
     },

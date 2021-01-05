@@ -115,6 +115,7 @@ export const convertUnitToKm = distance => {
 };
 
 export const getImageById = imageId => {
+  if (!imageId) imageId = AppConstant.IMAGE_PLACEHOLDER_ID;
   return StringFormat(ApiConstant.BASE_IMAGE_API, imageId);
 };
 

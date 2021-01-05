@@ -38,7 +38,7 @@ const ArticlesCollectionPage = ({ categoryId }) => {
   const onScroll = e => {
     const { scrollHeight, scrollTop, clientHeight } = e.target;
     if (scrollTop + clientHeight >= scrollHeight) {
-      setPageNum(pageNum + 1);
+      setPageNum(pageNum => pageNum + 1);
     }
   };
   useEffect(() => {
@@ -53,13 +53,6 @@ const ArticlesCollectionPage = ({ categoryId }) => {
     }
   });
   useEffect(() => {
-    if (isTablet && articleList) {
-      setArticleList([...articleList, ...pageData]);
-    } else {
-      setArticleList(pageData);
-    }
-  }, [pageData]);
-  useEffect(() => {
     dispatch(
       ArticleAction.requestArticleList({
         pageSize: pageSize,
@@ -68,6 +61,14 @@ const ArticlesCollectionPage = ({ categoryId }) => {
       }),
     );
   }, [pageNum]);
+  useEffect(() => {
+    if (isTablet && articleList) {
+      setArticleList([...articleList, ...pageData]);
+    } else {
+      setArticleList(pageData);
+    }
+  }, [pageData]);
+
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container ref={headRef} className={classes.root}>
