@@ -5,7 +5,7 @@ import { AppLink, CustomRating } from "components";
 import clsx from "clsx";
 import { getImageById, getTitleNoMark } from "utils";
 import StringFormat from "string-format";
-import { PathConstant } from "const";
+import { PathConstant, AppConstant } from "const";
 
 const BookSummary = ({ data, classes, isHorizontal }) => {
   const defaultClasses = useStyles();
@@ -31,7 +31,7 @@ const BookSummary = ({ data, classes, isHorizontal }) => {
           <>
             <CardMedia
               className={clsx(defaultClasses.cover, classes.cover)}
-              src={getImageById(book.imageId)}
+              src={getImageById(book.imageId ? book.imageId : AppConstant.IMAGE_PLACEHOLDER_ID)}
               title={book.title}
               component="img"
             />

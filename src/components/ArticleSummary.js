@@ -180,7 +180,11 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
           </Grid>
           <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
             <AppLink className="no-style-link" to={linkToDetail}>
-              <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
+              <CardMedia
+                src={getImageById(article.thumbnailId ? article.thumbnailId : AppConstant.IMAGE_PLACEHOLDER_ID)}
+                title={article.title}
+                component="img"
+              />
             </AppLink>
           </Grid>
           {isSummaryReact && (
