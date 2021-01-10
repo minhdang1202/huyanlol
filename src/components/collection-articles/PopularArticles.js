@@ -29,7 +29,7 @@ const PopularArticles = ({ categoryId }) => {
     <Section title={getLabel("TXT_POPULAR_ARTICLE")} needMore={false}>
       <Box className={classes.root}>
         {displayList.map(article => (
-          <ArticleSummary key={uuid()} data={article} isAction={false} isSummaryReact={false} />
+          <ArticleSummary key={uuid()} data={article} isAction={false} isSummaryReact={false} isSide={true} />
         ))}
       </Box>
     </Section>

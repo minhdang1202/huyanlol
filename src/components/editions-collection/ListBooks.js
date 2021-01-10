@@ -67,6 +67,7 @@ const useStyles = makeStyles(theme => ({
     display: "grid",
     width: "100%",
     height: "100%",
+    minHeight: 710,
     gridTemplateColumns: "repeat(5, 1fr)",
     gap: "6px",
     [theme.breakpoints.down("xs")]: {

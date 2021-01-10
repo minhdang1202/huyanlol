@@ -52,7 +52,7 @@ export default {
     TXT_LIST_REVIEWS: "Danh sách review",
     TXT_LIST_WRITERS: "Danh sách nhà văn",
     TXT_CHALLENGE: "Thử thách đọc sách",
-    TXT_LATEST_ARTICLE: "Bài viết mới nhất",
+    TXT_LATEST_ARTICLE: "Danh sách bài viết ",
     TXT_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
 
     //P: Placeholder
@@ -214,9 +214,9 @@ export default {
     TXT_BOOKSTOP_GAT: "Tham gia Trạm GAT",
     TXT_PROFILE: "Hoàn thiện Profile",
     TXT_MOST_BORROWING_BOOK: "Sách được mượn nhiều",
-    TXT_LIST_ARTICLES: "Danh sách đánh giá",
+    TXT_LIST_ARTICLES: "Danh sách bài viết",
     TXT_LIST_REVIEWS: "Danh sách review",
-    TXT_LIST_WRITERS: "Danh sách nhà văn",
+    TXT_TOP_WRITERS: "Tác giả nổi tiếng",
     TXT_CREATE_ARTICLE: "Tạo bài viết mới",
   },
   articleCreate: {
@@ -285,7 +285,7 @@ export default {
   },
   collectionArticles: {
     TXT_POPULAR_ARTICLE: "Bài viết phổ biến",
-    TXT_LATEST_ARTICLE: "Bài viết mới nhất",
+    TXT_LATEST_ARTICLE: "Danh sách bài viết ",
     TXT_MOST_MENTIONED_BOOK: "Cuốn sách được nói đến nhiều nhất",
   },
   collectionBooks: {

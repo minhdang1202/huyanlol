@@ -151,6 +151,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     position: "relative",
     height: "35px !important",
+    display: "flex",
   },
   heart: {
     "&, & *": {

@@ -15,7 +15,7 @@ const ArticlesCollectionPage = ({ categoryId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_ARTICLES);
   const theme = useTheme();
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("sm"));
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
   const appBarProps = {
@@ -38,7 +38,7 @@ const ArticlesCollectionPage = ({ categoryId }) => {
   const onScroll = e => {
     const { scrollHeight, scrollTop, clientHeight } = e.target;
     if (scrollTop + clientHeight >= scrollHeight) {
-      setPageNum(pageNum + 1);
+      setPageNum(pageNum => pageNum + 1);
     }
   };
   useEffect(() => {
@@ -53,13 +53,6 @@ const ArticlesCollectionPage = ({ categoryId }) => {
     }
   });
   useEffect(() => {
-    if (isTablet && articleList) {
-      setArticleList([...articleList, ...pageData]);
-    } else {
-      setArticleList(pageData);
-    }
-  }, [pageData]);
-  useEffect(() => {
     dispatch(
       ArticleAction.requestArticleList({
         pageSize: pageSize,
@@ -68,6 +61,14 @@ const ArticlesCollectionPage = ({ categoryId }) => {
       }),
     );
   }, [pageNum]);
+  useEffect(() => {
+    if (isTablet && articleList) {
+      setArticleList([...articleList, ...pageData]);
+    } else {
+      setArticleList(pageData);
+    }
+  }, [pageData]);
+
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container ref={headRef} className={classes.root}>
@@ -105,19 +106,17 @@ ArticlesCollectionPage.propTypes = {
 };
 
 export async function getServerSideProps({ query }) {
-  const tempId = query.category.charAt(query.category.indexOf("-") + 1);
-  const isValidCategoryId = /^\d+$/.test(tempId);
-  let categoryId = isValidCategoryId ? tempId : "1";
-  return { props: { categoryId } };
+  const tempId = query.category ? query.category.charAt(query.category.indexOf("-") + 1) : null;
+  return { props: { categoryId: tempId } };
 }
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: 1020,
     padding: 0,
+    overflow: "hidden",
     [theme.breakpoints.down("md")]: {
       marginLeft: theme.spacing(3),
-      maxWidth: "744px !important",
     },
     [theme.breakpoints.down("xs")]: {
       margin: 0,
@@ -145,9 +144,6 @@ const useStyles = makeStyles(theme => ({
         margin: 2,
       },
     },
-    [theme.breakpoints.down("md")]: {
-      width: 696,
-    },
     [theme.breakpoints.down("xs")]: {
       maxWidth: "100%",
       margin: 0,
@@ -155,6 +151,9 @@ const useStyles = makeStyles(theme => ({
   },
   rightContent: {
     width: 324,
+    [theme.breakpoints.down("md")]: {
+      maxWidth: 280,
+    },
     "&>:first-child": {
       marginBottom: theme.spacing(4),
       paddingBottom: 0,

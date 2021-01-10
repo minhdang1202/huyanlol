@@ -31,7 +31,7 @@ const PopularArticles = () => {
       <Box className={classes.root}>
         {list.map(article => (
           <Box key={uuid()} className={classes.item}>
-            <ArticleSummary data={article} isAction={false} isSummaryReact={false} />
+            <ArticleSummary data={article} isAction={false} isSummaryReact={false} isSide={true} />
           </Box>
         ))}
       </Box>
