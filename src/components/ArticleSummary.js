@@ -31,7 +31,7 @@ import ArticleActions from "redux/article.redux";
 import { ArticleService } from "services";
 import { hasLogged } from "utils/auth";
 
-const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classes }) => {
+const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classes, isSide }) => {
   const defaultClasses = useStyles({ isHeader: isHeaderAction, isAction: isAction });
   const { t: getLabel } = useTranslation();
   const router = useRouter();
@@ -65,10 +65,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
   const onStopTriggerParent = event => {
     event.stopPropagation();
   };
-  const onClickHashtag = event => {
-    event.stopPropagation();
-  };
-  const onClickCategory = categoryId => {};
+
   const onAddReactTemp = () => {
     setTempReactAddition(tempReactAddition => tempReactAddition + 1);
   };
@@ -144,7 +141,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
 
       <CardContent className={defaultClasses.main}>
         <Grid container>
-          <Grid item xs={8} md={9}>
+          <Grid item xs={8} md={9} className={clsx(isSide && defaultClasses.sideContent)}>
             <AppLink className="no-style-link" to={linkToDetail}>
               <Typography variant="subtitle1" component="p">
                 {article.title}
@@ -158,7 +155,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
               <Box>
                 {article.hashtags.map(hashtag => (
                   <AppLink key={uuid()} className="no-style-link">
-                    <Hashtag content={hashtag.tagName} onClick={onClickHashtag} />
+                    <Hashtag content={hashtag.tagName} />
                   </AppLink>
                 ))}
               </Box>
@@ -175,7 +172,7 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
                       category.categoryId,
                     )}
                   >
-                    <CategoryTag content={category.title} onClick={() => onClickCategory(category)} />
+                    <CategoryTag content={category.title} />
                   </AppLink>
                 ))}
               </Box>
@@ -183,7 +180,11 @@ const ArticleSummary = ({ data, isHeaderAction, isAction, isSummaryReact, classe
           </Grid>
           <Grid item xs={4} md={3} className={defaultClasses.mainCover}>
             <AppLink className="no-style-link" to={linkToDetail}>
-              <CardMedia src={getImageById(article.thumbnailId)} title={article.title} component="img" />
+              <CardMedia
+                src={getImageById(article.thumbnailId ? article.thumbnailId : AppConstant.IMAGE_PLACEHOLDER_ID)}
+                title={article.title}
+                component="img"
+              />
             </AppLink>
           </Grid>
           {isSummaryReact && (
@@ -227,6 +228,7 @@ ArticleSummary.propTypes = {
   isHeaderAction: PropTypes.bool,
   isSummaryReact: PropTypes.bool,
   classes: PropTypes.object,
+  isSide: PropTypes.bool,
 };
 ArticleSummary.defaultProps = { isAction: true, isHeaderAction: true, isSummaryReact: true, classes: {} };
 
@@ -274,6 +276,13 @@ const useStyles = makeStyles(theme => ({
       height: 142,
       borderRadius: 6,
       float: "right",
+    },
+  },
+  sideContent: {
+    "&>*:first-child": {
+      "&>*": {
+        maxWidth: "80%",
+      },
     },
   },
   mainTotalHeart: {

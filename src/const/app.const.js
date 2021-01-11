@@ -158,3 +158,5 @@ export const HOME_SCREEN_VALUE = {
   search: 1,
   user: 2,
 };
+
+export const IMAGE_PLACEHOLDER_ID = "50353877303";

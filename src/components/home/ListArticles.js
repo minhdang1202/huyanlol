@@ -28,14 +28,7 @@ const ListArticles = () => {
   }, []);
 
   return (
-    <Section
-      title={getLabel("TXT_LIST_ARTICLES")}
-      href={StringFormat(
-        PathConstant.FM_ARTICLES_FULL,
-        AppConstant.ARTICLE_CATEGORY.discussion.title,
-        AppConstant.ARTICLE_CATEGORY.discussion.id,
-      )}
-    >
+    <Section title={getLabel("TXT_LIST_ARTICLES")} href={PathConstant.ARTICLES_COLLECTION}>
       <Box className={classes.root}>
         {list.map(article => (
           <Box key={uuid()} className={classes.item}>

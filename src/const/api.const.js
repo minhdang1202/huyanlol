@@ -28,7 +28,7 @@ export const POST_LOGIN = "/user/login_by_email";
 export const POST_LOGIN_BY_SOCIAL = "/user/login_by_social";
 export const POST_REGISTER = "/user/register_by_email";
 export const GET_USER_PROFILE = "/user/self/info";
-export const GET_USER_TOP_WRITER = "/user/articles/top_writer";
+export const GET_USER_TOP_WRITER = "/articles/users/top_writers?limitDays=30";
 export const POST_USER_IMAGES = "/user-images";
 export const GET_USER_SUGGESTION = "/user/suggestion";
 export const POST_FOLLOW_USER = "/users/self/follows";

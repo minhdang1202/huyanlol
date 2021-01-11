@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
     margin: "auto",
     height: "570px",
     width: "100%",
-    maxWidth: "1360px",
+    maxWidth: "1366px",
     backgroundImage: `url("images/img-challenge-bg.png")`,
     backgroundPosition: "center",
     backgroundSize: "cover",
