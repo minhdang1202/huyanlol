@@ -49,7 +49,12 @@ const ArticleDetail = ({ article }) => {
   const displayDate = convertDistanceDate(new Date(lastUpdate ? lastUpdate : publishedDate), new Date(), i18n.language);
   const shareUrl = getAbsolutePath(getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title));
   const appBarProps = { isDetail: true, shareUrl, appBarTitle: title, hasBookmark: true, isBookmarked: saved };
-  const headProps = { title: title, description: intro, ogImage: getImageById(coverId) };
+  const headProps = {
+    title: title,
+    description: intro,
+    ogImage: getImageById(coverId),
+    url: getRedirectPath(PathConstant.FM_ARTICLE_DETAIL, articleId, title),
+  };
 
   const [tempReactCount, setTempReactCount] = useState(0);
 
