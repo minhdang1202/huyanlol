@@ -37,7 +37,12 @@ const BookDetail = ({ book, bookCover }) => {
   const shareUrl = getAbsolutePath(StringFormat(PathConstant.FM_BOOK_DETAIL_ID, book.editionId));
   const { t: getLabel } = useTranslation(LangConstant.NS_BOOK_DETAIL);
   const appBarProps = { isDetail: true, shareUrl, className: classes.appBarMobile };
-  const headProps = { title: book.title, description: book.description, ogImage: bookCover };
+  const headProps = {
+    title: book.title,
+    description: book.description,
+    ogImage: bookCover,
+    url: StringFormat(PathConstant.FM_BOOK_DETAIL_ID, book.editionId),
+  };
   const SELECT_TABS = [
     {
       icon: <Box className="ic-info-circle" />,
