@@ -4,11 +4,13 @@ import PropTypes from "prop-types";
 import { Typography, makeStyles, Avatar } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { LangConstant } from "const";
-import FollowButton from "./FollowButton";
+import { FollowButton, EditArticleButton } from "../articles-detail";
 import { getImageById } from "utils";
+import { useSelector } from "react-redux";
 
 const AsideAuthorButton = ({ creator, date }) => {
   const classes = useStyles();
+  const userId = useSelector(state => state.userRedux?.profile?.userId);
   const { imageId, name } = creator;
   const { t: getLabel } = useTranslation(LangConstant.NS_ARTICLE_DETAIL);
   return (
@@ -23,7 +25,7 @@ const AsideAuthorButton = ({ creator, date }) => {
       <Typography variant="body2" className={clsx("eclipse", "grey-text")}>
         {date}
       </Typography>
-      <FollowButton className="mt-16" />
+      {userId === creator.userId ? <EditArticleButton className="mt-16" /> : <FollowButton className="mt-16" />}
     </>
   );
 };

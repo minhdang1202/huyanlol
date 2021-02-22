@@ -54,6 +54,7 @@ export default {
     TXT_CHALLENGE: "Thử thách đọc sách",
     TXT_LATEST_ARTICLE: "Danh sách bài viết ",
     TXT_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
+    TXT_EDIT_ARTICLE: "Sửa bài viết",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",

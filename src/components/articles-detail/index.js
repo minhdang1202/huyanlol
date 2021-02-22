@@ -9,6 +9,8 @@ import ArticleReacts from "./ArticleReacts";
 import ArticleReactButtons from "./ArticleReactButtons";
 import ArticleBookMentioned from "./ArticleBookMentioned";
 import ArticleComments from "./ArticleComments";
+import FollowButton from "./FollowButton";
+import EditArticleButton from "./EditArticleButton";
 
 export {
   AsideAuthorButton,
@@ -22,4 +24,6 @@ export {
   ArticleReactButtons,
   ArticleBookMentioned,
   ArticleComments,
+  FollowButton,
+  EditArticleButton,
 };
