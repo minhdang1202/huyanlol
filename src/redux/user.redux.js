@@ -7,6 +7,7 @@ const { Types, Creators } = createActions({
   requestImage: ["data"],
   requestImageDone: null,
   requestUserSuggestion: ["data"],
+  requestProfileVisitor: ["data"],
 
   userFailure: ["data"],
   userSuccess: ["data"],
@@ -23,6 +24,7 @@ export const INITIAL_STATE = {
   topWriter: {},
   profile: {},
   suggestions: [],
+  profileVisitor: {},
 };
 
 /* ------------- Reducers ------------- */
@@ -50,6 +52,7 @@ export const HANDLERS = {
   [Types.REQUEST_IMAGE]: request,
   [Types.REQUEST_USER_SUGGESTION]: request,
   [Types.REQUEST_IMAGE_DONE]: finish,
+  [Types.REQUEST_PROFILE_VISITOR]: request,
 
   [Types.USER_SUCCESS]: finish,
   [Types.USER_FAILURE]: finish,

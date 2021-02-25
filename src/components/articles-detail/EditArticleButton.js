@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: 43,
     padding: theme.spacing(1.5, 2),
+    minWidth: 132,
   },
 }));
 

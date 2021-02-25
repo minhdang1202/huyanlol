@@ -33,6 +33,7 @@ export const POST_USER_IMAGES = "/user-images";
 export const GET_USER_SUGGESTION = "/user/suggestion";
 export const POST_FOLLOW_USER = "/users/self/follows";
 export const DELETE_UN_FOLLOW_USER = targetUserID => `/users/self/follows/${targetUserID}`;
+export const GET_USER_PROFILE_VISITOR = username => `/user/${username}`;
 
 // * Book
 export const GET_BOOK_DETAIL = editionId => `/book_edition/${editionId}`;

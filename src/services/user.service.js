@@ -16,3 +16,7 @@ export const postFollowUser = targetUserID =>
 
 export const deleteUnFollowUser = targetUserID =>
   createApi(defaultConfigV1).delete(ApiConstant.DELETE_UN_FOLLOW_USER(targetUserID));
+
+export const getUserProfileVisitor = userId => {
+  return createApi().get(ApiConstant.GET_USER_PROFILE_VISITOR(userId));
+};

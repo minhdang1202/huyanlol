@@ -24,7 +24,7 @@ const ArticleAuthor = ({ creator, date }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const userId = useSelector(state => state.userRedux?.profile?.userId);
-  const { name, address, imageId } = creator;
+  const { name, address, imageId, username } = creator;
   return (
     <Hidden lgUp>
       <Hidden smUp>
@@ -53,7 +53,11 @@ const ArticleAuthor = ({ creator, date }) => {
               {isMobile ? address : date}
             </Typography>
           </Box>
-          {userId === creator.userId ? <EditArticleButton /> : <FollowButton />}
+          {userId === creator.userId ? (
+            <EditArticleButton />
+          ) : (
+            <FollowButton authorUsername={username} authorId={creator?.userId} />
+          )}
         </Box>
       </Box>
     </Hidden>
