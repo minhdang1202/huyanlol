@@ -11,6 +11,8 @@ import { uuid } from "utils";
 import { PopularArticles, MostMentionedBooks } from "components/collection-articles";
 import PropTypes from "prop-types";
 import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 const ArticlesCollectionPage = ({ categoryId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_COLLECTION_ARTICLES);
@@ -31,31 +33,11 @@ const ArticlesCollectionPage = ({ categoryId }) => {
   const [articleList, setArticleList] = useState();
   const totalPage = Math.ceil(total / pageSize);
   const [pageNum, setPageNum] = useState(1);
-  const onChangePage = (event, value) => {
-    setPageNum(value);
-    headRef.current.scrollIntoView({ behavior: "smooth" });
-  };
-  const onScroll = e => {
-    const { scrollHeight, scrollTop, clientHeight } = e.target;
-    if (scrollTop + clientHeight >= scrollHeight) {
-      setPageNum(pageNum => pageNum + 1);
-    }
-  };
-  useEffect(() => {
-    if (isTablet) {
-      const mainLayout = document.getElementById(MAIN_LAYOUT_ID);
-      if (mainLayout) {
-        mainLayout.addEventListener("scroll", onScroll);
-        return () => {
-          mainLayout.removeEventListener("scroll", onScroll);
-        };
-      }
-    }
-  });
+
   useEffect(() => {
     dispatch(
       ArticleAction.requestArticleList({
-        pageSize: pageSize,
+        pageSize: isTablet ? 20 : pageSize,
         pageNum: pageNum,
         categoryIds: categoryId ? [categoryId] : null,
       }),
@@ -69,6 +51,15 @@ const ArticlesCollectionPage = ({ categoryId }) => {
     }
   }, [pageData]);
 
+  const onChangePage = (event, value) => {
+    setPageNum(value);
+    headRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const onLoadMore = () => {
+    setPageNum(pageNum => pageNum + 1);
+  };
+
   return (
     <MainLayout appBarProps={appBarProps}>
       <Container ref={headRef} className={classes.root}>
@@ -81,10 +72,25 @@ const ArticlesCollectionPage = ({ categoryId }) => {
         <Box className={classes.content}>
           {articleList && articleList.length > 0 && (
             <Box className={classes.leftContent}>
-              {!isReview
-                ? articleList.map(article => <ArticleSummary key={uuid()} data={article} />)
-                : articleList.map(article => <ReviewSummary key={uuid()} data={article} />)}
-              {!isTablet && <CommonPagination count={totalPage} onChange={onChangePage} />}
+              {isTablet ? (
+                <InfiniteScroll
+                  dataLength={articleList.length}
+                  next={onLoadMore}
+                  hasMore={Boolean(pageNum < totalPage)}
+                  height={1000}
+                >
+                  {!isReview
+                    ? articleList.map(article => <ArticleSummary key={uuid()} data={article} />)
+                    : articleList.map(article => <ReviewSummary key={uuid()} data={article} />)}
+                </InfiniteScroll>
+              ) : (
+                <Box>
+                  {!isReview
+                    ? articleList.map(article => <ArticleSummary key={uuid()} data={article} />)
+                    : articleList.map(article => <ReviewSummary key={uuid()} data={article} />)}
+                  <CommonPagination count={totalPage} onChange={onChangePage} />
+                </Box>
+              )}
             </Box>
           )}
 
@@ -114,7 +120,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: 1020,
     padding: 0,
-    overflow: "hidden",
     [theme.breakpoints.down("md")]: {
       marginLeft: theme.spacing(3),
     },
@@ -131,13 +136,13 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "flex-start",
     marginTop: theme.spacing(3),
+    height: "100%",
     [theme.breakpoints.down("xs")]: {
       margin: 0,
     },
   },
   leftContent: {
     width: 672,
-    height: "100%",
     marginRight: theme.spacing(3),
     "&>*": {
       marginBottom: theme.spacing(3),
@@ -148,6 +153,11 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       maxWidth: "100%",
       margin: 0,
+    },
+    [theme.breakpoints.down("md")]: {
+      "&>*": {
+        marginBottom: 0,
+      },
     },
   },
   rightContent: {
