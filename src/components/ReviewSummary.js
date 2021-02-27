@@ -239,6 +239,10 @@ const useStyles = makeStyles(theme => ({
       height: 142,
       borderRadius: 6,
       float: "right",
+      "& > *": {
+        width: "100%",
+        height: "100%",
+      },
     },
   },
   mainTotalHeart: {

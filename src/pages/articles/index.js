@@ -137,6 +137,7 @@ const useStyles = makeStyles(theme => ({
   },
   leftContent: {
     width: 672,
+    height: "100%",
     marginRight: theme.spacing(3),
     "&>*": {
       marginBottom: theme.spacing(3),

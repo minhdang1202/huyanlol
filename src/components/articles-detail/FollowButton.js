@@ -52,7 +52,7 @@ const FollowButton = ({ className, authorUsername, authorId }) => {
 FollowButton.propTypes = {
   className: PropTypes.string,
   authorUsername: PropTypes.string,
-  authorId: PropTypes.string,
+  authorId: PropTypes.number,
 };
 
 const useStyles = makeStyles(theme => ({
