@@ -7,10 +7,8 @@ import { CustomBreadcrumb, Processing } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import ArticleAction from "redux/article.redux";
 import { ArticleSummary, CommonPagination, ReviewSummary } from "components";
-import { uuid } from "utils";
 import { PopularArticles, MostMentionedBooks } from "components/collection-articles";
 import PropTypes from "prop-types";
-import { MAIN_LAYOUT_ID } from "layouts/MainLayout";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const ArticlesCollectionPage = ({ categoryId }) => {
@@ -80,14 +78,14 @@ const ArticlesCollectionPage = ({ categoryId }) => {
                   height={1000}
                 >
                   {!isReview
-                    ? articleList.map(article => <ArticleSummary key={uuid()} data={article} />)
-                    : articleList.map(article => <ReviewSummary key={uuid()} data={article} />)}
+                    ? articleList.map(article => <ArticleSummary key={article.articleId} data={article} />)
+                    : articleList.map(article => <ReviewSummary key={article.articleId} data={article} />)}
                 </InfiniteScroll>
               ) : (
                 <Box>
                   {!isReview
-                    ? articleList.map(article => <ArticleSummary key={uuid()} data={article} />)
-                    : articleList.map(article => <ReviewSummary key={uuid()} data={article} />)}
+                    ? articleList.map(article => <ArticleSummary key={article.articleId} data={article} />)
+                    : articleList.map(article => <ReviewSummary key={article.articleId} data={article} />)}
                   <CommonPagination count={totalPage} onChange={onChangePage} />
                 </Box>
               )}
