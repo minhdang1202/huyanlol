@@ -2,8 +2,8 @@ import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { SvgIcon, withStyles } from "@material-ui/core";
 
-const MessageIcon = ({ width, height }) => {
-  const SvgIconStyled = withStyles({ root: { width: width, height: height, fill: "#7B93A5" } })(SvgIcon);
+const MessageIcon = ({ width, height, color }) => {
+  const SvgIconStyled = withStyles({ root: { width: width, height: height, fill: color ? color : "#7B93A5" } })(SvgIcon);
 
   return (
     <SvgIconStyled width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
@@ -20,6 +20,7 @@ const MessageIcon = ({ width, height }) => {
 MessageIcon.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
+  color: PropTypes.string
 };
 MessageIcon.defaultProps = {
   width: 18,
