@@ -311,4 +311,10 @@ export default {
 
     FM_SEE_MORE_CATEGORY: "Xem thêm {0} mục khác",
   },
+  introductions: {
+    TXT_INTRODUCTION_HELP: "Trợ giúp",
+    TXT_MESSAGE_WITH_GAT: "Nhắn tin với GAT",
+    TXT_FAQ: "Câu hỏi thường gặp",
+    TXT_TERM_AND_PRIVACY: "Chính sách và điều khoản"
+  }
 };
