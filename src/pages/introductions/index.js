@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { makeStyles, Grid, Hidden } from "@material-ui/core";
 
 import MainLayout from "layouts/MainLayout";
-import { LangConstant } from "const";
-import { TopHeader, TabBar, TermAndPrivacy, MobileTabBar } from "components/introductions";
+import { LangConstant, AppConstant } from "const";
+import { TopHeader, TabBar, TermsAndPrivacy, MobileTabBar } from "components/introductions";
 
 const IntroductionPage = () => {
   const classes = useStyles();
@@ -14,7 +14,7 @@ const IntroductionPage = () => {
     className: classes.appBar,
     appBarTitle: getLabel("TXT_INTRODUCTION_HELP"),
   };
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(AppConstant.INTRODUCTION_TABS_VALUE.faq);
 
   const onSelectedTab = (event, selectedTabIndex) => {
     setSelectedTab(selectedTabIndex);
@@ -25,7 +25,7 @@ const IntroductionPage = () => {
       <TopHeader />
       <Grid container className={classes.root}>
         <Hidden xsDown>
-          <Grid item md={3} sm={3} className={classes.paddingRight}>
+          <Grid item sm={3} className={classes.paddingRight}>
             <TabBar selectedTab={selectedTab} onSelectedTab={onSelectedTab} />
           </Grid>
         </Hidden>
@@ -34,8 +34,8 @@ const IntroductionPage = () => {
             <MobileTabBar selectedTab={selectedTab} onSelectedTab={onSelectedTab} />
           </Grid>
         </Hidden>
-        <Grid item xs={12} sm={9} md={9} className={classes.paddingLeft}>
-          <TermAndPrivacy selectedTab={selectedTab} />
+        <Grid item xs={12} sm={9} className={classes.paddingLeft}>
+          <TermsAndPrivacy selectedTab={selectedTab} />
         </Grid>
       </Grid> 
     </MainLayout> 

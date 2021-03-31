@@ -14,7 +14,7 @@ const TabBar = ({ selectedTab, onSelectedTab }) => {
         orientation="vertical"
         value={selectedTab}
         onChange={onSelectedTab}
-        classes={{ indicator: classes.indicator, flexContainer: classes.flexContainer }}
+        classes={{ indicator: classes.indicator }}
       >
         <Tab
           classes={{
@@ -22,6 +22,7 @@ const TabBar = ({ selectedTab, onSelectedTab }) => {
             wrapper: classes.wrapper,
             selected: classes.selected,
           }}
+          className="semiBold-lg-txt"
           label={getLabel("TXT_FAQ")}
         />
         <Tab
@@ -30,7 +31,8 @@ const TabBar = ({ selectedTab, onSelectedTab }) => {
             wrapper: classes.wrapper,
             selected: classes.selected,
           }}
-          label={getLabel("TXT_TERM_AND_PRIVACY")}
+          className="semiBold-lg-txt"
+          label={getLabel("TXT_TERMS_AND_PRIVACY")}
         />
       </Tabs>
     </Paper>
@@ -59,10 +61,6 @@ const useStyles = makeStyles(theme => ({
     display: "none",
   },
   tabRoot: {
-    fontSize: "16px",
-    lineHeight: "19px",
-    letterSpacing: "0.5px",
-    fontWeight: 600,
     color: theme.palette.text.secondary,
     textTransform: "inherit",
     paddingTop: 0,

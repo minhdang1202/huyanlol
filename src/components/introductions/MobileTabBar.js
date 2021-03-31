@@ -15,12 +15,14 @@ const MobileTabBar = ({ selectedTab, onSelectedTab }) => {
       classes={{ root: classes.root, indicator: classes.indicator }}
     >
       <Tab
+        className="regular-lg-txt"
         classes={{ root: classes.tabRoot, selected: classes.selected }}
         label={getLabel("TXT_FAQ")}
       />
       <Tab
+        className="regular-lg-txt"
         classes={{ root: classes.tabRoot, selected: classes.selected }}
-        label={getLabel("TXT_TERM_AND_PRIVACY")}
+        label={getLabel("TXT_TERMS_AND_PRIVACY")}
       />
     </Tabs>
   );
@@ -36,17 +38,14 @@ MobileTabBar.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.white,
-    borderBottom: "1px solid #f0f3f6"
+    borderBottom: `1px solid ${theme.palette.grey[100]}`
   },
   indicator: {
     backgroundColor: theme.palette.primary.main
   },
   tabRoot: {
     flexGrow: 1,
-    fontSize: "16px",
-    fontWeight: 400,
     textTransform: "inherit",
-    lineHeight: "20px",
     color: theme.palette.grey[500]
   },
   selected: {
