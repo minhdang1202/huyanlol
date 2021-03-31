@@ -160,3 +160,8 @@ export const HOME_SCREEN_VALUE = {
 };
 
 export const IMAGE_PLACEHOLDER_ID = "50353877303";
+
+export const INTRODUCTION_TABS_VALUE = {
+  faq: 0,
+  termAndPrivacy: 1
+};
