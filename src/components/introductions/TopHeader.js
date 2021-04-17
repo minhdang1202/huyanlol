@@ -17,7 +17,7 @@ const TopHeader = () => {
           <Typography className="medium-xl-txt">{getLabel("TXT_INTRODUCTION_HELP")}</Typography>
           <Button
             variant="contained"
-            className={clsx("light-blue-button", classes.button)}
+            className={clsx("light-blue-button pl-24 pr-24", classes.button)}
             startIcon={<MessageIcon color={theme.palette.primary.main} />}
           >
             {getLabel("TXT_MESSAGE_WITH_GAT")}
@@ -50,7 +50,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   button: {
-    padding: theme.spacing(0, 3),
     minHeight: 38,
     "& svg": {
       marginTop: "2px"

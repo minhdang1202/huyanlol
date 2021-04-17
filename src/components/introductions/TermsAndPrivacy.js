@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { Paper, makeStyles, Typography, Box, Hidden } from "@material-ui/core";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
 import TabPanel from "components/TabPanel";
 
 const TermsAndPrivacy = ({ selectedTab }) => {
@@ -101,7 +101,7 @@ const TermsAndPrivacy = ({ selectedTab }) => {
   ];
 
   return (
-    <TabPanel index={1} value={selectedTab}>
+    <TabPanel index={AppConstant.INTRODUCTION_TABS_VALUE.termAndPrivacy} value={selectedTab}>
       <Paper className={classes.root}>
         <Hidden xsDown>
           <Typography className="medium-xl-txt mb-24">{getLabel("TXT_TERMS_AND_PRIVACY")}</Typography>

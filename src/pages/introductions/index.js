@@ -4,7 +4,7 @@ import { makeStyles, Grid, Hidden } from "@material-ui/core";
 
 import MainLayout from "layouts/MainLayout";
 import { LangConstant, AppConstant } from "const";
-import { TopHeader, TabBar, TermsAndPrivacy, MobileTabBar } from "components/introductions";
+import { TopHeader, TabBar, TermsAndPrivacy, MobileTabBar, FAQ } from "components/introductions";
 
 const IntroductionPage = () => {
   const classes = useStyles();
@@ -21,7 +21,7 @@ const IntroductionPage = () => {
   };
 
   return (
-    <MainLayout appBarProps={appBarProps}>
+    <MainLayout appBarProps={appBarProps} classes={{main: classes.main}} className={classes.backgroundColorWhite}>
       <TopHeader />
       <Grid container className={classes.root}>
         <Hidden xsDown>
@@ -36,6 +36,7 @@ const IntroductionPage = () => {
         </Hidden>
         <Grid item xs={12} sm={9} className={classes.paddingLeft}>
           <TermsAndPrivacy selectedTab={selectedTab} />
+          <FAQ selectedTab={selectedTab}/>
         </Grid>
       </Grid> 
     </MainLayout> 
@@ -48,12 +49,14 @@ const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 1022,
     margin: "16px auto",
+    height: "100%",
     [theme.breakpoints.down("md")]: {
       padding: theme.spacing(0, 3, 1),
     },
     [theme.breakpoints.down("xs")]: {
       margin: "auto",
       padding: 0,
+      display: "block"
     },
   },
   paddingRight: {
@@ -62,7 +65,20 @@ const useStyles = makeStyles(theme => ({
   paddingLeft: {
     paddingLeft: "12px",
     [theme.breakpoints.down("xs")]: {
-      paddingLeft: 0
+      paddingLeft: 0,
+      height: "calc(100% - 49px)",
+    }
+  },
+  main: {
+    marginBottom: "0 !important", 
+    [theme.breakpoints.down("xs")]: {
+      height: "inherit",
+      overflowX: "hidden"
+    }
+  },
+  backgroundColorWhite: {
+    [theme.breakpoints.down("xs")]: {
+      backgroundColor: theme.palette.white
     }
   }
 }));
