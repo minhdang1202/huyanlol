@@ -10,16 +10,12 @@ import {
   AccordionDetails,
   Box,
   Button,
-  useTheme,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-
 import { LangConstant } from "const";
-import { MessageIcon } from "icons";
 
 const FaqList = ({ faqList, expandedId, setExpandedId }) => {
   const classes = useStyles();
-  const theme = useTheme();
   const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
 
   const onChangeExpandedItem = (faqItemId) => {

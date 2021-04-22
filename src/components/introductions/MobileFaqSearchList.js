@@ -1,15 +1,12 @@
 import React from "react";
-import { Box, makeStyles, Typography, Button, useTheme } from "@material-ui/core";
+import { Box, makeStyles, Typography, Button } from "@material-ui/core";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-
-import { MessageIcon } from "icons";
 import { LangConstant } from "const";
 
 const MobileFaqSearchList = ({ searchResults, isExistSearchResult, setExpandedId, setSearchValue, setSearchResults }) => {
   const classes = useStyles();
-  const theme = useTheme();
   const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
   
   const onClickOpenQuestion = (questionId) => {

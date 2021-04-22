@@ -1,13 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { Box, makeStyles, Typography, Hidden, Button, useTheme } from "@material-ui/core";
-import { MessageIcon } from "icons";
+import { Box, makeStyles, Typography, Hidden, Button } from "@material-ui/core";
 import { LangConstant } from "const";
 
 const TopHeader = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
 
   return (
