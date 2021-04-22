@@ -18,7 +18,7 @@ const TopHeader = () => {
           <Button
             variant="contained"
             className={clsx("light-blue-button pl-24 pr-24", classes.button)}
-            startIcon={<MessageIcon color={theme.palette.primary.main} />}
+            startIcon={<Box className="ic-comment-alt" fontWeight={400} />}
           >
             {getLabel("TXT_MESSAGE_WITH_GAT")}
           </Button>

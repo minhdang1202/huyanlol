@@ -72,7 +72,7 @@ const FaqList = ({ faqList, expandedId, setExpandedId }) => {
               <Button
                 variant="contained"
                 className={clsx("dark-blue-button pl-24 pr-24", classes.button)}
-                startIcon={<MessageIcon color={theme.palette.white} />}
+                startIcon={<Box className="ic-comment-alt" fontWeight={400} />}
               >
                 {getLabel("TXT_MESSAGE_WITH_GAT")}
               </Button>
