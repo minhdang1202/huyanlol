@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { Paper, makeStyles, Typography, Divider, Hidden, Box, useMediaQuery, useTheme } from "@material-ui/core";
+import StringFormat from "string-format";
 
 import { LangConstant, AppConstant } from "const";
 import SearchBar from "./SearchBar";
@@ -115,7 +116,7 @@ const FAQ = ({ selectedTab }) => {
       }
 
       setIsExistSearchResult(false);
-      return setSearchResults([{ title: `${getLabel("TXT_NO_QUESTION_FOUND")}: ${value}`, id: -1 }]);
+      return setSearchResults([{ title: StringFormat(getLabel("FM_NO_QUESTION_FOUND"), value), id: -1 }]);
     }
 
     setSearchResults([]);

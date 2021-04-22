@@ -437,9 +437,11 @@ export default {
     TXT_KINDS_OF_BOOK_ON_GAT: "Trên GAT có những thể loại sách nào vậy ạ? Có giáo trình không ạ?",
     TXT_KINDS_OF_BOOK_ON_GAT_BODY_1: "Trên GAT có hầu hết các thể loại sách và đương nhiên là có cả giáo trình rồi!",
     TXT_CANCEL: "Hủy",
-    TXT_NO_QUESTION_FOUND: "Không tìm thấy câu hỏi",
 
     //P: Placeholder
     P_FAQ_SEARCH: "Tìm kiếm câu hỏi",
+
+    //FM: String format
+    FM_NO_QUESTION_FOUND: "Không tìm thấy câu hỏi: {}",
   }
 };
