@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Paper, makeStyles, Tab, Tabs } from "@material-ui/core";
 import { LangConstant } from "const";
 
-const TabBar = ({ selectedTab, onSelectedTab }) => {
+const TabBar = ({ selectedTab, onSelectTab }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
 
@@ -13,7 +13,7 @@ const TabBar = ({ selectedTab, onSelectedTab }) => {
       <Tabs
         orientation="vertical"
         value={selectedTab}
-        onChange={onSelectedTab}
+        onChange={onSelectTab}
         classes={{ indicator: classes.indicator }}
       >
         <Tab
@@ -43,7 +43,7 @@ export default TabBar;
 
 TabBar.propTypes = {
   selectedTab: PropTypes.number,
-  onSelectedTab: PropTypes.func,
+  onSelectTab: PropTypes.func,
 };
 
 const useStyles = makeStyles(theme => ({

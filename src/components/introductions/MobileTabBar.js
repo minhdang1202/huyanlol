@@ -4,14 +4,14 @@ import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { LangConstant } from "const";
 
-const MobileTabBar = ({ selectedTab, onSelectedTab }) => {
+const MobileTabBar = ({ selectedTab, onSelectTab }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
 
   return (
     <Tabs
       value={selectedTab}
-      onChange={onSelectedTab}
+      onChange={onSelectTab}
       classes={{ root: classes.root, indicator: classes.indicator }}
     >
       <Tab
@@ -32,7 +32,7 @@ export default memo(MobileTabBar);
 
 MobileTabBar.propTypes = {
   selectedTab: PropTypes.number,
-  onSelectedTab: PropTypes.func,
+  onSelectTab: PropTypes.func,
 };
 
 const useStyles = makeStyles(theme => ({

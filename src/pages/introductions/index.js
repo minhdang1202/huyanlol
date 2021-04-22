@@ -16,7 +16,7 @@ const IntroductionPage = () => {
   };
   const [selectedTab, setSelectedTab] = useState(AppConstant.INTRODUCTION_TABS_VALUE.faq);
 
-  const onSelectedTab = (event, selectedTabIndex) => {
+  const onSelectTab = (event, selectedTabIndex) => {
     setSelectedTab(selectedTabIndex);
   };
 
@@ -26,12 +26,12 @@ const IntroductionPage = () => {
       <Grid container className={classes.root}>
         <Hidden xsDown>
           <Grid item sm={3} className={classes.paddingRight}>
-            <TabBar selectedTab={selectedTab} onSelectedTab={onSelectedTab} />
+            <TabBar selectedTab={selectedTab} onSelectTab={onSelectTab} />
           </Grid>
         </Hidden>
         <Hidden smUp>
           <Grid item xs={12}>
-            <MobileTabBar selectedTab={selectedTab} onSelectedTab={onSelectedTab} />
+            <MobileTabBar selectedTab={selectedTab} onSelectTab={onSelectTab} />
           </Grid>
         </Hidden>
         <Grid item xs={12} sm={9} className={classes.paddingLeft}>
