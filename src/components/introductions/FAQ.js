@@ -21,7 +21,7 @@ const FAQ = ({ selectedTab }) => {
   const [searchResults, setSearchResults] = useState([]);
 
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const faqList = [
+  const FAQ_LIST = [
     {
       title: getLabel("TXT_BORROW_BOOKS_THROUGH_GAT"),
       body: [
@@ -102,7 +102,7 @@ const FAQ = ({ selectedTab }) => {
     setSearchValue(value);
 
     if (value) {
-      const resultFiltered = faqList.filter(faqItem => faqItem.title.toLowerCase().includes(value.toLowerCase()));
+      const resultFiltered = FAQ_LIST.filter(faqItem => faqItem.title.toLowerCase().includes(value.toLowerCase()));
 
       if (resultFiltered.length) {
         setIsExistSearchResult(true);
@@ -162,7 +162,7 @@ const FAQ = ({ selectedTab }) => {
 
         {isMobile ? (
           !searchResults.length ? (
-            <FaqList faqList={faqList} expandedId={expandedId} setExpandedId={setExpandedId} />
+            <FaqList faqList={FAQ_LIST} expandedId={expandedId} setExpandedId={setExpandedId} />
           ) : (
             <MobileFaqSearchList
               searchResults={searchResults}
@@ -173,7 +173,7 @@ const FAQ = ({ selectedTab }) => {
             />
           )
         ) : (
-          <FaqList faqList={faqList} expandedId={expandedId} setExpandedId={setExpandedId} />
+          <FaqList faqList={FAQ_LIST} expandedId={expandedId} setExpandedId={setExpandedId} />
         )}
       </Paper>
     </TabPanel>

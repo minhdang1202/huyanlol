@@ -8,7 +8,7 @@ import TabPanel from "components/TabPanel";
 const TermsAndPrivacy = ({ selectedTab }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
-  const termsTextValues = [
+  const TERMS_AND_PRIVACY_LIST = [
     { title: getLabel("TXT_TERMS_AMENDMENTS"), body: [getLabel("TXT_TERMS_AMENDMENTS_BODY")] },
     { title: getLabel("TXT_ADDITIONAL_TERMS"), body: [getLabel("TXT_ADDITIONAL_TERMS_BODY")] },
     { title: getLabel("TXT_GAT_PLATFORM"), body: [getLabel("TXT_GAT_PLATFORM_BODY")] },
@@ -112,7 +112,7 @@ const TermsAndPrivacy = ({ selectedTab }) => {
             <Typography className={classes.textBold}>{getLabel("TXT_TERMS_OF_USE")}</Typography>
             <Typography className={classes.textBold}>{getLabel("TXT_ACCEPT_TERMS")}</Typography>
           </Box>
-          {termsTextValues.map((term, index) => (
+          {TERMS_AND_PRIVACY_LIST.map((term, index) => (
             <Box className={classes.termsItem} key={index}>
               <Typography gutterBottom>{term.title}</Typography>
               {term.body?.length &&
