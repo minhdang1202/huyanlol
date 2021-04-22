@@ -15,6 +15,10 @@ const IntroductionPage = () => {
     appBarTitle: getLabel("TXT_INTRODUCTION_HELP"),
   };
   const [selectedTab, setSelectedTab] = useState(AppConstant.INTRODUCTION_TABS_VALUE.faq);
+  const TAB_LIST = [
+    getLabel("TXT_FAQ"),
+    getLabel("TXT_TERMS_AND_PRIVACY")
+  ];
 
   const onSelectTab = (event, selectedTabIndex) => {
     setSelectedTab(selectedTabIndex);
@@ -26,12 +30,12 @@ const IntroductionPage = () => {
       <Grid container className={classes.root}>
         <Hidden xsDown>
           <Grid item sm={3} className={classes.paddingRight}>
-            <TabBar selectedTab={selectedTab} onSelectTab={onSelectTab} />
+            <TabBar selectedTab={selectedTab} onSelectTab={onSelectTab} tabList={TAB_LIST} />
           </Grid>
         </Hidden>
         <Hidden smUp>
           <Grid item xs={12}>
-            <MobileTabBar selectedTab={selectedTab} onSelectTab={onSelectTab} />
+            <MobileTabBar selectedTab={selectedTab} onSelectTab={onSelectTab} tabList={TAB_LIST} />
           </Grid>
         </Hidden>
         <Grid item xs={12} sm={9} className={classes.paddingLeft}>

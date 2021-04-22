@@ -1,12 +1,10 @@
 import React, { memo } from "react";
 import { makeStyles, Tabs, Tab } from "@material-ui/core";
-import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
-import { LangConstant } from "const";
+import clsx from "clsx";
 
-const MobileTabBar = ({ selectedTab, onSelectTab }) => {
+const MobileTabBar = ({ selectedTab, onSelectTab, tabList }) => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
 
   return (
     <Tabs
@@ -14,16 +12,17 @@ const MobileTabBar = ({ selectedTab, onSelectTab }) => {
       onChange={onSelectTab}
       classes={{ root: classes.root, indicator: classes.indicator }}
     >
-      <Tab
-        className="regular-lg-txt"
-        classes={{ root: classes.tabRoot, selected: classes.selected }}
-        label={getLabel("TXT_FAQ")}
-      />
-      <Tab
-        className="regular-lg-txt"
-        classes={{ root: classes.tabRoot, selected: classes.selected }}
-        label={getLabel("TXT_TERMS_AND_PRIVACY")}
-      />
+      {tabList.map((tabItem, index) => 
+        <Tab
+          key={`tab-${index}`}
+          classes={{
+            root: clsx("regular-lg-txt", classes.tabRoot),
+            wrapper: classes.wrapper,
+            selected: classes.selected,
+          }}
+          label={tabItem}
+        />
+      )}
     </Tabs>
   );
 };
@@ -33,6 +32,7 @@ export default memo(MobileTabBar);
 MobileTabBar.propTypes = {
   selectedTab: PropTypes.number,
   onSelectTab: PropTypes.func,
+  tabList: PropTypes.array
 };
 
 const useStyles = makeStyles(theme => ({

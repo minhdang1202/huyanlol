@@ -1,12 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
 import { Paper, makeStyles, Tab, Tabs } from "@material-ui/core";
-import { LangConstant } from "const";
+import clsx from "clsx";
 
-const TabBar = ({ selectedTab, onSelectTab }) => {
+const TabBar = ({ selectedTab, onSelectTab, tabList }) => {
   const classes = useStyles();
-  const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
 
   return (
     <Paper className={classes.root}>
@@ -16,24 +14,17 @@ const TabBar = ({ selectedTab, onSelectTab }) => {
         onChange={onSelectTab}
         classes={{ indicator: classes.indicator }}
       >
-        <Tab
-          classes={{
-            root: classes.tabRoot,
-            wrapper: classes.wrapper,
-            selected: classes.selected,
-          }}
-          className="semiBold-lg-txt"
-          label={getLabel("TXT_FAQ")}
-        />
-        <Tab
-          classes={{
-            root: classes.tabRoot,
-            wrapper: classes.wrapper,
-            selected: classes.selected,
-          }}
-          className="semiBold-lg-txt"
-          label={getLabel("TXT_TERMS_AND_PRIVACY")}
-        />
+        {tabList.map((tabItem, index) => 
+          <Tab
+            key={`tab-${index}`}
+            classes={{
+              root: clsx("semiBold-lg-txt", classes.tabRoot),
+              wrapper: classes.wrapper,
+              selected: classes.selected,
+            }}
+            label={tabItem}
+          />
+        )}
       </Tabs>
     </Paper>
   );
@@ -44,6 +35,7 @@ export default TabBar;
 TabBar.propTypes = {
   selectedTab: PropTypes.number,
   onSelectTab: PropTypes.func,
+  tabList: PropTypes.array
 };
 
 const useStyles = makeStyles(theme => ({

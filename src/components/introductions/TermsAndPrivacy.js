@@ -112,11 +112,11 @@ const TermsAndPrivacy = ({ selectedTab }) => {
             <Typography className={classes.textBold}>{getLabel("TXT_TERMS_OF_USE")}</Typography>
             <Typography className={classes.textBold}>{getLabel("TXT_ACCEPT_TERMS")}</Typography>
           </Box>
-          {TERMS_AND_PRIVACY_LIST.map((term, index) => (
+          {TERMS_AND_PRIVACY_LIST.map(({title, body}, index) => (
             <Box className={classes.termsItem} key={index}>
-              <Typography gutterBottom>{term.title}</Typography>
-              {term.body?.length &&
-                term.body.map((body, index) => <Typography key={`body-${index}`}>{body}</Typography>)}
+              <Typography gutterBottom>{title}</Typography>
+              {body?.length &&
+                body.map((body, index) => <Typography key={`body-${index}`}>{body}</Typography>)}
             </Box>
           ))}
         </Box>

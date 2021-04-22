@@ -6,25 +6,22 @@ import PropTypes from "prop-types";
 const FaqSearchList = ({ searchResults, setExpandedId, setSearchValue, setSearchResults }) => {
   const classes = useStyles();
 
-  const onClickOpenQuestion = (questionId) => {
+  const onClickOpenQuestion = questionId => {
     return () => {
       setExpandedId(questionId);
       setSearchValue("");
       setSearchResults([]);
-    }
-  }
+    };
+  };
 
   return (
     <Paper className={classes.root}>
-      {searchResults.length ? 
-        searchResults.map((searchItem, index) => (
-          <Box key={index} className={classes.searchListItem} onClick={onClickOpenQuestion(searchItem.id)}>
-            <Box className={clsx("ic-search center-root", classes.icon)}/>
-            <Typography className="semiBold-lg-txt">{searchItem.title}</Typography>
-          </Box>
-        ))
-        : ""
-      }
+      {searchResults.map((searchItem, index) => (
+        <Box key={index} className={classes.searchListItem} onClick={onClickOpenQuestion(searchItem.id)}>
+          <Box className={clsx("ic-search center-root", classes.icon)} />
+          <Typography className="semiBold-lg-txt">{searchItem.title}</Typography>
+        </Box>
+      ))}
     </Paper>
   );
 };
@@ -36,7 +33,7 @@ FaqSearchList.propTypes = {
   setExpandedId: PropTypes.func,
   setSearchValue: PropTypes.func,
   setSearchResults: PropTypes.func,
-}
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,11 +45,11 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     zIndex: 10,
     maxHeight: 300,
-    overflow: "auto"
+    overflow: "auto",
   },
   searchListItem: {
     display: "flex",
-    alignItems: "center", 
+    alignItems: "center",
     padding: theme.spacing(2),
     cursor: "pointer",
     "&>*:first-child": {
@@ -62,7 +59,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.primary[100],
       "& $icon": {
         backgroundColor: theme.palette.primary.light,
-      }
+      },
     },
   },
   icon: {
@@ -72,5 +69,5 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "50%",
     color: theme.palette.white,
     backgroundColor: theme.palette.grey[300],
-  }
+  },
 }));
