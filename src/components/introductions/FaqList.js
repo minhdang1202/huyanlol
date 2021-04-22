@@ -2,15 +2,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import {
-  makeStyles,
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Box,
-  Button,
-} from "@material-ui/core";
+import { makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Box, Button } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { LangConstant } from "const";
 
@@ -18,18 +10,14 @@ const FaqList = ({ faqList, expandedId, setExpandedId }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_INTRODUCTIONS);
 
-  const onChangeExpandedItem = (faqItemId) => {
-    return (e, expandedState) => {
-      if (!expandedState) return setExpandedId(-1);
-
-      return setExpandedId(faqItemId);
-    }
+  const onChangeExpandedItem = faqItemId => {
+    return (e, expandedState) => setExpandedId(!expandedState ? -1 : faqItemId);
   };
 
   useEffect(() => {
     const expandedItem = document.getElementById(`faqItem-${expandedId}`);
     expandedItem?.scrollIntoView();
-  });
+  }, [expandedId]);
 
   return (
     <>
@@ -37,7 +25,7 @@ const FaqList = ({ faqList, expandedId, setExpandedId }) => {
         <Accordion
           id={`faqItem-${index}`}
           key={index}
-          expanded={expandedId === index ? true : false}
+          expanded={expandedId === index}
           onChange={onChangeExpandedItem(faqItem.id)}
           square
           classes={{

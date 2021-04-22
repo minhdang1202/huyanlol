@@ -105,24 +105,22 @@ const FAQ = ({ selectedTab }) => {
     if (value) {
       const resultFiltered = FAQ_LIST.filter(faqItem => faqItem.title.toLowerCase().includes(value.toLowerCase()));
 
-      if (resultFiltered.length) {
-        setIsExistSearchResult(true);
-        return setSearchResults(
-          resultFiltered.map(faqItem => ({
-            title: faqItem.title,
-            id: faqItem.id,
-          })),
-        );
-      }
+      setIsExistSearchResult(() => !!resultFiltered.length);
 
-      setIsExistSearchResult(false);
-      return setSearchResults([{ title: StringFormat(getLabel("FM_NO_QUESTION_FOUND"), value), id: -1 }]);
+      return setSearchResults(
+        !!resultFiltered.length
+          ? resultFiltered.map(faqItem => ({
+              title: faqItem.title,
+              id: faqItem.id,
+            }))
+          : [{ title: StringFormat(getLabel("FM_NO_QUESTION_FOUND"), value), id: -1 }],
+      );
     }
 
     setSearchResults([]);
   };
 
-  const onClickDeleteSearchValue = () => {
+  const onDeleteSearchValue = () => {
     setSearchValue("");
     setSearchResults([]);
     setIsExistSearchResult(false);
@@ -139,7 +137,7 @@ const FAQ = ({ selectedTab }) => {
           <Box className="space-between-root">
             <SearchBar value={searchValue} onChange={onChangeSearchValue} />
             <Hidden smUp>
-              <Typography onClick={onClickDeleteSearchValue} className={clsx("blue-text", classes.cancelTxt)}>
+              <Typography onClick={onDeleteSearchValue} className={clsx("blue-text", classes.cancelTxt)}>
                 {getLabel("TXT_CANCEL")}
               </Typography>
             </Hidden>
@@ -154,27 +152,19 @@ const FAQ = ({ selectedTab }) => {
           </Hidden>
         </Box>
 
-        <Divider
-          className="mt-24"
-          classes={{
-            root: classes.dividerRoot,
-          }}
-        />
+        <Divider className={clsx("mt-24", classes.dividerRoot)} />
 
-        {isMobile ? (
-          !searchResults.length ? (
-            <FaqList faqList={FAQ_LIST} expandedId={expandedId} setExpandedId={setExpandedId} />
-          ) : (
-            <MobileFaqSearchList
-              searchResults={searchResults}
-              isExistSearchResult={isExistSearchResult}
-              setExpandedId={setExpandedId}
-              setSearchValue={setSearchValue}
-              setSearchResults={setSearchResults}
-            />
-          )
-        ) : (
+        {!(isMobile && !!searchResults.length) && (
           <FaqList faqList={FAQ_LIST} expandedId={expandedId} setExpandedId={setExpandedId} />
+        )}
+        {!!(isMobile && searchResults.length) && (
+          <MobileFaqSearchList
+            searchResults={searchResults}
+            isExistSearchResult={isExistSearchResult}
+            setExpandedId={setExpandedId}
+            setSearchValue={setSearchValue}
+            setSearchResults={setSearchResults}
+          />
         )}
       </Paper>
     </TabPanel>
