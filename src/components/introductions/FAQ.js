@@ -152,7 +152,7 @@ const FAQ = ({ selectedTab }) => {
           </Hidden>
         </Box>
 
-        <Divider className={clsx("mt-24", classes.dividerRoot)} />
+        <Divider className={classes.dividerRoot} />
 
         {!(isMobile && !!searchResults.length) && (
           <FaqList faqList={FAQ_LIST} expandedId={expandedId} setExpandedId={setExpandedId} />
@@ -196,7 +196,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     height: 2,
     [theme.breakpoints.down("xs")]: {
-      marginTop: "16px !important",
+      marginTop: "16px",
       marginBottom: 0,
     },
   },

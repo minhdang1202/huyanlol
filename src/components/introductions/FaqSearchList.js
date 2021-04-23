@@ -18,7 +18,7 @@ const FaqSearchList = ({ searchResults, setExpandedId, setSearchValue, setSearch
     <Paper className={classes.root}>
       {searchResults.map((searchItem, index) => (
         <Box key={index} className={classes.searchListItem} onClick={onClickOpenQuestion(searchItem.id)}>
-          <Box className={clsx("ic-search center-root", classes.icon)} />
+          <Box className={clsx("ic-search", "center-root", classes.icon)} />
           <Typography className="semiBold-lg-txt">{searchItem.title}</Typography>
         </Box>
       ))}

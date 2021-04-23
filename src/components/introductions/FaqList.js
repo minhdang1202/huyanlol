@@ -91,6 +91,7 @@ const useStyles = makeStyles(theme => ({
   accordionSummaryRoot: {
     padding: theme.spacing(0, 3),
     borderRadius: 8,
+    transition: "min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(0, 2),
     },
@@ -144,11 +145,10 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary[100],
     [theme.breakpoints.down("xs")]: {
       backgroundColor: "transparent",
-      minHeight: "0 !important",
+      minHeight: 0,
     },
   },
   content: {
-    margin: "0 !important",
     "&>*": {
       [theme.breakpoints.up("sm")]: {
         fontSize: "18px !important",

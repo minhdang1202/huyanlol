@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1, 2),
     "&>*:nth-child(1)": {
       marginRight: theme.spacing(1.5),
-      color: `${theme.palette.text.secondary} !important`,
+      color: `${theme.palette.text.secondary}`,
     },
     "&>*:nth-child(2)": {
       flexGrow: 1,

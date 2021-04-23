@@ -27,14 +27,14 @@ const MobileFaqSearchList = ({
     <Box className={clsx({ [classes.root]: !isExistSearchResult })}>
       {searchResults.map((searchItem, index) => (
         <Box key={index} className={classes.searchListItem} onClick={onClickOpenQuestion(searchItem.id)}>
-          <Box className={clsx("ic-search center-root", classes.icon)} />
+          <Box className={clsx("ic-search", "center-root", classes.icon)} />
           <Typography className="semiBold-lg-txt">{searchItem.title}</Typography>
         </Box>
       ))}
       {!isExistSearchResult && (
         <Button
           variant="contained"
-          className={clsx("dark-blue-button pl-24 pr-24", classes.button)}
+          className={clsx("dark-blue-button", classes.button)}
           startIcon={<Box className="ic-comment-alt" fontWeight={400} />}
         >
           {getLabel("TXT_MESSAGE_WITH_GAT")}
@@ -81,6 +81,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   button: {
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
     margin: theme.spacing(0, 11.25),
   },
 }));
