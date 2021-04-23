@@ -46,6 +46,17 @@ const useStyles = makeStyles(theme => ({
     zIndex: 10,
     maxHeight: 300,
     overflow: "auto",
+    "&::-webkit-scrollbar": {
+      width: 5
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "#F0F3F6",
+      borderRadius: 10
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "#a5a5a5",
+      borderRadius: 10
+    }
   },
   searchListItem: {
     display: "flex",
