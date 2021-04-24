@@ -456,7 +456,7 @@ export default {
     TXT_ONLINE_BOOKCASE: "Tủ sách online",
     TXT_ONLINE_BOOKCASE_BODY: "Mỗi tài khoản trên GaT sẽ là một tủ sách online giúp bạn quản lí những cuốn sách bạn đang có trên kệ. Có GaT ở đây, bạn không còn phải lo thất lạc sách nữa rồi!",
     TXT_COMPARE_BOOKSHELVES: "So sánh giá sách",
-    TXT_COMPARE_BOOKSHELVES_BODY: "Mỗi tài khoản trên GaT sẽ là một tủ sách online giúp bạn quản lí những cuốn sách bạn đang có trên kệ. Có GaT ở đây, bạn không còn phải lo thất lạc sách nữa rồi!",
+    TXT_COMPARE_BOOKSHELVES_BODY: "Tính năng so sánh giá sách thông minh sẽ giúp bạn tìm được trang web bán sách với giá cả hợp lý nhất.",
     TXT_REVIEW_BOOK: "Review sách",
     TXT_REVIEW_BOOK_BODY: "Bài viết review sách trên GaT là địa chỉ đáng tin cậy giúp bạn tham khảo và tìm kiếm được những cuốn sách hay.",
     TXT_DISCOVER_BOOKSTOP: "Khám phá Bookstop",
@@ -473,5 +473,18 @@ export default {
     TXT_BOOK_LOAN_SUCCESS_QUANTITY: "12.567",
     TXT_PRIZE_UNLIMITED_CREATIVITY: "Giải Ba hạng mục Sáng tạo không giới hạn (Soin Challenge 2017).",
     TXT_PRIZE_AVIVA_COMMUNITY: "Top 9 dự án chiến thắng hạng mục 5000$ Quỹ cộng đồng Aviva 2019.",
+    TXT_INTRODUCE_ABOUT_GAT: "Giới thiệu về GAT",
+    TXT_REGISTER_BOOKSTOP: "Đăng ký Bookstop",
+    TXT_TERMS: "Điều khoản",
+    TXT_FAQ: "Câu hỏi thường gặp",
+    TXT_PRIVACY: "Quyền riêng tư",
+    TXT_GAT_APP: "Ứng dụng GAT",
+    TXT_CONTACT: "Liên hệ",
+    TXT_GIVE_AND_TAKE_BOOK: "Give and Take Book",
+    TXT_GIVE_AND_TAKE_BOOK_BODY: "GAT là nền tảng mượn sách và trao đổi sách dành cho người Việt. Thông qua GAT, bạn có thể mượn sách miễn phí, trao đổi thông tin về sách, đọc và viết review. Sứ mệnh của GAT chính là lan tỏa văn hóa đọc đến tất cả mọi người!",
+    TXT_HOME: "Trang chủ",
+    TXT_INTRODUCTION: "Giới thiệu",
+    TXT_GIVE_WAY_IS_TO_GET_BACK: "“Cho đi cũng chính là nhận lại. ",
+    TXT_LEND_GOOD_BOOKS: "Cho mượn sách hay, quen ngay bạn mới”"
   }
 };

@@ -24,13 +24,10 @@ const StagesGatWent = () => {
       content: getLabel("TXT_BOOK_LOAN_SUCCESS"),
     },
   ];
-  const PRIZE_LIST = [
-    getLabel("TXT_PRIZE_UNLIMITED_CREATIVITY"),
-    getLabel("TXT_PRIZE_AVIVA_COMMUNITY"),
-  ];
+  const PRIZE_LIST = [getLabel("TXT_PRIZE_UNLIMITED_CREATIVITY"), getLabel("TXT_PRIZE_AVIVA_COMMUNITY")];
 
   return (
-    <Box container className={clsx(classes.flexColumn, classes.root)}>
+    <Box className={clsx(classes.flexColumn, classes.root)}>
       <Typography variant="h4">{getLabel("TXT_GAT_ON_THE_RUNWAY")}</Typography>
       <Typography className="semiBold-lg-txt">{getLabel("TXT_STAGES_GAT_WENT")}</Typography>
 
@@ -108,6 +105,7 @@ const useStyles = makeStyles(theme => ({
   },
   prizeItem: {
     display: "flex",
+    alignItems: "center",
     backgroundColor: "#EDF8FE",
     padding: theme.spacing(2),
     "&>*:nth-child(1)": {

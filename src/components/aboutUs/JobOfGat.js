@@ -35,12 +35,12 @@ const JobOfGat = () => {
   ]
 
   return (
-    <Box className={classes.root}>
+    <Box>
       <Box className={classes.triangle}>
-        <Avatar variant="square" src="/images/logo-blue.png" alt="logo" className={classes.logo} />
+        <Avatar variant="square" src="/images/logo-blue.png" className={classes.logo} />
       </Box>
       <Box className={classes.rectangle}>
-        <Box container className={classes.containerRoot}>
+        <Box className={classes.containerRoot}>
           <Typography className={classes.subtitle}>
             {getLabel("TXT_GAT_BOOK_CONNECT")}
           </Typography>
@@ -65,8 +65,6 @@ const JobOfGat = () => {
 export default JobOfGat;
 
 const useStyles = makeStyles(theme => ({
-  root: {
-  },
   triangle: {
     position: "relative",
     width: 0,

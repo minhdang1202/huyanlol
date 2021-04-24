@@ -29,9 +29,12 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     padding: theme.spacing(0, 2, 3),
+    maxWidth: 1022,
+    margin: "16px auto",
+    height: "100%",
     [theme.breakpoints.down("xs")]: {
-      padding: theme.spacing(0, 0, 3),
-    }
+      padding: theme.spacing(3, 2, 3),
+    },
   },
   logoBox: {
     width: 299,
