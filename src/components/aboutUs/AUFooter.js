@@ -43,7 +43,7 @@ const Footer = () => {
         <Grid item xs={12} sm={5} className={classes.navList}>
           {NAVIGATION_LIST.map(({ title, linkTo }, index) => (
             <AppLink key={`footerNav-${index}`} target="_blank" to={linkTo} className="no-style-link">
-              <Box xs={6} sm={6} className={classes.navItem}>
+              <Box className={classes.navItem}>
                 <Typography>{title}</Typography>
               </Box>
             </AppLink>
@@ -52,7 +52,7 @@ const Footer = () => {
 
         <Grid item xs={12} sm={3} className={classes.iframeBox}>
           <iframe
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fgatbook.org&tabs&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+            src={AppConstant.GAT_FACEBOOK_PAGE_PLUGIN}
             scrolling="no"
             frameBorder="0"
             allowFullScreen={true}

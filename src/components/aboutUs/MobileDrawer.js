@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { AppLink } from "components";
 import PropTypes from "prop-types";
 
-const MobileDrawer = ({ anchor, toggleDrawer }) => {
+const MobileDrawer = ({ anchor, onToggleDrawer }) => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ABOUT_US);
   const NAV_LIST = [
@@ -15,31 +15,31 @@ const MobileDrawer = ({ anchor, toggleDrawer }) => {
   ];
 
   return (
-    <div
+    <Box
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onClick={onToggleDrawer(anchor, false)}
+      onKeyDown={onToggleDrawer(anchor, false)}
     >
       <Box className="space-between-root" mb={3}>
         <AppLink target="_self" to={AppConstant.WEBSITE_URL} className="no-style-link">
           <Avatar variant="square" src="/images/logo-white.png" className={classes.logo} />
         </AppLink>
-        <Box className="ic-times" color="white" fontSize={24} onCLick={toggleDrawer} />
+        <Box className="ic-times" color="white" fontSize={24} onClick={onToggleDrawer} />
       </Box>
       <List className={classes.listRoot}>
         {NAV_LIST.map(({ title, linkTo }, index) => (
-          <>
-            <AppLink key={`mobile-nav-${index}`} target="_blank" to={linkTo} className="no-style-link">
+          <Box key={`mobile-nav-${index}`}>
+            <AppLink target="_self" to={linkTo} className="no-style-link">
               <ListItem button className={classes.listItemRoot}>
                 <ListItemText primary={title} className={classes.navItemText} />
               </ListItem>
             </AppLink>
             <Divider />
-          </>
+          </Box>
         ))}
       </List>
-    </div>
+    </Box>
   );
 };
 
@@ -47,7 +47,7 @@ export default MobileDrawer;
 
 MobileDrawer.propTypes = {
   anchor: PropTypes.string,
-  toggleDrawer: PropTypes.func,
+  onToggleDrawer: PropTypes.func,
 };
 
 const useStyles = makeStyles(theme => ({

@@ -7,15 +7,15 @@ import MobileDrawer from "./MobileDrawer";
 
 const MobileTopBar = () => {
   const classes = useStyles();
-  const [state, setState] = useState({
+  const [isOpenDrawer, setIsOpenDrawer] = useState({
     left: false,
   });
 
-  const toggleDrawer = (anchor, open) => event => {
+  const onToggleDrawer = (anchor, open) => event => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
     }
-    setState({ ...state, [anchor]: open });
+    setIsOpenDrawer({ ...isOpenDrawer, [anchor]: open });
   };
 
   return (
@@ -25,27 +25,25 @@ const MobileTopBar = () => {
           <Avatar variant="square" src="/images/logo-blue.png" className={classes.logo} />
         </AppLink>
         <Avatar
-          onClick={toggleDrawer("left", true)}
+          onClick={onToggleDrawer("left", true)}
           variant="square"
           src="/images/ic-menu.png"
           className={classes.icon}
         />
       </Box>
 
-      <Box>
-        <Box key="left">
-          <Drawer
-            classes={{
-              root: classes.drawerRoot,
-              paperAnchorLeft: classes.paperAnchorLeft,
-            }}
-            anchor={"left"}
-            open={state["left"]}
-            onClose={toggleDrawer("left", false)}
-          >
-            <MobileDrawer anchor="left" toggleDrawer={toggleDrawer} />
-          </Drawer>
-        </Box>
+      <Box key="left">
+        <Drawer
+          classes={{
+            root: classes.drawerRoot,
+            paperAnchorLeft: classes.paperAnchorLeft,
+          }}
+          anchor={"left"}
+          open={isOpenDrawer["left"]}
+          onClose={onToggleDrawer("left", false)}
+        >
+          <MobileDrawer anchor="left" onToggleDrawer={onToggleDrawer} />
+        </Drawer>
       </Box>
     </>
   );

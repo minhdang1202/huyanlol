@@ -17,8 +17,8 @@ const JobOfGat = () => {
       body: getLabel("TXT_ONLINE_BOOKCASE_BODY")
     },
     {
-      title: getLabel("TXT_COMPARE_BOOKSHELVES"),
-      body: getLabel("TXT_COMPARE_BOOKSHELVES_BODY")
+      title: getLabel("TXT_COMPARE_PRICE_OF_BOOK"),
+      body: getLabel("TXT_COMPARE_PRICE_OF_BOOK_BODY")
     },
     {
       title: getLabel("TXT_REVIEW_BOOK"),

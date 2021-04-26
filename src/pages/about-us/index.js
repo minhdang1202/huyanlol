@@ -7,8 +7,8 @@ import {
   JobOfGat,
   Banner,
   StagesGatWent,
-  Footer,
-  Carousel,
+  AUFooter,
+  AUCarousel,
   MobileTopBar,
 } from "components/aboutUs";
 import MainLayout from "layouts/MainLayout";
@@ -25,8 +25,8 @@ const IntroductionPage = () => {
       <StoryAboutGat />
       <JobOfGat />
       <StagesGatWent />
-      <Carousel />
-      <Footer />
+      <AUCarousel />
+      <AUFooter />
     </MainLayout>
   );
 };
