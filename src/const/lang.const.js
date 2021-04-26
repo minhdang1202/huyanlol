@@ -18,5 +18,6 @@ export const NS_COLLECTION_BOOKS = "collectionBooks";
 export const NS_CHALLENGE_LIST = "challengeList";
 export const NS_COLLECTION_ARTICLES = "collectionArticles";
 export const NS_INTRODUCTIONS = "introductions";
+export const NS_ABOUT_US = "aboutUs";
 
 export const getCommonKey = key => `${NS_COMMON}:${key}`;

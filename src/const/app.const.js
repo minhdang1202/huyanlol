@@ -35,9 +35,17 @@ export const DATA_SIZES = {
 // Base url
 export const WEBSITE_URL = "https://gatbook.org";
 
+//Embedded gat page plugin
+export const GAT_FACEBOOK_PAGE_PLUGIN = "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fgatbook.org&tabs&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId";
+
+//Gat social networks url
+export const GAT_FACEBOOK_PAGE_URL = "https://www.facebook.com/gatbook.org";
+export const GAT_INSTAGRAM_PAGE_URL = "https://www.instagram.com/gat_vn/";
+
 // App download url
 export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat";
 export const GAT_APP_STORE = "https://apps.apple.com/vn/app/gat/id1230316898";
+export const GAT_BOTH_DOWNLOAD = "https://app.gatbook.org/";
 
 //OAuth AppId
 export const APP_GOOGLE = "177876099439-9c4358ridetv491g2b0lokh8l0j0fmdd.apps.googleusercontent.com";
