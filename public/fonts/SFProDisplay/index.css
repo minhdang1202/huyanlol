@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "SFProDisplay";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("SFProDisplay-Regular.woff2") format("woff2"), url("SFProDisplay-Regular.woff") format("woff"),
+    url("SFProDisplay-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SFProDisplay";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("SFProDisplay-Medium.woff2") format("woff2"), url("SFProDisplay-Medium.woff") format("woff"),
+    url("SFProDisplay-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SFProDisplay";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("SFProDisplay-Semibold.woff2") format("woff2"), url("SFProDisplay-Semibold.woff") format("woff"),
+    url("SFProDisplay-Semibold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SFProDisplay";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("SFProDisplay-Bold.woff2") format("woff2"), url("SFProDisplay-Bold.woff") format("woff"),
+    url("SFProDisplay-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SFProDisplay";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("SFProDisplay-Black.woff2") format("woff2"), url("SFProDisplay-Black.woff") format("woff"),
+    url("SFProDisplay-Black.ttf") format("truetype");
+}
