@@ -11,7 +11,7 @@ const TopBar = () => {
   const NAV_LIST = [
     { title: getLabel("TXT_HOME"), linkTo: AppConstant.WEBSITE_URL },
     { title: getLabel("TXT_INTRODUCTION"), linkTo: PathConstant.ABOUT_US },
-    { title: getLabel("TXT_FAQ"), linkTo: PathConstant.INTRODUCTIONS },
+    { title: getLabel("TXT_FAQ"), linkTo: PathConstant.FAQ },
   ];
 
   return (
