@@ -10,9 +10,9 @@ const Footer = () => {
   const NAVIGATION_LIST = [
     { title: getLabel("TXT_INTRODUCE_ABOUT_GAT"), linkTo: PathConstant.ABOUT_US },
     { title: getLabel("TXT_REGISTER_BOOKSTOP"), linkTo: "#" },
-    { title: getLabel("TXT_TERMS"), linkTo: PathConstant.INTRODUCTIONS },
-    { title: getLabel("TXT_FAQ"), linkTo: PathConstant.INTRODUCTIONS },
-    { title: getLabel("TXT_PRIVACY"), linkTo: "#" },
+    { title: getLabel("TXT_TERMS"), linkTo: PathConstant.TERM_AND_POLICY },
+    { title: getLabel("TXT_FAQ"), linkTo: PathConstant.FAQ },
+    { title: getLabel("TXT_PRIVACY"), linkTo: PathConstant.TERM_AND_POLICY },
     { title: getLabel("TXT_GAT_APP"), linkTo: AppConstant.GAT_BOTH_DOWNLOAD },
     { title: getLabel("TXT_CONTACT"), linkTo: "#" },
   ];
@@ -132,6 +132,7 @@ const useStyles = makeStyles(theme => ({
   copyrightTxt: {
     position: "absolute",
     bottom: 24,
-    left: "35%"
+    left: "50%",
+    transform: "translateX(-50%)"
   }
 }));
