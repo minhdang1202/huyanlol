@@ -21,9 +21,11 @@ const FaqPage = () => {
   const TAB_LIST = [getLabel("TXT_FAQ"), getLabel("TXT_TERMS_AND_PRIVACY")];
 
   const onSelectTab = (event, selectedTabIndex) => {
-    selectedTabIndex === AppConstant.INTRODUCTION_TABS_VALUE.termAndPrivacy
-      ? router.push(PathConstant.TERM_AND_POLICY)
-      : router.push(PathConstant.FAQ);
+    router.push(
+      selectedTabIndex === AppConstant.INTRODUCTION_TABS_VALUE.termAndPrivacy
+        ? PathConstant.TERM_AND_POLICY
+        : PathConstant.FAQ,
+    );
     setSelectedTab(selectedTabIndex);
   };
 
