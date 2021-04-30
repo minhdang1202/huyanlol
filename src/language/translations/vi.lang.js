@@ -55,6 +55,8 @@ export default {
     TXT_LATEST_ARTICLE: "Danh sách bài viết ",
     TXT_CHALLENGE_WITH_GAT: "Thử thách cùng GAT",
     TXT_EDIT_ARTICLE: "Sửa bài viết",
+    TXT_ABOUT_US: "Về chúng tôi",
+    TXT_FAQ: "Câu hỏi thường gặp",
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",

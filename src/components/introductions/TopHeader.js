@@ -2,7 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { Box, makeStyles, Typography, Hidden, Button } from "@material-ui/core";
-import { LangConstant } from "const";
+import { AppConstant, LangConstant } from "const";
+import { AppLink } from "components";
 
 const TopHeader = () => {
   const classes = useStyles();
@@ -13,13 +14,15 @@ const TopHeader = () => {
       <Box className={classes.root}>
         <Box className={clsx(classes.rootContainer, "space-between-root")}>
           <Typography className="medium-xl-txt">{getLabel("TXT_INTRODUCTION_HELP")}</Typography>
-          <Button
-            variant="contained"
-            className={clsx("light-blue-button", classes.button)}
-            startIcon={<Box className="ic-comment-alt" fontWeight={400} />}
-          >
-            {getLabel("TXT_MESSAGE_WITH_GAT")}
-          </Button>
+          <AppLink target="_blank" to={AppConstant.GAT_FACEBOOK_PAGE_URL} className="no-style-link">
+            <Button
+              variant="contained"
+              className={clsx("light-blue-button", classes.button)}
+              startIcon={<Box className="ic-comment-alt" fontWeight={400} />}
+            >
+              {getLabel("TXT_MESSAGE_WITH_GAT")}
+            </Button>
+          </AppLink>
         </Box>
       </Box>
     </Hidden>
@@ -45,14 +48,14 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       margin: "auto",
       padding: 0,
-    }
+    },
   },
   button: {
     paddingRight: theme.spacing(3),
     paddingLeft: theme.spacing(3),
     minHeight: 38,
     "& svg": {
-      marginTop: "2px"
-    }
-  }
+      marginTop: "2px",
+    },
+  },
 }));

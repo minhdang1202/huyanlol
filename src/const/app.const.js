@@ -41,6 +41,8 @@ export const GAT_FACEBOOK_PAGE_PLUGIN = "https://www.facebook.com/plugins/page.p
 //Gat social networks url
 export const GAT_FACEBOOK_PAGE_URL = "https://www.facebook.com/gatbook.org";
 export const GAT_INSTAGRAM_PAGE_URL = "https://www.instagram.com/gat_vn/";
+export const GAT_GROUP_URL = "https://www.facebook.com/groups/271865156741565";
+export const GATUP_URL = "https://www.facebook.com/up.gatbook.org";
 
 // App download url
 export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat";
