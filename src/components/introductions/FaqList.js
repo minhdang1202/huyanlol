@@ -4,7 +4,8 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Box, Button } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { LangConstant } from "const";
+import { LangConstant, AppConstant } from "const";
+import { AppLink } from "components";
 
 const FaqList = ({ faqList, expandedId, setExpandedId }) => {
   const classes = useStyles();
@@ -53,13 +54,15 @@ const FaqList = ({ faqList, expandedId, setExpandedId }) => {
             </Box>
             <Box className="space-between-root">
               <Typography>{getLabel("TXT_ANSWER_NOT_HELP_YOUR_QUESTION")}</Typography>
-              <Button
-                variant="contained"
-                className={clsx("dark-blue-button pl-24 pr-24", classes.button)}
-                startIcon={<Box className="ic-comment-alt" fontWeight={400} />}
-              >
-                {getLabel("TXT_MESSAGE_WITH_GAT")}
-              </Button>
+              <AppLink to={AppConstant.GAT_FB_MESSENGER} className="no-style-link">
+                <Button
+                  variant="contained"
+                  className={clsx("dark-blue-button", classes.button)}
+                  startIcon={<Box className="ic-comment-alt" fontWeight={400} />}
+                >
+                  {getLabel("TXT_MESSAGE_WITH_GAT")}
+                </Button>
+              </AppLink>
             </Box>
           </AccordionDetails>
         </Accordion>

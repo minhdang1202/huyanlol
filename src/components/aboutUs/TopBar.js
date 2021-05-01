@@ -9,20 +9,20 @@ const TopBar = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ABOUT_US);
   const NAV_LIST = [
-    { title: getLabel("TXT_HOME"), linkTo: AppConstant.WEBSITE_URL },
+    { title: getLabel("TXT_HOME"), linkTo: PathConstant.ROOT },
     { title: getLabel("TXT_INTRODUCTION"), linkTo: PathConstant.ABOUT_US },
-    { title: getLabel("TXT_FAQ"), linkTo: PathConstant.INTRODUCTIONS },
+    { title: getLabel("TXT_FAQ"), linkTo: PathConstant.FAQ },
   ];
 
   return (
     <Box className={classes.root}>
       <Box className={clsx("space-between-root", classes.containerRoot)}>
-        <AppLink target="_self" to={AppConstant.WEBSITE_URL} className="no-style-link">
+        <AppLink target="_self" to={PathConstant.ROOT} className="no-style-link">
           <Avatar variant="square" src="/images/logo-blue.png" className={classes.logo} />
         </AppLink>
         <Box className={classes.navList}>
           {NAV_LIST.map(({ title, linkTo }, index) => (
-            <AppLink key={`top-nav-${index}`} target="_blank" to={linkTo} className="no-style-link">
+            <AppLink key={`top-nav-${index}`} target="_self" to={linkTo} className="no-style-link">
               <Typography className={classes.navItem}>{title}</Typography>
             </AppLink>
           ))}

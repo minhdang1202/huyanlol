@@ -16,5 +16,6 @@ export const FM_USER_DETAIL = "/users/{0}"; // Mock for tag user
 export const CHALLENGES = "/challenges";
 export const ARTICLES_COLLECTION = "/articles";
 export const FM_ARTICLES_FULL = "/articles?category={0}-{1}";
-export const INTRODUCTIONS = "/introductions";
-export const ABOUT_US = "/about-us";
+export const FAQ = "/faq";
+export const TERM_AND_POLICY = "/term_and_policy";
+export const ABOUT_US = "/about";
