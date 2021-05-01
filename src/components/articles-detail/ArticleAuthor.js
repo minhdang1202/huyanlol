@@ -15,14 +15,16 @@ import {
 import { useTranslation } from "react-i18next";
 import { AppLink } from "components";
 import { LangConstant } from "const";
-import FollowButton from "./FollowButton";
+import { FollowButton, EditArticleButton } from "../articles-detail";
 import { getImageById } from "utils";
+import { useSelector } from "react-redux";
 
 const ArticleAuthor = ({ creator, date }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const { name, address, imageId } = creator;
+  const userId = useSelector(state => state.userRedux?.profile?.userId);
+  const { name, address, imageId, username } = creator;
   return (
     <Hidden lgUp>
       <Hidden smUp>
@@ -51,7 +53,11 @@ const ArticleAuthor = ({ creator, date }) => {
               {isMobile ? address : date}
             </Typography>
           </Box>
-          <FollowButton />
+          {userId === creator.userId ? (
+            <EditArticleButton />
+          ) : (
+            <FollowButton authorUsername={username} authorId={creator?.userId} />
+          )}
         </Box>
       </Box>
     </Hidden>

@@ -26,7 +26,7 @@ const ArticleEdit = ({ article }) => {
 
   const articleId = article.articleId;
   const [title, setTitle] = useState(article.title || "");
-  const [rate, setRate] = useState(article.editions[0].userRelation.evaluation.rate);
+  const [rate, setRate] = useState(article.editions[0]?.userRelation.evaluation.rate);
   const [contentHtml, setContentHtml] = useState();
   const [intro, setIntro] = useState();
   const [hasContent, setHasContent] = useState();

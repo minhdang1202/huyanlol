@@ -62,3 +62,20 @@ export function* requestGetUserSuggestion(action) {
     yield put(UserAction.userFailure(error));
   }
 }
+
+export function* requestGetUserProfileVisitor(action) {
+  const userId = action.data;
+
+  let response = yield call(UserService.getUserProfileVisitor, userId);
+  try {
+    if (response.status === ApiConstant.STT_OK) {
+      let responseData = response.data.data;
+      CookieUtil.setCookieData(responseData);
+      yield put(UserAction.userSuccess({ profileVisitor: responseData }));
+    } else {
+      yield put(UserAction.userFailure());
+    }
+  } catch (error) {
+    yield put(UserAction.userFailure(error));
+  }
+}
