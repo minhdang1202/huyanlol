@@ -1,6 +1,6 @@
 // Base Api
-export const BASE_API = "https://fordevv2.gatbook.org/api/v1";
-export const BASE_API_V1 = "https://fordev.gatbook.org/rest/api";
+export const BASE_API = "https://productionv2.gatbook.org/api/v1";
+export const BASE_API_V1 = "https://production.gatbook.org/rest/api";
 
 export const HEADER_DEFAULT = {
   Accept: "application/json",
