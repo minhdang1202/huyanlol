@@ -1,26 +1,22 @@
 import React from "react";
-import { makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
-import {
-  TopBar,
-  StoryAboutGat,
-  JobOfGat,
-  Banner,
-  StagesGatWent,
-  AUFooter,
-  AUCarousel,
-  MobileTopBar,
-} from "components/aboutUs";
+import { StoryAboutGat, JobOfGat, Banner, StagesGatWent, AUFooter, AUCarousel } from "components/aboutUs";
 import MainLayout from "layouts/MainLayout";
+import { LangConstant } from "const";
+import { useTranslation } from "react-i18next";
 
 const IntroductionPage = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const { t: getLabel } = useTranslation(LangConstant.NS_ABOUT_US);
+  const appBarProps = {
+    isDetail: true,
+    className: classes.appBar,
+    appBarTitle: getLabel("TXT_ABOUT_US"),
+  };
 
   return (
-    <MainLayout className={classes.backgroundColorWhite} classes={{ main: classes.main }}>
-      {isMobile ? <MobileTopBar /> : <TopBar />}
+    <MainLayout appBarProps={appBarProps} className={classes.backgroundColorWhite} classes={{ main: classes.main }}>
       <Banner />
       <StoryAboutGat />
       <JobOfGat />

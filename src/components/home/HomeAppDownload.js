@@ -9,10 +9,10 @@ const HomeAppDownload = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
   const SHORTCUTS = [
-    {title: getLabel(getCommonKey("TXT_GAT_UP")), path: AppConstant.GATUP_URL},
-    {title: getLabel(getCommonKey("TXT_GAT_COMMUNITY")), path:  AppConstant.GAT_GROUP_URL},
-    {title: getLabel(getCommonKey("TXT_ABOUT_US")), path:  PathConstant.ABOUT_US},
-    {title: getLabel(getCommonKey("TXT_FAQ")), path:  PathConstant.FAQ},
+    { title: getLabel(getCommonKey("TXT_GAT_UP")), path: AppConstant.GATUP_URL, target: "_blank" },
+    { title: getLabel(getCommonKey("TXT_GAT_COMMUNITY")), path: AppConstant.GAT_GROUP_URL, target: "_blank" },
+    { title: getLabel(getCommonKey("TXT_ABOUT_US")), path: PathConstant.ABOUT_US },
+    { title: getLabel(getCommonKey("TXT_FAQ")), path: PathConstant.FAQ },
   ];
 
   return (
@@ -38,15 +38,13 @@ const HomeAppDownload = () => {
           }
           className={classes.shortcutContainer}
         >
-          {SHORTCUTS.map(({title, path}, index)=> 
+          {SHORTCUTS.map(({ title, path, ...rest }, index) => (
             <ListItem key={`shortcut-${index}`} button className={classes.shortcutItem}>
-              <AppLink target="_self" to={path} className="no-style-link">
-                <ListItemText
-                  primary={<Typography variant="subtitle1">{title}</Typography>}
-                />
+              <AppLink to={path} className="no-style-link" {...rest}>
+                <ListItemText primary={<Typography variant="subtitle1">{title}</Typography>} />
               </AppLink>
             </ListItem>
-          )}
+          ))}
         </List>
       </Paper>
       <Typography variant="subtitle2" className={classes.downloadTitle}>

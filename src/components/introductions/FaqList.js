@@ -54,7 +54,7 @@ const FaqList = ({ faqList, expandedId, setExpandedId }) => {
             </Box>
             <Box className="space-between-root">
               <Typography>{getLabel("TXT_ANSWER_NOT_HELP_YOUR_QUESTION")}</Typography>
-              <AppLink target="_blank" to={AppConstant.GAT_FACEBOOK_PAGE_URL} className="no-style-link">
+              <AppLink to={AppConstant.GAT_FB_MESSENGER} className="no-style-link">
                 <Button
                   variant="contained"
                   className={clsx("dark-blue-button", classes.button)}

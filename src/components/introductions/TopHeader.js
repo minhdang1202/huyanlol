@@ -14,7 +14,7 @@ const TopHeader = () => {
       <Box className={classes.root}>
         <Box className={clsx(classes.rootContainer, "space-between-root")}>
           <Typography className="medium-xl-txt">{getLabel("TXT_INTRODUCTION_HELP")}</Typography>
-          <AppLink target="_blank" to={AppConstant.GAT_FACEBOOK_PAGE_URL} className="no-style-link">
+          <AppLink target="_blank" to={AppConstant.GAT_FB_MESSENGER} className="no-style-link">
             <Button
               variant="contained"
               className={clsx("light-blue-button", classes.button)}
