@@ -3,12 +3,17 @@ import { Box, List, ListItem, ListItemText, ListSubheader, makeStyles, Paper, Ty
 import { AppLink, DownloadButtons } from "components";
 import { useTranslation } from "react-i18next";
 import { getCommonKey } from "const/lang.const";
-import { LangConstant, PathConstant } from "const";
-import clsx from "clsx";
+import { AppConstant, LangConstant, PathConstant } from "const";
 
 const HomeAppDownload = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_HOME);
+  const SHORTCUTS = [
+    { title: getLabel(getCommonKey("TXT_GAT_UP")), path: AppConstant.GATUP_URL, target: "_blank" },
+    { title: getLabel(getCommonKey("TXT_GAT_COMMUNITY")), path: AppConstant.GAT_GROUP_URL, target: "_blank" },
+    { title: getLabel(getCommonKey("TXT_ABOUT_US")), path: PathConstant.ABOUT_US },
+    { title: getLabel(getCommonKey("TXT_FAQ")), path: PathConstant.FAQ },
+  ];
 
   return (
     <Box className={classes.root}>
@@ -33,21 +38,13 @@ const HomeAppDownload = () => {
           }
           className={classes.shortcutContainer}
         >
-          <ListItem button className={classes.shortcutItem}>
-            <AppLink className="no-style-link">
-              <ListItemText
-                primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_UP"))}</Typography>}
-              />
-            </AppLink>
-          </ListItem>
-
-          <ListItem button className={classes.shortcutItem}>
-            <AppLink className="no-style-link">
-              <ListItemText
-                primary={<Typography variant="subtitle1">{getLabel(getCommonKey("TXT_GAT_COMMUNITY"))}</Typography>}
-              />
-            </AppLink>
-          </ListItem>
+          {SHORTCUTS.map(({ title, path, ...rest }, index) => (
+            <ListItem key={`shortcut-${index}`} button className={classes.shortcutItem}>
+              <AppLink to={path} className="no-style-link" {...rest}>
+                <ListItemText primary={<Typography variant="subtitle1">{title}</Typography>} />
+              </AppLink>
+            </ListItem>
+          ))}
         </List>
       </Paper>
       <Typography variant="subtitle2" className={classes.downloadTitle}>

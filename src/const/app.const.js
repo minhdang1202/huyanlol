@@ -36,11 +36,15 @@ export const DATA_SIZES = {
 export const WEBSITE_URL = "https://gatbook.org";
 
 //Embedded gat page plugin
-export const GAT_FACEBOOK_PAGE_PLUGIN = "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fgatbook.org&tabs&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId";
+export const GAT_FACEBOOK_PAGE_PLUGIN =
+  "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fgatbook.org&tabs&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId";
 
 //Gat social networks url
 export const GAT_FACEBOOK_PAGE_URL = "https://www.facebook.com/gatbook.org";
 export const GAT_INSTAGRAM_PAGE_URL = "https://www.instagram.com/gat_vn/";
+export const GAT_GROUP_URL = "https://www.facebook.com/groups/271865156741565";
+export const GATUP_URL = "https://www.facebook.com/up.gatbook.org";
+export const GAT_FB_MESSENGER = "https://m.me/gatbook.org";
 
 // App download url
 export const GAT_GG_PLAY = "https://play.google.com/store/apps/details?id=com.gat";
@@ -171,5 +175,5 @@ export const IMAGE_PLACEHOLDER_ID = "50353877303";
 
 export const INTRODUCTION_TABS_VALUE = {
   faq: 0,
-  termAndPrivacy: 1
+  termAndPrivacy: 1,
 };
