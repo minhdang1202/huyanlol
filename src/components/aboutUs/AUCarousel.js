@@ -87,7 +87,6 @@ const useStyles = makeStyles(theme => ({
   },
   image: {
     height: 224,
-    width: 300
   },
   title: {
     maxWidth: 465,
