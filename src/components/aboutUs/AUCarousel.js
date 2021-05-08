@@ -72,11 +72,11 @@ const useStyles = makeStyles(theme => ({
       "&:before": {
         fontSize: 60,
         opacity: 1,
-        lineHeight: 0.5
+        lineHeight: 0.5,
       },
       [theme.breakpoints.down("xs")]: {
-        display: "none !important"
-      }
+        display: "none !important",
+      },
     },
     "& .slick-prev": {
       left: 20,
@@ -87,6 +87,7 @@ const useStyles = makeStyles(theme => ({
   },
   image: {
     height: 224,
+    padding: 4,
   },
   title: {
     maxWidth: 465,
