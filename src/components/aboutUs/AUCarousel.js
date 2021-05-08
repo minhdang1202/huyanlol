@@ -8,16 +8,12 @@ const Carousel = () => {
   const classes = useStyles();
   const { t: getLabel } = useTranslation(LangConstant.NS_ABOUT_US);
   const IMAGES = [
-    "./images/img-about-us-slider-1.png",
-    "./images/img-about-us-slider-2.png",
-    "./images/img-about-us-slider-3.png",
-    "./images/img-about-us-slider-4.png",
-    "./images/img-about-us-slider-5.png",
-    "./images/img-about-us-slider-1.png",
-    "./images/img-about-us-slider-2.png",
-    "./images/img-about-us-slider-3.png",
-    "./images/img-about-us-slider-4.png",
-    "./images/img-about-us-slider-5.png",
+    "./images/img-about-us-slider-1.jpg",
+    "./images/img-about-us-slider-2.jpg",
+    "./images/img-about-us-slider-3.jpg",
+    "./images/img-about-us-slider-4.jpg",
+    "./images/img-about-us-slider-5.jpg",
+    "./images/img-about-us-slider-6.jpg",
   ];
   const settings = {
     dots: false,
