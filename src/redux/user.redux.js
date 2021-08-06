@@ -53,7 +53,6 @@ export const HANDLERS = {
   [Types.REQUEST_USER_SUGGESTION]: request,
   [Types.REQUEST_IMAGE_DONE]: finish,
   [Types.REQUEST_PROFILE_VISITOR]: request,
-
   [Types.USER_SUCCESS]: finish,
   [Types.USER_FAILURE]: finish,
 };
