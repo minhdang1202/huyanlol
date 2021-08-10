@@ -20,6 +20,8 @@ export default {
     TXT_HOMEPAGE: "Trang chủ",
     TXT_LOGIN: "Đăng nhập",
     TXT_LOGOUT: "Đăng xuất",
+    TXT_CANCEL: "Thoát",
+    TXT_LOGOUT_QUESTION: "Bạn có chắc chắn muốn đăng xuất khỏi GAT không?",
     TXT_SIGNUP: "Đăng ký",
     TXT_LOGIN_SOCIAL_MEDIA: "Đăng nhập bằng mạng xã hội",
     TXT_HAVE_ACC: "Bạn đã có tài khoản? ",
@@ -57,6 +59,7 @@ export default {
     TXT_EDIT_ARTICLE: "Sửa bài viết",
     TXT_ABOUT_US: "Về chúng tôi",
     TXT_FAQ: "Câu hỏi thường gặp",
+    
 
     //P: Placeholder
     P_APPBAR_SEARCH: "Tìm kiếm...",

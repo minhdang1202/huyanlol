@@ -9,6 +9,7 @@ import CookieUtil from "utils/cookie";
 import { getImageById } from "utils";
 import { useDispatch, useSelector } from "react-redux";
 import UserAction from "redux/user.redux";
+import LogOutDialog from "layouts/MainLayout/components/LogOutDialog";
 
 const SignIn = () => {
   const classes = useStyles();
@@ -22,6 +23,7 @@ const SignIn = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenAuth, setIsOpenAuth] = useState(false);
   const [profile, setProfile] = useState(profileRedux || cookieData);
+  const [isOpenConfirmLogout, setIsOpenConfirmLogout] = useState(false);
 
   const usernameBtn = useRef();
 
@@ -38,7 +40,6 @@ const SignIn = () => {
   const onTriggerNameBtn = () => {
     usernameBtn.current.click();
   };
-
   useEffect(() => {
     if (profileRedux && profileRedux != profile) {
       setProfile(profileRedux);
@@ -77,7 +78,7 @@ const SignIn = () => {
               </Button>
             </MenuItem>
             <MenuItem>{getLabel("TXT_APPBAR_COMMON_QUESTIONS")}</MenuItem>
-            <MenuItem onClick={() => logout()}>{getLabel("TXT_APPBAR_SIGNOUT")}</MenuItem>
+            <MenuItem onClick={() => setIsOpenConfirmLogout(true)}>{getLabel("TXT_APPBAR_SIGNOUT")}</MenuItem>
           </Menu>
         </Box>
       ) : (
@@ -89,6 +90,7 @@ const SignIn = () => {
         </Box>
       )}
       <AuthDialog onClose={() => setIsOpenAuth(false)} isOpen={isOpenAuth} />
+      {isLogin && <LogOutDialog onClose={() => setIsOpenConfirmLogout(false)} isOpen={isOpenConfirmLogout} />}
     </>
   );
 };
